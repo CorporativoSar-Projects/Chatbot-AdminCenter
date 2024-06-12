@@ -117,9 +117,9 @@ button:hover {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex-wrap: wrap; /* Allows wrapping on small screens */
+    flex-wrap: wrap;
     color: white;
-    z-index: 1000; /* Ensure the menu is above other elements */
+    z-index: 1000; 
 }
 
 .barra-menu img.rectangulo {
@@ -129,9 +129,9 @@ button:hover {
     top: 0;
     left: 0;
     z-index: -1;
-    min-width: 1200px; /* Set a minimum width to maintain image aspect ratio */
-    height: 100%; /* Ensuring the image covers the full height */
-    object-fit: cover; /* Ensuring the image covers the area without being squished */
+    min-width: 1200px; 
+    height: 100%; 
+    object-fit: cover;
 
 }
 
@@ -165,7 +165,7 @@ button:hover {
 .espaciado-m2 {
     display: flex;
     align-items: center;
-    gap: 10px; /* Adjust spacing */
+    gap: 10px;
     margin-bottom: 10px;
 }
 

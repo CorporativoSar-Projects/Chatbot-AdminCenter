@@ -209,21 +209,21 @@ header .navbar ul li ul li a:hover {
     flex: 1; /* Hace que ambos botones se expandan uniformemente */
     background-color: #FB8300;
     color: white;
-    padding: 10px; /* Ajusta el relleno según sea necesario */
-    margin: 8px 10px; /* Ajusta el margen para espaciar los botones */
+    padding: 10px; 
+    margin: 8px 10px; 
     border: none;
     cursor: pointer;
     border-radius: 15px;
     font-size: 14px;
-    text-align: center; /* Centra el texto dentro de los botones */
+    text-align: center; 
 }
 
 .btnCerrar {
-    margin-right: 5px; /* Añade margen a la derecha para separar los botones */
+    margin-right: 5px; 
 }
 
 .btnGuardarS {
-    margin-left: 5px; /* Añade margen a la izquierda para separar los botones */
+    margin-left: 5px; 
 }
 
 
