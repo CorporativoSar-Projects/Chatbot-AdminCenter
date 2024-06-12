@@ -25,19 +25,19 @@ h1 {
     top: 0;
     left: 0;
     z-index: -1;
-    min-width: 1200px; 
-    object-fit: cover; 
+    min-width: 1200px;
+    object-fit: cover;
 }
 
 .rectangulo {
     width: 100%;
-    height: auto; 
+    height: auto;
 }
 
 .img-logo-chiq {
     position: absolute;
     top: 10px;
-    left: 10px; 
+    left: 10px;
 }
 
 header {
@@ -46,7 +46,7 @@ header {
     bottom: 10px;
     left: 40px;
     right: 0;
-    height: 40px; 
+    height: 40px;
     padding: 0 7%;
     display: flex;
     align-items: center;
@@ -93,32 +93,35 @@ header .navbar ul li ul li {
 /* Estilos para la línea divisora en el menú */
 header .navbar ul li ul .divider {
     height: 1px;
-    background-color: #FFFFFF; 
-    width: 100%; 
-    align-self: center; 
-    list-style: none; 
-    opacity: 0.5; 
+    background-color: #FFFFFF;
+    width: 100%;
+    align-self: center;
+    list-style: none;
+    opacity: 0.5;
 }
 
-header .navbar ul li:focus-within> ul,
-header .navbar ul li:hover> ul {
+header .navbar ul li:focus-within>ul,
+header .navbar ul li:hover>ul {
     display: initial;
 }
 
 
 header .navbar ul li ul li a:hover {
     background-color: rgba(255, 255, 255, 0.1);
-    transition: background-color 0.3s, color 0.3s; 
+    transition: background-color 0.3s, color 0.3s;
 }
 
 .user-dropdown {
     display: inline-block;
     position: absolute;
     bottom: 5px;
-    right: 10px; 
+    right: 10px;
 }
 
-.btn-user, .btn-edit-chat, .btn-refresh, .btn-add-chat {
+.btn-user,
+.btn-edit-chat,
+.btn-refresh,
+.btn-add-chat {
     background: none;
     border: none;
     cursor: pointer;
@@ -180,12 +183,49 @@ header .navbar ul li ul li a:hover {
 
 .container-btn-refresh {
     margin-left: auto;
-    margin-right: 50px;
+    margin-right: 40px;
 }
+
 
 .txtBien {
     font-size: 40px;
 }
+
+.txt-nombre-chat {
+    font-size: 27px;
+}
+
+.container-btn-cerrar-guar {
+    margin-left: 50%;
+    display: flex;
+    justify-content: flex-end;
+    width: 25%; /* Asegura que el contenedor ocupe el espacio disponible */
+
+    
+}
+
+.btnCerrar,
+.btnGuardarS {
+    flex: 1; /* Hace que ambos botones se expandan uniformemente */
+    background-color: #FB8300;
+    color: white;
+    padding: 10px; /* Ajusta el relleno según sea necesario */
+    margin: 8px 10px; /* Ajusta el margen para espaciar los botones */
+    border: none;
+    cursor: pointer;
+    border-radius: 15px;
+    font-size: 14px;
+    text-align: center; /* Centra el texto dentro de los botones */
+}
+
+.btnCerrar {
+    margin-right: 5px; /* Añade margen a la derecha para separar los botones */
+}
+
+.btnGuardarS {
+    margin-left: 5px; /* Añade margen a la izquierda para separar los botones */
+}
+
 
 .txt-disena-chat {
     margin-top: 15px;
