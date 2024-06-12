@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <title>Home</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg barra-menu">
+        <img src="img/Rectangle.png" class="rectangulo" alt="Background Image">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <a class="navbar-brand img-logo-encabezado" href="#">
+            <img src="img/logochiquito.png" width="70px" alt="Logo" class="img-logo-chiq">
+        </a>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto encabezado">
+                <li class="nav-item espaciado-menu">
+                    <a class="nav-link text-white" href="#">
+                        <p class="txt-home">Home</p>
+                    </a>
+                </li>
+
+                <li class="nav-item espaciado-m2 dropdown">
+                    <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        ChatBot para vacantes
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">ChatBot para pedidos</a>
+                        <a class="dropdown-item" href="#">Crear nuevo ChatBot</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        
+
+        <div class="user-icon dropdown">
+            <a href="#" class="nav-link text-center" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button class="btn-user"><img src="img/user.png" width="30" alt="User Icon"></button>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+                <div class="d-flex align-items-center px-3">
+                    <img src="img/user.png" width="40" alt="User Icon">
+                    <div>
+                        <strong>Karla Durán</strong><br>
+                        <small>kduranc@giint...</small>
+                    </div>
+                </div>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">ChatBot para vacantes<br><small>Plan Básico Mensual</small></a>
+                <a class="dropdown-item" href="#">ChatBot para pedidos<br><small>Plan Básico 3 Meses</small></a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Cerrar Sesión</a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <div class="container-prin">
+            <div class="container-bienv">
+                <img src="img/icons8.png" width="70px" alt="Welcome Icon">
+                <p class="txtBien">Bienvenido</p>
+                <div class="container-btn-refresh">
+                    <button class="btn-refresh">
+                        <img src="img/refresh.png" width="30" alt="Refresh">
+                    </button>
+                </div>
+            </div>
+
+            <div>
+                <div class="txt-disena-chat">
+                    <p>Diseña tu propio ChatBot</p>
+                </div>
+
+                <div class="container-chats">
+                    <div class="nombre-chat">
+                        <p class="txt-chat-edit" id="txt-chat-edit">ChatBot para vacantes</p>
+                    </div>
+                    <div class="container-btn-edit-chat">
+                        <button class="btn-edit-chat">
+                            <img src="img/icons9.png" width="35" alt="Edit ChatBot">
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container-agregar">
+                <button class="btn-add-chat">
+                    <img src="img/add.png" width="60" alt="Add ChatBot">
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- jQuery y Bootstrap JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
