@@ -69,34 +69,112 @@
                 </div>
             </div>
 
-            <!-- <div>
-                <div class="txt-disena-chat">
-                    <p>Diseña tu propio ChatBot</p>
+            <div class="prueba">
+                <div class="nombre-chat">
+                    <p class="txt-chat-edit" id="txt-chat-edit"></p>
                 </div>
-
-                <div class="container-chats">
-                    <div class="nombre-chat">
-                        <p class="txt-chat-edit" id="txt-chat-edit">ChatBot para vacantes</p>
-                    </div>
-                    <div class="container-btn-edit-chat">
-                        <button class="btn-edit-chat">
-                            <img src="img/icons9.png" width="35" alt="Edit ChatBot">
-                        </button>
-                    </div>
+                <div class="container-btn-edit-chat">
+                    <button class="btn-edit-chat">
+                        <!-- <img src="img/icons9.png" width="35" alt="Edit ChatBot"> -->
+                    </button>
                 </div>
             </div>
 
-            <div class="container-agregar">
-                <button class="btn-add-chat">
-                    <img src="img/add.png" width="60" alt="Add ChatBot">
-                </button>
-            </div> -->
+
+            <div>
+                <div class="container-personalizacion">
+                    <div class="container-pers">
+                        <img src="img/paint.png" class="img-paint">
+                        <div class="container-pers2">
+                            <p class="txt-perso-chat">Personaliza la interfaz de usuario del chat</p>
+                            <p>Actualiza el estilo para que coincida con tu marca y tu sitio web.</p>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="label-nombrechat">Nombre visible de tu ChatBot</label><br>
+                        <input type="text" name="inp-nombre" id="inp-nombre" placeholder="JobHelper"
+                            class="input-nombre" required><br>
+
+                        <div class="container-colors">
+                            <div class="nombre-colord">
+                                <label for="colorPrimario">Color Primario</label><br>
+                                <div div class="color-selector">
+                                    <input type="color" id="colorPrimario" value="#e39842">
+                                    <div id="muestraColorPrimario" class="color-circle"></div><br>
+                                </div>
+
+                                <label for="colorAcento">Color de Acento</label><br>
+                                <div class="color-selector">
+                                    <input type="color" id="colorAcento" value="#383838">
+                                    <div id="muestraColorAcento" class="color-circle"></div><br>
+
+                                </div>
+
+                            </div>
+                            <div class="nombre-colorc">
+                                <label for="colorSecundario">Color Secundario</label><br>
+                                <div class="color-selector">
+                                    <input type="color" id="colorSecundario" value="#b6b6b6">
+                                    <div id="muestraColorSecundario" class="color-circle"></div><br>
+                                </div>
+
+
+                                <label for="colorTexto">Color de Texto</label><br>
+                                <div class="color-selector">
+                                    <input type="color" id="colorTexto" value="#000000">
+                                    <div id="muestraColorTexto" class="color-circle"></div><br>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- <div class="color-grid">
+
+                            <label for="colorPrimario">Color Primario</label><br>
+                            <div div class="color-selector">
+                                <input type="color" id="colorPrimario" value="#e39842">
+                                <div id="muestraColorPrimario" class="color-circle"></div><br>
+                            </div>
+
+
+                            <label for="colorSecundario">Color Secundario</label><br>
+                            <div class="color-selector">
+                                <input type="color" id="colorSecundario" value="#b6b6b6">
+                                <div id="muestraColorSecundario" class="color-circle"></div><br>
+                            </div>
+
+
+                            <label for="colorAcento">Color de Acento</label><br>
+                            <div class="color-selector">
+                                <input type="color" id="colorAcento" value="#383838">
+                                <div id="muestraColorAcento" class="color-circle"></div><br>
+
+                            </div>
+
+                            <label for="colorTexto">Color de Texto</label><br>
+                            <div class="color-selector">
+                                <input type="color" id="colorTexto" value="#000000">
+                                <div id="muestraColorTexto" class="color-circle"></div><br>
+                            </div>
+                        </div> -->
+
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
         </div>
     </main>
 
     <!-- jQuery y Bootstrap JavaScript -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/custom.js"></script>
 </body>
 
 </html>

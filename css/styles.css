@@ -119,7 +119,7 @@ button:hover {
     align-items: center;
     flex-wrap: wrap;
     color: white;
-    z-index: 1000; 
+    z-index: 1000; /* Ensure the menu is above other elements */
 }
 
 .barra-menu img.rectangulo {
