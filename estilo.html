@@ -69,16 +69,16 @@
             </div>
 
             <div class="container-menu-pers">
-               <nav class="menu-pers">
-                <ul>
-                    <li>Estilo</li>
-                    <li>Burbuja</li>
-                    <li>Pantalla de Inicio</li>
-                    <li>Crea la converación</li>
-                    <li>Pantalla de Despedida</li>
-                    <li>Finalizar</li>
-                </ul>
-               </nav>
+                <nav class="menu-pers">
+                    <ul>
+                        <li>Estilo</li>
+                        <li>Burbuja</li>
+                        <li>Pantalla de Inicio</li>
+                        <li>Crea la converación</li>
+                        <li>Pantalla de Despedida</li>
+                        <li>Finalizar</li>
+                    </ul>
+                </nav>
             </div>
 
 
@@ -101,13 +101,13 @@
                             <div class="nombre-colord">
                                 <label for="colorPrimario">Color Primario</label><br>
                                 <div div class="color-selector">
-                                    <input type="color" id="colorPrimario" value="#e39842">
+                                    <input type="color" id="colorPrimario" value="#e39842" oninput="actualizarColores()" >
                                     <div id="muestraColorPrimario" class="color-circle"></div><br>
                                 </div>
 
                                 <label for="colorAcento">Color de Acento</label><br>
                                 <div class="color-selector">
-                                    <input type="color" id="colorAcento" value="#383838">
+                                    <input type="color" id="colorAcento" value="#383838" oninput="actualizarColores()">
                                     <div id="muestraColorAcento" class="color-circle"></div><br>
 
                                 </div>
@@ -116,13 +116,13 @@
                             <div class="nombre-colorc">
                                 <label for="colorSecundario">Color Secundario</label><br>
                                 <div class="color-selector">
-                                    <input type="color" id="colorSecundario" value="#b6b6b6">
+                                    <input type="color" id="colorSecundario" value="#b6b6b6" oninput="actualizarColores()">
                                     <div id="muestraColorSecundario" class="color-circle"></div><br>
                                 </div>
 
                                 <label for="colorTexto">Color de Texto</label><br>
                                 <div class="color-selector">
-                                    <input type="color" id="colorTexto" value="#000000">
+                                    <input type="color" id="colorTexto" value="#000000" oninput="actualizarColores()">
                                     <div id="muestraColorTexto" class="color-circle"></div><br>
                                 </div>
 
@@ -141,21 +141,32 @@
 
                         </div>
 
-
-
+                        <div class="main-container">
+                            <div class="chatbot-container">
+                                <div class="chatbot-header">
+                                    JobHelper
+                                </div>
+                                <div class="chatbot-content">
+                                    <p class="txt-chatbot">
+                                        ¡Saludos! Soy JobHelper, tu guía virtual en el mundo laboral.
+                                    </p>
+                                    <div class="chatbot-buttons">
+                                        <button class="chatbot-button">Buscar vacantes por categoría</button>
+                                        <button class="chatbot-button">Buscar vacantes por ubicación</button>
+                                        <button class="chatbot-button">Seguimiento de mi postulación</button>
+                                    </div>
+                                </div>
+                                <div class="chatbot-footer">
+                                    <input type="text" placeholder="Escribe aquí tu respuesta...">
+                                </div>
+                            </div>
+                        </div>
+                       
                     </div>
-
-                    
 
                 </div>
 
-
             </div>
-
-            
-
-
-        </div>
     </main>
 
     <!-- jQuery y Bootstrap JavaScript -->

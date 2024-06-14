@@ -16,3 +16,21 @@ document.getElementById('archivoLogotipo').addEventListener('change', function()
     document.getElementById('nombreArchivo').textContent = nombreArchivo;
 });
 
+function actualizarColores() {
+    // Obtener los valores de color seleccionados
+    const colorPrimario = document.getElementById('colorPrimario').value;
+    const colorSecundario = document.getElementById('colorSecundario').value;
+    const colorAcento = document.getElementById('colorAcento').value;
+    const colorTexto = document.getElementById('colorTexto').value;
+
+    // Aplicar los colores al chatbot usando variables CSS
+    document.documentElement.style.setProperty('--color-primario', colorPrimario);
+    document.documentElement.style.setProperty('--color-secundario', colorSecundario);
+    document.documentElement.style.setProperty('--color-acento', colorAcento);
+    document.documentElement.style.setProperty('--color-texto', colorTexto);
+
+    // Ajustar colores específicos si es necesario
+    document.documentElement.style.setProperty('--color-texto-header', '#ffffff'); // Texto del header siempre blanco
+    document.documentElement.style.setProperty('--color-texto-boton', colorTexto); // Texto de los botones
+    document.documentElement.style.setProperty('--color-texto-hover', '#ffffff'); // Texto de los botones al pasar el ratón
+}
