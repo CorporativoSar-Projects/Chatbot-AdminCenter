@@ -10,3 +10,9 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 });
+
+document.getElementById('archivoLogotipo').addEventListener('change', function() {
+    var nombreArchivo = this.files[0] ? this.files[0].name : 'Ningún archivo seleccionado';
+    document.getElementById('nombreArchivo').textContent = nombreArchivo;
+});
+

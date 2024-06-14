@@ -48,7 +48,6 @@ h1 {
 header {
     position: absolute;
     top: 20px;
-    bottom: 10px;
     left: 40px;
     right: 0;
     height: 40px;
@@ -117,7 +116,7 @@ header .navbar ul li ul li a:hover {
 }
 
 .user-dropdown {
-    display: inline-block;
+   
     position: absolute;
     bottom: 5px;
     right: 10px;
@@ -125,6 +124,7 @@ header .navbar ul li ul li a:hover {
 
 .btn-user,
 .btn-edit-chat,
+.btn-select-archivo,
 .btn-refresh,
 .btn-add-chat {
     background: none;
@@ -172,14 +172,106 @@ header .navbar ul li ul li a:hover {
     background-color: rgba(255, 255, 255, 0.1);
 }
 
-.container-prin {
-    margin-left: 30px;
+
+/* Contenedor del menú personalizado */
+.container-menu-pers {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 4px 4px 6px #c5c5c5, -4px -4px 6px #ffffff;
+    border-radius: 20px;
+    background-color: #FFB703;
+    margin-top: 20px; 
+}
+
+.menu-pers {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-color: #FFB703;
+    width: 100%;
+    border-radius: 20px;
+    overflow: hidden; 
+}
+
+.menu-pers ul {
+    display: flex;
+    justify-content: space-around; 
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.menu-pers ul li {
+    padding: 13px 35px;
+    margin: 10px;
+    font-size: 18px;
+    font-weight: 500;
+    color: #FFF;
+    position: relative;
+    cursor: pointer;
+    z-index: 2;
+    transition: color 0.5s;
+}
+
+/* Efecto de hover */
+.menu-pers ul li::after {
+    content: ''; 
+    background: #FFE6A7; 
+    width: 100%;
+    height: 100%;
+    border-radius: 20px; 
+    position: absolute; 
+    top: 100%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+    opacity: 0;
+    transition: top 0.5s, opacity 0.5s;
+}
+
+.menu-pers ul li:hover {
+    color: #777;
+}
+
+.menu-pers ul li:hover::after {
+    top: 50%;
+    opacity: 1;
+}
+
+/* Media Queries para responsividad */
+@media (max-width: 768px) {
+    .menu-pers ul {
+        flex-direction: column; 
+    }
+
+    .menu-pers ul li {
+        margin: 5px 0; 
+        padding: 10px; 
+        font-size: 16px;
+    }
+}
+
+/* Ajustes adicionales para pantallas extremadamente pequeñas */
+@media (max-width: 480px) {
+    .container-menu-pers {
+        padding: 5px;
+    }
+
+    .menu-pers ul li {
+        font-size: 14px; 
+        padding: 8px;
+    }
 }
 
 .container-bienv {
     margin-top: 100px;
     display: flex;
     align-items: center;
+    margin-left: 30px;
 }
 
 .container-bienv img {
@@ -198,6 +290,7 @@ header .navbar ul li ul li a:hover {
 
 .txt-nombre-chat {
     font-size: 27px;
+   
 }
 
 .container-btn-cerrar-guar {
@@ -205,15 +298,11 @@ header .navbar ul li ul li a:hover {
     display: flex;
     justify-content: flex-end;
     width: 25%;
-    /* Asegura que el contenedor ocupe el espacio disponible */
-
-
 }
 
 .btnCerrar,
 .btnGuardarS {
     flex: 1;
-    /* Hace que ambos botones se expandan uniformemente */
     background-color: #FB8300;
     color: white;
     padding: 10px;
@@ -249,17 +338,7 @@ header .navbar ul li ul li a:hover {
     transition: all .3s;
     box-shadow: 4px 4px 6px #c5c5c5, -4px -4px 6px #ffffff;
 }
-.prueba{
-    background-color: #F3F3F3;
-    padding: 10px;
-    border-radius: 15px;
-    width: 100%;
-    height: 60px;
-    inline-size: 95%;
-    margin-top: 20px;
-    transition: all .3s;
-    box-shadow: 4px 4px 6px #c5c5c5, -4px -4px 6px #ffffff;
-}
+
 
 .nombre-chat {
     float: left;
@@ -279,6 +358,9 @@ header .navbar ul li ul li a:hover {
     margin-right: 30px;
 }
 
+.container-personalizacion{
+    margin-left: 30px;
+}
 
 .container-pers {
     display: flex;
@@ -291,6 +373,7 @@ header .navbar ul li ul li a:hover {
 }
 
 .img-paint {
+    margin-top: 10px;
     width: 50px;
     height: 50px;
 }
@@ -301,9 +384,10 @@ header .navbar ul li ul li a:hover {
 }
 
 
-.label-nombrechat{
+.label-nombrechat {
     margin-top: 20px
 }
+
 .input-nombre {
 
     width: 40%;
@@ -325,24 +409,20 @@ header .navbar ul li ul li a:hover {
 }
 
 /* Estilos para alinear los inputs de color y los círculos */
-.color-grid {
-    display:grid;
-    grid-template-columns: repeat(2, 1fr); /* Dos columnas */
-    margin-top: 20px; /* Margen superior */
-    
-}
+
 
 .color-selector {
     display: flex;
     margin-bottom: 15px;
+    margin-top: 20px;
 }
 
-.color-selector label {
-    margin-right: 10px;
-}
+#colorPrimario,
+#colorAcento,
+#colorSecundario,
+#colorTexto {
 
-.color-selector input[type="color"] {
-    margin-right: 10px;
+    border-color: #ffffff;
 }
 
 .color-circle {
@@ -350,29 +430,55 @@ header .navbar ul li ul li a:hover {
     height: 30px;
     border-radius: 50%;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
-    margin-left: 20px;
+    margin-left: 50px;
 }
-
 
 .container-colors {
+    display: flex;
+    flex-wrap: wrap;
     padding-top: 10px;
-  
 }
 
-.nombre-colord {
-    float: left;
-    text-align: left;
-    margin-top: 17px;
-    margin-left: 10px;
-    margin-right: 10%;
-}
-
+.nombre-colord,
 .nombre-colorc {
-    margin-left: 20px;
-    margin-top: 17px;
-   
-    
+
+    margin: 10px;
+    min-width: 200px;
 }
+
+
+.container-archivo {
+    margin-top: 10px;
+}
+
+.select-archivo {
+    display: flex;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.btn-arch {
+    opacity: 0;
+    position: absolute;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+}
+
+
+.btn-select-archivo img {
+    cursor: pointer;
+}
+
+.nombre-archivo {
+    margin-left: 10px;
+    font-size: 14px;
+    color: #575757;
+}
+
+
+
+
 /* @media(max-width: 991px) {
     header {
         padding: 20px;
