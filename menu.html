@@ -14,11 +14,21 @@
 
     <div class="rectangulo-container">
         <img src="img/Rectangle.png" class="rectangulo" alt="Background Image">
-        <!-- <img src="img/logochiquito.png" width="70px" alt="Logo" class="img-logo-chiq"> -->
-         
+        <img src="img/logochiquito.png" width="70px" alt="Logo" class="img-logo-chiq">
     </div>
     <header>
-       
+        <nav class="navbar">
+            <ul class="filas">
+                <li><a href="#" class="txt-home">Home</a></li>
+                <li><a href="#">ChatBot para vacantes</a>
+                    <ul>
+                        <li><a href="#">Chatbot para pedidos</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">Crear nuevo Chatbot</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
 
         <div class="user-dropdown">
             <button class="btn-user"><img src="img/user.png" width="30" alt="User Icon"></button>
@@ -28,14 +38,18 @@
                     <img src="img/user.png" width="40" alt="User Icon">
                     <div class="div-user">
                         <strong>Karla Durán</strong><br>
-                        <small>kduranc@gmail...</small>
+                        <small>kduranc@giint...</small>
                     </div>
                 </div>
 
                 <div class="dropdown-links">
                     <div class="user-info">
-                        <a href="#">Configuración</a>
-                      
+                        <a href="#">ChatBot para vacantes</a>
+                        <span>Plan Básico Mensual</span>
+                    </div>
+                    <div class="user-info">
+                        <a href="#">ChatBot para pedidos</a>
+                        <span>Plan Básico 3 Meses</span>
                     </div>
 
                     <a href="#">Cerrar Sesión</a>
@@ -47,11 +61,37 @@
     <main>
         <div class="container-prin">
             <div class="container-bienv">
+                <img src="img/icons8.png" width="70px" alt="Welcome Icon">
                 <p class="txtBien">Bienvenido</p>
+                <div class="container-btn-refresh">
+                    <button class="btn-refresh">
+                        <img src="img/refresh.png" width="25" alt="Refresh">
+                    </button>
+                </div>
             </div>
 
-         
-           
+            <div>
+                <div class="txt-disena-chat">
+                    <p>Diseña tu propio ChatBot</p>
+                </div>
+
+                <div class="container-chats">
+                    <div class="nombre-chat">
+                        <p class="txt-chat-edit" id="txt-chat-edit">ChatBot para vacantes</p>
+                    </div>
+                    <div class="container-btn-edit-chat">
+                        <button class="btn-edit-chat">
+                            <img src="img/icons9.png" width="35" alt="Edit ChatBot">
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container-agregar">
+                <button class="btn-add-chat">
+                    <img src="img/add.png" width="60" alt="Add ChatBot">
+                </button>
+            </div>
         </div>
     </main>
 
