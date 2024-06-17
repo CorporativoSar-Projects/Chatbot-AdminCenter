@@ -244,33 +244,10 @@ header .navbar ul li ul li a:hover {
     opacity: 1;
 }
 
-/* Media Queries para responsividad */
-@media (max-width: 768px) {
-    .menu-pers ul {
-        flex-direction: column;
-    }
 
-    .menu-pers ul li {
-        margin: 5px 0;
-        padding: 10px;
-        font-size: 16px;
-    }
-}
-
-/* Ajustes adicionales para pantallas extremadamente pequeñas */
-@media (max-width: 480px) {
-    .container-menu-pers {
-        padding: 5px;
-    }
-
-    .menu-pers ul li {
-        font-size: 14px;
-        padding: 8px;
-    }
-}
 
 .container-bienv {
-    margin-top: 100px;
+    margin-top: 110px;
     display: flex;
     align-items: center;
     margin-left: 30px;
@@ -326,6 +303,7 @@ header .navbar ul li ul li a:hover {
 
 
 .txt-disena-chat {
+    margin-left: 30px;
     margin-top: 15px;
 }
 
@@ -335,10 +313,11 @@ header .navbar ul li ul li a:hover {
     border-radius: 15px;
     width: 100%;
     height: 80px;
-    inline-size: 95%;
+    inline-size: 87%;
     margin-top: 20px;
     transition: all .3s;
     box-shadow: 4px 4px 6px #c5c5c5, -4px -4px 6px #ffffff;
+    margin-left: 30px;
 }
 
 
@@ -468,15 +447,20 @@ header .navbar ul li ul li a:hover {
 }
 
 /*chatbot diseño*/
+
+
 .txt-chatbot{
     font-size: 30px;
 }
 .chatbot-container {
-    border-radius: 20px;
+    margin-left: 65%;
+    position: absolute;
+    top: 45%;
     width: 350px;
     height: 500px;
     background-color: #ffffff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
 }
 
 .chatbot-header {
@@ -570,7 +554,51 @@ header .navbar ul li ul li a:hover {
 }
 
 
+/* Media Queries para responsividad */
+@media (max-width: 768px) {
+   
+    .menu-pers ul {
+        flex-direction: column;
+    }
 
+    .menu-pers ul li {
+        margin: 5px 0;
+        padding: 10px;
+        font-size: 16px;
+    }
+    .chatbot-principal {
+        position: relative;
+        margin-left: 0;
+        margin-top: 20px;
+        top: auto;
+        right: 55%;
+        width: 100%;
+        height: auto;
+        max-width: 90%;
+        margin-right: auto;
+        margin-left: auto;
+    }
+}
+
+/* Ajustes adicionales para pantallas extremadamente pequeñas */
+@media (max-width: 480px) {
+    .container-menu-pers {
+        padding: 5px;
+    }
+
+    .menu-pers ul li {
+        font-size: 14px;
+        padding: 8px;
+    }
+    .chatbot-principal {
+        width: 100%;
+        padding: 15px;
+        box-shadow: none;
+        border-radius: 10px;
+        right: 70%;
+        
+    }
+}
 
 /* @media(max-width: 991px) {
     header {
