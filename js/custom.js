@@ -22,15 +22,30 @@ function actualizarColores() {
     const colorSecundario = document.getElementById('colorSecundario').value;
     const colorAcento = document.getElementById('colorAcento').value;
     const colorTexto = document.getElementById('colorTexto').value;
+    
 
-    // Aplicar los colores al chatbot usando variables CSS
+    //  CSS
     document.documentElement.style.setProperty('--color-primario', colorPrimario);
     document.documentElement.style.setProperty('--color-secundario', colorSecundario);
     document.documentElement.style.setProperty('--color-acento', colorAcento);
     document.documentElement.style.setProperty('--color-texto', colorTexto);
+    
 
     // Ajustar colores específicos si es necesario
     document.documentElement.style.setProperty('--color-texto-header', '#ffffff'); // Texto del header siempre blanco
     document.documentElement.style.setProperty('--color-texto-boton', colorTexto); // Texto de los botones
     document.documentElement.style.setProperty('--color-texto-hover', '#ffffff'); // Texto de los botones al pasar el ratón
 }
+
+function actualizarColoresBurbuja(){
+    const colorPrimarioBurbuja = document.getElementById('colorPrimarioBurbuja').value;
+    document.documentElement.style.setProperty('--colorPrimarioBurbuja', colorPrimarioBurbuja);
+}
+
+const txtNombreChat = document.querySelector('#inp-nombre');
+const divCopiaNombre = document.getElementById('chatbot-header');
+
+txtNombreChat.addEventListener('keyup', () => {
+    divCopiaNombre.innerHTML = txtNombreChat.value;
+});
+

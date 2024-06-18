@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/sty.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-    <title>Estilo</title>
+    <title>Burbuja</title>
 </head>
 
 <body>
@@ -71,12 +71,12 @@
             <div class="container-menu-pers">
                 <nav class="menu-pers">
                     <ul>
-                        <li>Estilo</li>
-                        <li>Burbuja</li>
-                        <li>Pantalla de Inicio</li>
-                        <li>Crea la converación</li>
-                        <li>Pantalla de Despedida</li>
-                        <li>Finalizar</li>
+                        <li><a href="estilo.html">Estilo</a></li>
+                        <li><a href="burbuja.html">Burbuja</a></li>
+                        <li><a href="pantallaInicio.html">Pantalla de Inicio</a></li>
+                        <li><a href="crearConversacion.html">Crea la conversación</a></li>
+                        <li><a href="pantallaDespedida.html">Pantalla de Despedida</a></li>
+                        <li><a href="finalizar.html">Finalizar</a></li>
                     </ul>
                 </nav>
             </div>
@@ -85,7 +85,7 @@
             <div>
                 <div class="container-personalizacion">
                     <div class="container-pers">
-                        <img src="img/paint.png" class="img-paint">
+                        <img src="img/icono-dia.png" class="img-icono-dia">
                         <div class="container-pers2">
                             <p class="txt-perso-chat">Personaliza el mensaje de la burbuja</p>
                             <p>Muéstrales a tus clientes que el chat está aquí para ayudarte.</p>
@@ -94,56 +94,52 @@
 
                     <div>
                         <label class="label-nombrechat">Mensaje</label><br>
-                        <input type="text" name="inp-nombre" id="inp-nombre" placeholder="¡Encuentra vacantes!"
-                            class="input-nombre" required><br>
+                        <input type="text" name="inp-burbuja" id="inp-burbuja" placeholder="¡Encuentra vacantes!"
+                            class="input-burbuja" required><br>
 
                         <div class="container-colors">
                             <div class="nombre-colord">
-                                <label for="colorPrimario">Color Primario</label><br>
+                                <label for="colorPrimarioBurbuja">Color Primario</label><br>
                                 <div div class="color-selector">
-                                    <input type="color" id="colorPrimario" value="#e39842" oninput="actualizarColores()" >
-                                    <div id="muestraColorPrimario" class="color-circle"></div><br>
+                                    <input type="color" id="colorPrimarioBurbuja" value="#e39842"
+                                        oninput="actualizarColoresBurbuja()">
+                                    <div id="muestraColorPrimarioBurbuja" class="color-circle"></div><br>
                                 </div>
 
-                                
 
-            
+
+
+
+
+                            </div>
 
 
                         </div>
 
-                       
+                        <!-- Botón para abrir el chatbot -->
+                        <div id="chatbot-toggle" class="chat-toggle">
+                            <img src="img/chatbot2.png" alt="Chat" class="toggle-icon">
+                            <span id="chatTextBurb" class="chat-text">¡Encuentra Vacantes!</span>
+                        </div>
+
+
                     </div>
-                    <!-- <div class="chatbot-principal">
-                        <div class="chatbot-container">
-                            <div class="chatbot-header">
-                                JobHelper
-                            </div>
-                            <div class="chatbot-content">
-                                <p class="txt-chatbot">
-                                    ¡Saludos! Soy JobHelper, tu guía virtual en el mundo laboral.
-                                </p>
-                                <div class="chatbot-buttons">
-                                    <button class="chatbot-button">Buscar vacantes por categoría</button>
-                                    <button class="chatbot-button">Buscar vacantes por ubicación</button>
-                                    <button class="chatbot-button">Seguimiento de mi postulación</button>
-                                </div>
-                            </div>
-                            <div class="chatbot-footer">
-                                <input type="text" placeholder="Escribe aquí tu respuesta...">
-                            </div>
-                        </div>
-                    </div> -->
 
                 </div>
-
-            </div>
     </main>
 
     <!-- jQuery y Bootstrap JavaScript -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/custom.js"></script>
+    <script>
+        const txtBurbuja = document.querySelector('#inp-burbuja');
+        const divCopiaBurb = document.getElementById('chatTextBurb');
+
+        txtBurbuja.addEventListener('keyup', () => {
+            divCopiaBurb.innerHTML = txtBurbuja.value;
+        });
+    </script>
 </body>
 
 </html>

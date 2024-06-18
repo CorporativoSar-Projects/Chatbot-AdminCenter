@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/sty.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-    <title>Estilo</title>
+    <title>Pantalla Inicio</title>
 </head>
 
 <body>
@@ -81,72 +81,40 @@
                 </nav>
             </div>
 
+
             <div>
                 <div class="container-personalizacion">
                     <div class="container-pers">
-                        <img src="img/paint.png" class="img-paint">
+                        <img src="img/icono-dia.png" class="img-icono-dia">
                         <div class="container-pers2">
-                            <p class="txt-perso-chat">Personaliza la interfaz de usuario del chat</p>
-                            <p>Actualiza el estilo para que coincida con tu marca y tu sitio web.</p>
+                            <p class="txt-perso-chat">Pantalla de inicio</p>
+                            <p>Obtenga la ayuda que los clientes necesitan más rápidamente.</p>
                         </div>
                     </div>
 
                     <div>
-                        <label class="label-nombrechat">Nombre visible de tu ChatBot</label><br>
-                        <input type="text" name="inp-nombre" id="inp-nombre" placeholder="JobHelper"
-                            class="input-nombre" required><br>
+                        <label class="label-nombrechat">Mensaje de saludo</label><br>
+                        <input type="text" name="inp-saludo" id="inp-saludo" 
+                        placeholder="¡Saludos! Soy JobHelper, tu guía virtual en el mundo laboral."
+                            class="input-saludo" required><br>
 
-                        <div class="container-colors">
-                            <div class="nombre-colord">
-                                <label for="colorPrimario">Color Primario</label><br>
-                                <div class="color-selector">
-                                    <input type="color" id="colorPrimario" value="#e39842"
-                                        oninput="actualizarColores()">
-                                    <div id="muestraColorPrimario" class="color-circle"></div><br>
-                                </div>
-
-                                <label for="colorAcento">Color de Acento</label><br>
-                                <div class="color-selector">
-                                    <input type="color" id="colorAcento" value="#383838" oninput="actualizarColores()">
-                                    <div id="muestraColorAcento" class="color-circle"></div><br>
-                                </div>
+                        <div class="container-conversacion">
+                            <div class="asi-conversacion">
+                                <label >Temas de conversación</label><br>
+                                
 
                             </div>
-                            <div class="nombre-colorc">
-                                <label for="colorSecundario">Color Secundario</label><br>
-                                <div class="color-selector">
-                                    <input type="color" id="colorSecundario" value="#b6b6b6"
-                                        oninput="actualizarColores()">
-                                    <div id="muestraColorSecundario" class="color-circle"></div><br>
-                                </div>
+                            
 
-                                <label for="colorTexto">Color de Texto</label><br>
-                                <div class="color-selector">
-                                    <input type="color" id="colorTexto" value="#000000" oninput="actualizarColores()">
-                                    <div id="muestraColorTexto" class="color-circle"></div><br>
-                                </div>
-
-                            </div>
-
-                            <div class="container-archivo">
-                                <label for="txtlogo">Ingresa Logotipo</label><br>
-                                <div class="select-archivo">
-                                    <button class="btn-select-archivo">
-                                        <span id="nombreArchivo" class="nombre-archivo">Seleccione un archivo</span>
-                                        <input type="file" class="btn-arch" id="archivoLogotipo">
-                                        <img src="img/add1.png" width="30" alt="Edit ChatBot">
-                                    </button>
-                                </div>
-
-                            </div>
+                           
 
                         </div>
 
-
+                       
                     </div>
                     <div class="chatbot-principal">
                         <div class="chatbot-container">
-                            <div class="chatbot-header" id="chatbot-header">
+                            <div class="chatbot-header">
                                 JobHelper
                             </div>
                             <div class="chatbot-content">
@@ -174,7 +142,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/custom.js"></script>
-
+    
 </body>
 
 </html>
