@@ -1,4 +1,3 @@
-
 body,
 html {
     margin: 0;
@@ -7,7 +6,7 @@ html {
     height: 100%;
     box-sizing: border-box;
     font-family: 'Montserrat', sans-serif;
-    text-transform: capitalize; 
+    text-transform: capitalize;
     text-decoration: none;
     min-height: 100vh;
 }
@@ -119,7 +118,8 @@ button:hover {
     align-items: center;
     flex-wrap: wrap;
     color: white;
-    z-index: 1000; /* Ensure the menu is above other elements */
+    z-index: 1000;
+    /* Ensure the menu is above other elements */
 }
 
 .barra-menu img.rectangulo {
@@ -129,8 +129,8 @@ button:hover {
     top: 0;
     left: 0;
     z-index: -1;
-    min-width: 1200px; 
-    height: 100%; 
+    min-width: 1200px;
+    height: 100%;
     object-fit: cover;
 
 }
@@ -156,12 +156,14 @@ button:hover {
     font-weight: normal;
 }
 
-.espaciado-menu{
+.espaciado-menu {
     display: flex;
     align-items: center;
-    gap: 10px; /* Adjust spacing */
+    gap: 10px;
+    /* Adjust spacing */
     margin-top: 5px;
 }
+
 .espaciado-m2 {
     display: flex;
     align-items: center;
@@ -248,4 +250,44 @@ button:hover {
     float: right;
     margin-top: 25vh;
     margin-right: 40px;
+}
+
+@media (max-width: 768px) {
+
+
+    .imgLogo {
+        max-width: 50%;
+        margin-top: 20%;
+    }
+
+    .btnSesion {
+
+        margin: 8px 0;
+        width: 30%;
+        padding: 10px;
+    }
+
+    .txtGii {
+        margin-left: 10%;
+        margin-top: 100px;
+    }
+
+
+}
+
+@media (max-width: 480px) {
+
+    .btnSesion {
+
+        margin: 8px 0;
+        width: 40%;
+        padding: 10px;
+        margin-top: 20px;
+    }
+
+    .txtUsu,
+    .txtpsw {
+        width: 40%;
+        height: 40px;
+    }
 }

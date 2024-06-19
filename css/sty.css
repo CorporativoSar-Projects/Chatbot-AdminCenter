@@ -251,6 +251,7 @@ header .navbar ul li ul li a:hover {
 
 
 
+
 .container-bienv {
     margin-top: 110px;
     display: flex;
@@ -285,7 +286,7 @@ header .navbar ul li ul li a:hover {
 }
 
 .btnCerrar,
-.btnGuardarS {
+.btnGuardarS{
     flex: 1;
     background-color: #FB8300;
     color: white;
@@ -296,6 +297,7 @@ header .navbar ul li ul li a:hover {
     border-radius: 15px;
     font-size: 14px;
     text-align: center;
+    text-decoration: none;
 }
 
 .btnCerrar {
