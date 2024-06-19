@@ -43,7 +43,7 @@ function actualizarColoresBurbuja(){
 }
 
 const txtNombreChat = document.querySelector('#inp-nombre');
-const divCopiaNombre = document.getElementById('chatbot-header');
+const divCopiaNombre = document.getElementById('txt-titulo-chat');
 
 txtNombreChat.addEventListener('keyup', () => {
     divCopiaNombre.innerHTML = txtNombreChat.value;
