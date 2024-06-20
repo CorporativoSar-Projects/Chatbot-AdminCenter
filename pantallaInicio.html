@@ -64,6 +64,7 @@
                 <p class="txt-nombre-chat">ChatBot para vacantes</p>
                 <div class="container-btn-cerrar-guar">
                     <a href="menu.html" class="btnCerrar">Cerrar</a>
+                    <a href="#" class="btnContinuar">Continuar</a>
                     <button type="submit" id="btnGuardarS" class="btnGuardarS">Guardar y salir</button>
                 </div>
             </div>
@@ -101,16 +102,38 @@
                         <div class="container-conversacion">
                             <div class="asi-conversacion">
                                 <label>Temas de conversación</label><br>
-
-
+                                <ul id="listaTemas">
+                                    <li class="tema-item">
+                                        <input type="text" name="inp-conversa" id="inp-conversa"
+                                            placeholder="Buscar vacantes"
+                                            class="inp-conversa" required> 
+                                        <button class="btn-borrar" onclick="eliminarTema(this)">
+                                            <img src="img/trash.png" width="20" alt="Edit ChatBot"></button>
+                                    </li>
+                                    <li class="tema-item">
+                                        <input type="text" name="inp-conversa" id="inp-conversa"
+                                            placeholder="Buscar vacantes"
+                                            class="inp-conversa" required> 
+                                        <button class="btn-borrar" onclick="eliminarTema(this)">
+                                            <img src="img/trash.png" width="20" alt="Edit ChatBot"></button>
+                                    </li>
+                                    <li class="tema-item">
+                                        <input type="text" name="inp-conversa" id="inp-conversa"
+                                            placeholder="Buscar vacantes"
+                                            class="inp-conversa" required> 
+                                        <button class="btn-borrar" onclick="eliminarTema(this)">
+                                            <img src="img/trash.png" width="20" alt="Edit ChatBot"></button>
+                                    </li>
+                                </ul>
+                                <div>
+                                    <span type="text" id="nuevoTema" class="nuevoTema">Añadir tema de conversación</span>
+                                    
+                                    <button onclick="agregarTema()" class="btn-add-conv">
+                                        
+                                        <img src="img/add1.png" width="20" alt="Edit ChatBot"></button>
+                                </div>
                             </div>
-
-
-
-
                         </div>
-
-
                     </div>
                     <div class="chatbot-principal">
                         <div class="chatbot-container">
@@ -127,33 +150,42 @@
                                 </div>
                             </div>
                             <div class="chatbot-content">
-                                <p class="txt-chatbot">
+                                <p class="txt-chatbot" id="txt-chatbot"">
                                     ¡Saludos! Soy JobHelper, tu guía virtual en el mundo laboral.
                                     Mi misión es facilitarte el camino hacia oportunidades
                                     laborales que se alineen perfectamente con tus habilidades y expectativas. ¿Con qué
                                     te puedo ayudar?
                                 </p>
-                                <div class="chatbot-buttons">
+                                <div class=" chatbot-buttons">
                                     <button class="chatbot-button">Buscar vacantes por categoría</button>
                                     <button class="chatbot-button">Buscar vacantes por ubicación</button>
                                     <button class="chatbot-button">Seguimiento de mi postulación</button>
-                                </div>
                             </div>
-                            <!-- <div class="chatbot-footer">
+                        </div>
+                        <!-- <div class="chatbot-footer">
                                 <input type="text" placeholder="Escribe aquí tu respuesta...">
                             </div> -->
-                        </div>
                     </div>
-
                 </div>
 
             </div>
+
+        </div>
     </main>
 
     <!-- jQuery y Bootstrap JavaScript -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/custom.js"></script>
+
+    <script>
+        const txtSaludo = document.querySelector('#inp-saludo');
+        const divCopiaSaludo = document.getElementById('txt-chatbot');
+
+        txtSaludo.addEventListener('keyup', () => {
+            divCopiaSaludo.innerHTML = txtSaludo.value;
+        });
+    </script>
 
 </body>
 

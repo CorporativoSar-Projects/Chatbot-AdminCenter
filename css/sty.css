@@ -126,7 +126,9 @@ header .navbar ul li ul li a:hover {
 .btn-edit-chat,
 .btn-select-archivo,
 .btn-refresh,
-.btn-add-chat {
+.btn-add-chat,
+.btn-borrar,
+.btn-add-conv {
     background: none;
     border: none;
     cursor: pointer;
@@ -176,14 +178,13 @@ header .navbar ul li ul li a:hover {
 /* Contenedor del menú personalizado */
 .container-menu-pers {
     width: 100%;
-
     display: flex;
     justify-content: center;
     align-items: center;
     box-shadow: 4px 4px 6px #c5c5c5, -4px -4px 6px #ffffff;
     border-radius: 20px;
     background-color: #FFB703;
-    margin-top: 20px;
+    margin-top: 5px;
 }
 
 .menu-pers {
@@ -257,7 +258,7 @@ header .navbar ul li ul li a:hover {
     margin-top: 110px;
     display: flex;
     align-items: center;
-    margin-left: 40px;
+    margin-left: 30px;
 }
 
 .container-bienv img {
@@ -280,34 +281,29 @@ header .navbar ul li ul li a:hover {
 }
 
 .container-btn-cerrar-guar {
-    margin-left: 48%;
+    margin-left: 38%;
     display: flex;
     justify-content: flex-end;
-    width: 25%;
+    width: 35%;
 }
 
 .btnCerrar,
-.btnGuardarS {
+.btnGuardarS,
+.btnContinuar {
     flex: 1;
     background-color: #FB8300;
     color: white;
     padding: 10px;
-    margin: 8px 10px;
+    margin: 8px 5px;
     border: none;
     cursor: pointer;
     border-radius: 15px;
-    font-size: 14px;
+    font-size: 13px;
     text-align: center;
     text-decoration: none;
 }
 
-.btnCerrar {
-    margin-right: 5px;
-}
 
-.btnGuardarS {
-    margin-left: 5px;
-}
 
 
 .txt-disena-chat {
@@ -497,9 +493,10 @@ header .navbar ul li ul li a:hover {
 .conteiner {
     display: flex;
     align-content: space-between;
-    
+
 }
-.txt-titulo-chat{
+
+.txt-titulo-chat {
     margin-top: 10px;
     font-size: 15px;
 
@@ -521,7 +518,7 @@ header .navbar ul li ul li a:hover {
     text-align: center;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
     display: flex;
-  justify-content:space-between;
+    justify-content: space-between;
 
 }
 
@@ -611,68 +608,13 @@ header .navbar ul li ul li a:hover {
 }
 
 .nombre-archivo {
-    
+
     font-size: 14px;
     color: #575757;
 }
 
 
-/* Media Queries para responsividad */
-@media (max-width: 768px) {
 
-    .menu-pers ul {
-        flex-direction: column;
-    }
-
-    .menu-pers ul li {
-        margin: 5px 0;
-        padding: 10px;
-        font-size: 16px;
-    }
-
-    .chatbot-principal {
-        position: relative;
-        margin-left: 0;
-        margin-top: 20px;
-        top: auto;
-        right: 55%;
-        width: 100%;
-        height: auto;
-        max-width: 90%;
-        margin-right: auto;
-        margin-left: auto;
-    }
-
-    .container-chats {
-        inline-size: 80%;
-    }
-
-}
-
-/* Ajustes adicionales para pantallas extremadamente pequeñas */
-@media (max-width: 480px) {
-    .container-menu-pers {
-        padding: 5px;
-    }
-
-    .menu-pers ul li {
-        font-size: 14px;
-        padding: 8px;
-    }
-
-    .chatbot-principal {
-        width: 100%;
-        padding: 15px;
-        box-shadow: none;
-        border-radius: 10px;
-        right: 70%;
-
-    }
-
-    .container-chats {
-        inline-size: 77%;
-    }
-}
 
 /*Vista Burbuja*/
 .img-icono-dia {
@@ -688,17 +630,14 @@ header .navbar ul li ul li a:hover {
     bottom: 20px;
     cursor: pointer;
     z-index: 1000;
-    /* Asegúrate de que el botón esté sobre otros elementos */
-
 }
 
 .toggle-icon {
     width: 60px;
-    /* O el tamaño que prefieras */
     height: 60px;
     border-radius: 50%;
-    /* Esto hará que la imagen sea completamente redonda */
     object-fit: cover;
+    
 }
 
 .chat-text {
@@ -732,8 +671,118 @@ header .navbar ul li ul li a:hover {
     animation: blink 2s linear infinite;
 }
 
-/* @media(max-width: 991px) {
-    header {
-        padding: 20px;
+/*TEMA DE CONVERSACION*/
+
+.tema-item {
+    color: #FFB703;
+    width: 400px;
+
+}
+.nuevoTema{
+    margin-left: 70px;
+    font-size: 15px;
+}
+
+.inp-conversa {
+
+    width: 340px;
+    height: 40px;
+    padding: 12px 20px;
+    margin: 8px 0;
+    border: none;
+    display: inline-block;
+    background-color: #FFFFFF;
+    box-sizing: border-box;
+    border-radius: 15px;
+    text-decoration: none;
+    outline: none;
+    transition: opacity 0.2s ease;
+    opacity: 1;
+    border-color: #D9D9D9;
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
+
+}
+
+/* Media Queries para responsividad */
+@media (max-width: 768px) {
+
+    .menu-pers ul {
+        flex-direction: column;
     }
-} */
+
+    .menu-pers ul li {
+        margin: 5px 0;
+        padding: 10px;
+        font-size: 16px;
+    }
+
+    .chatbot-principal {
+        position: relative;
+        margin-left: 0;
+        margin-top: 20px;
+        top: auto;
+        right: 60%;
+        width: 100%;
+        height: auto;
+        max-width: 90%;
+        margin-right: auto;
+        margin-left: auto;
+    }
+
+    .container-chats {
+        inline-size: 80%;
+    }
+
+  
+
+}
+
+
+
+
+/* Ajustes adicionales para pantallas extremadamente pequeñas */
+@media (max-width: 480px) {
+    .container-menu-pers {
+        padding: 5px;
+    }
+
+    .menu-pers ul li {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    .chatbot-principal {
+        width: 100%;
+        padding: 15px;
+        box-shadow: none;
+        border-radius: 10px;
+        right: 70%;
+
+    }
+
+    .container-chats {
+        inline-size: 77%;
+    }
+
+    .container-btn-cerrar-guar {
+        margin-left: 50%;
+        display: flex;
+        justify-content: flex-end;
+        width: 15%;
+    }
+
+    .rectangulo-container {
+        height: calc(23% - 80px);
+    }
+
+    .input-nombre,
+    .input-saludo,
+    .input-burbuja {
+
+        width: 800%;
+        height: 40px;
+        
+
+    }
+
+}
