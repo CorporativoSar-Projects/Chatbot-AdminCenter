@@ -129,16 +129,21 @@
 
                             </div>
 
+                            <!-- Contenedor para cargar la imagen con icono adjunto -->
                             <div class="container-archivo">
-                                <label for="txtlogo">Ingresa Logotipo</label><br>
+                                <label for="archivoLogotipo">Ingresa Logotipo</label><br>
                                 <div class="select-archivo">
-                                    <button class="btn-select-archivo">
+                                    <input type="file" id="archivoLogotipo" accept="image/*"
+                                        onchange="previsualizarImagen()" style="display: none;">
+                                    <button class="btn-select-archivo"
+                                        onclick="document.getElementById('archivoLogotipo').click()">
                                         <span id="nombreArchivo" class="nombre-archivo">Seleccione un archivo</span>
                                         <img src="img/add1.png" width="20" alt="Edit ChatBot">
                                     </button>
                                 </div>
-
                             </div>
+
+
 
                         </div>
 
@@ -186,6 +191,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/custom.js"></script>
+
 
 
 </body>

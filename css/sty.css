@@ -703,6 +703,10 @@ header .navbar ul li ul li a:hover {
 
 }
 
+.errorMensaje{
+    margin-left: 50px;
+}
+
 /* Media Queries para responsividad */
 @media (max-width: 768px) {
 

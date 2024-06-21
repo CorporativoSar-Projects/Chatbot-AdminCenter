@@ -11,10 +11,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 
-document.getElementById('archivoLogotipo').addEventListener('change', function() {
-    var nombreArchivo = this.files[0] ? this.files[0].name : 'Ningún archivo seleccionado';
-    document.getElementById('nombreArchivo').textContent = nombreArchivo;
-});
+
 
 function actualizarColores() {
     // Obtener los valores de color seleccionados
@@ -49,55 +46,27 @@ txtNombreChat.addEventListener('keyup', () => {
     divCopiaNombre.innerHTML = txtNombreChat.value;
 });
 
+function previsualizarImagen() {
+    const archivoInput = document.getElementById('archivoLogotipo');
+    const archivo = archivoInput.files[0];
+    const nombreArchivo = document.getElementById('nombreArchivo');
+    const chatbotIcon = document.querySelector('.chatbot-icon');
 
+    if (archivo) {
+        // Actualizar el nombre del archivo
+        nombreArchivo.textContent = archivo.name;
 
-function agregarTema() {
-    const listaTemas = document.getElementById('listaTemas');
-    const temasActuales = listaTemas.getElementsByTagName('li');
-
-    
-    if (temasActuales.length >= 5) {
-        // alert('Solo puedes agregar hasta 5 temas de conversación.');
-        return;
+        // Crear una URL para la imagen cargada
+        const lector = new FileReader();
+        lector.onload = function(e) {
+            // Establecer la imagen cargada como la fuente del icono del chatbot
+            chatbotIcon.src = e.target.result;
+        }
+        lector.readAsDataURL(archivo);
+    } else {
+        nombreArchivo.textContent = 'Seleccione un archivo';
+        chatbotIcon.src = 'img/logochiquito.png'; // Imagen por defecto
     }
-
-    // Crear el nuevo elemento de tema
-    const nuevoTema = document.createElement('li');
-    nuevoTema.className = 'tema-item';
-
-    // Crear el input para el nuevo tema
-    const nuevoInput = document.createElement('input');
-    nuevoInput.type = 'text';
-    nuevoInput.name = 'inp-conversa';
-    nuevoInput.placeholder = 'Nuevo tema de conversación';
-    nuevoInput.className = 'inp-conversa';
-    nuevoInput.required = true;
-
- 
-    const botonBorrar = document.createElement('button');
-    botonBorrar.className = 'btn-borrar';
-    botonBorrar.onclick = function() {
-        eliminarTema(botonBorrar);
-    };
-
- 
-    const imagenBorrar = document.createElement('img');
-    imagenBorrar.src = 'img/trash.png';
-    imagenBorrar.width = 20;
-    imagenBorrar.alt = 'Delete Topic';
-
-    botonBorrar.appendChild(imagenBorrar);
-
-  
-    nuevoTema.appendChild(nuevoInput);
-    nuevoTema.appendChild(botonBorrar);
-
- 
-    listaTemas.appendChild(nuevoTema);
 }
 
 
-function eliminarTema(elemento) {
-    const temaItem = elemento.parentNode;
-    temaItem.remove();
-}
