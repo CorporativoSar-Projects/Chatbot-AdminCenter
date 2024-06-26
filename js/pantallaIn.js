@@ -1,10 +1,21 @@
-// Actualizar mensaje de saludo en tiempo real
+// Seleccionar el input y el contenedor del texto del chatbot
 const txtSaludo = document.querySelector('#inp-saludo');
 const divCopiaSaludo = document.getElementById('txt-chatbot');
 
+// Función para ajustar el contenido del saludo
 txtSaludo.addEventListener('keyup', () => {
     divCopiaSaludo.innerHTML = txtSaludo.value;
+    
+    // Aplicar el mismo tamaño fijo a .chatbot-content
+    const chatbotContent = document.querySelector('.chatbot-content');
+    chatbotContent.style.width = '300px';
+    chatbotContent.style.height = '300px';
+    
+
+    
 });
+
+
 
 // Actualizar botones del chatbot al escribir en los inputs
 function actualizarBotonChatbot(input, boton) {

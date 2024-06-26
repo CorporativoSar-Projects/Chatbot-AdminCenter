@@ -34,10 +34,7 @@ function actualizarColores() {
     document.documentElement.style.setProperty('--color-texto-hover', '#ffffff'); // Texto de los botones al pasar el ratón
 }
 
-function actualizarColoresBurbuja(){
-    const colorPrimarioBurbuja = document.getElementById('colorPrimarioBurbuja').value;
-    document.documentElement.style.setProperty('--colorPrimarioBurbuja', colorPrimarioBurbuja);
-}
+
 
 const txtNombreChat = document.querySelector('#inp-nombre');
 const divCopiaNombre = document.getElementById('txt-titulo-chat');
@@ -68,5 +65,7 @@ function previsualizarImagen() {
         chatbotIcon.src = 'img/logochiquito.png'; // Imagen por defecto
     }
 }
+
+
 
 
