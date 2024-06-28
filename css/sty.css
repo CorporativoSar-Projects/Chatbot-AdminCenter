@@ -835,33 +835,209 @@ header .navbar ul li ul li a:hover {
 
 /*Vista planes*/ 
 
-.container-planes{
-    background-color: #F3F3F3;
+
+.container-plan-precio {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    
+}
+
+.container-plan-basico {
+    background-color: #FFFFFF;
+    border: #B6B6B6 1px solid;
     padding: 10px;
     border-radius: 15px;
-    width: 50px;
-    height: 110px;
-    inline-size: 45%;
-    margin-top: 20px;
+    width: 45%;
+    height: 100px;
     transition: all .3s;
+    margin-left: 40px;
+}
+
+.container-precios, .container-precios-i
+,.container-precios-a {
+    display: flex;
+    align-items: center;
+    width: 10%;
+   
+}
+
+
+.container-plan-basico-precio {
+    background-color: #FFFFFF;
+    border: #B6B6B6 1px solid;
+    padding: 5px;
+    border-radius: 15px;
+    width: 90%;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: all .3s;
+}
+.container-plan-inter-precio {
+    background-color: #FFFFFF;
+    border: #B6B6B6 1px solid;
+    padding: 5px;
+    border-radius: 15px;
+    width: 90%;
+    height: 135px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: all .3s;
+}
+
+.container-plan-avan-precio {
+    background-color: #FFFFFF;
+    border: #B6B6B6 1px solid;
+    padding: 5px;
+    border-radius: 15px;
+    width: 90%;
+    height: 165px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: all .3s;
+}
+
+.nombre-precio-b {
+    text-align: center;
+    background-color: #FB8300;
     box-shadow: 4px 4px 6px #c5c5c5, -4px -4px 6px #ffffff;
+    color: #f1f1f1;
+    font-weight: bold;
+    border-radius: 15px;
+    width: 100px;
+    height: 30px;
+    margin-top: 10px;
+}
+
+.nombre-precio-i {
+    text-align: center;
+    background-color: #FFB703;
+    box-shadow: 4px 4px 6px #c5c5c5, -4px -4px 6px #ffffff;
+    color: #f1f1f1;
+    font-weight: bold;
+    border-radius: 15px;
+    width: 100px;
+    height: 30px;
+}
+
+.nombre-precio-a {
+    text-align: center;
+    background-color: #023047;
+    box-shadow: 4px 4px 6px #c5c5c5, -4px -4px 6px #ffffff;
+    color: #f1f1f1;
+    font-weight: bold;
+    border-radius: 15px;
+    width: 100px;
+    height: 30px;
+    margin-bottom: 30px;
+}
+
+.container-precio-b, .container-precio-i{
+    margin-top: 20px;
+    text-align: center;
+    font-size: 12px;
+}
+.container-precio-a{
+    margin-top: 5px;
+    text-align: center;
+    font-size: 12px;
+}
+
+
+.container-plan-inter {
+    background-color: #FFFFFF;
+    border: #B6B6B6 1px solid;
+    padding: 10px;
+    border-radius: 15px;
+    width: 45%;
+    height: 135px;
+  
+    transition: all .3s;
     margin-left: 40px;
 }
 
-.nombre-plan {
+.container-plan-ava {
+    background-color: #FFFFFF;
+    border: #B6B6B6 1px solid;
+    padding: 10px;
+    border-radius: 15px;
+    width: 45%;
+    height: 165px;
+    
+    transition: all .3s;
+    margin-left: 40px;
+}
+
+.nombre-plan-b {
     float: left;
-    text-align: left;
+    text-align: center;
+    margin-top: 15px;
+    margin-left: 10px;
+    background-color: #FB8300;
+    box-shadow: 4px 4px 6px #c5c5c5, -4px -4px 6px #ffffff;
+    color: #f1f1f1;
+    font-weight: bold;
+    border-radius: 15px;
+    width: 100px;
+}
+
+.nombre-plan-i {
+    float: left;
+    text-align: center;
     margin-top: 30px;
-    margin-left: 40px;
+    margin-left: 10px;
+    background-color: #FFB703;
+    box-shadow: 4px 4px 6px #c5c5c5, -4px -4px 6px #ffffff;
+    color: #f1f1f1;
+    font-weight: bold;
+    border-radius: 15px;
+    width: 100px;
 }
 
-.lista-benefi{
+.nombre-plan-a {
+    float: left;
+    text-align: center;
+    margin-top: 45px;
+    margin-left: 10px;
+    background-color: #023047;
+    box-shadow: 4px 4px 6px #c5c5c5, -4px -4px 6px #ffffff;
+    color: #f1f1f1;
+    font-weight: bold;
+    border-radius: 15px;
+    width: 100px;
+}
+
+.txt-plan {
+    margin-top: 15px;
+}
+
+.txt-mensual-b, .txt-mensual-i, .txt-mensual-a  {
+    margin-top: 4px;
+}
+
+
+.container-lista-benefi-b {
+    margin-left: 135px;
+    margin-top: 10px;
+}
+
+.container-lista-benefi {
     float: right;
-    font-size: 14px;
+    margin-top: 10px;
 }
 
-
-
+.lista-benefi {
+    font-size: 12px;
+    margin-left: 20px;
+}
 
 
 /* Ajustes adicionales para pantallas extremadamente pequeñas */
