@@ -841,7 +841,7 @@ header .navbar ul li ul li a:hover {
     align-items: center;
     justify-content: space-between;
     margin-bottom: 15px;
-    
+   
 }
 
 .container-plan-basico {
@@ -853,6 +853,7 @@ header .navbar ul li ul li a:hover {
     height: 100px;
     transition: all .3s;
     margin-left: 40px;
+    cursor: pointer;
 }
 
 .container-precios, .container-precios-i
@@ -861,6 +862,7 @@ header .navbar ul li ul li a:hover {
     align-items: center;
     width: 10%;
    
+    margin: 0;
 }
 
 
@@ -876,6 +878,8 @@ header .navbar ul li ul li a:hover {
     align-items: center;
     justify-content: center;
     transition: all .3s;
+    margin-right: 30px;
+    cursor: pointer;
 }
 .container-plan-inter-precio {
     background-color: #FFFFFF;
@@ -889,6 +893,8 @@ header .navbar ul li ul li a:hover {
     align-items: center;
     justify-content: center;
     transition: all .3s;
+    margin-right: 30px;
+    cursor: pointer;
 }
 
 .container-plan-avan-precio {
@@ -903,6 +909,8 @@ header .navbar ul li ul li a:hover {
     align-items: center;
     justify-content: center;
     transition: all .3s;
+    margin-right: 30px;
+    cursor: pointer;
 }
 
 .nombre-precio-b {
@@ -959,9 +967,9 @@ header .navbar ul li ul li a:hover {
     border-radius: 15px;
     width: 45%;
     height: 135px;
-  
     transition: all .3s;
     margin-left: 40px;
+    cursor: pointer;
 }
 
 .container-plan-ava {
@@ -971,9 +979,9 @@ header .navbar ul li ul li a:hover {
     border-radius: 15px;
     width: 45%;
     height: 165px;
-    
     transition: all .3s;
     margin-left: 40px;
+    cursor: pointer;
 }
 
 .nombre-plan-b {
@@ -1038,8 +1046,31 @@ header .navbar ul li ul li a:hover {
     font-size: 12px;
     margin-left: 20px;
 }
-
-
+.btnSiguiente {
+    background-color: #FB8300;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 15%;
+    border-radius: 15px;
+    font-size: 16px;
+    margin-left: 40%;
+}
+.btnFina{
+    background-color: #FB8300;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 15%;
+    border-radius: 15px;
+    font-size: 16px;
+    margin-left: 40%;
+    margin-top: 10%;
+}
 /* Ajustes adicionales para pantallas extremadamente pequeñas */
 @media (max-width: 480px) {
     .container-menu-pers {

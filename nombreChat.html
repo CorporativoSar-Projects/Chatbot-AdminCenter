@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/sty.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <title>Nombre</title>
+</head>
+
+<body>
+
+    <div class="rectangulo-container">
+        <img src="img/Rectangle.png" class="rectangulo" alt="Background Image">
+        <img src="img/logochiquito.png" width="70px" alt="Logo" class="img-logo-chiq">
+    </div>
+    <header>
+        <nav class="navbar">
+            <ul class="filas">
+                <li><a href="menu.html" class="txt-home">Home</a></li>
+                <li><a href="estilo.html">ChatBot para vacantes</a>
+                    <ul>
+                        <li><a href="#">Chatbot para pedidos</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">Crear nuevo Chatbot</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="user-dropdown">
+            <button class="btn-user"><img src="img/user.png" width="30" alt="User Icon"></button>
+            <div class="dropdown-content">
+
+                <div class="d-flex align-items-center px-3 user-info">
+                    <img src="img/user.png" width="40" alt="User Icon">
+                    <div class="div-user">
+                        <strong>Karla Durán</strong><br>
+                        <small>kduranc@giint...</small>
+                    </div>
+                </div>
+
+                <div class="dropdown-links">
+                    <div class="user-info">
+                        <a href="#">ChatBot para vacantes</a>
+                        <span>Plan Básico Mensual</span>
+                    </div>
+                    <div class="user-info">
+                        <a href="#">ChatBot para pedidos</a>
+                        <span>Plan Básico 3 Meses</span>
+                    </div>
+
+                    <a href="#">Cerrar Sesión</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container-prin">
+            <div class="container-bienv">
+                <img src="img/icons8.png" width="70px" alt="Welcome Icon">
+                <p class="txtBien">Ponle nombre a tu ChatBot</p>
+
+            </div>
+
+            <div>
+                <div class="txt-disena-chat">
+            
+                    <label class="label-nombrechat">Nombre del ChatBot</label><br>
+                    <input type="text" name="inp-nombre" id="inp-nombre" placeholder="ChatBot para cafeteria"
+                        class="input-nombre" required><br>
+
+                    <label class="label-nombrechat">Descripción</label><br>
+
+                    <input type="text" name="inp-nombre" id="inp-nombre" placeholder="Te ayuda es escoger tu bebida"
+                        class="input-nombre" required><br>
+                </div>
+
+
+            </div>
+
+            <button type="submit" id="btnFina" class="btnFina">Finalizar</button>
+        </div>
+    </main>
+
+    <!-- jQuery y Bootstrap JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>
