@@ -250,6 +250,7 @@ header .navbar ul li ul li a:hover {
     top: 50%;
     opacity: 1;
 }
+
 /* Estilo para el enlace activo */
 
 
@@ -356,13 +357,15 @@ header .navbar ul li ul li a:hover {
 
 .container-pers2 {
     margin-left: 20px;
-   
+
 
 }
+
 .container-pers3 {
     margin-left: 20px;
     margin-top: 20px
 }
+
 .container-despedida {
     margin-left: 20px;
     margin-top: 10px
@@ -375,7 +378,8 @@ header .navbar ul li ul li a:hover {
     height: 50px;
 }
 
-.txt-perso-chat,.txt-crea-conv {
+.txt-perso-chat,
+.txt-crea-conv {
     font-size: 27px;
     margin-bottom: 0;
 }
@@ -406,7 +410,8 @@ header .navbar ul li ul li a:hover {
     border-color: #D9D9D9;
     box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
 }
-.input-columna{
+
+.input-columna {
     width: 100%;
     height: 40px;
     padding: 12px 20px;
@@ -423,7 +428,8 @@ header .navbar ul li ul li a:hover {
     border-color: #D9D9D9;
     box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
 }
-.inp-mensaje-usuario{
+
+.inp-mensaje-usuario {
     width: 100%;
     height: 80px;
     padding: 12px 20px;
@@ -440,6 +446,7 @@ header .navbar ul li ul li a:hover {
     border-color: #D9D9D9;
     box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
 }
+
 /* Estilos para alinear los inputs de color y los círculos */
 
 
@@ -501,13 +508,14 @@ header .navbar ul li ul li a:hover {
 
 .txt-chatbot {
     font-size: 15px;
-    display: block;
     margin-block-start: 1em;
     margin-block-end: 1em;
     margin-inline-start: 0px;
     margin-inline-end: 0px;
     unicode-bidi: isolate;
+    
 }
+
 .chatbot-container {
     margin-left: 65%;
     position: absolute;
@@ -591,6 +599,7 @@ header .navbar ul li ul li a:hover {
     align-self: flex-start;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
     border-radius: 15px;
+    overflow-wrap: break-word;
 }
 
 .chatbot-buttons {
@@ -619,6 +628,61 @@ header .navbar ul li ul li a:hover {
 .chatbot-button:hover {
     background-color: var(--color-acento, #383838);
     color: var(--color-texto-hover, #ffffff);
+}
+
+.user-input-container {
+    display: flex;
+    width: 100%;
+    height: 11%;
+    justify-content: space-between;
+    padding: 8px;
+    background-color: #f4f4f4;
+    border-top: 1px solid #ccc;
+    margin-top: 20px;
+    font-size: 13px;
+    border-radius: 0 0 20px 20px;
+}
+
+.user-input-container input[type="text"] {
+    flex-grow: 1;
+    width: 73%;
+    padding: 8px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    transition: width 0.5s;
+}
+
+.user-input-container input[type="text"]:focus {
+    width: 70%;
+    /* Tamaño cuando el input está enfocado */
+}
+
+.user-input-container button {
+    padding: 8px 15px;
+    background-color: var(--color-primario, #e39842);
+    color: white;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+/* .user-input-container button:hover {
+    background-color: #0056b3;
+} */
+
+.user-input {
+    flex-grow: 1;
+    /* Permite que el input crezca y llene el espacio disponible */
+    margin-right: 10px
+}
+
+.user-input input {
+    flex: 1;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 5px;
 }
 
 .chatbot-footer {
@@ -693,7 +757,7 @@ header .navbar ul li ul li a:hover {
     height: 60px;
     border-radius: 50%;
     object-fit: cover;
-    
+
 }
 
 .chat-text {
@@ -734,7 +798,8 @@ header .navbar ul li ul li a:hover {
     width: 400px;
 
 }
-.nuevoTema{
+
+.nuevoTema {
     margin-left: 70px;
     font-size: 15px;
 }
@@ -759,7 +824,7 @@ header .navbar ul li ul li a:hover {
 
 }
 
-.errorMensaje{
+.errorMensaje {
     margin-left: 50px;
 }
 
@@ -793,21 +858,21 @@ header .navbar ul li ul li a:hover {
         inline-size: 80%;
     }
 
-  
+
 
 }
 
-/* Viasta Crea conversacion*/ 
-.boton1{
+/* Viasta Crea conversacion*/
+.boton1 {
     flex: 1;
     background-color: #F3F3F3;
     padding: 10px;
     margin: 8px 5px;
-    border:#D9D9D9;
+    border: #D9D9D9;
     cursor: pointer;
     border-radius: 15px;
     font-size: 13px;
-    text-align:left;
+    text-align: left;
     text-decoration: none;
     box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
     width: 30%;
@@ -816,13 +881,13 @@ header .navbar ul li ul li a:hover {
 }
 
 
-.container-crear-conver{
+.container-crear-conver {
     margin-left: 35%;
     position: absolute;
     top: 47%;
 }
 
-.botones-conversacion{
+.botones-conversacion {
     margin-top: 20px;
 }
 
@@ -830,10 +895,10 @@ header .navbar ul li ul li a:hover {
 .boton1.active {
     background-color: #FFE6A7;
     color: #000000;
-   
+
 }
 
-/*Vista planes*/ 
+/*Vista planes*/
 
 
 .container-plan-precio {
@@ -841,7 +906,7 @@ header .navbar ul li ul li a:hover {
     align-items: center;
     justify-content: space-between;
     margin-bottom: 15px;
-   
+
 }
 
 .container-plan-basico {
@@ -856,12 +921,13 @@ header .navbar ul li ul li a:hover {
     cursor: pointer;
 }
 
-.container-precios, .container-precios-i
-,.container-precios-a {
+.container-precios,
+.container-precios-i,
+.container-precios-a {
     display: flex;
     align-items: center;
     width: 10%;
-   
+
     margin: 0;
 }
 
@@ -881,6 +947,7 @@ header .navbar ul li ul li a:hover {
     margin-right: 30px;
     cursor: pointer;
 }
+
 .container-plan-inter-precio {
     background-color: #FFFFFF;
     border: #B6B6B6 1px solid;
@@ -948,12 +1015,14 @@ header .navbar ul li ul li a:hover {
     margin-bottom: 30px;
 }
 
-.container-precio-b, .container-precio-i{
+.container-precio-b,
+.container-precio-i {
     margin-top: 20px;
     text-align: center;
     font-size: 12px;
 }
-.container-precio-a{
+
+.container-precio-a {
     margin-top: 5px;
     text-align: center;
     font-size: 12px;
@@ -1027,7 +1096,9 @@ header .navbar ul li ul li a:hover {
     margin-top: 15px;
 }
 
-.txt-mensual-b, .txt-mensual-i, .txt-mensual-a  {
+.txt-mensual-b,
+.txt-mensual-i,
+.txt-mensual-a {
     margin-top: 4px;
 }
 
@@ -1046,6 +1117,7 @@ header .navbar ul li ul li a:hover {
     font-size: 12px;
     margin-left: 20px;
 }
+
 .btnSiguiente {
     background-color: #FB8300;
     color: white;
@@ -1058,7 +1130,8 @@ header .navbar ul li ul li a:hover {
     font-size: 16px;
     margin-left: 45%;
 }
-.btnFina{
+
+.btnFina {
     background-color: #FB8300;
     color: white;
     padding: 14px 20px;
@@ -1071,6 +1144,7 @@ header .navbar ul li ul li a:hover {
     margin-left: 45%;
     margin-top: 10%;
 }
+
 /* Ajustes adicionales para pantallas extremadamente pequeñas */
 @media (max-width: 480px) {
     .container-menu-pers {
@@ -1112,7 +1186,7 @@ header .navbar ul li ul li a:hover {
 
         width: 800%;
         height: 40px;
-        
+
 
     }
 

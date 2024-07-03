@@ -2,17 +2,20 @@
 const txtSaludo = document.querySelector('#inp-saludo');
 const divCopiaSaludo = document.getElementById('txt-chatbot');
 
-// Función para ajustar el contenido del saludo
-txtSaludo.addEventListener('keyup', () => {
+ // Función para ajustar el contenido del saludo
+ txtSaludo.addEventListener('keyup', () => {
     divCopiaSaludo.innerHTML = txtSaludo.value;
-    
-    // Aplicar el mismo tamaño fijo a .chatbot-content
-    const chatbotContent = document.querySelector('.chatbot-content');
-    chatbotContent.style.width = '300px';
-    chatbotContent.style.height = '300px';
-    
+    // Guardar el saludo en el Local Storage
+    localStorage.setItem('saludoChatbot', txtSaludo.value);
+});
 
-    
+// Recuperar el saludo desde el Local Storage cuando la página se carga
+document.addEventListener('DOMContentLoaded', () => {
+    const saludoGuardado = localStorage.getItem('saludoChatbot');
+    if (saludoGuardado) {
+        txtSaludo.value = saludoGuardado;
+        divCopiaSaludo.innerHTML = saludoGuardado;
+    }
 });
 
 
