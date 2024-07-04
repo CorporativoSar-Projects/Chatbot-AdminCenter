@@ -26,24 +26,21 @@ h1 {
     height: calc(25% - 80px);
     z-index: -1;
     overflow: hidden;
-}
-
-.rectangulo {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    width: 100%;
-    height: auto;
-    transform: translateX(-50%);
-    min-height: 100%;
-    object-fit: cover;
+    background-image: url('img/Rectangle.png');
+    background-size: cover; /* Cover para que la imagen cubra todo el contenedor */
+    background-position: center; /* Centrar la imagen */
 }
 
 .img-logo-chiq {
     position: absolute;
     top: 10px;
     left: 10px;
+    width: 70px;
+    z-index: 1;
 }
+
+
+
 
 header {
     position: absolute;
@@ -745,11 +742,11 @@ header .navbar ul li ul li a:hover {
 }
 
 .chat-toggle {
-    position: absolute;
-    right: 20px;
-    bottom: 20px;
-    cursor: pointer;
-    z-index: 1000;
+    position: fixed;
+  right: 20px;
+  bottom: 20px;
+  cursor: pointer;
+  z-index: 1000; 
 }
 
 .toggle-icon {
@@ -761,7 +758,7 @@ header .navbar ul li ul li a:hover {
 }
 
 .chat-text {
-    position: absolute;
+    
     right: 70px;
     bottom: 9px;
     white-space: nowrap;
@@ -828,39 +825,7 @@ header .navbar ul li ul li a:hover {
     margin-left: 50px;
 }
 
-/* Media Queries para responsividad */
-@media (max-width: 768px) {
 
-    .menu-pers ul {
-        flex-direction: column;
-    }
-
-    .menu-pers ul li {
-        margin: 5px 0;
-        padding: 10px;
-        font-size: 16px;
-    }
-
-    .chatbot-principal {
-        position: relative;
-        margin-left: 0;
-        margin-top: 20px;
-        top: auto;
-        right: 60%;
-        width: 100%;
-        height: auto;
-        max-width: 90%;
-        margin-right: auto;
-        margin-left: auto;
-    }
-
-    .container-chats {
-        inline-size: 80%;
-    }
-
-
-
-}
 
 /* Viasta Crea conversacion*/
 .boton1 {
@@ -1145,6 +1110,58 @@ header .navbar ul li ul li a:hover {
     margin-top: 10%;
 }
 
+/* Media Queries para responsividad */
+@media (max-width: 1300px) {
+
+    .menu-pers ul {
+        flex-direction: column;
+    }
+
+    .menu-pers ul li {
+        margin: 5px 0;
+        padding: 10px;
+        font-size: 16px;
+    }
+
+    .chatbot-principal {
+        position: relative;
+        margin-left: 0;
+        margin-top: 20px;
+        top: auto;
+        right: 60%;
+        width: 100%;
+        height: auto;
+
+    }
+
+    
+    .container-chats {
+        inline-size: 80%;
+    }
+
+    .chat-toggle {
+        position: relative;
+        margin-left: 15px;
+        margin-top: 20px;
+        top: 5px;
+        width: 100%;
+        height: auto;
+    }
+
+    .toggle-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        object-fit: cover;
+    
+    }
+    
+    
+
+
+
+
+}
 /* Ajustes adicionales para pantallas extremadamente pequeñas */
 @media (max-width: 480px) {
     .container-menu-pers {
@@ -1176,15 +1193,13 @@ header .navbar ul li ul li a:hover {
         width: 15%;
     }
 
-    .rectangulo-container {
-        height: calc(23% - 80px);
-    }
+   
 
     .input-nombre,
     .input-saludo,
     .input-burbuja {
 
-        width: 800%;
+        width: 90%;
         height: 40px;
 
 
