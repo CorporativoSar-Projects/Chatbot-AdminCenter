@@ -23,12 +23,15 @@ h1 {
     top: 0;
     left: 0;
     width: 100%;
-    height: calc(25% - 80px);
+    background: rgb(255, 183, 3);
+    background: linear-gradient(90deg, rgba(255, 183, 3, 1) 27%, rgba(251, 131, 0, 1) 100%);
+    height: 80px;
     z-index: -1;
     overflow: hidden;
-    background-image: url('img/Rectangle.png');
-    background-size: cover; /* Cover para que la imagen cubra todo el contenedor */
-    background-position: center; /* Centrar la imagen */
+    background-size: cover;
+    /* Cover para que la imagen cubra todo el contenedor */
+    background-position: center;
+    /* Centrar la imagen */
 }
 
 .img-logo-chiq {
@@ -510,7 +513,7 @@ header .navbar ul li ul li a:hover {
     margin-inline-start: 0px;
     margin-inline-end: 0px;
     unicode-bidi: isolate;
-    
+
 }
 
 .chatbot-container {
@@ -743,10 +746,10 @@ header .navbar ul li ul li a:hover {
 
 .chat-toggle {
     position: fixed;
-  right: 20px;
-  bottom: 20px;
-  cursor: pointer;
-  z-index: 1000; 
+    right: 20px;
+    bottom: 20px;
+    cursor: pointer;
+    z-index: 1000;
 }
 
 .toggle-icon {
@@ -758,7 +761,7 @@ header .navbar ul li ul li a:hover {
 }
 
 .chat-text {
-    
+
     right: 70px;
     bottom: 9px;
     white-space: nowrap;
@@ -850,6 +853,42 @@ header .navbar ul li ul li a:hover {
     margin-left: 35%;
     position: absolute;
     top: 47%;
+}
+
+.inp-mensaje-usuario-crear {
+    width: 100%;
+    height: 80px;
+    padding: 12px 20px;
+    margin: 8px 0;
+    border: none;
+    display: inline-block;
+    background-color: #FFFFFF;
+    box-sizing: border-box;
+    border-radius: 15px;
+    text-decoration: none;
+    outline: none;
+    transition: opacity 0.2s ease;
+    opacity: 1;
+    border-color: #D9D9D9;
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+.input-columna-crear {
+    width: 100%;
+    height: 40px;
+    padding: 12px 20px;
+    margin: 8px 0;
+    border: none;
+    display: inline-block;
+    background-color: #FFFFFF;
+    box-sizing: border-box;
+    border-radius: 15px;
+    text-decoration: none;
+    outline: none;
+    transition: opacity 0.2s ease;
+    opacity: 1;
+    border-color: #D9D9D9;
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
 }
 
 .botones-conversacion {
@@ -1110,6 +1149,135 @@ header .navbar ul li ul li a:hover {
     margin-top: 10%;
 }
 
+/*MODAL*/
+/* The Modal (background) */
+.modal {
+
+    padding-top: 100px;
+    /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+}
+
+/* Modal Content */
+
+
+.modal-content {
+    border-radius: 15px;
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    margin-top: 7%;
+    padding: 0;
+    border: 1px solid #D9D9D9;
+    width: 40%;
+    height: 50%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s;
+
+}
+
+/* Add Animation */
+@-webkit-keyframes animatetop {
+    from {
+        top: -300px;
+        opacity: 0
+    }
+
+    to {
+        top: 0;
+        opacity: 1
+    }
+}
+
+@keyframes animatetop {
+    from {
+        top: -300px;
+        opacity: 0
+    }
+
+    to {
+        top: 0;
+        opacity: 1
+    }
+}
+
+/* The Close Button */
+.close {
+    color: #000;
+    float: right;
+    font-size: 28px;
+
+}
+
+
+.close:hover,
+.close:focus {
+    color: #e39842;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-header {
+    padding: 6px 16px;
+    background-color: #EAEAEA;
+    color: #000000;
+    border-radius: 15px 15px 0 0;
+}
+
+.modal-body {
+    padding: 15px 16px;
+}
+
+.modal-footer {
+    padding: 6px 16px;
+    background-color: #FFB703;
+    color: white;
+    border-radius: 0 0 15px 15px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    cursor: pointer;
+}
+
+.input-link {
+
+    width: 70%;
+    height: 30px;
+    padding: 12px 20px;
+    margin: 8px 0;
+    border: none;
+    display: inline-block;
+    background-color: #FFFFFF;
+    box-sizing: border-box;
+    border-radius: 15px;
+    text-decoration: none;
+    outline: none;
+    transition: opacity 0.2s ease;
+    opacity: 1;
+    border-color: #D9D9D9;
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
+}
+.copy-button {
+    background-color: #FB8300;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    padding: 6px 10px;
+    margin-left: 15px;
+    cursor: pointer;
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+.copy-button:hover {
+    background-color: #E64A19;
+}
 /* Media Queries para responsividad */
 @media (max-width: 1300px) {
 
@@ -1134,17 +1302,24 @@ header .navbar ul li ul li a:hover {
 
     }
 
-    
+    .chatbot-principal-desp {
+        position: relative;
+        margin-left: 0;
+        margin-top: 20px;
+        top: auto;
+        right: 35%;
+        width: 100%;
+        height: auto;
+    }
+
     .container-chats {
         inline-size: 80%;
     }
 
     .chat-toggle {
         position: relative;
-        margin-left: 15px;
-        margin-top: 20px;
-        top: 5px;
-        width: 100%;
+        margin-left: 45%;
+        margin-top: 30px;
         height: auto;
     }
 
@@ -1153,15 +1328,30 @@ header .navbar ul li ul li a:hover {
         height: 60px;
         border-radius: 50%;
         object-fit: cover;
-    
-    }
-    
-    
 
+    }
+
+    .container-crear-conver {
+        margin-left: 15px;
+        position: relative;
+        top: 80%;
+    }
+
+    .inp-mensaje-usuario-crear {
+        width: 90%;
+        height: 80px;
+
+    }
+
+    .input-columna-crear {
+        width: 90%;
+        height: 40px;
+    }
 
 
 
 }
+
 /* Ajustes adicionales para pantallas extremadamente pequeñas */
 @media (max-width: 480px) {
     .container-menu-pers {
@@ -1182,6 +1372,7 @@ header .navbar ul li ul li a:hover {
 
     }
 
+
     .container-chats {
         inline-size: 77%;
     }
@@ -1193,7 +1384,7 @@ header .navbar ul li ul li a:hover {
         width: 15%;
     }
 
-   
+
 
     .input-nombre,
     .input-saludo,
@@ -1203,6 +1394,13 @@ header .navbar ul li ul li a:hover {
         height: 40px;
 
 
+    }
+
+    .chat-toggle {
+        position: relative;
+        margin-left: 20%;
+        margin-top: 30px;
+        height: auto;
     }
 
 }

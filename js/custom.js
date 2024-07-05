@@ -65,7 +65,3 @@ function previsualizarImagen() {
         chatbotIcon.src = 'img/logochiquito.png'; // Imagen por defecto
     }
 }
-
-
-
-

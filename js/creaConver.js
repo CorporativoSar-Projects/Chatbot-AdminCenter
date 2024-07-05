@@ -18,7 +18,7 @@ function impMenu1(event) {
             <label class="label-nombrechat2">Escribe el mensaje que verá el usuario al
                 iniciar la conversación</label><br>
             <input type="text" name="inp-mensaje-usuario" id="inp-mensaje-usuario" placeholder="Escribe"
-                class="inp-mensaje-usuario" required><br>
+                class="inp-mensaje-usuario-crear" required><br>
 
             <div class="container-archivo">
                 <label for="archivoLogotipo">Selecciona un archivo</label><br>
@@ -35,7 +35,7 @@ function impMenu1(event) {
 
             <label class="label-nombrechat">Define el nombre de la columna </label><br>
             <input type="text" name="inp-columna" id="inp-columna" placeholder="Escribe"
-                class="input-columna" required><br>
+                class="input-columna-crear" required><br>
         </div>
     `;
     document.getElementById("imprimir").innerHTML = stringMenu;
@@ -49,7 +49,7 @@ function impMenu2(event) {
             <label class="label-nombrechat2">2Escribe el mensaje que verá el usuario al
                 iniciar la conversación</label><br>
             <input type="text" name="inp-mensaje-usuario" id="inp-mensaje-usuario" placeholder="Escribe"
-                class="inp-mensaje-usuario" required><br>
+                class="inp-mensaje-usuario-crear" required><br>
 
             <div class="container-archivo">
                 <label for="archivoLogotipo">Selecciona un archivo</label><br>
@@ -66,7 +66,7 @@ function impMenu2(event) {
 
             <label class="label-nombrechat">Define el nombre de la columna </label><br>
             <input type="text" name="inp-columna" id="inp-columna" placeholder="Escribe"
-                class="input-columna" required><br>
+                class="input-columna-crear" required><br>
         </div>
     `;
     document.getElementById("imprimir").innerHTML = stringMenu;
@@ -80,7 +80,7 @@ function impMenu3(event) {
             <label class="label-nombrechat2">3Escribe el mensaje que verá el usuario al
                 iniciar la conversación</label><br>
             <input type="text" name="inp-mensaje-usuario" id="inp-mensaje-usuario" placeholder="Escribe"
-                class="inp-mensaje-usuario" required><br>
+                class="inp-mensaje-usuario-crear" required><br>
 
             <div class="container-archivo">
                 <label for="archivoLogotipo">Selecciona un archivo</label><br>
@@ -97,7 +97,7 @@ function impMenu3(event) {
 
             <label class="label-nombrechat">Define el nombre de la columna </label><br>
             <input type="text" name="inp-columna" id="inp-columna" placeholder="Escribe"
-                class="input-columna" required><br>
+                class="input-columna-crear" required><br>
         </div>
     `;
     document.getElementById("imprimir").innerHTML = stringMenu;
