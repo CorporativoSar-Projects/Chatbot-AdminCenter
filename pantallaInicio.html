@@ -17,7 +17,9 @@
 
     <header>
         <div class="user-dropdown">
-            <button class="btn-user"><img src="img/user.png" width="30" alt="User Icon"></button>
+            <div class="cont-btn-user">
+                <button class="btn-user"><img src="img/user.png" width="30" alt="User Icon"></button>
+           </div>
             <div class="dropdown-content">
                 <div class="d-flex align-items-center px-3 user-info">
                     <img src="img/user.png" width="40" alt="User Icon">
@@ -81,7 +83,7 @@
                         <label class="label-nombrechat">Mensaje de saludo</label><br>
                         <input type="text" name="inp-saludo" id="inp-saludo"
                             placeholder="¡Saludos! Soy JobHelper, tu guía virtual en el mundo laboral."
-                            class="input-saludo" required><br>
+                            class="input-saludo" minlength="2" maxlength="80"  required><br>
 
                         <div class="container-conversacion">
                             <div class="asi-conversacion">
@@ -89,7 +91,8 @@
                                 <ul id="listaTemas">
                                     <li class="tema-item">
                                         <input type="text" name="inp-conversa" class="inp-conversa"
-                                            placeholder="Buscar vacantes por categoría" required>
+                                            placeholder="Buscar vacantes por categoría" 
+                                            minlength="2" maxlength="28" required>
                                         <button class="btn-borrar" onclick="eliminarTema(this)">
                                             <img src="img/trash.png" width="20" alt="Delete Topic">
                                         </button>

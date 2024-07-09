@@ -12,31 +12,21 @@
 
 <body>
 
-    <div class="rectangulo-container"> 
-        
+    <div class="rectangulo-container">
+
         <img src="img/logochiquito.png" width="70px" alt="Logo" class="img-logo-chiq">
     </div>
     <header>
-        <!-- <nav class="navbar">
-            <ul class="filas">
-                <li><a href="#" class="txt-home">Home</a></li>
-                <li><a href="#">ChatBot para vacantes</a>
-                    <ul>
-                        <li><a href="#">Chatbot para pedidos</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#">Crear nuevo Chatbot</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </nav> -->
 
         <div class="user-dropdown">
-            <button class="btn-user"><img src="img/user.png" width="30" alt="User Icon"></button>
+            <div class="cont-btn-user">
+                <button class="btn-user"><img src="img/user.png" width="30" alt="User Icon"></button>
+           </div>
             <div class="dropdown-content">
 
                 <div class="d-flex align-items-center px-3 user-info">
                     <img src="img/user.png" width="40" alt="User Icon">
-                    <div class="div-user">
+                    <div class="div-user"> 
                         <strong>Karla Durán</strong><br>
                         <small>kduranc@giint...</small>
                     </div>
@@ -95,7 +85,7 @@
                     <div>
                         <label class="label-nombrechat">Nombre visible de tu ChatBot</label><br>
                         <input type="text" name="inp-nombre" id="inp-nombre" placeholder="JobHelper"
-                            class="input-nombre" required><br>
+                            class="input-nombre" minlength="2" maxlength="10" required><br>
 
                         <div class="container-colors">
                             <div class="nombre-colord">
@@ -176,10 +166,10 @@
                                     <button class="chatbot-button">Seguimiento de mi postulación</button>
                                 </div>
                             </div>
-                            <div id="user-input-container" class="user-input-container" >
+                            <div id="user-input-container" class="user-input-container">
                                 <input type="text" id="user-input" placeholder="Escribe aquí tu respuesta...">
-                                <button >Enviar</button>
-                              </div>
+                                <button>Enviar</button>
+                            </div>
                         </div>
                     </div>
 
@@ -193,7 +183,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/custom.js"></script>
 
-
+    
 
 </body>
 
