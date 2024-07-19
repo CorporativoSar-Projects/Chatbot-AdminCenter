@@ -17,7 +17,10 @@ h1 {
 .txt-home {
     font-weight: bold;
 }
-
+.negritas{
+    font-size: 10px;
+    font-weight: bold;
+}
 .rectangulo-container {
     position: absolute;
     top: 0;
@@ -139,9 +142,8 @@ header .navbar ul li ul li a:hover {
 
 .cont-btn-user{
  width: 50px;
-
- height: 80px;
-
+ height: 55px;
+ cursor: pointer;
 }
 
 .user-dropdown {
@@ -244,8 +246,14 @@ header .navbar ul li ul li a:hover {
 
 .menu-pers ul li a {
     text-decoration: none;
-    color: #FFF;
+    color: #777;
 }
+.estas {
+    background: #FFE6A7;
+    border-radius: 20px;
+    color: #777;
+
+  }
 
 /* Efecto de hover */
 .menu-pers ul li a::after {
@@ -305,10 +313,10 @@ header .navbar ul li ul li a:hover {
 
 
 .container-btn-cerrar-guar {
-    margin-left: 38%;
+    margin-left: 33%;
     display: flex;
     justify-content: flex-end;
-    width: 35%;
+    width: 40%;
 }
 
 .btnCerrar,
@@ -407,6 +415,9 @@ header .navbar ul li ul li a:hover {
     margin-bottom: 0;
 }
 
+.container-archivo {
+    margin-top: 10px
+}
 
 .label-nombrechat {
     margin-top: 10px
@@ -476,15 +487,27 @@ header .navbar ul li ul li a:hover {
 .color-selector {
     display: flex;
     margin-bottom: 15px;
-    margin-top: 20px;
+    margin-top: 5px;
 }
 
 #colorPrimario,
 #colorAcento,
 #colorSecundario,
-#colorTexto {
-
-    border-color: #ffffff;
+#colorTexto, #colorPrimarioBurbuja, #colorTextoBurbuja {
+    width: 120px;
+    height: 40px;
+    padding: 12px 20px;
+    margin: 8px 0;
+    border: none;
+    background-color: #FFFFFF;
+    box-sizing: border-box;
+    border-radius: 15px;
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+    opacity: 1;
+    border-color: #D9D9D9;
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
+   
 }
 
 .color-circle {
@@ -493,6 +516,7 @@ header .navbar ul li ul li a:hover {
     border-radius: 50%;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
     margin-left: 50px;
+    margin-top: 13px;
 }
 
 .container-colors,
@@ -507,6 +531,7 @@ header .navbar ul li ul li a:hover {
 .asi-conversacion {
     /* margin: 10px; */
     min-width: 200px;
+    margin-right: 45px;
 }
 
 
@@ -784,7 +809,6 @@ header .navbar ul li ul li a:hover {
 }
 
 .chat-text {
-
     right: 70px;
     bottom: 9px;
     white-space: nowrap;
@@ -796,7 +820,7 @@ header .navbar ul li ul li a:hover {
     background-color: var(--colorPrimarioBurbuja, #e39842);
     border: none;
     border-radius: 20px;
-    color: black;
+    color: var(--colorTextoBurbuja, #000000);
     font-family: Arial, Helvetica, sans-serif;
     font-size: 14px;
     cursor: pointer;
@@ -1413,9 +1437,13 @@ header .navbar ul li ul li a:hover {
         display: flex;
         justify-content: flex-end;
         width: 15%;
+        
     }
 
-
+    .btnContinuar,.btnContinuar, 
+    .btnCerrar, .btnGuardarS{
+        font-size: 8px;
+    }
 
     .input-nombre,
     .input-saludo,

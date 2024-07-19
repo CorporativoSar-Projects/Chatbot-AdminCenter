@@ -16,7 +16,7 @@ function impMenu1(event) {
     var stringMenu = `
         <div class="container-crear-conver">
             <label class="label-nombrechat2">Escribe el mensaje que verá el usuario al
-                iniciar la conversación</label><br>
+                iniciar la conversación 1</label><br>
             <input type="text" name="inp-mensaje-usuario" id="inp-mensaje-usuario" placeholder="Escribe"
                 class="inp-mensaje-usuario-crear" required><br>
 
@@ -33,7 +33,13 @@ function impMenu1(event) {
                 </div>
             </div>
 
-            <label class="label-nombrechat">Define el nombre de la columna </label><br>
+            <label class="label-nombrechat">URL del informe</label><br>
+            <input type="text" name="inp-columna" id="inp-url" placeholder="Escribe"
+                class="input-columna-crear" required><br>
+
+            <label class="label-nombrechat">Nombre de columna </label><br>
+            <p class="negritas">(Columna del informe que contiene los datos donde el 
+            chatbot realizará la búsqueda de información)</p>
             <input type="text" name="inp-columna" id="inp-columna" placeholder="Escribe"
                 class="input-columna-crear" required><br>
         </div>
@@ -46,8 +52,8 @@ function impMenu2(event) {
     // Contenido de la función impMenu2
     var stringMenu = `
         <div class="container-crear-conver">
-            <label class="label-nombrechat2">2Escribe el mensaje que verá el usuario al
-                iniciar la conversación</label><br>
+            <label class="label-nombrechat2">Escribe el mensaje que verá el usuario al
+                iniciar la conversación 2</label><br>
             <input type="text" name="inp-mensaje-usuario" id="inp-mensaje-usuario" placeholder="Escribe"
                 class="inp-mensaje-usuario-crear" required><br>
 
@@ -64,7 +70,13 @@ function impMenu2(event) {
                 </div>
             </div>
 
-            <label class="label-nombrechat">Define el nombre de la columna </label><br>
+              <label class="label-nombrechat">URL del informe</label><br>
+            <input type="text" name="inp-columna" id="inp-url" placeholder="Escribe"
+                class="input-columna-crear" required><br>
+
+            <label class="label-nombrechat">Nombre de columna </label><br>
+            <p class="negritas">(Columna del informe que contiene los datos donde el 
+            chatbot realizará la búsqueda de información)</p>
             <input type="text" name="inp-columna" id="inp-columna" placeholder="Escribe"
                 class="input-columna-crear" required><br>
         </div>
@@ -77,8 +89,8 @@ function impMenu3(event) {
     // Contenido de la función impMenu3
     var stringMenu = `
         <div class="container-crear-conver">
-            <label class="label-nombrechat2">3Escribe el mensaje que verá el usuario al
-                iniciar la conversación</label><br>
+            <label class="label-nombrechat2">Escribe el mensaje que verá el usuario al
+                iniciar la conversación 3</label><br>
             <input type="text" name="inp-mensaje-usuario" id="inp-mensaje-usuario" placeholder="Escribe"
                 class="inp-mensaje-usuario-crear" required><br>
 
@@ -95,7 +107,13 @@ function impMenu3(event) {
                 </div>
             </div>
 
-            <label class="label-nombrechat">Define el nombre de la columna </label><br>
+            <label class="label-nombrechat">URL del informe</label><br>
+            <input type="text" name="inp-columna" id="inp-url" placeholder="Escribe"
+                class="input-columna-crear" required><br>
+
+            <label class="label-nombrechat">Nombre de columna </label><br>
+            <p class="negritas">(Columna del informe que contiene los datos donde el 
+            chatbot realizará la búsqueda de información)</p>
             <input type="text" name="inp-columna" id="inp-columna" placeholder="Escribe"
                 class="input-columna-crear" required><br>
         </div>
