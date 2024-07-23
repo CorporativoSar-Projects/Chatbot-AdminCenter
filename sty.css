@@ -17,10 +17,7 @@ h1 {
 .txt-home {
     font-weight: bold;
 }
-.negritas{
-    font-size: 10px;
-    font-weight: bold;
-}
+
 .rectangulo-container {
     position: absolute;
     top: 0;
@@ -74,7 +71,7 @@ header .navbar ul {
 header .navbar ul li {
     position: relative;
     float: left;
-
+    
 }
 
 header .navbar ul li a {
@@ -88,7 +85,7 @@ header .navbar ul li a {
 header .navbar ul li a:hover {
     padding: 10px;
     display: block;
-
+    
 }
 
 header .navbar ul li ul {
@@ -99,12 +96,12 @@ header .navbar ul li ul {
     background-color: #FFB703;
     display: none;
     margin-top: 16px;
-
+   
 }
 
 header .navbar ul li ul li {
     width: 100%;
-
+    
 }
 
 /* Estilos para la línea divisora en el menú */
@@ -142,13 +139,14 @@ header .navbar ul li ul li a:hover {
 
 .cont-btn-user{
  width: 50px;
- height: 55px;
- cursor: pointer;
+
+ height: 80px;
+
 }
 
 .user-dropdown {
     position: absolute;
-    top: 5px;
+   top: 5px;
     right: 10px;
 }
 
@@ -164,11 +162,11 @@ header .navbar ul li ul li a:hover {
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
     z-index: 1;
     overflow: hidden;
-
+   
 }
 
 .user-dropdown:hover .dropdown-content {
-
+   
     display: block;
 }
 
@@ -177,7 +175,7 @@ header .navbar ul li ul li a:hover {
     background-color: #FB8300;
     color: white;
     border-bottom: 1px solid #FFFFFF;
-
+    
 }
 
 .div-user {
@@ -246,14 +244,8 @@ header .navbar ul li ul li a:hover {
 
 .menu-pers ul li a {
     text-decoration: none;
-    color: #777;
+    color: #FFF;
 }
-.estas {
-    background: #FFE6A7;
-    border-radius: 20px;
-    color: #777;
-
-  }
 
 /* Efecto de hover */
 .menu-pers ul li a::after {
@@ -490,21 +482,9 @@ header .navbar ul li ul li a:hover {
 #colorPrimario,
 #colorAcento,
 #colorSecundario,
-#colorTexto, #colorPrimarioBurbuja, #colorTextoBurbuja {
-    width: 120px;
-    height: 40px;
-    padding: 12px 20px;
-    margin: 8px 0;
-    border: none;
-    background-color: #FFFFFF;
-    box-sizing: border-box;
-    border-radius: 15px;
-    text-decoration: none;
-    transition: opacity 0.2s ease;
-    opacity: 1;
-    border-color: #D9D9D9;
-    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
-   
+#colorTexto {
+
+    border-color: #ffffff;
 }
 
 .color-circle {
@@ -1001,7 +981,7 @@ header .navbar ul li ul li a:hover {
     padding: 5px;
     border-radius: 15px;
     width: 90%;
-    height: 145px;
+    height: 135px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1017,7 +997,7 @@ header .navbar ul li ul li a:hover {
     padding: 5px;
     border-radius: 15px;
     width: 90%;
-    height: 180px;
+    height: 165px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1082,7 +1062,7 @@ header .navbar ul li ul li a:hover {
     padding: 10px;
     border-radius: 15px;
     width: 45%;
-    height: 145px;
+    height: 135px;
     transition: all .3s;
     margin-left: 40px;
     cursor: pointer;
@@ -1094,7 +1074,7 @@ header .navbar ul li ul li a:hover {
     padding: 10px;
     border-radius: 15px;
     width: 45%;
-    height: 180px;
+    height: 165px;
     transition: all .3s;
     margin-left: 40px;
     cursor: pointer;
@@ -1150,29 +1130,19 @@ header .navbar ul li ul li a:hover {
 }
 
 
-.container-lista-benefi-b,
-.container-lista-benefi-i,
-.container-lista-benefi-a {
+.container-lista-benefi-b {
     margin-left: 135px;
     margin-top: 10px;
 }
 
-
-/* .container-lista-benefi {
+.container-lista-benefi {
     float: right;
     margin-top: 10px;
-} */
+}
 
 .lista-benefi {
     font-size: 12px;
     margin-left: 20px;
-}
-
-.container-btn {
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-
 }
 
 .btnSiguiente {
@@ -1182,10 +1152,14 @@ header .navbar ul li ul li a:hover {
     margin: 8px 0;
     border: none;
     cursor: pointer;
-    width: 10%;
+    width: 15%;
     border-radius: 15px;
     font-size: 16px;
+    margin-left: 45%;
     text-decoration: none;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
 
 .btnFina {
@@ -1205,11 +1179,6 @@ header .navbar ul li ul li a:hover {
     align-items: center;
     text-align: center;
 }
-.selected {
-    border: 2px solid #007bff;
-    background-color: #e9f7fe;
-}
-
 
 /*MODAL*/
 /* The Modal (background) */
@@ -1227,7 +1196,7 @@ header .navbar ul li ul li a:hover {
 /* Modal Content */
 
 
-.modal-content{
+.modal-content {
     border-radius: 15px;
     position: relative;
     background-color: #fefefe;
@@ -1243,22 +1212,6 @@ header .navbar ul li ul li a:hover {
     animation-name: animatetop;
     animation-duration: 0.4s;
 
-}
-.modal-dialog {
-    border-radius: 15px;
-    position: relative;
-    background-color: #fefefe;
-    margin: auto;
-    margin-top: 7%;
-    padding: 0;
-    border: 1px solid #D9D9D9;
-    width: 40%;
-    height: 43%;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    -webkit-animation-name: animatetop;
-    -webkit-animation-duration: 0.4s;
-    animation-name: animatetop;
-    animation-duration: 0.4s;
 }
 
 /* Add Animation */
@@ -1342,7 +1295,6 @@ header .navbar ul li ul li a:hover {
     border-color: #D9D9D9;
     box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
 }
-
 .copy-button {
     background-color: #FB8300;
     color: white;
@@ -1357,7 +1309,6 @@ header .navbar ul li ul li a:hover {
 .copy-button:hover {
     background-color: #E64A19;
 }
-
 /* Media Queries para responsividad */
 @media (max-width: 1300px) {
 
@@ -1428,71 +1379,7 @@ header .navbar ul li ul li a:hover {
         height: 40px;
     }
 
-    .container-plan-precio {
-        flex-direction: column;
-    }
 
-    .container-plan-basico {
-        width: 90%;
-        height: 130px;
-        margin-left: 0;
-        margin-right: 0;
-        margin-bottom: 15px;
-    }
-
-    .container-plan-inter {
-        width: 90%;
-        height: 195px;
-        margin-left: 0;
-        margin-right: 0;
-        margin-bottom: 15px;
-    }
-
-
-    .container-plan-ava {
-        width: 90%;
-        height: 260px;
-        margin-left: 0;
-        margin-right: 0;
-        margin-bottom: 15px;
-    }
-
-    .container-precios,
-    .container-precios-i,
-    .container-precios-a {
-        width: 50%;
-        margin-left: 0;
-        margin-right: 0;
-        margin-bottom: 15px;
-    }
-
-    .container-plan-inter-precio {
-        height: 100px;
-    }
-
-    .container-plan-avan-precio {
-        height: 120px;
-    }
-
-    .container-btn {
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-
-    }
-
-    .btnSiguiente {
-        background-color: #FB8300;
-        color: white;
-        padding: 14px 20px;
-        margin: 8px 0;
-        border: none;
-        cursor: pointer;
-        width: 25%;
-        border-radius: 15px;
-        font-size: 16px;
-        text-decoration: none;
-    }
 
 }
 
@@ -1526,13 +1413,9 @@ header .navbar ul li ul li a:hover {
         display: flex;
         justify-content: flex-end;
         width: 15%;
-        
     }
 
-    .btnContinuar,.btnContinuar, 
-    .btnCerrar, .btnGuardarS{
-        font-size: 8px;
-    }
+
 
     .input-nombre,
     .input-saludo,
@@ -1551,51 +1434,4 @@ header .navbar ul li ul li a:hover {
         height: auto;
     }
 
-    .container-plan-basico {
-        width: 90%;
-        height: 130px;
-        margin-left: 0;
-        margin-right: 0;
-        margin-bottom: 15px;
-    }
-
-    .container-plan-inter {
-        width: 90%;
-        height: 220px;
-        margin-left: 0;
-        margin-right: 0;
-        margin-bottom: 15px;
-    }
-
-
-    .container-plan-ava {
-        width: 90%;
-        height: 290px;
-        margin-left: 0;
-        margin-right: 0;
-        margin-bottom: 15px;
-    }
-
-    .container-btn {
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-
-    }
-
-    .btnSiguiente {
-        background-color: #FB8300;
-        color: white;
-        padding: 14px 20px;
-        margin: 8px 0;
-        border: none;
-        cursor: pointer;
-        width: 20%;
-        border-radius: 15px;
-        font-size: 16px;
-        text-decoration: none;
-    }
-
 }
-/* Custom styles for the modal */
-
