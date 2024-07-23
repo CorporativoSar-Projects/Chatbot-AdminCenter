@@ -15,7 +15,6 @@ h1 {
     color: #FFB703;
     font-size: 40px;
     font-weight: bold;
-
 }
 
 .txtGii {
@@ -24,7 +23,6 @@ h1 {
     margin-left: 70%;
     margin-top: 10px;
     font-weight: bold;
-    
 }
 
 .contIn {
@@ -52,7 +50,6 @@ h1 {
     outline: none;
     transition: opacity 0.2s ease;
     opacity: 1;
-
 }
 
 .btnSesion {
@@ -79,25 +76,12 @@ button:hover {
     width: 80%;
     max-width: 600px;
     /* Máximo ancho para pantallas grandes */
-
 }
-
 
 .vector {
-
     max-width: 100%;
     display: flex;
-
 }
-/* .imgLogo {
-    position: absolute;
-    top: 50px;
-    right: 0;
-    border-right: 0;
-    margin: 0 auto;
-    width: 40%;
-    height: 70%;
-} */
 
 .imgLogo {
     position: absolute;
@@ -109,10 +93,7 @@ button:hover {
     height: 65%;
 }
 
-
-
 .imgVect {
-
     position: absolute;
     top: 0;
     right: 0;
@@ -123,8 +104,6 @@ button:hover {
 }
 
 /*menu*/
-
-
 .barra-menu {
     position: relative;
     background: url('img/Rectangle.png') no-repeat center center / cover;
@@ -147,7 +126,6 @@ button:hover {
     min-width: 1200px;
     height: 100%;
     object-fit: cover;
-
 }
 
 .encabezado {
@@ -192,15 +170,12 @@ button:hover {
     align-items: center;
     margin-right: 10px;
     margin-bottom: 15px;
-
 }
 
 .btn-user {
     position: relative;
     z-index: 1100;
 }
-
-
 
 .txt-home {
     font-weight: bold;
@@ -268,44 +243,98 @@ button:hover {
 }
 
 @media (max-width: 768px) {
-
+    body,
+    html {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+.login-container{
+    width: 300%;
+}
+    .contIn {
+    
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+    }
+    .titleIn{
+        
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+    }
 
     .imgLogo {
-        max-width: 50%;
-        margin-top: 20%;
+        position: absolute;
+        top: 10px;
+        right: 80%;
+        width: 70px; 
+        height: 70px;
+    }
+
+    .vector .imgVect {
+        display: none;
+    }
+
+    .txtUsu,
+    .txtpsw {
+        width: 100%;
+    }
+    .btnSesion {
+        width: 30%;
+    }
+    
+
+    .txtGii {
+       width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 90%;
+        font-size: 15px;
+        color: #FFB703;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    body,
+    html {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .contIn {
+        width: 80%;
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+    }
+    .titleIn{
+        text-align: center;
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .imgLogo {
+        position: absolute;
+        top: 10px;
+        right: 80%;
+        width: 70px; 
+        height: 70px;
         
     }
 
     .btnSesion {
-
-        margin: 8px 0;
-        width: 30%;
-        padding: 10px;
-    }
-
-    .txtGii {
-        margin-left: 60%;
-        font-size: 15px;
-        text-align: center;
-   
-    }
-
-
-}
-
-@media (max-width: 480px) {
-
-    .btnSesion {
-
-        margin: 8px 0;
         width: 40%;
-        padding: 10px;
         margin-top: 20px;
     }
 
     .txtUsu,
     .txtpsw {
-        width: 40%;
-        height: 40px;
+        width: 100%;
     }
 }
+
