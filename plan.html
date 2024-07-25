@@ -241,36 +241,43 @@
 
                 </div>
             </div>
-            <!-- Modal -->
-            <div class="modal fade" id="planModal" tabindex="-1" aria-labelledby="planModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    
+            <div class="modal fade" id="planModalUnique" tabindex="-1" role="dialog" aria-labelledby="planModalLabelUnique" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-unique" role="document">
+                    <div class="modal-content modal-content2">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="planModalLabel">Confirmar selección</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <h5 class="modal-title" id="planModalLabelUnique">Términos y condiciones</h5>
+                            <span type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
-                            </button>
+                            </span>
                         </div>
-                        <div class="modal-body">
-                            <p id="selectedPlan"></p>
-                            <p id="selectedPrice"></p>
+                        <div class="modal-body modal-body-u">
+                            <div class="selected-info">
+                                <p id="selectedPlan"></p>
+                                <p id="selectedPrice"></p>
+                            </div>
+                            <iframe src="Terminos-y-Condiciones-de-Venta.pdf#toolbar=0" class="ifr"></iframe>
+                            <br>
+                            <div  class="check">
+                                 <input type="checkbox" id="acceptTerms"> <label for="acceptTerms">Aceptar</label>
+                            </div>
+                           
                         </div>
-                        <div class="modal-footer b">
+                        <div class="modal-footer modal-footer-b">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                            <!-- <button type="button" class="btn btn-primary" id="confirmSelection">Confirmar</button> -->
+                            <button type="button" class="btn btn-primary" id="confirmSelection" disabled>Continuar</button>
                         </div>
-                    
+                    </div>
                 </div>
             </div>
-
-
+            
 
 
 
             <div class="container-btn">
                 <button type="button" id="btnSiguiente" class="btnSiguiente" data-toggle="modal"
-                    data-target="#planModal">Siguiente</button>
+                    data-target="#planModalUnique">Siguiente</button>
             </div>
+
 
 
 
