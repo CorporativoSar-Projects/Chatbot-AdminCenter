@@ -19,12 +19,12 @@
         <nav class="navbar">
             <ul class="filas">
                 <li><a href="menu.html" class="txt-home">Home</a></li>
-                <li><a href="estilo.html">ChatBot para vacantes</a>
+                <!-- <li><a href="estilo.html">ChatBot para vacantes</a>
                     <ul>
                         <li><a href="#">Chatbot para pedidos</a></li>
                         <li class="divider"></li>
                         <li><a href="#">Crear nuevo Chatbot</a></li>
-                    </ul>
+                    </ul> -->
                 </li>
             </ul>
         </nav>
@@ -258,13 +258,13 @@
                             <iframe src="Terminos-y-Condiciones-de-Venta.pdf#toolbar=0" class="ifr"></iframe>
                             <br>
                             <div  class="check">
-                                 <input type="checkbox" id="acceptTerms"> <label for="acceptTerms">Aceptar</label>
+                                 <input type="checkbox" id="acceptTerms"> <label for="acceptTerms">Acepto términos y condiciones.</label>
                             </div>
                            
                         </div>
                         <div class="modal-footer modal-footer-b">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                            <button type="button" class="btn btn-primary" id="confirmSelection" disabled>Continuar</button>
+                            <button type="button" class="btn btn-secondary btn-cancelar" data-dismiss="modal">Cancelar</button>
+                            <button type="button" class="btn btn-primary btn-continuar"id="confirmSelection" disabled>Continuar</button>
                         </div>
                     </div>
                 </div>
@@ -274,8 +274,7 @@
 
 
             <div class="container-btn">
-                <button type="button" id="btnSiguiente" class="btnSiguiente" data-toggle="modal"
-                    data-target="#planModalUnique">Siguiente</button>
+                <button type="button" id="btnSiguiente" class="btnSiguiente" >Siguiente</button>
             </div>
 
 

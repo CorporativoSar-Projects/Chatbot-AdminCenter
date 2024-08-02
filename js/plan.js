@@ -25,19 +25,46 @@ document.addEventListener("DOMContentLoaded", function () {
 
         document.getElementById("selectedPlan").innerText = `Plan: ${selectedPlan}`;
         document.getElementById("selectedPrice").innerText = `Precio: ${selectedPrice}`;
+
+        // Abre el modal solo si se ha seleccionado un plan y un precio
+        $('#planModalUnique').modal('show');
     });
-});
-const acceptTermsCheckbox = document.getElementById("acceptTerms");
-const confirmSelectionButton = document.getElementById("confirmSelection");
 
-acceptTermsCheckbox.addEventListener("change", function () {
-    confirmSelectionButton.disabled = !this.checked;
+    const acceptTermsCheckbox = document.getElementById("acceptTerms");
+    const confirmSelectionButton = document.getElementById("confirmSelection");
+
+    acceptTermsCheckbox.addEventListener("change", function () {
+        confirmSelectionButton.disabled = !this.checked;
+    });
+
+    confirmSelectionButton.addEventListener("click", function () {
+        if (!acceptTermsCheckbox.checked) {
+            return;
+        }
+
+        window.location.href = "https://buy.stripe.com/aEUfZyf1Gf5O5wYeVa";
+    });
+
+    // Desmarcar el checkbox y deshabilitar el botón al cerrar el modal
+    $('#planModalUnique').on('hidden.bs.modal', function () {
+        acceptTermsCheckbox.checked = false;
+        confirmSelectionButton.disabled = true;
+    });
+
+    // Desmarcar el checkbox y deshabilitar el botón al cargar la página
+    acceptTermsCheckbox.checked = false;
+    confirmSelectionButton.disabled = true;
 });
 
-confirmSelectionButton.addEventListener("click", function () {
-    if (!acceptTermsCheckbox.checked) {
-        return;
+// Desmarcar el checkbox y deshabilitar el botón al cargar o recargar la página
+window.addEventListener("pageshow", function () {
+    const acceptTermsCheckbox = document.getElementById("acceptTerms");
+    const confirmSelectionButton = document.getElementById("confirmSelection");
+    
+    if (acceptTermsCheckbox) {
+        acceptTermsCheckbox.checked = false;
     }
-
-    window.location.href = "https://buy.stripe.com/aEUfZyf1Gf5O5wYeVa";
+    if (confirmSelectionButton) {
+        confirmSelectionButton.disabled = true;
+    }
 });

@@ -11,7 +11,11 @@
 </head>
 
 <body>
-    <img src="img/Innovahue_logo.svg" class="imgLogo">
+    <div class="container-logo">
+        <img src="img/Innovahue_logo.svg" class="imgLogo">
+    
+    </div>
+    <p class="txtGii">GIINTAPE INNOVAHUE</p>  
 
     <div class="vector">
         <img src="img/Vector.png" class="imgVect">
@@ -20,7 +24,7 @@
     <div class="login-container">
         <form>
             <div class="contIn">
-                <h1 class="titleIn">Inicia sesión</h1>
+                <h1 class="titleIn">Login</h1>
                 <div class="contUs">
 
                     <label class="form-label">Usuario</label><br>
@@ -28,15 +32,17 @@
 
                     <label class="form-label">Contraseña</label><br>
                     <input type="password" name="contra" id="password" class="txtpsw" required><br>
-
+                    <div class="container-btn-sesion">
+                        <button type="submit" name="inicioSesion" id="btnSesion" class="btnSesion">Iniciar sesión</button>
+    
+                    </div>
                 </div>
-
-                <button type="submit" name="inicioSesion" id="btnSesion" class="btnSesion">Iniciar sesión</button>
+                 
             </div>
         </form>
     </div>
 
-    <p class="txtGii">GIINTAPE INNOVAHUE</p>
+    <!-- <p class="txtGii">GIINTAPE INNOVAHUE</p> -->
 </body>
 
 </html>
