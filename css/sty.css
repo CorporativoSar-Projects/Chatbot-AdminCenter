@@ -417,6 +417,7 @@ header .navbar ul li ul li a:hover {
     margin-top: 10px
 }
 
+
 .input-nombre,
 .input-saludo,
 .input-burbuja,
@@ -437,6 +438,7 @@ header .navbar ul li ul li a:hover {
     opacity: 1;
     border-color: #D9D9D9;
     box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
+    margin-bottom: 30px;
 }
 
 .input-columna {
@@ -537,6 +539,7 @@ header .navbar ul li ul li a:hover {
     display: flex;
     align-items: center;
     margin-top: 15px;
+    margin-bottom: 15px;
 }
 
 .btn-arch {
@@ -570,6 +573,8 @@ header .navbar ul li ul li a:hover {
     background-color: #ffffff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 20px;
+ 
+    
 }
 
 .chatbot-container2 {
@@ -882,6 +887,9 @@ header .navbar ul li ul li a:hover {
 
 /*TEMA DE CONVERSACION*/
 
+.container-tema{
+    margin-bottom: 30px;
+}
 .tema-item {
     color: #FFB703;
     width: 400px;
@@ -1802,6 +1810,7 @@ header .navbar ul li ul li a:hover {
         background-color: #ffffff;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         border-radius: 20px;
+      
     }
 
     .chatbot-content2 {
