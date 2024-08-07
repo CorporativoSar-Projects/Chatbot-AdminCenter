@@ -309,6 +309,7 @@ header .navbar ul li ul li a:hover {
 }
 
 .container-btn-cerrar-guar {
+    margin-left: 5%;
     display: flex;
     justify-content: flex-end;
     width: 70%;
@@ -1669,35 +1670,36 @@ header .navbar ul li ul li a:hover {
     }
 
     .container-btn-cerrar-guar {
-        flex-direction: column;
+        flex-direction: column-reverse;
+
         justify-content: center;
         align-items: center;
         width: 40%;
         margin-left: 0;
+
     }
 
     .btn-group {
         
         display: flex;
         width: 90px;
-        
         align-items: center;
     }
-    .btn-group2 {
+    /* .btn-group2 {
         width: 100%;
         display: flex;
         width: 90px;
         align-items: center;
         order: -1;
-    }
+    } */
 
     .btnCerrar,
     .btnGuardarS,
     .btnContinuar,
     .btnRegresar {
         width: 10%;
-        font-size: 14px; /* Tamaño base para el botón */
-        padding: 10px; /* Ajusta el padding si es necesario */
+        font-size: 14px; 
+        padding: 10px; 
         margin: 5px 3px;
         height: auto;
         display: flex;
@@ -1709,7 +1711,7 @@ header .navbar ul li ul li a:hover {
     .btnGuardarS i,
     .btnContinuar i,
     .btnRegresar i {
-        font-size: 16px; /* Tamaño específico para los iconos */
+        font-size: 16px; /*iconos */
         margin: 0;
     }
 

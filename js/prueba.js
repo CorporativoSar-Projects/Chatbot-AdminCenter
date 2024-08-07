@@ -3,6 +3,7 @@ window.addEventListener('resize', function() {
     const btnCerrar = document.querySelector('.btnCerrar');
     const btnGuardarS = document.querySelector('.btnGuardarS');
     const btnContinuar = document.querySelector('.btnContinuar');
+    const btnRegresar = document.querySelector('.btnRegresar');
     
     if (width <= 480) {
         btnCerrar.innerHTML = '<i class="fas fa-times"></i>';

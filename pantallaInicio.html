@@ -19,7 +19,7 @@
         <div class="user-dropdown">
             <div class="cont-btn-user">
                 <button class="btn-user"><img src="img/user.png" width="30" alt="User Icon"></button>
-           </div>
+            </div>
             <div class="dropdown-content">
                 <div class="d-flex align-items-center px-3 user-info">
                     <img src="img/user.png" width="40" alt="User Icon">
@@ -46,15 +46,36 @@
     </header>
 
     <main>
-        <div class="container-prin">
+        <div class="container-prin-PI">
             <div class="container-bienv">
                 <p class="txt-nombre-chat">ChatBot para vacantes</p>
                 <div class="container-btn-cerrar-guar">
-                    <a href="#" class="btnContinuar" id="btnRegresar">Regresar</a>
-                    <a href="#" class="btnContinuar" id="btnContinuar">Continuar</a>
-                    <a href="menu.html" class="btnCerrar">Cerrar</a>
-                    <button type="submit" id="btnGuardarS" class="btnGuardarS">Guardar y salir</button>
+
+                    <div class="btn-group">
+                        <a href="#" class="btnContinuar" id="btnRegresar"> 
+                        <span class="btn-text">Regresar</span>
+                        <img src="img/icons8-left-arrow-30.png" class="btn-icon" style="width: 15px;">
+                    </a>
+
+                    <a href="#" class="btnContinuar" id="btnContinuar">
+                        <span class="btn-text">Continuar</span>
+                        <img src="img/icons8-right-arrow-50.png" class="btn-icon" style="width: 15px;">
+                    </a>
+                    </div>
+                    <div class="btn-group">
+                         <a href="menu.html" class="btnCerrar">
+                        <span class="btn-text">Cerrar</span>
+                        <img src="img/icons8-close-24.png" class="btn-icon" style="width: 15px;">
+                    </a>
+                    <button type="submit" id="btnGuardarS" class="btnGuardarS">
+                        <span class="btn-text">Guardar y salir</span>
+                        <img src="img/icons8-save-24.png" class="btn-icon" style="width: 15px;">
+                    </button>
+                    </div>
+                    
+                   
                 </div>
+                
             </div>
 
             <div class="container-menu-pers">
@@ -84,7 +105,7 @@
                         <label class="label-nombrechat">Mensaje de saludo</label><br>
                         <input type="text" name="inp-saludo" id="inp-saludo"
                             placeholder="¡Saludos! Soy JobHelper, tu guía virtual en el mundo laboral."
-                            class="input-saludo" minlength="2" maxlength="80"  required><br>
+                            class="input-saludo" minlength="2" maxlength="80" required><br>
 
                         <div class="container-conversacion">
                             <div class="asi-conversacion">
@@ -92,8 +113,8 @@
                                 <ul id="listaTemas">
                                     <li class="tema-item">
                                         <input type="text" name="inp-conversa" class="inp-conversa"
-                                            placeholder="Buscar vacantes por categoría" 
-                                            minlength="2" maxlength="28" required>
+                                            placeholder="Buscar vacantes por categoría" minlength="2" maxlength="28"
+                                            required>
                                         <button class="btn-borrar" onclick="eliminarTema(this)">
                                             <img src="img/trash.png" width="20" alt="Delete Topic">
                                         </button>
@@ -150,9 +171,9 @@
                                     <!-- Botones del chatbot se agregarán aquí -->
                                 </div>
                             </div>
-                            <div id="user-input-container" class="user-input-container" >
+                            <div id="user-input-container" class="user-input-container">
                                 <input type="text" id="user-input" placeholder="Escribe aquí tu respuesta...">
-                                <button >Enviar</button>
+                                <button>Enviar</button>
                             </div>
                         </div>
                     </div>
