@@ -1,0 +1,7 @@
+-Para correr el programa, únicamente se necesita tener instalada la extensión de Live Server.
+
+-Las carpetas ya están acomodadas y con su respectivo nombre.
+
+-sty.css es para el index o inicio de sesión.
+
+-styles.css es para las demás vistas. Este archivo contiene comentarios que indican a qué sección o vista corresponde cada estilo.
