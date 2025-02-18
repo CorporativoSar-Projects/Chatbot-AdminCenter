@@ -27,8 +27,6 @@ h1 {
   font-size: 20px;
 }
 
-
-
 .txtUsu,
 .txtMail,
 .txtpsw {
@@ -45,40 +43,39 @@ h1 {
   outline: none;
   transition: opacity 0.2s ease;
   opacity: 1;
-
 }
 
 .container-btn-sesion {
-  display: flex; 
-  flex-direction: column; 
-  align-items: center; 
-  width: 30%; 
-  margin-top: 10px; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 30%;
+  margin-top: 10px;
 }
-
 
 .link-restablecer {
-  text-decoration: none; 
-  font-weight: 600; 
-  background: linear-gradient(to right, #007bff, #0056b3); /* Aplica un gradiente de color de izquierda a derecha */
+  text-decoration: none;
+  font-weight: 600;
+  background: linear-gradient(
+    to right,
+    #007bff,
+    #0056b3
+  ); /* Aplica un gradiente de color de izquierda a derecha */
   -webkit-background-clip: text; /* Hace que el gradiente se aplique solo al texto, no al fondo */
   -webkit-text-fill-color: transparent; /* Hace el texto transparente para que se vea el gradiente */
-  transition: transform 0.2s ease-in-out; 
+  transition: transform 0.2s ease-in-out;
   font-size: 14px;
-  margin-left: auto; 
-
+  margin-left: auto;
 }
-
 
 .link-restablecer:hover {
-  transform: scale(1.05); /* Aumenta ligeramente el tamaño del enlace al pasar el cursor por encima */
+  transform: scale(
+    1.05
+  ); /* Aumenta ligeramente el tamaño del enlace al pasar el cursor por encima */
 }
 
-
-
 .btnSesion {
-
-  background-color: #FFB703;
+  background-color: #ffb703;
   color: white;
   padding: 14px 20px; /* Espaciado dentro del botón (arriba/abajo y a los lados) */
   margin: 10px 0; /* Margen superior e inferior para separar el botón de otros elementos */
@@ -87,20 +84,7 @@ h1 {
   width: 100%; /* El botón ocupará todo el ancho disponible */
   border-radius: 50px;
   font-size: 16px;
-
-  background-color: #ffb703;
-  color: white;
-  padding: 14px 20px;
-  margin: 8px 0;
-  border: none;
-  cursor: pointer;
-  width: 15%;
-  border-radius: 50px;
-  font-size: 16px;
-  margin-left: 90px;
-
 }
-
 
 /* efecto buttons */
 button:hover {
@@ -266,7 +250,6 @@ button:hover {
     width: 100%;
     background-color: #ffffffda;
 
-
     box-shadow: 0 2px 4px 0 rgba(78, 77, 77, 0.2),
       0 3px 10px 0 rgba(80, 78, 78, 0.19);
   }
@@ -275,15 +258,12 @@ button:hover {
     justify-content: center;
     align-items: center;
     text-align: center;
-    width: 100%; 
+    width: 100%;
   }
 
   .link-restablecer {
-      margin-left: auto; 
-      font-size: 14px; 
-  }
-
-=======
+    margin-left: auto;
+    font-size: 14px;
 
     box-shadow: 0 2px 4px 0 rgba(78, 77, 77, 0.2),
       0 3px 10px 0 rgba(80, 78, 78, 0.19);
@@ -294,7 +274,6 @@ button:hover {
     align-items: center;
     text-align: center;
   }
-
 
   .btnSesion {
     width: 35%;
@@ -361,7 +340,6 @@ button:hover {
     align-items: center;
   }
 
-
   .imgLogo {
     width: 100px;
     height: 100px;
@@ -394,16 +372,13 @@ button:hover {
     box-shadow: 0 2px 4px 0 rgba(78, 77, 77, 0.2),
       0 3px 10px 0 rgba(80, 78, 78, 0.19);
   }
-
 
   .link-restablecer {
     font-size: 13px;
-    display: block; 
-    margin-left: auto; 
-    text-align: right; 
+    display: block;
+    margin-left: auto;
+    text-align: right;
   }
-=======
-
   .imgLogo {
     width: 100px;
     height: 100px;
@@ -436,7 +411,6 @@ button:hover {
     box-shadow: 0 2px 4px 0 rgba(78, 77, 77, 0.2),
       0 3px 10px 0 rgba(80, 78, 78, 0.19);
   }
-
 
   .txtGii {
     /* font-size: 15px;
