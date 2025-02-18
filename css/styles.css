@@ -1,93 +1,117 @@
 body,
 html {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    box-sizing: border-box;
-    font-family: 'Montserrat', sans-serif;
-    text-transform: capitalize;
-    text-decoration: none;
-    min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  font-family: "Montserrat", sans-serif;
+
+  text-decoration: none;
+  min-height: 100vh;
 }
 
 h1 {
-    color: #FFB703;
-    font-size: 40px;
-    font-weight: bold;
+  color: #ffb703;
+  font-size: 40px;
+  font-weight: bold;
 }
 
-
-
 .contIn {
-    margin-top: 10%;
-    margin-left: 10%;
+  margin-top: 10%;
+  margin-left: 10%;
 }
 
 .contUs {
-    margin-top: 40px;
-    font-size: 20px;
+  margin-top: 40px;
+  font-size: 20px;
 }
 
 .txtUsu,
+.txtMail,
 .txtpsw {
-    width: 30%;
-    height: 40px;
-    padding: 12px 20px;
-    margin: 8px 0;
-    border: none;
-    display: inline-block;
-    background-color: #F3F3F3;
-    box-sizing: border-box;
-    border-radius: 20px;
-    text-decoration: none;
-    outline: none;
-    transition: opacity 0.2s ease;
-    opacity: 1;
+  width: 30%;
+  height: 40px;
+  padding: 12px 20px;
+  margin: 8px 0;
+  border: none;
+  display: inline-block;
+  background-color: #f3f3f3;
+  box-sizing: border-box;
+  border-radius: 20px;
+  text-decoration: none;
+  outline: none;
+  transition: opacity 0.2s ease;
+  opacity: 1;
 }
 
-.btnSesion {
-    background-color: #FFB703;
-    color: white;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: none;
-    cursor: pointer;
-    width: 15%;
-    border-radius: 50px;
-    font-size: 16px;
-    margin-left: 90px;
+/* Contenedor del botón de sesión */
+.container-btn-sesion {
+  display: flex; 
+  flex-direction: column; /* Organiza los elementos en una columna */
+  align-items: center; 
+  width: 30%; /* Define un ancho para el contenedor (debe coincidir con el ancho de los inputs) */
+  margin-top: 10px; /* Añade separación entre el contenedor y los elementos superiores */
 }
+
+/* Estilo del enlace de restablecimiento */
+.link-restablecer {
+  text-decoration: none; 
+  font-weight: 600; 
+  background: linear-gradient(to right, #007bff, #0056b3); /* Aplica un gradiente de color de izquierda a derecha */
+  -webkit-background-clip: text; /* Hace que el gradiente se aplique solo al texto, no al fondo */
+  -webkit-text-fill-color: transparent; /* Hace el texto transparente para que se vea el gradiente */
+  transition: transform 0.2s ease-in-out; 
+  font-size: 14px;
+  margin-left: auto; 
+}
+
+
+.link-restablecer:hover {
+  transform: scale(1.05); /* Aumenta ligeramente el tamaño del enlace al pasar el cursor por encima */
+}
+
+
+
+.btnSesion {
+  background-color: #FFB703;
+  color: white;
+  padding: 14px 20px; /* Espaciado dentro del botón (arriba/abajo y a los lados) */
+  margin: 10px 0; /* Margen superior e inferior para separar el botón de otros elementos */
+  border: none;
+  cursor: pointer;
+  width: 100%; /* El botón ocupará todo el ancho disponible */
+  border-radius: 50px;
+  font-size: 16px;
+}
+
 
 /* efecto buttons */
 button:hover {
-    opacity: 0.8;
+  opacity: 0.8;
 }
 
 .titleIn {
-    font-size: 30px;
-    text-align: left;
-    width: 80%;
-    max-width: 600px;
-    /* Máximo ancho para pantallas grandes */
+  font-size: 30px;
+  text-align: left;
+  width: 80%;
+  max-width: 600px;
+  /* Máximo ancho para pantallas grandes */
 }
 
 .vector {
-    max-width: 100%;
-    display: flex;
-    
+  max-width: 100%;
+  display: flex;
 }
 
 .imgLogo {
-    position: absolute;
-    top: 50px;
-    right: 70px;
-    border-right: 0;
-    margin: 0 auto;
-    width: 30%;
-    height: 65%;
-
-
+  position: absolute;
+  top: 50px;
+  right: 70px;
+  border-right: 0;
+  margin: 0 auto;
+  width: 30%;
+  height: 65%;
 }
 
 /* .container-logo {
@@ -106,256 +130,249 @@ button:hover {
 
 } */
 
-
 .txtGii {
-    color: #fff;
-    font-size: 27px;
-    font-weight: bold;
-    position: absolute;
-    top: calc(50px + 65%);
-    right: 70px;
-    width: 30%;
-    text-align: center;
+  color: #fff;
+  font-size: 27px;
+  font-weight: bold;
+  position: absolute;
+  top: calc(50px + 65%);
+  right: 70px;
+  width: 30%;
+  text-align: center;
 }
 
 .imgVect {
+  position: absolute;
+  top: 0;
+  right: 0;
+  border-right: 0;
+  z-index: -1;
+  width: 45%;
+  height: 100%;
+}
+
+@media (max-width: 1100px) {
+  .imgVect {
     position: absolute;
     top: 0;
     right: 0;
     border-right: 0;
     z-index: -1;
-    width: 45%;
+    width: 50%;
     height: 100%;
+  }
+
+  .vector {
+    max-width: 100%;
+    display: flex;
+  }
+  .imgLogo {
+    position: absolute;
+    top: 50px;
+    right: 70px;
+    border-right: 0;
+    margin: 0 auto;
+    width: 35%;
+    height: 65%;
+  }
+
+  .btnSesion {
+    background-color: #ffb703;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 17%;
+    border-radius: 50px;
+    font-size: 16px;
+    margin-left: 50px;
+  }
 }
-
-
-@media(max-width: 1100px){
-    .imgVect {
-        position: absolute;
-        top: 0;
-        right: 0;
-        border-right: 0;
-        z-index: -1;
-        width: 50%;
-        height: 100%;
-    }
-    
-    .vector {
-        max-width: 100%;
-        display: flex;
-        
-    }
-    .imgLogo {
-        position: absolute;
-        top: 50px;
-        right: 70px;
-        border-right: 0;
-        margin: 0 auto;
-        width: 35%;
-        height: 65%;
-    
-    
-    }
-    
-    .btnSesion {
-        background-color: #FFB703;
-        color: white;
-        padding: 14px 20px;
-        margin: 8px 0;
-        border: none;
-        cursor: pointer;
-        width: 17%;
-        border-radius: 50px;
-        font-size: 16px;
-        margin-left: 50px;
-    }
-    
-}
-
 
 @media (max-width: 780px) {
+  body,
+  html {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(
+      180deg,
+      rgb(255, 230, 167) 36%,
+      rgb(243, 187, 45) 100%
+    );
+  }
 
-    body,
-    html {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background: linear-gradient(180deg, rgb(255, 230, 167) 36%, rgb(243, 187, 45) 100%);
-    }
+  .login-container {
+    width: 80%;
+    height: 65%;
+    margin: auto;
+    margin-top: 30%;
+    background-color: rgba(255, 255, 255, 0.322);
+    border-radius: 15px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
 
-    .login-container {
-        width: 80%;
-        height: 65%;
-        margin: auto;
-        margin-top: 30%;
-        background-color: rgba(255, 255, 255, 0.322);
-        border-radius: 15px;
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  .contIn {
+    width: 80%;
+    height: 100%;
+    margin: auto;
+    margin-top: 10px;
+  }
 
-    }
-
-    .contIn {
-        width: 80%;
-        height: 100%;
-        margin: auto;
-        margin-top: 10px;
-    }
-
-
-    .container-logo {
-        position: absolute;
-        top: 10px;
-        left: 50%;
-        transform: translateX(-50%);
-        /* background-color: #FFE6A7;
+  .container-logo {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    /* background-color: #FFE6A7;
         border-radius: 50%; */
-        width: 130px;
-        height: 130px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+    width: 130px;
+    height: 130px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-    .imgLogo {
-        width: 100px;
-        height: 100px;
-        left: 10px;
+  .imgLogo {
+    width: 100px;
+    height: 100px;
+    left: 10px;
+  }
 
-    }
+  .vector .imgVect {
+    display: none;
+  }
 
-    .vector .imgVect {
-        display: none;
-    }
+  .txtUsu,
+  .txtMail,
+  .txtpsw {
+    width: 100%;
+    background-color: #ffffffda;
 
-    .txtUsu,
-    .txtpsw {
-        width: 100%;
-        background-color: #ffffffda;
+    box-shadow: 0 2px 4px 0 rgba(78, 77, 77, 0.2),
+      0 3px 10px 0 rgba(80, 78, 78, 0.19);
+  }
 
-        box-shadow: 0 2px 4px 0 rgba(78, 77, 77, 0.2), 0 3px 10px 0 rgba(80, 78, 78, 0.19);
+  .container-btn-sesion {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 100%; 
+  }
 
+  .link-restablecer {
+      margin-left: auto; 
+      font-size: 14px; 
+  }
 
-    }
+  .btnSesion {
+    width: 35%;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin: auto;
+    margin-top: 30px;
+  }
 
-    .container-btn-sesion {
-       
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-    }
+  .titleIn {
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
 
-
-    .btnSesion {
-        width: 35%;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        margin: auto;
-         margin-top: 30px;
-
-
-    }
-
-    .titleIn {
-        width: 100%;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-    }
-
-    .txtGii {
-        display: none;
-
-    }
+  .txtGii {
+    display: none;
+  }
 }
 
 @media (max-width: 480px) {
+  body,
+  html {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(
+      180deg,
+      rgb(255, 230, 167) 36%,
+      rgb(243, 187, 45) 100%
+    );
+  }
 
-    body,
-    html {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background: linear-gradient(180deg, rgb(255, 230, 167) 36%, rgb(243, 187, 45) 100%);
+  .login-container {
+    width: 80%;
+    height: 65%;
+    margin: auto;
+    margin-top: 50%;
+    background-color: rgba(255, 255, 255, 0.322);
+    border-radius: 15px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
 
+  .contIn {
+    width: 80%;
+    height: 100%;
+    margin: auto;
+    margin-top: 20px;
+  }
 
+  .container-logo {
+    position: absolute;
 
-    }
-
-    .login-container {
-        width: 80%;
-        height: 65%;
-        margin: auto;
-        margin-top: 50%;
-        background-color: rgba(255, 255, 255, 0.322);
-        border-radius: 15px;
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-
-
-    }
-
-
-    .contIn {
-        width: 80%;
-        height: 100%;
-        margin: auto;
-        margin-top: 20px;
-
-
-
-    }
-
-    .container-logo {
-        position: absolute;
-
-        left: 50%;
-        transform: translateX(-50%);
-        /* background-color: #FFE6A7;
+    left: 50%;
+    transform: translateX(-50%);
+    /* background-color: #FFE6A7;
         border-radius: 50%; */
-        width: 130px;
-        height: 130px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+    width: 130px;
+    height: 130px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-    .imgLogo {
-        width: 100px;
-        height: 100px;
-        left: 10px;
-    }
+  .imgLogo {
+    width: 100px;
+    height: 100px;
+    left: 10px;
+  }
+
+  .titleIn {
+    width: 100%;
+
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  .btnSesion {
+    width: 60%;
+    margin-top: 30px;
+    font-size: 13px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  .txtUsu,
+  .txtMail,
+  .txtpsw {
+    width: 100%;
+    background-color: #ffffffda;
+
+    box-shadow: 0 2px 4px 0 rgba(78, 77, 77, 0.2),
+      0 3px 10px 0 rgba(80, 78, 78, 0.19);
+  }
 
 
-    .titleIn {
-        width: 100%;
-
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-    }
-
-    .btnSesion {
-        width: 60%;
-        margin-top: 30px;
-        font-size: 13px;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-
-    }
-
-    .txtUsu,
-    .txtpsw {
-        width: 100%;
-        background-color: #ffffffda;
-
-        box-shadow: 0 2px 4px 0 rgba(78, 77, 77, 0.2), 0 3px 10px 0 rgba(80, 78, 78, 0.19);
-
-
-    }
-
-    .txtGii {
-        /* font-size: 15px;
+  .link-restablecer {
+    font-size: 13px;
+    display: block; 
+    margin-left: auto; 
+    text-align: right; 
+  }
+  .txtGii {
+    /* font-size: 15px;
         margin-top: 0;
         margin-right: 30%;
         color: #FFB703;
@@ -364,6 +381,6 @@ button:hover {
         top: 40px;
         right: 1%;
         width: 100%; */
-        display: none;
-    }
+    display: none;
+  }
 }
