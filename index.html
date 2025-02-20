@@ -22,20 +22,6 @@
       <img src="img/Vector.png" class="imgVect" />
     </div>
 
-    <div id="reset-password-form" style="display: none">
-      <h2>Restablecer tu contraseña</h2>
-      <p>
-        Ingresa tu correo electrónico y te enviaremos un enlace para restablecer
-        tu contraseña.
-      </p>
-      <form id="reset-form">
-        <label for="email">Correo electrónico:</label>
-        <input type="email" id="email" required />
-        <button type="submit">Enviar enlace</button>
-      </form>
-      <button id="close-form">Cerrar</button>
-    </div>
-
     <div class="login-container">
       <form>
         <div class="contIn">
@@ -55,7 +41,7 @@
             <input
               type="email"
               name="correo"
-              id="email"
+              id="email1"
               class="txtMail"
               required
             /><br />
@@ -84,6 +70,23 @@
           </div>
         </div>
       </form>
+    </div>
+
+    <!--Formulario del modal-->
+    <div id="reset-password-form" class="modal" style="display: none;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <span>Restablecer tu contraseña</span>
+          <span class="close" id="close-modal">&times;</span>
+        </div>
+        <div class="modal-body">
+          <p>Ingresa tu correo electrónico y te enviaremos una contraseña aleatoria para ingresar a su cuenta.</p>
+          <form id="reset-form">
+            <input type="email" id="email"  class="txtMail" placeholder="Correo electrónico" required />
+            <button type="submit">Enviar enlace</button>
+          </form>
+        </div>
+      </div>
     </div>
     <script src="js/restContra.js"></script>
     <!-- <p class="txtGii">GIINTAPE INNOVAHUE</p> -->
