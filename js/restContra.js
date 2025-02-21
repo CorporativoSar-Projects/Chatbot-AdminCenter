@@ -1,31 +1,48 @@
 // Obtener elementos del DOM
 const forgotPasswordLink = document.getElementById("link-restablecer");
 const resetPasswordForm = document.getElementById("reset-password-form");
-const closeFormButton = document.getElementById("close-form");
+const closeFormButton = document.getElementById("close-modal");
 const resetForm = document.getElementById("reset-form");
+const emailInput = document.getElementById("email");
 
-forgotPasswordLink.addEventListener("click", function (event) {
-  event.preventDefault();
-  resetPasswordForm.style.display = "block";
-});
+  forgotPasswordLink.addEventListener("click", function (event) {
+    event.preventDefault();
+    emailInput.value = ""; 
+    resetPasswordForm.style.display = "flex"; 
+  });
 
-closeFormButton.addEventListener("click", function () {
-  resetPasswordForm.style.display = "none";
-});
-
-resetForm.addEventListener("submit", function (event) {
-  event.preventDefault();
-
-  const email = document.getElementById("email").value;
-
-  if (email) {
-    alert("Se ha enviado un enlace de restablecimiento a: " + email);
-
+  function cerrarModal() {
     resetPasswordForm.style.display = "none";
-  } else {
-    alert("Por favor, ingresa un correo electrónico válido.");
   }
-});
+
+  closeFormButton.addEventListener("click", cerrarModal);
+
+  window.addEventListener("click", function (event) {
+    if (event.target === resetPasswordForm) {
+      cerrarModal();
+    }
+  });
+
+
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") {
+      cerrarModal();
+    }
+  });
+
+
+  resetForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const email = emailInput.value.trim();
+
+    if (email) {
+      alert("Se ha enviado una contraseña aleatoria a: " + email);
+      cerrarModal();
+    } else {
+      alert("Por favor, ingresa un correo electrónico válido.");
+    }
+  });
 
 //Función para generar contraseña aleatoria//
 
