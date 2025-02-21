@@ -9,17 +9,21 @@ const customAlert = document.getElementById("custom-alert");
 const customAlertMessage = document.getElementById("custom-alert-message");
 const customAlertClose = document.getElementById("custom-alert-close");
 
+
 forgotPasswordLink.addEventListener("click", function (event) {
   event.preventDefault();
   emailInput.value = "";
   resetPasswordForm.style.display = "flex";
 });
 
+
 function cerrarModal() {
   resetPasswordForm.style.display = "none";
 }
 
+
 closeFormButton.addEventListener("click", cerrarModal);
+
 
 window.addEventListener("click", function (event) {
   if (event.target === resetPasswordForm) {
@@ -27,11 +31,7 @@ window.addEventListener("click", function (event) {
   }
 });
 
-document.addEventListener("keydown", function (event) {
-  if (event.key === "Escape") {
-    cerrarModal();
-  }
-});
+
 document.addEventListener("keydown", function (event) {
   if (event.key === "Escape") {
     cerrarModal();
@@ -40,6 +40,7 @@ document.addEventListener("keydown", function (event) {
     }
   }
 });
+
 
 resetForm.addEventListener("submit", function (event) {
   event.preventDefault();
@@ -54,14 +55,24 @@ resetForm.addEventListener("submit", function (event) {
   }
 });
 
+
 function showCustomAlert(message) {
   customAlertMessage.textContent = message;
   customAlert.style.display = "block";
 }
 
+
 customAlertClose.addEventListener("click", function () {
   customAlert.style.display = "none";
 });
+
+
+customAlert.addEventListener("click", function (event) {
+  if (event.target === customAlert) {
+    customAlert.style.display = "none";
+  }
+});
+
 
 //Función para generar contraseña aleatoria//
 
