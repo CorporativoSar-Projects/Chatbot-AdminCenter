@@ -77,11 +77,11 @@ h1 {
 .btnSesion {
   background-color: #ffb703;
   color: white;
-  padding: 14px 20px; 
-  margin: 10px 0; 
+  padding: 14px 20px;
+  margin: 10px 0;
   border: none;
   cursor: pointer;
-  width: 100%; 
+  width: 100%;
   border-radius: 50px;
   font-size: 16px;
 }
@@ -114,6 +114,47 @@ button:hover {
   height: 65%;
 }
 
+/* Modal de alerta */
+
+.modal-alert {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  max-width: 300px;
+  min-width: 200px;
+  border-top: 5px solid #ffb703;
+}
+
+/* Mensaje de la alerta */
+.alert-message {
+  font-size: 16px;
+  color: #333;
+  display: block;
+  margin-bottom: 15px;
+}
+
+/* Botón de cierre */
+.alert-close {
+  background-color: #ffb703;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.3s ease;
+}
+
+.alert-close:hover {
+  opacity: 0.7;
+}
+
 /* Modal */
 .modal {
   display: none;
@@ -126,7 +167,7 @@ button:hover {
   background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
-  align-items: center; 
+  align-items: center;
 }
 
 /* Contenedor del modal */
@@ -178,7 +219,6 @@ button:hover {
   text-align: center;
 }
 
-
 .modal-body input {
   width: 90%;
   padding: 10px;
@@ -197,13 +237,12 @@ button:hover {
   cursor: pointer;
   transition: background 0.3s;
   font-size: 16px;
-  margin-top: 15px; 
+  margin-top: 15px;
 }
 
 .modal-body button:hover {
   background: #ffb703;
 }
-
 
 /* .container-logo {
     position: absolute;

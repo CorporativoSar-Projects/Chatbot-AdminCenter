@@ -10,6 +10,7 @@
       rel="stylesheet"
     />
     <title>Inicio de sesion</title>
+    <link rel="shortcut icon" href="logoPagina.png" />
   </head>
 
   <body>
@@ -73,19 +74,37 @@
     </div>
 
     <!--Formulario del modal-->
-    <div id="reset-password-form" class="modal" style="display: none;">
+    <div id="reset-password-form" class="modal" style="display: none">
       <div class="modal-content">
         <div class="modal-header">
           <span>Restablecer tu contraseña</span>
           <span class="close" id="close-modal">&times;</span>
         </div>
         <div class="modal-body">
-          <p>Ingresa tu correo electrónico y te enviaremos una contraseña aleatoria para ingresar a su cuenta.</p>
+          <p>
+            Ingresa tu correo electrónico y te enviaremos una contraseña
+            aleatoria para ingresar a su cuenta.
+          </p>
           <form id="reset-form">
-            <input type="email" id="email"  class="txtMail" placeholder="Correo electrónico" required />
-            <button type="submit">Enviar enlace</button>
+            <input
+              type="email"
+              id="email"
+              class="txtMail"
+              placeholder="Correo electrónico"
+              required
+            />
+            <button type="submit" class="submit-button-form" id="submit-button">
+              Enviar contraseña
+            </button>
           </form>
         </div>
+      </div>
+    </div>
+    <!--  Alert personalizado -->
+    <div id="custom-alert" class="modal" style="display: none">
+      <div class="modal-alert">
+        <span id="custom-alert-message" class="alert-message"></span>
+        <button id="custom-alert-close" class="alert-close">Cerrar</button>
       </div>
     </div>
     <script src="js/restContra.js"></script>

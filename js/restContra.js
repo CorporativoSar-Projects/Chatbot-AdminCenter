@@ -4,45 +4,64 @@ const resetPasswordForm = document.getElementById("reset-password-form");
 const closeFormButton = document.getElementById("close-modal");
 const resetForm = document.getElementById("reset-form");
 const emailInput = document.getElementById("email");
+const submitButton = document.getElementById("submit-button");
+const customAlert = document.getElementById("custom-alert");
+const customAlertMessage = document.getElementById("custom-alert-message");
+const customAlertClose = document.getElementById("custom-alert-close");
 
-  forgotPasswordLink.addEventListener("click", function (event) {
-    event.preventDefault();
-    emailInput.value = ""; 
-    resetPasswordForm.style.display = "flex"; 
-  });
+forgotPasswordLink.addEventListener("click", function (event) {
+  event.preventDefault();
+  emailInput.value = "";
+  resetPasswordForm.style.display = "flex";
+});
 
-  function cerrarModal() {
-    resetPasswordForm.style.display = "none";
+function cerrarModal() {
+  resetPasswordForm.style.display = "none";
+}
+
+closeFormButton.addEventListener("click", cerrarModal);
+
+window.addEventListener("click", function (event) {
+  if (event.target === resetPasswordForm) {
+    cerrarModal();
   }
+});
 
-  closeFormButton.addEventListener("click", cerrarModal);
-
-  window.addEventListener("click", function (event) {
-    if (event.target === resetPasswordForm) {
-      cerrarModal();
+document.addEventListener("keydown", function (event) {
+  if (event.key === "Escape") {
+    cerrarModal();
+  }
+});
+document.addEventListener("keydown", function (event) {
+  if (event.key === "Escape") {
+    cerrarModal();
+    if (customAlert.style.display === "block") {
+      customAlert.style.display = "none";
     }
-  });
+  }
+});
 
+resetForm.addEventListener("submit", function (event) {
+  event.preventDefault();
 
-  document.addEventListener("keydown", function (event) {
-    if (event.key === "Escape") {
-      cerrarModal();
-    }
-  });
+  const email = emailInput.value.trim();
 
+  if (email) {
+    showCustomAlert("Se ha enviado la contraseña a: " + email);
+    cerrarModal();
+  } else {
+    showCustomAlert("Por favor, ingresa un correo electrónico válido.");
+  }
+});
 
-  resetForm.addEventListener("submit", function (event) {
-    event.preventDefault();
+function showCustomAlert(message) {
+  customAlertMessage.textContent = message;
+  customAlert.style.display = "block";
+}
 
-    const email = emailInput.value.trim();
-
-    if (email) {
-      alert("Se ha enviado una contraseña aleatoria a: " + email);
-      cerrarModal();
-    } else {
-      alert("Por favor, ingresa un correo electrónico válido.");
-    }
-  });
+customAlertClose.addEventListener("click", function () {
+  customAlert.style.display = "none";
+});
 
 //Función para generar contraseña aleatoria//
 
