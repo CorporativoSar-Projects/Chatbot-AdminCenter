@@ -38,7 +38,7 @@ try {
     $mail->SMTPAuth = false; // No se requiere autenticación para MailHog
     $mail->Port = 1025; // Puerto SMTP de MailHog
 
-    $mail->setFrom('melomario57@gmail.com', 'Soporte'); 
+    $mail->setFrom('holamundo@gmail.com', 'Soporte'); 
     $mail->addAddress($email);
     $mail->Subject = 'Recuperación de Contraseña';
     $mail->isHTML(true);
