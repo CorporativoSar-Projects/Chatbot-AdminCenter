@@ -1,4 +1,3 @@
-// Obtener elementos del DOM
 const forgotPasswordLink = document.getElementById("link-restablecer");
 const resetPasswordForm = document.getElementById("reset-password-form");
 const closeFormButton = document.getElementById("close-modal");
@@ -46,22 +45,24 @@ resetForm.addEventListener("submit", function (event) {
   }
 
   const newPassword = generateRandomPassword();
-
-  fetch("/api/send-reset-password", {
+  console.log({ email, newPassword });
+  fetch("send-reset-password.php", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email, newPassword }),
   })
-    .then((response) => response.json())
-    .then((data) => {
+    .then((response) => response.text())
+    .then((text) => {
+      console.log("Respuesta del servidor (texto):", text);
+      const data = JSON.parse(text);
+      console.log("Respuesta del servidor (JSON):", data);
       if (data.success) {
         showCustomAlert(`Se ha enviado la contraseña a: ${email}`);
-        cerrarModal();
       } else {
         showCustomAlert("Error al enviar el correo electrónico.");
       }
     })
-    .catch(() => showCustomAlert("Error al enviar el correo electrónico."));
+    .catch((error) => console.error("Error:", error));
 });
 
 function showCustomAlert(message) {
@@ -79,8 +80,7 @@ customAlert.addEventListener("click", function (event) {
   }
 });
 
-//Función para generar contraseña aleatoria//
-
+// Función para generar contraseña aleatoria
 function generateRandomPassword(length = 12) {
   const charset =
     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()";
@@ -89,5 +89,3 @@ function generateRandomPassword(length = 12) {
     () => charset[Math.floor(Math.random() * charset.length)]
   ).join("");
 }
-
-console.log(generateRandomPassword());
