@@ -5,3 +5,5 @@
 -sty.css es para el index o inicio de sesión.
 
 -styles.css es para las demás vistas. Este archivo contiene comentarios que indican a qué sección o vista corresponde cada estilo.
+
+-Para que el restablecimiento de contraseña aleatoria funcione es necesario instalar composer para que nos permita instalar PHPMailer desde la terminal y reconozca el respectivo comando, al mismo tiempo, tener instalado MailHog que nos proporciona un entorno local de simulación de envío de la contraseña al correo ingresado.
