@@ -46,44 +46,44 @@ h1 {
 }
 
 /*Estilo del link ¿Olvidaste tu contraseña*/
-
 .container-btn-sesion {
   display: flex; 
-  flex-direction: column; 
+  flex-direction: column;
   align-items: center; 
-  max-width: 30em; /* Limita el ancho para mejorar la adaptabilidad */
+  width: 30%; 
   margin-top: 10px; 
   gap: 15px; 
 }
 
 .link-restablecer {
   text-decoration: none; 
-  font-weight: 600;
-  background: linear-gradient(to right, #007bff, #0056b3); /* Aplica un degradado como color de texto */
-  -webkit-background-clip: text; /* Recorta el fondo al texto para mostrar el degradado */
-  -webkit-text-fill-color: transparent; /* Hace que el texto tome el color del fondo */
-  transition: transform 0.2s ease-in-out; /* Agrega una transición suave al escalar el elemento */
+  font-weight: 600; 
+  background: linear-gradient(to right, #007bff, #0056b3); /* Aplica un degradado como fondo */
+  -webkit-background-clip: text; /* Hace que el fondo solo se aplique al texto */
+  -webkit-text-fill-color: transparent; /* Hace que el texto adopte el fondo como color */
+  transition: transform 0.2s ease-in-out; /* Agrega una transición suave al escalar */
   font-size: 14px; 
-  width: 100%;
-  text-align: left; 
-  display: block; /* Permite que el enlace respete el ancho completo */
-  white-space: pre-line;
+  width: 100%; 
+  text-align: left;
+  display: block; 
+  white-space: pre-line; /* Permite saltos de línea si los hay en el HTML */
 }
 
+
 .link-restablecer:hover {
-  transform: scale(1.05);
+  transform: scale(1.05); 
 }
 
 
 .btnSesion {
   background-color: #ffb703;
-  color: #f3f3f3;
-  padding: 10px 16px; 
+  color: white;
+  padding: 10px 16px; /* Tamaño cómodo */
   margin: 8px 0;
   border: none;
   cursor: pointer;
-  width: 60%;
-  border-radius: 40px; 
+  width: 60%; /* Reducido el largo */
+  border-radius: 40px; /* Mantiene el estilo redondeado */
   font-size: 16px;
   transition: all 0.2s ease-in-out;
 }
