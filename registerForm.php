@@ -73,15 +73,7 @@
       </form>
     </div>
 
-    <!--  Alert registro personalizado -->
     
-    <div id="custom-alert" class="modal" style="display: none">
-      <div class="modal-alert">
-        <span id="custom-alert-message-register" class="alert-message"></span>
-        <button id="custom-alert-close" class="alert-close">Cerrar</button>
-      </div>
-    </div>
-    <script src="js/registerForm.js"></script>
     
     
     
