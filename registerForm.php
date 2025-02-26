@@ -9,7 +9,7 @@
       href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap"
       rel="stylesheet"
     />
-    <title>Inicio de sesion</title>
+    <title>Registro de usuario</title>
     <link rel="shortcut icon" href="img/logoginnatapechiquito.png" />
   </head>
 
@@ -23,16 +23,16 @@
       <img src="img/Vector.png" class="imgVect" />
     </div>
 
-    <div class="login-container">
-      <form>
+    <div class="registro-container">
+      <form id=register-form>
         <div class="contIn">
-          <h1 class="titleIn">Login</h1>
+          <h1 class="titleIn">Regístrate</h1>
           <div class="contUs">
             <label class="form-label">ID de Empresa</label><br />
             <input
               type="text"
               name="idEmpresa"
-              id="empresaId"
+              id="empresaId2"
               class="txtUsu"
               required
             /><br />
@@ -42,75 +42,49 @@
             <input
               type="email"
               name="correo"
-              id="email1"
+              id="email2"
               class="txtMail"
+              
               required
             /><br />
             <label class="form-label">Contraseña</label><br />
             <input
               type="password"
               name="contra"
-              id="password"
+              id="password2"
               class="txtpsw"
               required
             /><br />
-            <div class="container-btn-sesion">
-              <a href="#" id="link-restablecer" class="link-restablecer"
-                >¿Olvidaste la contraseña?</a
+            <div class="container-btn-registro">
+              <a href="index.php" id="link-miembro" class="link-miembro"
+                >¿Ya eres miembro?Inicia sesión aquí</a
               >
-
               <button
                 type="submit"
-                name="inicioSesion"
-                id="btnSesion"
-                class="btnSesion"
+                name="Registro"
+                id="btnRegistro"
+                class="btnRegistro"
               >
-                Iniciar sesión
+                Regístrate
               </button>
             </div>
           </div>
         </div>
       </form>
     </div>
-    <a href="registerForm.php" id="link-registro" class="link-registro"
-                >¿Aun no estás registrado?</a
-              >
 
-    <!--Formulario del modal-->
-    <div id="reset-password-form" class="modal" style="display: none">
-      <div class="modal-content">
-        <div class="modal-header">
-          <span>Restablecer tu contraseña</span>
-          <span class="close" id="close-modal">&times;</span>
-        </div>
-        <div class="modal-body">
-          <p>
-            Ingresa tu correo electrónico y te enviaremos una contraseña
-            aleatoria para ingresar a su cuenta.
-          </p>
-          <form id="reset-form">
-            <input
-              type="email"
-              id="email"
-              class="txtMail"
-              placeholder="Correo electrónico"
-              required
-            />
-            <button type="submit" class="submit-button-form" id="submit-button">
-              Enviar contraseña
-            </button>
-          </form>
-        </div>
-      </div>
-    </div>
-    <!--  Alert restablecimiento personalizado -->
+    <!--  Alert registro personalizado -->
+    
     <div id="custom-alert" class="modal" style="display: none">
       <div class="modal-alert">
-        <span id="custom-alert-message" class="alert-message"></span>
+        <span id="custom-alert-message-register" class="alert-message"></span>
         <button id="custom-alert-close" class="alert-close">Cerrar</button>
       </div>
     </div>
-    <script src="js/restContra.js"></script>
+    <script src="js/registerForm.js"></script>
+    
+    
+    
     <!-- <p class="txtGii">GIINTAPE INNOVAHUE</p> -->
   </body>
 </html>
