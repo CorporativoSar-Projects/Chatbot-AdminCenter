@@ -17,7 +17,7 @@
     <div class="container-logo">
       <img src="img/Innovahue_logo.svg" class="imgLogo" />
     </div>
-    <p class="txtGii">GIINTAPE INNOVAHUE</p>
+    <p class="txtGii">GIINTAPE INNOVAHUE 3</p>
 
     <div class="vector">
       <img src="img/Vector.png" class="imgVect" />
