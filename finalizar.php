@@ -67,7 +67,7 @@
                     </a>
                     </div>
                     <div class="btn-group">
-                         <a href="menu.html" class="btnCerrar">
+                         <a href="menu.php" class="btnCerrar">
                         <span class="btn-text">Cerrar</span>
                         <img src="img/icons8-close-26.png" class="btn-icon" style="width: 15px;">
                     </a>
@@ -84,12 +84,12 @@
             <div class="container-menu-pers">
                 <nav class="menu-pers">
                     <ul>
-                        <li><a href="estilo.html">Estilo</a></li>
-                        <li><a href="burbuja.html">Burbuja</a></li>
-                        <li><a href="pantallaInicio.html">Pantalla de Inicio</a></li>
-                        <li><a href="crearConversacion.html">Crea la conversación</a></li>
-                        <li><a href="pantallaDespedida.html">Pantalla de Despedida</a></li>
-                        <li class="estas"><a href="finalizar.html">Finalizar</a></li>
+                        <li><a href="estilo.php">Estilo</a></li>
+                        <li><a href="burbuja.php">Burbuja</a></li>
+                        <li><a href="pantallaInicio.php">Pantalla de Inicio</a></li>
+                        <li><a href="crearConversacion.php">Crea la conversación</a></li>
+                        <li><a href="pantallaDespedida.php">Pantalla de Despedida</a></li>
+                        <li class="estas"><a href="finalizar.php">Finalizar</a></li>
                     </ul>
                 </nav>
             </div>

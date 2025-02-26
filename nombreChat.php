@@ -25,8 +25,8 @@
     <header>
       <nav class="navbar">
         <ul class="filas">
-          <li><a href="menu.html" class="txt-home">Home</a></li>
-          <!-- <li><a href="estilo.html">ChatBot para vacantes</a>
+          <li><a href="menu.php" class="txt-home">Home</a></li>
+          <!-- <li><a href="estilo.php">ChatBot para vacantes</a>
                     <ul>
                         <li><a href="#">Chatbot para pedidos</a></li>
                         <li class="divider"></li>
@@ -101,7 +101,7 @@
           </div>
 
           <div class="container-btnFina">
-            <a type="submit" id="btnFina" class="btnFina" href="menu.html"
+            <a type="submit" id="btnFina" class="btnFina" href="menu.php"
               >Finalizar</a
             >
           </div>
