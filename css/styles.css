@@ -50,10 +50,12 @@ h1 {
 .container-btn-registro {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: center; /* Mantiene el botón centrado */
   width: 30%;
   margin-top: 10px;
   gap: 15px;
+  position: relative; /* Permite posicionamiento interno */
+
 }
 
 .link-restablecer,
@@ -61,19 +63,19 @@ h1 {
 .link-miembro {
   text-decoration: none;
   font-weight: 600;
-  background: linear-gradient(
-    to right,
-    #007bff,
-    #0056b3
-  ); /* Aplica un degradado como fondo */
-  -webkit-background-clip: text; /* Hace que el fondo solo se aplique al texto */
-  -webkit-text-fill-color: transparent; /* Hace que el texto adopte el fondo como color */
-  transition: transform 0.2s ease-in-out; /* Agrega una transición suave al escalar */
+  background: linear-gradient(to right, #219EBC, #023047);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: transform 0.2s ease-in-out;
   font-size: 14px;
-  width: 100%;
+  display: inline-block;
+  white-space: nowrap;
+  width: fit-content;
   text-align: left;
-  display: block;
-  white-space: pre-line; /* Permite saltos de línea si los hay en el HTML */
+  margin-bottom: 10px;
+  align-self: flex-start; /* Lo alinea a la izquierda */
+  margin-left: 0; /* Se asegura que esté pegado a la izquierda */
+
 }
 
 .link-restablecer:hover {
@@ -90,15 +92,16 @@ h1 {
 .btnSesion,
 .btnRegistro {
   background-color: #ffb703;
-  color: white;
-  padding: 10px 16px; /* Tamaño cómodo */
+  color: #f3f3f3;
+  padding: 10px 16px;
   margin: 8px 0;
   border: none;
   cursor: pointer;
-  width: 60%; /* Reducido el largo */
-  border-radius: 40px; /* Mantiene el estilo redondeado */
+  width: 60%;
+  border-radius: 40px;
   font-size: 16px;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+
 }
 
 /* efecto buttons */
