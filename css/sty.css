@@ -1344,18 +1344,17 @@ header .navbar ul li ul li a:hover {
 
 /* The Close Button */
 .close {
-    color: #000;
-    float: right;
     font-size: 28px;
+    cursor: pointer;
+    transition: color 0.3s;
 
 }
 
 
 .close:hover,
 .close:focus {
-    color: #e39842;
-    text-decoration: none;
-    cursor: pointer;
+    color: #fb8500;
+
 }
 
 .modal-header {
