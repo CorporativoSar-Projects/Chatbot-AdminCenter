@@ -57,7 +57,7 @@
             /><br />
             <div class="container-btn-registro">
               <a href="index.php" id="link-miembro" class="link-miembro"
-                >¿Ya eres miembro?Inicia sesión aquí</a
+                >¿Ya eres miembro? Inicia sesión</a
               >
               <button
                 type="submit"
