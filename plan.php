@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="css/sty.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <title>Planes</title>
-    <link rel="shortcut icon" href="logoPagina.png" />
+    <link rel="shortcut icon" href="img/logoPagina.png" />
 </head>
 
 <body>
