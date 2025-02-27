@@ -110,7 +110,8 @@
         <button id="custom-alert-close" class="alert-close">Cerrar</button>
       </div>
     </div>
-    <script src="js/restContra.js"></script>
+    <script src="js/restContra.js" type="module"></script>
+    <script src="js/loginError.js" type="module"></script>
     <!-- <p class="txtGii">GIINTAPE INNOVAHUE</p> -->
   </body>
 </html>

@@ -1,11 +1,13 @@
 const forgotPasswordLink = document.getElementById("link-restablecer");
 const resetPasswordForm = document.getElementById("reset-password-form");
 const closeFormButton = document.getElementById("close-modal");
-const resetForm = document.getElementById("reset-form");
+export const resetForm = document.getElementById("reset-form");
 const emailInput = document.getElementById("email");
-const customAlert = document.getElementById("custom-alert");
-const customAlertMessage = document.getElementById("custom-alert-message");
-const customAlertClose = document.getElementById("custom-alert-close");
+export const customAlert = document.getElementById("custom-alert");
+export const customAlertMessage = document.getElementById(
+  "custom-alert-message"
+);
+export const customAlertClose = document.getElementById("custom-alert-close");
 
 forgotPasswordLink.addEventListener("click", function (event) {
   event.preventDefault();
@@ -13,7 +15,7 @@ forgotPasswordLink.addEventListener("click", function (event) {
   resetPasswordForm.style.display = "flex";
 });
 
-function cerrarModal() {
+export function cerrarModal() {
   resetPasswordForm.style.display = "none";
 }
 
@@ -65,7 +67,7 @@ resetForm.addEventListener("submit", function (event) {
     .catch((error) => console.error("Error:", error));
 });
 
-function showCustomAlert(message) {
+export function showCustomAlert(message) {
   customAlertMessage.textContent = message;
   customAlert.style.display = "block";
 }
