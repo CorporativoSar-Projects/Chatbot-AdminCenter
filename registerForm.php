@@ -32,7 +32,7 @@
             <input
               type="text"
               name="idEmpresa"
-              id="empresaId2"
+              id="empresaId"
               class="txtUsu"
               required
             /><br />
@@ -42,7 +42,7 @@
             <input
               type="email"
               name="correo"
-              id="email2"
+              id="email1"
               class="txtMail"
               
               required
@@ -51,7 +51,7 @@
             <input
               type="password"
               name="contra"
-              id="password2"
+              id="password"
               class="txtpsw"
               required
             /><br />

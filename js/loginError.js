@@ -20,17 +20,17 @@ buttonSesion.addEventListener("click", function (event) {
   const password = passwordInput.value;
 
   if (
-    id !== "expectedId" ||
-    email !== "expectedEmail" ||
-    password !== "expectedPassword"
+    id !== "123" ||
+    email !== "holamundo@gmail.com" ||
+    password !== "12345678"
   ) {
     showCustomAlert("Usuario, correo o contraseña incorrectos.");
     customAlert.style.display = "block";
     return;
   } else if (
-    id === "expectedId" &&
-    email === "expectedEmail" &&
-    password === "expectedPassword"
+    id === "123" &&
+    email === "holamundo@gmail.com" &&
+    password === "12345678"
   ) {
     window.location.href = "menu.php";
   }
