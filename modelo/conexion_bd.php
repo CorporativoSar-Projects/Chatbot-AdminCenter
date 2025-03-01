@@ -1,5 +1,6 @@
 <?php
-$conexion = mysqli_connect("localhost", "root", "", "login", 3306);
+/* Si la conexión esta activa o no */
+$conexion = mysqli_connect("localhost", "root", "", "login_registro", 3306);
 
 if (!$conexion) {
     die("Error al conectar a la base de datos: " . mysqli_connect_error());
@@ -8,4 +9,14 @@ if (!$conexion) {
 }
 
 $conexion->set_charset("utf8");
+
+/* Código para mostrar si la conexión sigue activa o no: */
+
+if ($conexion->ping()) {
+    echo "La conexión a la base de datos está activa.";
+} else {
+    echo "La conexión a la base de datos no está activa.";
+}
 ?>
+<!-- URL para la base de datos -->
+<!-- http://localhost/Chatbot-AdminCenter/modelo/conexion_bd.php -->

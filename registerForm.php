@@ -24,7 +24,7 @@
     </div>
 
     <div class="registro-container">
-      <form id=register-form>
+      <form id=register-form method="POST" action="modelo/login_registro_bd.php">
         <div class="contIn">
           <h1 class="titleIn">Regístrate</h1>
           <div class="contUs">
