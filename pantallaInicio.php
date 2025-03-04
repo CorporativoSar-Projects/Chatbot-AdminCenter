@@ -84,10 +84,10 @@
                     <ul>
                         <li><a href="estilo.php">Estilo</a></li>
                         <li><a href="burbuja.php">Burbuja</a></li>
-                        <li class="estas"><a href="pantallaInicio.php">Pantalla de Inicio</a></li>
-                        <li><a href="crearConversacion.php">Crea la conversación</a></li>
-                        <li><a href="pantallaDespedida.php">Pantalla de Despedida</a></li>
-                        <li><a href="finalizar.php">Finalizar</a></li>
+                        <li class="estas"><a href="pantallaInicio.php">Mensaje Inicial</a></li>
+                        <li><a href="crearConversacion.php">Conversación</a></li>
+                        <li><a href="pantallaDespedida.php">Despedida</a></li>
+                        <li><a href="finalizar.php">Vista previa</a></li>
                     </ul>
                 </nav>
             </div>
