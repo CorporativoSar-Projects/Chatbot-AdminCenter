@@ -23,8 +23,10 @@
       <img src="img/Vector.png" class="imgVect" />
     </div>
 
+    <!-- Formulario de login -->
     <div class="login-container">
-      <form>
+      <form method="POST" action="modelo/login_usuario_bd.php">
+        
         <div class="contIn">
           <h1 class="titleIn">Login</h1>
           <div class="contUs">
@@ -111,7 +113,7 @@
       </div>
     </div>
     <script src="js/restContra.js" type="module"></script>
-    <script src="js/loginError.js" type="module"></script>
+    <!-- <script src="js/loginError.js" type="module"></script> --> 
     <!-- <p class="txtGii">GIINTAPE INNOVAHUE</p> -->
   </body>
 </html>

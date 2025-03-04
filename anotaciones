@@ -11,5 +11,5 @@
 - URL para ver si la base de datos esta activa
   http://localhost/Chatbot-AdminCenter/modelo/conexion_bd.php
 
--URL para ver las consultas en mySQL
+-URL para ver las consultas en mySQL y para iniciar sesión solo escribir "root" en el campo de usuario
 http://localhost/phpmyadmin/

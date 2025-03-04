@@ -1,4 +1,4 @@
-import {
+/* import {
   customAlert,
   customAlertMessage,
   customAlertClose,
@@ -45,3 +45,4 @@ window.addEventListener("click", function (event) {
     customAlert.style.display = "none";
   }
 });
+ */
