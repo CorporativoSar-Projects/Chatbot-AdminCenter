@@ -8,6 +8,9 @@ $idEmpresa = $_POST['idEmpresa'];
 $correo = $_POST['correo'];
 $contra = $_POST['contra'];
 
+//Codígo para encriptar la contraseña
+$contra = hash('sha512', $contra);
+
 $validar_login = mysqli_query($conexion, "SELECT * FROM
 usuarios WHERE idEmpresa='$idEmpresa' and correo='$correo'
 and contra='$contra'" );

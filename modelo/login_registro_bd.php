@@ -6,7 +6,8 @@ $idEmpresa = $_POST['idEmpresa'];
 $correo = $_POST['correo'];
 $contra = $_POST['contra'];
 
-
+//Codígo para encriptar la contraseña
+$contra = hash('sha512', $contra);
 
 $query = "INSERT INTO usuarios(idEmpresa, correo, contra) 
 VALUES ('$idEmpresa', '$correo', '$contra')";
