@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="css/sty.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <title>Planes</title>
-    <link rel="shortcut icon" href="logoPagina.png" />
+    <link rel="shortcut icon" href="img/logoPagina.png" />
 </head>
 
 <body>
@@ -19,8 +19,8 @@
     <header>
         <nav class="navbar">
             <ul class="filas">
-                <li><a href="menu.html" class="txt-home">Home</a></li>
-                <!-- <li><a href="estilo.html">ChatBot para vacantes</a>
+                <li><a href="menu.php" class="txt-home">Home</a></li>
+                <!-- <li><a href="estilo.php">ChatBot para vacantes</a>
                     <ul>
                         <li><a href="#">Chatbot para pedidos</a></li>
                         <li class="divider"></li>

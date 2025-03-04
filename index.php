@@ -23,8 +23,10 @@
       <img src="img/Vector.png" class="imgVect" />
     </div>
 
+    <!-- Formulario de login -->
     <div class="login-container">
-      <form>
+      <form method="POST" action="modelo/login_usuario_bd.php">
+        
         <div class="contIn">
           <h1 class="titleIn">Login</h1>
           <div class="contUs">
@@ -72,6 +74,9 @@
         </div>
       </form>
     </div>
+    <a href="registerForm.php" id="link-registro" class="link-registro"
+                >¿Aun no estás registrado?</a
+              >
 
     <!--Formulario del modal-->
     <div id="reset-password-form" class="modal" style="display: none">
@@ -100,14 +105,15 @@
         </div>
       </div>
     </div>
-    <!--  Alert personalizado -->
+    <!--  Alert restablecimiento personalizado -->
     <div id="custom-alert" class="modal" style="display: none">
       <div class="modal-alert">
         <span id="custom-alert-message" class="alert-message"></span>
         <button id="custom-alert-close" class="alert-close">Cerrar</button>
       </div>
     </div>
-    <script src="js/restContra.js"></script>
+    <script src="js/restContra.js" type="module"></script>
+    <!-- <script src="js/loginError.js" type="module"></script> --> 
     <!-- <p class="txtGii">GIINTAPE INNOVAHUE</p> -->
   </body>
 </html>

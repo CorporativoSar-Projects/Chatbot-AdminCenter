@@ -7,36 +7,23 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/sty.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-    <title>Burbuja</title>
+   
+
+    <title>Pantalla Despedida</title>
     <link rel="shortcut icon" href="logoPagina.png" />
 </head>
 
 <body>
-
     <div class="rectangulo-container">
-
         <img src="img/logochiquito.png" width="70px" alt="Logo" class="img-logo-chiq">
     </div>
-    <header>
-        <!-- <nav class="navbar">
-            <ul class="filas">
-                <li><a href="#" class="txt-home">Home</a></li>
-                <li><a href="#">ChatBot para vacantes</a>
-                    <ul>
-                        <li><a href="#">Chatbot para pedidos</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#">Crear nuevo Chatbot</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </nav> -->
 
+    <header>
         <div class="user-dropdown">
             <div class="cont-btn-user">
                 <button class="btn-user"><img src="img/user.png" width="30" alt="User Icon"></button>
-            </div>
+           </div>
             <div class="dropdown-content">
-
                 <div class="d-flex align-items-center px-3 user-info">
                     <img src="img/user.png" width="40" alt="User Icon">
                     <div class="div-user">
@@ -62,7 +49,7 @@
     </header>
 
     <main>
-        <div class="container-prinBur">
+        <div class="container-prin-Desp">
             <div class="container-bienv">
                 <p class="txt-nombre-chat">ChatBot para vacantes</p>
                 <div class="container-btn-cerrar-guar">
@@ -71,6 +58,7 @@
                         <a href="#" class="btnContinuar" id="btnRegresar"> 
                         <span class="btn-text">Regresar</span>
                         <img src="img/flecha-r.png" class="btn-icon" style="width: 15px;">                    </a>
+                    </a>
 
                     <a href="#" class="btnContinuar" id="btnContinuar">
                         <span class="btn-text">Continuar</span>
@@ -78,7 +66,7 @@
                     </a>
                     </div>
                     <div class="btn-group">
-                         <a href="menu.html" class="btnCerrar">
+                         <a href="menu.php" class="btnCerrar">
                         <span class="btn-text">Cerrar</span>
                         <img src="img/icons8-close-26.png" class="btn-icon" style="width: 15px;">
                     </a>
@@ -92,75 +80,79 @@
                 </div>
                 
             </div>
+
             <div class="container-menu-pers">
                 <nav class="menu-pers">
                     <ul>
-                        <li><a href="estilo.html">Estilo</a></li>
-                        <li class="estas"><a href="burbuja.html">Burbuja</a></li>
-                        <li><a href="pantallaInicio.html">Pantalla de Inicio</a></li>
-                        <li><a href="crearConversacion.html">Crea la conversación</a></li>
-                        <li><a href="pantallaDespedida.html">Pantalla de Despedida</a></li>
-                        <li><a href="finalizar.html">Finalizar</a></li>
+                        <li><a href="estilo.php">Estilo</a></li>
+                        <li><a href="burbuja.php">Burbuja</a></li>
+                        <li><a href="pantallaInicio.php">Pantalla de Inicio</a></li>
+                        <li><a href="crearConversacion.php">Crea la conversación</a></li>
+                        <li class="estas"><a href="pantallaDespedida.php">Pantalla de Despedida</a></li>
+                        <li><a href="finalizar.php">Finalizar</a></li>
                     </ul>
                 </nav>
             </div>
-
 
             <div>
                 <div class="container-personalizacion">
                     <div class="container-pers">
                         <img src="img/icono-dia.png" class="img-icono-dia">
-                        <div class="container-pers2">
-                            <p class="txt-perso-chat">Personaliza el mensaje de la burbuja</p>
-                            <p>Muéstrales a tus clientes que el chat está para ayudarles.</p>
+                        <div class="container-despedida">
+                            <p class="txt-crea-conv">Mensaje de despedida</p>
+                            <!-- <p>Muéstrales a tus clientes que el chat está aquí para ayudarte.</p> -->
                         </div>
                     </div>
 
                     <div>
-                        <label class="label-nombrechat">Mensaje</label><br>
-                        <input type="text" name="inp-burbuja" id="inp-burbuja" placeholder="¡Encuentra vacantes!"
-                            class="input-burbuja" minlength="2" maxlength="20" required><br>
+                        <label class="label-nombrechat">Escribe el mensaje de despedida </label><br>
+                        <input type="text" id="inp-depedida"
+                            placeholder="Gracias por usar JobHelper, es un gusto haber podido ayudarte... ¡Hasta la próxima!"
+                            class="input-despedida" required><br>
 
-                        <div class="container-colors">
-                            <div class="nombre-colord">
-                                <label for="colorPrimarioBurbuja">Color Primario</label><br>
-                                <div div class="color-selector">
-                                    <input type="text" id="colorPrimarioBurbuja" value="#e39842"
-                                        oninput="actualizarColores()">
-                                    <div id="muestraColorPrimarioBurbuja" class="color-circle"></div><br>
-
-                                </div>
-                            </div>
-                            <div class="nombre-colorc">
-                                <label for="colorTextoBurbuja">Color de texto</label><br>
-                                <div class="color-selector">
-                                    <input type="text" id="colorTextoBurbuja" value="#000000"
-                                        oninput="actualizarColores()">
-                                    <div id="muestraColorTextoBurbuja" class="color-circle"></div><br>
-                                </div>
-                            </div>
-
-
-                        </div>
-
-                        <div id="chatbot-toggle" class="chat-toggle">
-                            <span id="chatTextBurb" class="chat-text">¡Encuentra Vacantes!</span>
-                            <img src="img/chatbot2.png" alt="Chat" class="toggle-icon">
-
-                        </div>
-
+                        
 
                     </div>
 
+                    <div class="chatbot-principal">
+                        <div class="chatbot-container">
+                            <div class="chatbot-header" id="chatbot-header">
+                                <img src="img/logochiquito.png" alt="Chatbot" class="chatbot-icon">
+                                <p class="txt-titulo-chat" id="txt-titulo-chat">JobHelper</p>
+                                <div class="container1">
+                                    <div class="chatbot-min" title="Minimizar" onclick="toggleChatbot()">
+                                        <img src="img/line.png" />
+                                    </div>
+                                    <div class="chatbot-close" title="Cerrar" onclick="cerrar()">
+                                        <img src="img/close.png" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="chatbot-content" >
+                                <p class="txt-chatbot" id="txt-chatbot-Desp">
+                                    Gracias por usar JobHelper, es un gusto haber podido ayudarte... ¡Hasta la próxima!
+                                </p>
+
+                                <img src="img/logogiintape.png" alt="" style="margin: 0 auto; display: block; width: 100px; height: auto;"/>
+                            </div>
+                            <div id="user-input-container" class="user-input-container" >
+                                <input type="text" id="user-input" placeholder="Escribe aquí tu respuesta...">
+                                <button >Enviar</button>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
+            </div>
+        </div>
     </main>
 
     <!-- jQuery y Bootstrap JavaScript -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="js/burbuja.js"></script>
+    <script src="js/pantallaDesp.js"></script>
     <script src="js/custom.js"></script>
-
+    
 
 </body>
 

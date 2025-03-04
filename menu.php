@@ -25,8 +25,8 @@
     <header>
       <nav class="navbar">
         <ul class="filas">
-          <li><a href="menu.html" class="txt-home">Home</a></li>
-          <!-- <li><a href="estilo.html">ChatBot para vacantes</a>
+          <li><a href="menu.php" class="txt-home">Home</a></li>
+          <!-- <li><a href="estilo.php">ChatBot para vacantes</a>
                     <ul>
                         <li><a href="#">Chatbot para pedidos</a></li>
                         <li class="divider"></li>
@@ -83,7 +83,7 @@
 
         <div>
           <div class="txt-disena-chat">
-            <p>Diseña tu propio ChatBot</p>
+            <p>Configuración</p>
           </div>
 
           <div class="container-chats">
@@ -93,7 +93,7 @@
               </p>
             </div>
             <div class="container-btn-edit-chat">
-              <a href="estilo.html">
+              <a href="estilo.php">
                 <button class="btn-edit-chat">
                   <img src="img/icons9.png" width="35" alt="Edit ChatBot" />
                 </button>
@@ -103,7 +103,7 @@
         </div>
 
         <div class="container-agregar">
-          <a class="btn-add-chat" href="plan.html">
+          <a class="btn-add-chat" href="plan.php">
             <img src="img/add.png" width="60" alt="Add ChatBot" />
           </a>
         </div>

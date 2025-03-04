@@ -7,23 +7,24 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/sty.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-   
 
-    <title>Pantalla Despedida</title>
+    <title>Finalizar</title>
     <link rel="shortcut icon" href="logoPagina.png" />
 </head>
 
 <body>
+
     <div class="rectangulo-container">
         <img src="img/logochiquito.png" width="70px" alt="Logo" class="img-logo-chiq">
     </div>
-
     <header>
+
         <div class="user-dropdown">
             <div class="cont-btn-user">
                 <button class="btn-user"><img src="img/user.png" width="30" alt="User Icon"></button>
            </div>
             <div class="dropdown-content">
+
                 <div class="d-flex align-items-center px-3 user-info">
                     <img src="img/user.png" width="40" alt="User Icon">
                     <div class="div-user">
@@ -49,7 +50,7 @@
     </header>
 
     <main>
-        <div class="container-prin-Desp">
+        <div class="container-prinF">
             <div class="container-bienv">
                 <p class="txt-nombre-chat">ChatBot para vacantes</p>
                 <div class="container-btn-cerrar-guar">
@@ -66,11 +67,11 @@
                     </a>
                     </div>
                     <div class="btn-group">
-                         <a href="menu.html" class="btnCerrar">
+                         <a href="menu.php" class="btnCerrar">
                         <span class="btn-text">Cerrar</span>
                         <img src="img/icons8-close-26.png" class="btn-icon" style="width: 15px;">
                     </a>
-                    <button type="submit" id="btnGuardarS" class="btnGuardarS">
+                    <button type="submit" id="myBtn" class="btnGuardarS">
                         <span class="btn-text">Guardar y salir</span>
                         <img src="img/icons8-save-24.png" class="btn-icon" style="width: 15px;">
                     </button>
@@ -80,16 +81,15 @@
                 </div>
                 
             </div>
-
             <div class="container-menu-pers">
                 <nav class="menu-pers">
                     <ul>
-                        <li><a href="estilo.html">Estilo</a></li>
-                        <li><a href="burbuja.html">Burbuja</a></li>
-                        <li><a href="pantallaInicio.html">Pantalla de Inicio</a></li>
-                        <li><a href="crearConversacion.html">Crea la conversación</a></li>
-                        <li class="estas"><a href="pantallaDespedida.html">Pantalla de Despedida</a></li>
-                        <li><a href="finalizar.html">Finalizar</a></li>
+                        <li><a href="estilo.php">Estilo</a></li>
+                        <li><a href="burbuja.php">Burbuja</a></li>
+                        <li><a href="pantallaInicio.php">Pantalla de Inicio</a></li>
+                        <li><a href="crearConversacion.php">Crea la conversación</a></li>
+                        <li><a href="pantallaDespedida.php">Pantalla de Despedida</a></li>
+                        <li class="estas"><a href="finalizar.php">Finalizar</a></li>
                     </ul>
                 </nav>
             </div>
@@ -97,29 +97,19 @@
             <div>
                 <div class="container-personalizacion">
                     <div class="container-pers">
-                        <img src="img/icono-dia.png" class="img-icono-dia">
-                        <div class="container-despedida">
-                            <p class="txt-crea-conv">Mensaje de despedida</p>
-                            <!-- <p>Muéstrales a tus clientes que el chat está aquí para ayudarte.</p> -->
+                        <img src="img/paint.png" class="img-paint">
+                        <div class="container-pers3">
+                            <p class="txt-perso-chat">Prueba tu ChatBot </p>
                         </div>
                     </div>
 
-                    <div>
-                        <label class="label-nombrechat">Escribe el mensaje de despedida </label><br>
-                        <input type="text" id="inp-depedida"
-                            placeholder="Gracias por usar JobHelper, es un gusto haber podido ayudarte... ¡Hasta la próxima!"
-                            class="input-despedida" required><br>
 
-                        
-
-                    </div>
-
-                    <div class="chatbot-principal">
-                        <div class="chatbot-container">
+                    <div class="chatbot-principal-desp">
+                        <div class="chatbot-container2">
                             <div class="chatbot-header" id="chatbot-header">
                                 <img src="img/logochiquito.png" alt="Chatbot" class="chatbot-icon">
                                 <p class="txt-titulo-chat" id="txt-titulo-chat">JobHelper</p>
-                                <div class="container1">
+                                <div class="container2">
                                     <div class="chatbot-min" title="Minimizar" onclick="toggleChatbot()">
                                         <img src="img/line.png" />
                                     </div>
@@ -128,31 +118,61 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="chatbot-content" >
-                                <p class="txt-chatbot" id="txt-chatbot-Desp">
-                                    Gracias por usar JobHelper, es un gusto haber podido ayudarte... ¡Hasta la próxima!
+                            <div class="chatbot-content2">
+                                <p class="txt-chatbot">
+                                    ¡Saludos! Soy JobHelper, tu guía virtual en el mundo laboral.
+                                    Mi misión es facilitarte el buscar la mejor opción.
                                 </p>
-
-                                <img src="img/logogiintape.png" alt="" style="margin: 0 auto; display: block; width: 100px; height: auto;"/>
+                                <div class="chatbot-buttons2">
+                                    <button class="chatbot-button2">Buscar vacantes por categoría</button>
+                                    <button class="chatbot-button2">Buscar vacantes por ubicación</button>
+                                    <button class="chatbot-button2">Seguimiento de mi postulación</button>
+                                </div>
                             </div>
-                            <div id="user-input-container" class="user-input-container" >
+                            <div id="user-input-container" class="user-input-container">
                                 <input type="text" id="user-input" placeholder="Escribe aquí tu respuesta...">
-                                <button >Enviar</button>
+                                <button>Enviar</button>
                             </div>
                         </div>
                     </div>
 
                 </div>
+
+                <div id="myModal" class="modal">
+
+                    
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5>¡Copia el link de tu ChatBot!</h5>
+                            <span class="close">&times;</span>
+                        </div>
+                        <div class="modal-body">
+                            <p>Link</p>
+                            <input type="text" name="inp-nombre" id="inp-link"
+                                value="https://web-chat.naquistristiquevitaeenim " class="input-link">
+                                <button class="copy-button" onclick="copyLink()">Copiar</button>
+                        </div>
+                        <div class="modal-footer close-footer">
+                            <h6>Cerrar</h6>
+                        </div>
+                    </div>
+
+                </div>
+
             </div>
-        </div>
+
+           
     </main>
+
+   
 
     <!-- jQuery y Bootstrap JavaScript -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="js/pantallaDesp.js"></script>
     <script src="js/custom.js"></script>
-    
+
+    <script src="js/link.js"></script>
+   
 
 </body>
 

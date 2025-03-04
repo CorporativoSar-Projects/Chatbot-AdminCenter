@@ -7,3 +7,9 @@
 -styles.css es para las demás vistas. Este archivo contiene comentarios que indican a qué sección o vista corresponde cada estilo.
 
 -Para que el restablecimiento de contraseña aleatoria funcione es necesario instalar composer para que nos permita instalar PHPMailer desde la terminal y reconozca el respectivo comando, al mismo tiempo, tener instalado MailHog que nos proporciona un entorno local de simulación de envío de la contraseña al correo ingresado.
+
+- URL para ver si la base de datos esta ¿activa
+  http://localhost/Chatbot-AdminCenter/modelo/conexion_bd.php
+
+-URL para ver las consultas en mySQL y para iniciar sesión solo escribir "root" en el campo de usuario
+http://localhost/phpmyadmin/
