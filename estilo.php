@@ -38,7 +38,7 @@
                         <a href="#">ChatBot para pedidos</a>
                         <span>Plan Básico 3 Meses</span>
                     </div>
-                    <a href="#">Cerrar Sesión</a>
+                    <a href="cerrarSesion.php">Cerrar Sesión</a>
                 </div>
             </div>
         </div>

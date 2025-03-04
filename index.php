@@ -1,3 +1,12 @@
+<?php
+session_start();
+
+if (isset($_SESSION['idEmpresa'])) {
+ header("location: menu.php");
+};
+
+?>
+
 <!DOCTYPE html>
 <html lang="es">
   <head>

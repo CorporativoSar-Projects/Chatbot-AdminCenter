@@ -1,3 +1,22 @@
+<?php
+
+session_start();
+
+if (!isset($_SESSION['idEmpresa'])) {
+  echo '
+  <script>
+  alert("Por favor debes de iniciar sesión");
+  window.location = "index.php";
+  </script>
+  ';
+
+  session_destroy();
+  die();
+}
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="es">
   <head>
@@ -63,7 +82,7 @@
               <span>Plan Básico 3 Meses</span>
             </div>
 
-            <a href="#">Cerrar Sesión</a>
+            <a href="cerrarSesion.php">Cerrar Sesión</a>
           </div>
         </div>
       </div>
