@@ -54,33 +54,37 @@
             <div class="container-bienv">
                 <p class="txt-nombre-chat">ChatBot para vacantes</p>
                 <div class="container-btn-cerrar-guar">
-
-                    <div class="btn-group">
-                        <a href="#" class="btnContinuar" id="btnRegresar"> 
-                        <span class="btn-text">Regresar</span>
-                        <img src="img/flecha-r.png" class="btn-icon" style="width: 15px;">                    </a>
-                    </a>
-
-                    <a href="#" class="btnContinuar" id="btnContinuar">
-                        <span class="btn-text">Continuar</span>
-                        <img src="img/flecha-c.png" class="btn-icon" style="width: 15px;">
-                    </a>
-                    </div>
-                    <div class="btn-group">
-                         <a href="menu.php" class="btnCerrar">
-                        <span class="btn-text">Cerrar</span>
-                        <img src="img/icons8-close-26.png" class="btn-icon" style="width: 15px;">
-                    </a>
-                    <button type="submit" id="myBtn" class="btnGuardarS">
-                        <span class="btn-text">Guardar y salir</span>
-                        <img src="img/icons8-save-24.png" class="btn-icon" style="width: 15px;">
-                    </button>
-                    </div>
-                    
-                   
-                </div>
-                
+            <div class="btn-group">
+                <a href="#" class="btnContinuar" id="btnRegresar"> 
+                    <span class="btn-text">Regresar</span>
+                    <img src="img/flecha-r.png" class="btn-icon" style="width: 15px;">
+                </a>
+                <a href="#" class="btnContinuar" id="btnContinuar">
+                    <span class="btn-text">Continuar</span>
+                    <img src="img/flecha-c.png" class="btn-icon" style="width: 15px;">
+                </a>
             </div>
+            <div class="btn-group">
+
+                <button type="submit" id="btnGuardar" class="btnGuardarS">
+                    <span class="btn-text">Guardar</span>
+                    <img src="img/icons8-save-24.png" class="btn-icon" style="width: 15px;">
+                </button>
+                <button type="submit" id="myBtn" class="btnGenerar">
+                    <span class="btn-text">Generar</span>
+                    <img src="img/icons8-link-24.png" class="btn-icon" style="width: 15px;">
+                </button>
+            </div>
+            <div class="btn-groupSalir">
+
+                <a href="menu.php" class="btnCerrar">
+                    <span class="btn-text">Salir</span>
+                    <img src="img/icons8-close-26.png" class="btn-icon" style="width: 15px;">
+                </a>
+            </div>
+        </div>     
+    </div>
+    
             <div class="container-menu-pers">
                 <nav class="menu-pers">
                     <ul>

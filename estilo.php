@@ -60,14 +60,15 @@
                         </a>
                     </div>
                     <div class="btn-group">
-                        <a href="menu.php" class="btnCerrar">
-                            <span class="btn-text">Cerrar</span>
-                            <img src="img/icons8-close-26.png" class="btn-icon" style="width: 15px;">
-                        </a>
                         <button type="submit" id="btnGuardarS" class="btnGuardarS">
-                            <span class="btn-text">Guardar y salir</span>
+                            <span class="btn-text">Guardar</span>
                             <img src="img/icons8-save-24.png" class="btn-icon" style="width: 15px;">
                         </button>
+
+                        <a href="menu.php" class="btnCerrar">
+                            <span class="btn-text">Salir</span>
+                            <img src="img/icons8-close-26.png" class="btn-icon" style="width: 15px;">
+                        </a>
                     </div>
                 </div>
             </div>
@@ -111,21 +112,21 @@
 
                                 <label for="colorAcento">Color de Acento</label><br>
                                 <div class="color-selector">
-                                    <input type="text" id="colorAcento" value="#383838" oninput="actualizarColores()">
+                                    <input type="color" id="colorAcento" value="#383838" oninput="actualizarColores()">
                                     <div id="muestraColorAcento" class="color-circle"></div><br>
                                 </div>
                             </div>
                             <div class="nombre-colorc">
                                 <label for="colorSecundario">Color Secundario</label><br>
                                 <div class="color-selector">
-                                    <input type="text" id="colorSecundario" value="#b6b6b6"
+                                    <input type="color" id="colorSecundario" value="#b6b6b6"
                                         oninput="actualizarColores()">
                                     <div id="muestraColorSecundario" class="color-circle"></div><br>
                                 </div>
 
                                 <label for="colorTexto">Color de Texto</label><br>
                                 <div class="color-selector">
-                                    <input type="text" id="colorTexto" value="#000000" oninput="actualizarColores()">
+                                    <input type="color" id="colorTexto" value="#000000" oninput="actualizarColores()">
                                     <div id="muestraColorTexto" class="color-circle"></div><br>
                                 </div>
                             </div>
