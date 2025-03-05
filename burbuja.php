@@ -69,29 +69,29 @@
 
                     <div class="btn-group">
                         <a href="#" class="btnContinuar" id="btnRegresar"> 
-                        <span class="btn-text">Regresar</span>
-                        <img src="img/flecha-r.png" class="btn-icon" style="width: 15px;">                    </a>
+                            <span class="btn-text">Regresar</span>
+                            <img src="img/flecha-r.png" class="btn-icon" style="width: 15px;">                   
+                        </a>
 
                     <a href="#" class="btnContinuar" id="btnContinuar">
                         <span class="btn-text">Continuar</span>
                         <img src="img/flecha-c.png" class="btn-icon" style="width: 15px;">
                     </a>
                     </div>
-                    <div class="btn-group">
-                         <a href="menu.php" class="btnCerrar">
-                        <span class="btn-text">Cerrar</span>
-                        <img src="img/icons8-close-26.png" class="btn-icon" style="width: 15px;">
-                    </a>
+                <div class="btn-group"> 
                     <button type="submit" id="btnGuardarS" class="btnGuardarS">
-                        <span class="btn-text">Guardar y salir</span>
+                        <span class="btn-text">Guardar</span>
                         <img src="img/icons8-save-24.png" class="btn-icon" style="width: 15px;">
                     </button>
-                    </div>
-                    
+                    <a href="menu.php" class="btnCerrar">
+                        <span class="btn-text">Salir</span>
+                        <img src="img/icons8-close-26.png" class="btn-icon" style="width: 15px;">
+                    </a>
+              </div>    
                    
-                </div>
-                
             </div>
+                
+        </div>
             <div class="container-menu-pers">
                 <nav class="menu-pers">
                     <ul>
@@ -125,7 +125,7 @@
                             <div class="nombre-colord">
                                 <label for="colorPrimarioBurbuja">Color Primario</label><br>
                                 <div div class="color-selector">
-                                    <input type="text" id="colorPrimarioBurbuja" value="#e39842"
+                                    <input type="color" id="colorPrimarioBurbuja" value="#e39842"
                                         oninput="actualizarColores()">
                                     <div id="muestraColorPrimarioBurbuja" class="color-circle"></div><br>
 
@@ -134,7 +134,7 @@
                             <div class="nombre-colorc">
                                 <label for="colorTextoBurbuja">Color de texto</label><br>
                                 <div class="color-selector">
-                                    <input type="text" id="colorTextoBurbuja" value="#000000"
+                                    <input type="color" id="colorTextoBurbuja" value="#000000"
                                         oninput="actualizarColores()">
                                     <div id="muestraColorTextoBurbuja" class="color-circle"></div><br>
                                 </div>
