@@ -305,12 +305,20 @@ header .navbar ul li ul li a:hover {
   justify-content: space-between;
 }
 
+.btn-groupSalir {
+  width: 15%;
+  display: flex;
+  justify-content: space-between;
+}
+
 .btnCerrar,
 .btnGuardarS,
 .btnContinuar,
-.btnRegresar {
+.btnRegresar,
+.btnGenerar {
+
   flex: 1;
-  background-color: #fb8500;
+  background-color: #FB8300;
   color: white;
   padding: 10px;
   margin: 5px 5px;
@@ -322,6 +330,7 @@ header .navbar ul li ul li a:hover {
   text-decoration: none;
   box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
 }
+
 
 .txt-disena-chat {
   margin-left: 40px;
@@ -1637,13 +1646,22 @@ header .navbar ul li ul li a:hover {
     justify-content: space-between;
   }
 
+  .btn-groupSalir {
+    width: 45%;
+    display: flex;
+    justify-content: space-between;
+  }
+
   .btnCerrar,
   .btnGuardarS,
   .btnContinuar,
-  .btnRegresar {
+  .btnRegresar,
+  .btnGenerar {
     font-size: 10px;
     width: 22%;
   }
+
+
 
   .btnFina {
     max-width: 20%;
@@ -1706,10 +1724,17 @@ header .navbar ul li ul li a:hover {
     align-items: center;
   }
 
+  .btn-groupSalir {
+    display: flex;
+    width: 90px;
+    align-items: center;
+  }
+
   .btnCerrar,
   .btnGuardarS,
   .btnContinuar,
-  .btnRegresar {
+  .btnRegresar,
+  .btGenerar {
     width: 10%;
     font-size: 14px;
     padding: 10px;
@@ -1719,6 +1744,7 @@ header .navbar ul li ul li a:hover {
     justify-content: center;
     align-items: center;
   }
+
 
   .input-nombre,
   .input-saludo,
