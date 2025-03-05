@@ -20,6 +20,8 @@ if (isset($_SESSION['idEmpresa'])) {
     />
     <title>Inicio de sesion</title>
     <link rel="shortcut icon" href="img/logoginnatapechiquito.png" />
+    <!-- Incluye SweetAlert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   </head>
 
   <body>
@@ -122,7 +124,8 @@ if (isset($_SESSION['idEmpresa'])) {
       </div>
     </div>
     <script src="js/restContra.js" type="module"></script>
-    <!-- <script src="js/loginError.js" type="module"></script> --> 
+    <script src="js/loginError.js" type="module"></script> 
     <!-- <p class="txtGii">GIINTAPE INNOVAHUE</p> -->
+    
   </body>
 </html>

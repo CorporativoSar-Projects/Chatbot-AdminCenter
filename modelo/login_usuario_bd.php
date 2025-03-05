@@ -21,14 +21,8 @@ if(mysqli_num_rows($validar_login)> 0) {
    header("location: ../menu.php");
    exit;
 }else{
-    echo '<script>
-    alert("Id, correo o contraseña incorrectos");
-    window.location = "../index.php";
-    </script>
-    ';
-
-exit;
+    header("location: ../index.php?error=1");
+    exit;
 }
-
 
 ?>
