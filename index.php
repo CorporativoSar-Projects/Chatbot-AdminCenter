@@ -20,8 +20,7 @@ if (isset($_SESSION['idEmpresa'])) {
     />
     <title>Inicio de sesion</title>
     <link rel="shortcut icon" href="img/logoginnatapechiquito.png" />
-    <!-- Incluye SweetAlert -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
   </head>
 
   <body>

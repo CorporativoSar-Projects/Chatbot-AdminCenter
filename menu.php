@@ -3,17 +3,10 @@
 session_start();
 
 if (!isset($_SESSION['idEmpresa'])) {
-  echo '
-  <script>
-  alert("Por favor debes de iniciar sesión");
-  window.location = "index.php";
-  </script>
-  ';
-
   session_destroy();
-  die();
+  header("location: ./index.php?error=2");
+  exit;
 }
-
 
 ?>
 
@@ -132,5 +125,6 @@ if (!isset($_SESSION['idEmpresa'])) {
     <!-- jQuery y Bootstrap JavaScript -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/loginError.js" type="module"></script> 
   </body>
 </html>
