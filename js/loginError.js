@@ -1,19 +1,4 @@
-import {
-  customAlert,
-  customAlertMessage,
-  customAlertClose,
-  showCustomAlert,
-} from "./restContra";
-
-customAlertClose.addEventListener("click", function () {
-  customAlert.style.display = "none";
-});
-
-window.addEventListener("click", function (event) {
-  if (event.target == customAlert) {
-    customAlert.style.display = "none";
-  }
-});
+import { customAlert, showCustomAlert } from "./restContra";
 
 document.addEventListener("DOMContentLoaded", function () {
   const urlParams = new URLSearchParams(window.location.search);
@@ -23,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
       : "Id, correo o contraseña incorrectos";
   if (urlParams.has("error")) {
     showCustomAlert(errorMessage).then(() => {
-      window.location = "index.php";
+      window.location.href = "index.php";
     });
   }
 });

@@ -67,20 +67,33 @@ resetForm.addEventListener("submit", function (event) {
     .catch((error) => console.error("Error:", error));
 });
 
+//Función general para cerrar la ventana al presionar el botón, hacer click afuera y con escape
+
 export function showCustomAlert(message) {
-  customAlertMessage.textContent = message;
-  customAlert.style.display = "block";
+  return new Promise((resolve) => {
+    customAlertMessage.innerText = message;
+    customAlert.style.display = "block";
+
+    customAlertClose.onclick = () => {
+      customAlert.style.display = "none";
+      resolve();
+    };
+
+    customAlert.addEventListener("click", function (event) {
+      if (event.target === customAlert) {
+        customAlert.style.display = "none";
+        resolve();
+      }
+    });
+
+    customAlert.addEventListener("keydown", function (event) {
+      if (event.key === "Escape") {
+        customAlert.style.display = "none";
+        resolve();
+      }
+    });
+  });
 }
-
-customAlertClose.addEventListener("click", function () {
-  customAlert.style.display = "none";
-});
-
-customAlert.addEventListener("click", function (event) {
-  if (event.target === customAlert) {
-    customAlert.style.display = "none";
-  }
-});
 
 // Función para generar contraseña aleatoria
 function generateRandomPassword(length = 12) {
