@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 
     <title>Finalizar</title>
-    <link rel="shortcut icon" href="logoPagina.png" />
+    <link rel="shortcut icon" href="img/logoPagina.png" />
 </head>
 
 <body>
@@ -70,18 +70,13 @@
                     <span class="btn-text">Guardar</span>
                     <img src="img/icons8-save-24.png" class="btn-icon" style="width: 15px;">
                 </button>
-                <button type="submit" id="myBtn" class="btnGenerar">
-                    <span class="btn-text">Generar</span>
-                    <img src="img/icons8-link-24.png" class="btn-icon" style="width: 15px;">
-                </button>
-            </div>
-            <div class="btn-groupSalir">
-
+                
                 <a href="menu.php" class="btnCerrar">
                     <span class="btn-text">Salir</span>
                     <img src="img/icons8-close-26.png" class="btn-icon" style="width: 15px;">
                 </a>
             </div>
+
         </div>     
     </div>
     
@@ -136,6 +131,18 @@
                             <div id="user-input-container" class="user-input-container">
                                 <input type="text" id="user-input" placeholder="Escribe aquí tu respuesta...">
                                 <button>Enviar</button>
+                            </div>
+                        </div>
+                        <div class="link-func">
+                            <div class="label-func">
+                                <label for="input">URL de funcionamiento</label>
+                            </div>
+                            <div class="container-input">
+                                <input type="text" id="input" class="txtfunc">
+                                    <button type="submit" id="myBtn" class="btnGenerar">
+                                        <span class="btn-text-Generar">Generar</span>
+                                    <!--  <img src="img/icons8-link-24.png" class="btn-icon" style="width: 20px;">-->
+                                    </button>
                             </div>
                         </div>
                     </div>
