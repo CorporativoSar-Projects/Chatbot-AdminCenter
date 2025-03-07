@@ -305,17 +305,11 @@ header .navbar ul li ul li a:hover {
   justify-content: space-between;
 }
 
-.btn-groupSalir {
-  width: 15%;
-  display: flex;
-  justify-content: space-between;
-}
 
 .btnCerrar,
 .btnGuardarS,
 .btnContinuar,
-.btnRegresar,
-.btnGenerar {
+.btnRegresar {
 
   flex: 1;
   background-color: #FB8300;
@@ -533,6 +527,60 @@ header .navbar ul li ul li a:hover {
   height: 30px;
 }
 
+/*diseño del registro del link */
+.link-func {
+  display: flex;
+  flex-direction: column; 
+  align-items: flex-start; 
+  justify-content: center; 
+  height: 65vh; 
+  margin-left: 8%;
+}
+
+.label-func {
+  margin-bottom: 5px; 
+  align-self: flex-start; 
+}
+
+.container-input {
+  display: flex;
+  flex-direction: column; 
+  align-items: flex-start; 
+  gap: 10px; 
+  width: 100%; 
+}
+
+.txtfunc {
+  flex-grow: 1;
+  max-width: 200px; 
+  min-width: 400px; 
+  height: 35px;
+  padding: 10px 15px;
+  border: 2px solid #ccc;
+  border-radius: 20px;
+  background-color: #F3F3F3;
+  box-sizing: border-box;
+  outline: none;
+  transition: opacity 0.2s ease;
+}
+
+.btnGenerar {
+  border-radius: 20px;
+  padding: 8px 25px;
+  background-color: #fb8300;
+  color: white;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  height: 37px;
+  margin-left: 140px;
+}
+
+.btnGenerar:hover {
+  opacity: 0.8;
+}
+
+
 /*chatbot diseño*/
 
 .txt-chatbot {
@@ -552,7 +600,7 @@ header .navbar ul li ul li a:hover {
 }
 
 .chatbot-container2 {
-  margin-left: 35%;
+  margin-left: 55%;
   position: absolute;
   top: 45%;
   width: 400px;
@@ -1505,9 +1553,9 @@ header .navbar ul li ul li a:hover {
   }
 
   .chatbot-container2 {
-    margin-left: 35%;
+    margin-left: 40%;
     position: absolute;
-    top: 45%;
+    top: 100%;
     width: 400px;
     height: 450px;
     border: 1px solid #ccc;
@@ -1655,8 +1703,7 @@ header .navbar ul li ul li a:hover {
   .btnCerrar,
   .btnGuardarS,
   .btnContinuar,
-  .btnRegresar,
-  .btnGenerar {
+  .btnRegresar{
     font-size: 10px;
     width: 22%;
   }
@@ -1684,11 +1731,41 @@ header .navbar ul li ul li a:hover {
         animation-duration: 0.4s;
 
     } */
+
+    /*Link de Funcionamiento*/
+    .link-func {
+      align-items: center; 
+      margin-left: 280px;
+      height: 20vh; /* Reduce la altura para subir el contenido */
+    }
+
+    .label-func {
+        margin-left: 120px; 
+    }
+
+  
+    .container-input {
+      max-width: 450px;
+    }
+  
+    .txtfunc {
+      width: 50%; 
+    }
+  
+    .btnGenerar {
+      margin-left: 130px; 
+      width: 100%;
+      max-width: 150px; 
+    }
 }
 
 .btn-icon {
   display: none;
 }
+
+
+
+
 
 /* Ajustes adicionales para pantallas extremadamente pequeñas */
 @media (max-width: 480px) {
@@ -1733,8 +1810,7 @@ header .navbar ul li ul li a:hover {
   .btnCerrar,
   .btnGuardarS,
   .btnContinuar,
-  .btnRegresar,
-  .btGenerar {
+  .btnRegresar {
     width: 10%;
     font-size: 14px;
     padding: 10px;
@@ -1820,15 +1896,16 @@ header .navbar ul li ul li a:hover {
   }
 
   .chatbot-container2 {
-    margin-left: 35%;
+    margin-left: 42%;
     position: absolute;
-    top: 45%;
+    top: 120%;
     width: 300px;
     height: 450px;
     border: 1px solid #ccc;
     background-color: #ffffff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
+
 
   .chatbot-content2 {
     background-color: #f1f1f1;
@@ -1950,4 +2027,35 @@ header .navbar ul li ul li a:hover {
     margin-left: 2px;
     margin-top: 20px;
   }
+
+/*link de funcionamiento*/
+.link-func {
+  align-items: center;
+  margin-left: 120px;
+  width: 100%;
+  height: 20vh; 
+}
+
+.label-func {
+  margin-left: 20px; 
+}
+
+.container-input {
+  width: 90%;
+  align-items: center;
+}
+
+.txtfunc {
+  max-width: 100%;
+  min-width: unset;
+  width: 100%;
+}
+
+
+.btnGenerar {
+  width: 100%;
+  margin-left: 0;
+  text-align: center;
+  justify-content: center;
+}
 }
