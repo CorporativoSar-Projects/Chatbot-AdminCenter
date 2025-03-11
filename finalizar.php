@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 
     <title>Finalizar</title>
-    <link rel="shortcut icon" href="logoPagina.png" />
+    <link rel="shortcut icon" href="img/logoPagina.png" />
 </head>
 
 <body>
@@ -43,7 +43,7 @@
                         <span>Plan Básico 3 Meses</span>
                     </div>
 
-                    <a href="#">Cerrar Sesión</a>
+                    <a href="cerrarSesion.php">Cerrar Sesión</a>
                 </div>
             </div>
         </div>
@@ -54,33 +54,32 @@
             <div class="container-bienv">
                 <p class="txt-nombre-chat">ChatBot para vacantes</p>
                 <div class="container-btn-cerrar-guar">
-
-                    <div class="btn-group">
-                        <a href="#" class="btnContinuar" id="btnRegresar"> 
-                        <span class="btn-text">Regresar</span>
-                        <img src="img/flecha-r.png" class="btn-icon" style="width: 15px;">                    </a>
-                    </a>
-
-                    <a href="#" class="btnContinuar" id="btnContinuar">
-                        <span class="btn-text">Continuar</span>
-                        <img src="img/flecha-c.png" class="btn-icon" style="width: 15px;">
-                    </a>
-                    </div>
-                    <div class="btn-group">
-                         <a href="menu.php" class="btnCerrar">
-                        <span class="btn-text">Cerrar</span>
-                        <img src="img/icons8-close-26.png" class="btn-icon" style="width: 15px;">
-                    </a>
-                    <button type="submit" id="myBtn" class="btnGuardarS">
-                        <span class="btn-text">Guardar y salir</span>
-                        <img src="img/icons8-save-24.png" class="btn-icon" style="width: 15px;">
-                    </button>
-                    </div>
-                    
-                   
-                </div>
-                
+            <div class="btn-group">
+                <a href="#" class="btnContinuar" id="btnRegresar"> 
+                    <span class="btn-text">Regresar</span>
+                    <img src="img/flecha-r.png" class="btn-icon" style="width: 15px;">
+                </a>
+                <a href="#" class="btnContinuar" id="btnContinuar">
+                    <span class="btn-text">Continuar</span>
+                    <img src="img/flecha-c.png" class="btn-icon" style="width: 15px;">
+                </a>
             </div>
+            <div class="btn-group">
+
+                <button type="submit" id="btnGuardar" class="btnGuardarS">
+                    <span class="btn-text">Guardar</span>
+                    <img src="img/icons8-save-24.png" class="btn-icon" style="width: 15px;">
+                </button>
+                
+                <a href="menu.php" class="btnCerrar">
+                    <span class="btn-text">Salir</span>
+                    <img src="img/icons8-close-26.png" class="btn-icon" style="width: 15px;">
+                </a>
+            </div>
+
+        </div>     
+    </div>
+    
             <div class="container-menu-pers">
                 <nav class="menu-pers">
                     <ul>
@@ -132,6 +131,18 @@
                             <div id="user-input-container" class="user-input-container">
                                 <input type="text" id="user-input" placeholder="Escribe aquí tu respuesta...">
                                 <button>Enviar</button>
+                            </div>
+                        </div>
+                        <div class="link-func">
+                            <div class="label-func">
+                                <label for="input">URL de funcionamiento</label>
+                            </div>
+                            <div class="container-input">
+                                <input type="text" id="input" class="txtfunc">
+                                    <button type="submit" id="myBtn" class="btnGenerar">
+                                        <span class="btn-text-Generar">Generar</span>
+                                    <!--  <img src="img/icons8-link-24.png" class="btn-icon" style="width: 20px;">-->
+                                    </button>
                             </div>
                         </div>
                     </div>

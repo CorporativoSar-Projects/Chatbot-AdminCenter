@@ -1,3 +1,15 @@
+<?php
+
+session_start();
+
+if (!isset($_SESSION['idEmpresa'])) {
+  session_destroy();
+  header("location: ./index.php?error=2");
+  exit;
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="es">
   <head>
@@ -63,7 +75,7 @@
               <span>Plan Básico 3 Meses</span>
             </div>
 
-            <a href="#">Cerrar Sesión</a>
+            <a href="cerrarSesion.php">Cerrar Sesión</a>
           </div>
         </div>
       </div>
@@ -113,5 +125,6 @@
     <!-- jQuery y Bootstrap JavaScript -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/loginError.js" type="module"></script> 
   </body>
 </html>
