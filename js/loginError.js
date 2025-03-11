@@ -1,4 +1,4 @@
-import { customAlert, showCustomAlert } from "./restContra";
+import  showCustomAlert  from "./restContra";
 
 document.addEventListener("DOMContentLoaded", function () {
   const urlParams = new URLSearchParams(window.location.search);

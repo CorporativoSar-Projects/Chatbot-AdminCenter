@@ -1,13 +1,11 @@
 const forgotPasswordLink = document.getElementById("link-restablecer");
 const resetPasswordForm = document.getElementById("reset-password-form");
 const closeFormButton = document.getElementById("close-modal");
-export const resetForm = document.getElementById("reset-form");
+const resetForm = document.getElementById("reset-form");
 const emailInput = document.getElementById("email");
-export const customAlert = document.getElementById("custom-alert");
-export const customAlertMessage = document.getElementById(
-  "custom-alert-message"
-);
-export const customAlertClose = document.getElementById("custom-alert-close");
+const customAlert = document.getElementById("custom-alert");
+const customAlertMessage = document.getElementById("custom-alert-message");
+const customAlertClose = document.getElementById("custom-alert-close");
 
 forgotPasswordLink.addEventListener("click", function (event) {
   event.preventDefault();
@@ -15,7 +13,7 @@ forgotPasswordLink.addEventListener("click", function (event) {
   resetPasswordForm.style.display = "flex";
 });
 
-export function cerrarModal() {
+function cerrarModal() {
   resetPasswordForm.style.display = "none";
 }
 
@@ -69,7 +67,7 @@ resetForm.addEventListener("submit", function (event) {
 
 //Función general para cerrar la ventana al presionar el botón, hacer click afuera y con escape
 
-export function showCustomAlert(message) {
+export default function showCustomAlert(message) {
   return new Promise((resolve) => {
     customAlertMessage.innerText = message;
     customAlert.style.display = "block";

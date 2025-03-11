@@ -59,7 +59,7 @@
                 <div class="container-btn-cerrar-guar">
 
                     <div class="btn-group">
-                        <a href="#" class="btnContinuar" id="btnRegresar"> 
+                        <a href="#" class="btnContinuar" id="btnRegresar">
                             <span class="btn-text">Regresar</span>
                             <img src="img/flecha-r.png" class="btn-icon" style="width: 15px;">
                         </a>
@@ -79,52 +79,52 @@
                             <img src="img/icons8-close-26.png" class="btn-icon" style="width: 15px;">
                         </a>
                     </div>
-                    
+
                 </div>
-                
+
             </div>
 
-        <div class="container-menu-pers">
-            <nav class="menu-pers">
-                <ul>
-                    <li><a href="estilo.php">Estilo</a></li>
-                    <li><a href="burbuja.php">Burbuja</a></li>
-                    <li><a href="pantallaInicio.php">Mensaje Inicial</a></li>
-                    <li class="estas"><a href="crearConversacion.php">Conversación</a></li>
-                    <li><a href="pantallaDespedida.php">Despedida</a></li>
-                    <li><a href="finalizar.php">Vista previa</a></li>
-                </ul>
-            </nav>
-        </div>
+            <div class="container-menu-pers">
+                <nav class="menu-pers">
+                    <ul>
+                        <li><a href="estilo.php">Estilo</a></li>
+                        <li><a href="burbuja.php">Burbuja</a></li>
+                        <li><a href="pantallaInicio.php">Mensaje Inicial</a></li>
+                        <li class="estas"><a href="crearConversacion.php">Conversación</a></li>
+                        <li><a href="pantallaDespedida.php">Despedida</a></li>
+                        <li><a href="finalizar.php">Vista previa</a></li>
+                    </ul>
+                </nav>
+            </div>
 
 
-        <div>
-            <div class="container-personalizacion">
-                <div class="container-pers">
-                    <img src="img/paint.png" class="img-paint">
-                    <div class="container-pers3">
-                        <p class="txt-crea-conv">Crea la conversación</p>
-                        <!-- <p>Muéstrales a tus clientes que el chat está aquí para ayudarte.</p> -->
+            <div>
+                <div class="container-personalizacion">
+                    <div class="container-pers">
+                        <img src="img/paint.png" class="img-paint">
+                        <div class="container-pers3">
+                            <p class="txt-crea-conv">Crea la conversación</p>
+                            <!-- <p>Muéstrales a tus clientes que el chat está aquí para ayudarte.</p> -->
+                        </div>
                     </div>
-                </div>
 
-                <!-- Añado los dos botones -->
-                <div class="botones-conversacion">
-                    <input type="button" onclick="impMenu1(event)" id="boton1" class="boton1" value="Tema1"><br>
-                    <input type="button" onclick="impMenu2(event)" id="boton2" class="boton1" value="Tema2"><br>
-                    <input type="button" onclick="impMenu3(event)" id="boton3" class="boton1" value="Tema3">
-                </div>
-
+                    <!-- Añado los dos botones -->
+                    <div class="botones-conversacion">
+                        <input type="button" onclick="impMenu1(event)" id="boton1" class="boton1" value="Buscar vacantes por categoría"><br>
+                        <input type="button" onclick="impMenu2(event)" id="boton2" class="boton1" value="Buscar vacantes por ubicación"><br>
+                        <input type="button" onclick="impMenu3(event)" id="boton3" class="boton1" value="Seguimiento de mi postulación">
+                    </div>
 
 
-                <!--Cada boton llama a cada funcion de javascript mas arriba declaradas-->
 
-                <br><br>
-                <!-- En el siguiente div se imprimirá el resultado-->
-                <div id="imprimir"></div>
-                <!-- Cada vez que se pulse un boton, el anterior div se sobreescribirá -->
+                    <!--Cada boton llama a cada funcion de javascript mas arriba declaradas-->
 
-                <!-- <div class="container-crear-conver">
+                    <br><br>
+                    <!-- En el siguiente div se imprimirá el resultado-->
+                    <div id="imprimir"></div>
+                    <!-- Cada vez que se pulse un boton, el anterior div se sobreescribirá -->
+
+                    <!-- <div class="container-crear-conver">
                         <label class="label-nombrechat2">Escribe el mensaje que verá el usuario al
                             iniciar la conversación</label><br>
                         <input type="text" name="inp-mensaje-usuario" id="inp-mensaje-usuario" placeholder="Escribe"
@@ -148,11 +148,11 @@
                             class="input-columna" required><br>
                     </div>  -->
 
-                <div id="chatbot-toggle" class="chat-toggle">
-                    <span id="chatTextBurb" class="chat-text">¡Encuentra Vacantes!</span>
-                    <img src="img/chatbot2.png" alt="Chat" class="toggle-icon">
+                    <div id="chatbot-toggle" class="chat-toggle">
+                        <span id="chatTextBurb" class="chat-text">¡Encuentra Vacantes!</span>
+                        <img src="img/chatbot2.png" alt="Chat" class="toggle-icon">
+                    </div>
                 </div>
-            </div>
     </main>
 
     <!-- jQuery y Bootstrap JavaScript -->

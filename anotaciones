@@ -18,3 +18,8 @@
 * Se agregara la proteccion para evitar la inyeccion SQL
 
 http://localhost/phpmyadmin/
+
+- Credenciales validas para inciar sesión en index.php
+  idEmpresa: 123.
+  Correo: holamundo@gmail.com
+  contraseña: 12345678
