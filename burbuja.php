@@ -1,3 +1,16 @@
+<?php
+
+session_start();
+
+if (!isset($_SESSION['idEmpresa'])) {
+    session_destroy();
+    header("location: ./index.php?error=2");
+    exit;
+}
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -68,30 +81,30 @@
                 <div class="container-btn-cerrar-guar">
 
                     <div class="btn-group">
-                        <a href="#" class="btnContinuar" id="btnRegresar"> 
+                        <a href="#" class="btnContinuar" id="btnRegresar">
                             <span class="btn-text">Regresar</span>
-                            <img src="img/flecha-r.png" class="btn-icon" style="width: 15px;">                   
+                            <img src="img/flecha-r.png" class="btn-icon" style="width: 15px;">
                         </a>
 
-                    <a href="#" class="btnContinuar" id="btnContinuar">
-                        <span class="btn-text">Continuar</span>
-                        <img src="img/flecha-c.png" class="btn-icon" style="width: 15px;">
-                    </a>
+                        <a href="#" class="btnContinuar" id="btnContinuar">
+                            <span class="btn-text">Continuar</span>
+                            <img src="img/flecha-c.png" class="btn-icon" style="width: 15px;">
+                        </a>
                     </div>
-                <div class="btn-group"> 
-                    <button type="submit" id="btnGuardarS" class="btnGuardarS">
-                        <span class="btn-text">Guardar</span>
-                        <img src="img/icons8-save-24.png" class="btn-icon" style="width: 15px;">
-                    </button>
-                    <a href="menu.php" class="btnCerrar">
-                        <span class="btn-text">Salir</span>
-                        <img src="img/icons8-close-26.png" class="btn-icon" style="width: 15px;">
-                    </a>
-              </div>    
-                   
+                    <div class="btn-group">
+                        <button type="submit" id="btnGuardarS" class="btnGuardarS">
+                            <span class="btn-text">Guardar</span>
+                            <img src="img/icons8-save-24.png" class="btn-icon" style="width: 15px;">
+                        </button>
+                        <a href="menu.php" class="btnCerrar">
+                            <span class="btn-text">Salir</span>
+                            <img src="img/icons8-close-26.png" class="btn-icon" style="width: 15px;">
+                        </a>
+                    </div>
+
+                </div>
+
             </div>
-                
-        </div>
             <div class="container-menu-pers">
                 <nav class="menu-pers">
                     <ul>

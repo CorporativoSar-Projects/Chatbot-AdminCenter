@@ -1,3 +1,15 @@
+<?php
+
+session_start();
+
+if (!isset($_SESSION['idEmpresa'])) {
+    session_destroy();
+    header("location: ./index.php?error=2");
+    exit;
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -53,9 +65,9 @@
                 <div class="container-btn-cerrar-guar">
 
                     <div class="btn-group">
-                        <a href="#" class="btnContinuar" id="btnRegresar"> 
+                        <a href="#" class="btnContinuar" id="btnRegresar">
                             <span class="btn-text">Regresar</span>
-                            <img src="img/flecha-r.png" class="btn-icon" style="width: 15px;">                   
+                            <img src="img/flecha-r.png" class="btn-icon" style="width: 15px;">
                         </a>
 
                         <a href="#" class="btnContinuar" id="btnContinuar">
@@ -73,10 +85,10 @@
                             <img src="img/icons8-close-26.png" class="btn-icon" style="width: 15px;">
                         </a>
                     </div>
-                    
-                   
+
+
                 </div>
-                
+
             </div>
 
             <div class="container-menu-pers">
@@ -189,7 +201,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/pantallaIn.js"></script>
     <script src="js/custom.js"></script>
-    
+
 
 </body>
 

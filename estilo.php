@@ -1,3 +1,15 @@
+<?php
+
+session_start();
+
+if (!isset($_SESSION['idEmpresa'])) {
+    session_destroy();
+    header("location: ./index.php?error=2");
+    exit;
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
