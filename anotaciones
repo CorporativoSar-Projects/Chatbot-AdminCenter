@@ -20,6 +20,6 @@
 http://localhost/phpmyadmin/
 
 - Credenciales validas para inciar sesión en index.php
-  idEmpresa: 123.
+  idEmpresa: 123
   Correo: holamundo@gmail.com
   contraseña: 12345678

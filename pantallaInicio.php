@@ -118,7 +118,7 @@ if (!isset($_SESSION['idEmpresa'])) {
                         <label class="label-nombrechat">Mensaje de saludo</label><br>
                         <input type="text" name="inp-saludo" id="inp-saludo"
                             placeholder="¡Saludos! Soy JobHelper, tu guía virtual en el mundo laboral."
-                            class="input-saludo" minlength="2" maxlength="80" required><br>
+                            class="input-saludo" minlength="2" maxlength="32" required><br>
 
                         <div class="container-conversacion">
                             <div class="asi-conversacion">
@@ -126,7 +126,7 @@ if (!isset($_SESSION['idEmpresa'])) {
                                 <ul id="listaTemas">
                                     <li class="tema-item">
                                         <input type="text" name="inp-conversa" class="inp-conversa"
-                                            placeholder="Buscar vacantes por categoría" minlength="2" maxlength="28"
+                                            placeholder="Buscar vacantes por categoría" minlength="2" maxlength="31"
                                             required>
                                         <button class="btn-borrar" onclick="eliminarTema(this)">
                                             <img src="img/trash.png" width="20" alt="Delete Topic">
@@ -134,15 +134,15 @@ if (!isset($_SESSION['idEmpresa'])) {
                                     </li>
                                     <li class="tema-item">
                                         <input type="text" name="inp-conversa" class="inp-conversa"
-                                            placeholder="Buscar vacantes por ubicación" required>
-                                        <button class="btn-borrar" onclick="eliminarTema(this)">
+                                            placeholder="Buscar vacantes por ubicación" minlength="2" maxlength="31" required>
+                                        <button class=" btn-borrar" onclick="eliminarTema(this)">
                                             <img src="img/trash.png" width="20" alt="Delete Topic">
                                         </button>
                                     </li>
                                     <li class="tema-item">
                                         <input type="text" name="inp-conversa" class="inp-conversa"
-                                            placeholder="Seguimiento de mi postulación" required>
-                                        <button class="btn-borrar" onclick="eliminarTema(this)">
+                                            placeholder="Seguimiento de mi postulación" minlength="2" maxlength="31" required>
+                                        <button class=" btn-borrar" onclick="eliminarTema(this)">
                                             <img src="img/trash.png" width="20" alt="Delete Topic">
                                         </button>
                                     </li>

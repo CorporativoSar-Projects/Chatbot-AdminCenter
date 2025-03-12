@@ -49,8 +49,7 @@ function impMenu2(event) {
   // Contenido de la función impMenu2
   var stringMenu = `
         <div class="container-crear-conver">
-            <label class="label-nombrechat2">Escribe el mensaje que verá el usuario al
-                iniciar la conversación 2</label><br>
+            <label class="label-nombrechat2">Mensaje inicial de la conversación</label><br>
             <input type="text" name="inp-mensaje-usuario" id="inp-mensaje-usuario" placeholder="Escribe"
                 class="inp-mensaje-usuario-crear" required><br>
 
@@ -86,8 +85,7 @@ function impMenu3(event) {
   // Contenido de la función impMenu3
   var stringMenu = `
         <div class="container-crear-conver">
-            <label class="label-nombrechat2">Escribe el mensaje que verá el usuario al
-                iniciar la conversación 3</label><br>
+            <label class="label-nombrechat2">Mensaje inicial de la conversación</label><br>
             <input type="text" name="inp-mensaje-usuario" id="inp-mensaje-usuario" placeholder="Escribe"
                 class="inp-mensaje-usuario-crear" required><br>
 
