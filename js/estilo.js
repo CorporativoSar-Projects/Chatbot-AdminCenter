@@ -55,26 +55,24 @@ txtNombreChat.addEventListener('keyup', () => {
     divCopiaNombre.innerHTML = txtNombreChat.value;
 });
 
-function previsualizarImagen() {
-    const archivoInput = document.getElementById('archivoLogotipo');
-    const archivo = archivoInput.files[0];
-    const nombreArchivo = document.getElementById('nombreArchivo');
-    const chatbotIcon = document.querySelector('.chatbot-icon');
+    // Función para previsualizar la imagen
+    function previsualizarImagen() {
+        const urlInput = document.getElementById('urlLogotipo');
+        const chatbotIcon = document.getElementById('chatbotIcon');
 
-    if (archivo) {
-        // Actualizar el nombre del archivo
-        nombreArchivo.textContent = archivo.name;
-
-        // Crear una URL para la imagen cargada
-        const lector = new FileReader();
-        lector.onload = function(e) {
-            // Establecer la imagen cargada como la fuente del icono del chatbot
-            chatbotIcon.src = e.target.result;
+        // Verifica si el campo no está vacío
+        if (urlInput.value.trim() !== '') {
+            chatbotIcon.src = urlInput.value; // Cambia el logo a la URL ingresada
+        } else {
+            chatbotIcon.src = 'img/logochiquito.png'; // Imagen por defecto
         }
-        lector.readAsDataURL(archivo);
-    } else {
-        nombreArchivo.textContent = 'Seleccione un archivo';
-        chatbotIcon.src = 'img/logochiquito.png'; // Imagen por defecto
     }
-}
+
+    // Detectar cuando se presiona Enter
+    document.getElementById('urlLogotipo').addEventListener('keypress', function(event) {
+        if (event.key === 'Enter') {
+            previsualizarImagen(); // Llamar a la función de previsualización cuando se presiona Enter
+        }
+    });
+
 

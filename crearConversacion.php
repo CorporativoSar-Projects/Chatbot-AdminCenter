@@ -147,12 +147,6 @@
                         <input type="text" name="inp-columna" id="inp-columna" placeholder="Escribe"
                             class="input-columna" required><br>
                     </div>  -->
-
-                    <div id="chatbot-toggle" class="chat-toggle">
-                        <span id="chatTextBurb" class="chat-text">¡Encuentra Vacantes!</span>
-                        <img src="img/chatbot2.png" alt="Chat" class="toggle-icon">
-                    </div>
-                </div>
     </main>
 
     <!-- jQuery y Bootstrap JavaScript -->

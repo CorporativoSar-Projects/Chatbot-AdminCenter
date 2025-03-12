@@ -115,7 +115,7 @@ if (!isset($_SESSION['idEmpresa'])) {
                     </div>
 
                     <div>
-                        <label class="label-nombrechat">Mensaje de saludo</label><br>
+                        <label class="label-nombrechat">Mensaje inicial</label><br>
                         <input type="text" name="inp-saludo" id="inp-saludo"
                             placeholder="¡Saludos! Soy JobHelper, tu guía virtual en el mundo laboral."
                             class="input-saludo" minlength="2" maxlength="32" required><br>

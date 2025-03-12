@@ -35,8 +35,6 @@ function impMenu1(event) {
                 class="input-columna-crear" required><br>
 
             <label class="label-nombrechat">Origen de búsqueda </label><br>
-            <p class="negritas">(Columna del informe que contiene los datos donde el 
-            chatbot realizará la búsqueda de información)</p>
             <input type="text" name="inp-columna" id="inp-columna" placeholder="Escribe"
                 class="input-columna-crear" required><br>
         </div>
@@ -71,8 +69,6 @@ function impMenu2(event) {
                 class="input-columna-crear" required><br>
 
             <label class="label-nombrechat">Origen de búsqueda </label><br>
-            <p class="negritas">(Columna del informe que contiene los datos donde el 
-            chatbot realizará la búsqueda de información)</p>
             <input type="text" name="inp-columna" id="inp-columna" placeholder="Escribe"
                 class="input-columna-crear" required><br>
         </div>
@@ -107,8 +103,6 @@ function impMenu3(event) {
                 class="input-columna-crear" required><br>
 
             <label class="label-nombrechat">Origen de búsqueda </label><br>
-            <p class="negritas">(Columna del informe que contiene los datos donde el 
-            chatbot realizará la búsqueda de información)</p>
             <input type="text" name="inp-columna" id="inp-columna" placeholder="Escribe"
                 class="input-columna-crear" required><br>
         </div>

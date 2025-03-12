@@ -1349,8 +1349,8 @@ header .navbar ul li ul li a:hover {
 }
 
 .input-link {
-  width: 70%;
-  height: 30px;
+  width: 80%;
+  height:30px;
   padding: 12px 20px;
   margin: 8px 0;
   border: none;
@@ -1380,6 +1380,28 @@ header .navbar ul li ul li a:hover {
 .copy-button:hover {
   background-color: #e64a19;
 }
+
+/*Estilo del boton actualizar logo*/
+.update-logo-button {
+  background-color: #fb8300;
+  color: white;
+  border: none;
+  border-radius: 15px;
+  padding: 6px 20px; /* Más espacio interno */
+  width: 150px; /* Ajusta el ancho según lo necesites */
+  cursor: pointer;
+  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  font-size: 14px; /* Ajusta el tamaño de fuente */
+  white-space: nowrap; /* Evita el salto de línea */
+  margin-left: 15px;
+}
+
+.update-logo-button:hover {
+  background-color: #e64a19;
+}
+
+
 
 /*Modal plan*/
 #planModalUnique {
