@@ -514,9 +514,10 @@ header .navbar ul li ul li a:hover {
 
 .select-archivo {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   margin-top: 15px;
   margin-bottom: 15px;
+  flex-direction: column;
 }
 
 .btn-arch {
@@ -635,12 +636,13 @@ header .navbar ul li ul li a:hover {
 }
 
 .chatbot-icon {
-  width: 30px;
-  /* Nuevo tamaño más pequeño */
-  height: 30px;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
   object-fit: cover;
-  /* Ajusta la imagen dentro del espacio asignado */
-  margin-top: 7px;
+  overflow: hidden;
+  margin-top: 6px;
+  margin-left: 12px; /* Ajusta este valor según necesites */
 }
 
 .chatbot-header {
@@ -1380,27 +1382,41 @@ header .navbar ul li ul li a:hover {
 .copy-button:hover {
   background-color: #e64a19;
 }
+/*Estilo del input donde va el url del logo*/
+.input-url{
+  flex-grow: 1;
+  max-width: 200px; 
+  min-width: 350px; 
+  height: 35px;
+  padding: 10px 15px;
+  border: 2px solid #d9d9d9; /* Se adapta el color del borde */
+  border-radius: 20px;
+  background-color: #ffffff; /* Fondo blanco */
+  box-sizing: border-box;
+  outline: none;
+  transition: opacity 0.2s ease;
+  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2); /* Añadimos sombra para asemejarlo al primer bloque */
+  opacity: 1;
+  margin-bottom: 10px; /* Si es necesario para la disposición */
 
-/*Estilo del boton actualizar logo*/
+}
+/*Estilo del botón Actualizar logo*/
 .update-logo-button {
+  border-radius: 20px;
+  padding: 8px 25px;
   background-color: #fb8300;
   color: white;
   border: none;
-  border-radius: 15px;
-  padding: 6px 20px; /* Más espacio interno */
-  width: 150px; /* Ajusta el ancho según lo necesites */
   cursor: pointer;
-  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
-  text-align: center;
-  font-size: 14px; /* Ajusta el tamaño de fuente */
-  white-space: nowrap; /* Evita el salto de línea */
-  margin-left: 15px;
+  white-space: nowrap;
+  height: 37px;
+  margin-top: 10px; /* Añade un margen superior para separar el botón del input */
+  margin-left: 25%;
 }
 
 .update-logo-button:hover {
   background-color: #e64a19;
 }
-
 
 
 /*Modal plan*/
@@ -1758,7 +1774,7 @@ header .navbar ul li ul li a:hover {
     .link-func {
       align-items: center; 
       margin-left: 280px;
-      height: 20vh; /* Reduce la altura para subir el contenido */
+      height: 20vh; 
     }
 
     .label-func {
