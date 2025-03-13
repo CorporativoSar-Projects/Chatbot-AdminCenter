@@ -2111,16 +2111,16 @@ header .navbar ul li ul li a:hover {
 
 /*Estilo para input del logo */
 .input-url {
-  max-width: 120%; /* Se adapta al ancho de la pantalla */
-  min-width: 130%; /* Elimina la restricción mínima */
-  width: 100%; /* Ocupará el 100% del contenedor */
+  max-width: 120%; 
+  min-width: 130%; 
+  width: 100%; 
   height: 35px;
   padding: 8px 12px;
 }
 
 .update-logo-button {
-  width: 75%; /* Hace que el botón ocupe todo el ancho disponible */
-  margin-left: 25%; /* Elimina margen izquierdo */
+  width: 75%; 
+  margin-left: 25%; 
   text-align: center;
 }
 
