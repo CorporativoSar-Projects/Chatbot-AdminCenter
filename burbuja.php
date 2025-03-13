@@ -156,10 +156,10 @@ if (!isset($_SESSION['idEmpresa'])) {
 
                         </div>
 
+                       <!-- Burbuja del chatbot -->
                         <div id="chatbot-toggle" class="chat-toggle">
                             <span id="chatTextBurb" class="chat-text">¡Encuentra Vacantes!</span>
-                            <img src="img/chatbot2.png" alt="Chat" class="toggle-icon">
-
+                            <img id="chatBubbleIcon" src="img/chatbot2.png" alt="Chat" class="toggle-icon">
                         </div>
 
 
