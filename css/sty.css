@@ -639,10 +639,15 @@ header .navbar ul li ul li a:hover {
   width: 35px;
   height: 35px;
   border-radius: 50%;
-  object-fit: cover;
   overflow: hidden;
   margin-top: 6px;
-  margin-left: 12px; /* Ajusta este valor según necesites */
+  margin-left: 12px;
+}
+
+.chatbot-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .chatbot-header {
@@ -862,7 +867,13 @@ header .navbar ul li ul li a:hover {
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  object-fit: cover;
+  overflow: hidden; /* Asegura que la imagen no se desborde */
+}
+
+.toggle-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ajusta la imagen dentro del círculo sin deformarla */
 }
 
 .chat-text {
@@ -1386,7 +1397,7 @@ header .navbar ul li ul li a:hover {
 .input-url{
   flex-grow: 1;
   max-width: 200px; 
-  min-width: 350px; 
+  min-width: 400px; 
   height: 35px;
   padding: 10px 15px;
   border: 2px solid #d9d9d9; /* Se adapta el color del borde */
@@ -1411,7 +1422,7 @@ header .navbar ul li ul li a:hover {
   white-space: nowrap;
   height: 37px;
   margin-top: 10px; /* Añade un margen superior para separar el botón del input */
-  margin-left: 25%;
+  margin-left: 30%;
 }
 
 .update-logo-button:hover {
@@ -1626,11 +1637,12 @@ header .navbar ul li ul li a:hover {
   }
 
   .toggle-icon {
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
-    object-fit: cover;
+    overflow: hidden; /* Asegura que la imagen no se desborde */
   }
+  
 
   .container-crear-conver {
     margin-left: 15px;
@@ -2096,4 +2108,20 @@ header .navbar ul li ul li a:hover {
   text-align: center;
   justify-content: center;
 }
+
+/*Estilo para input del logo */
+.input-url {
+  max-width: 120%; /* Se adapta al ancho de la pantalla */
+  min-width: 130%; /* Elimina la restricción mínima */
+  width: 100%; /* Ocupará el 100% del contenedor */
+  height: 35px;
+  padding: 8px 12px;
+}
+
+.update-logo-button {
+  width: 75%; /* Hace que el botón ocupe todo el ancho disponible */
+  margin-left: 25%; /* Elimina margen izquierdo */
+  text-align: center;
+}
+
 }
