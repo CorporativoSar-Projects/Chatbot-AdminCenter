@@ -55,24 +55,21 @@ txtNombreChat.addEventListener('keyup', () => {
     divCopiaNombre.innerHTML = txtNombreChat.value;
 });
 
-    // Función para previsualizar la imagen
-    function previsualizarImagen() {
-        const urlInput = document.getElementById('urlLogotipo');
-        const chatbotIcon = document.getElementById('chatbotIcon');
-
-        // Verifica si el campo no está vacío
+// Función para previsualizar la imagen desde url
+function previsualizarImagen() {
+    const urlInput = document.getElementById('urlLogotipo');
+    const chatbotIcon = document.getElementById('chatbotIcon');
+    
         if (urlInput.value.trim() !== '') {
-            chatbotIcon.src = urlInput.value; // Cambia el logo a la URL ingresada
+            const logoURL = urlInput.value;
+    
+            // Guardar la URL en localStorage
+            localStorage.setItem('chatbotLogo', logoURL);
+    
+            // Cambiar el logo en la página actual
+            chatbotIcon.src = logoURL;
         } else {
             chatbotIcon.src = 'img/logochiquito.png'; // Imagen por defecto
         }
-    }
-
-    // Detectar cuando se presiona Enter
-    document.getElementById('urlLogotipo').addEventListener('keypress', function(event) {
-        if (event.key === 'Enter') {
-            previsualizarImagen(); // Llamar a la función de previsualización cuando se presiona Enter
-        }
-    });
-
-
+}
+    

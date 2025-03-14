@@ -49,4 +49,21 @@ txtBurbuja.addEventListener('keyup', () => {
     divCopiaBurb.innerHTML = txtBurbuja.value;
 });
 
+// Este código maneja el logo de la burbuja de chat, cargando un logo personalizado desde localStorage
+document.addEventListener('DOMContentLoaded', function () {
+    const bubbleIcon = document.getElementById('chatBubbleIcon');
+
+    // Revisar si hay un logo guardado en localStorage
+    const savedLogo = localStorage.getItem('chatbotLogo');
+
+    if (savedLogo) {
+        bubbleIcon.src = savedLogo; // Aplicar el logo guardado
+    }
+
+    // Al recargar la página, eliminar la URL guardada
+    window.addEventListener('beforeunload', function () {
+        localStorage.removeItem('chatbotLogo');
+    });
+});
+
 

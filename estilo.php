@@ -144,12 +144,11 @@ if (!isset($_SESSION['idEmpresa'])) {
                             </div>
 
                             <!-- Contenedor para cargar la imagen con icono adjunto -->
-                        
                             <div class="container-archivo">
                                 <label for="urlLogotipo">Ingresa la URL del Logotipo</label><br>
                                 <div class="select-archivo">
-                                <input type="text" id="urlLogotipo" placeholder="https://logo" class="input-link" oninput="previsualizarImagen()">
-                                    <!--<button type="button" onclick="previsualizarImagen()" class="update-logo-button" >Actualizar Logo</button>-->
+                                    <input type="text" id="urlLogotipo" placeholder="https://logo" class="input-url">
+                                    <button type="button" onclick="previsualizarImagen()" class="update-logo-button">Actualizar logo</button>
                                 </div>
                             </div>
                         </div>
