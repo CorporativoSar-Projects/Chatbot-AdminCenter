@@ -305,14 +305,12 @@ header .navbar ul li ul li a:hover {
   justify-content: space-between;
 }
 
-
 .btnCerrar,
 .btnGuardarS,
 .btnContinuar,
 .btnRegresar {
-
   flex: 1;
-  background-color: #FB8300;
+  background-color: #fb8300;
   color: white;
   padding: 10px;
   margin: 5px 5px;
@@ -324,7 +322,6 @@ header .navbar ul li ul li a:hover {
   text-decoration: none;
   box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
 }
-
 
 .txt-disena-chat {
   margin-left: 40px;
@@ -531,35 +528,35 @@ header .navbar ul li ul li a:hover {
 /*diseño del registro del link */
 .link-func {
   display: flex;
-  flex-direction: column; 
-  align-items: flex-start; 
-  justify-content: center; 
-  height: 65vh; 
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  height: 65vh;
   margin-left: 8%;
 }
 
 .label-func {
-  margin-bottom: 5px; 
-  align-self: flex-start; 
+  margin-bottom: 5px;
+  align-self: flex-start;
 }
 
 .container-input {
   display: flex;
-  flex-direction: column; 
-  align-items: flex-start; 
-  gap: 10px; 
-  width: 100%; 
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  width: 100%;
 }
 
 .txtfunc {
   flex-grow: 1;
-  max-width: 200px; 
-  min-width: 400px; 
+  max-width: 200px;
+  min-width: 400px;
   height: 35px;
   padding: 10px 15px;
   border: 2px solid #ccc;
   border-radius: 20px;
-  background-color: #F3F3F3;
+  background-color: #f3f3f3;
   box-sizing: border-box;
   outline: none;
   transition: opacity 0.2s ease;
@@ -580,7 +577,6 @@ header .navbar ul li ul li a:hover {
 .btnGenerar:hover {
   opacity: 0.8;
 }
-
 
 /*chatbot diseño*/
 
@@ -1363,7 +1359,7 @@ header .navbar ul li ul li a:hover {
 
 .input-link {
   width: 80%;
-  height:30px;
+  height: 30px;
   padding: 12px 20px;
   margin: 8px 0;
   border: none;
@@ -1394,10 +1390,10 @@ header .navbar ul li ul li a:hover {
   background-color: #e64a19;
 }
 /*Estilo del input donde va el url del logo*/
-.input-url{
+.input-url {
   flex-grow: 1;
-  max-width: 200px; 
-  min-width: 400px; 
+  max-width: 200px;
+  min-width: 400px;
   height: 35px;
   padding: 10px 15px;
   border: 2px solid #d9d9d9; /* Se adapta el color del borde */
@@ -1409,7 +1405,6 @@ header .navbar ul li ul li a:hover {
   box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2); /* Añadimos sombra para asemejarlo al primer bloque */
   opacity: 1;
   margin-bottom: 10px; /* Si es necesario para la disposición */
-
 }
 /*Estilo del botón Actualizar logo*/
 .update-logo-button {
@@ -1428,7 +1423,6 @@ header .navbar ul li ul li a:hover {
 .update-logo-button:hover {
   background-color: #e64a19;
 }
-
 
 /*Modal plan*/
 #planModalUnique {
@@ -1642,7 +1636,6 @@ header .navbar ul li ul li a:hover {
     border-radius: 50%;
     overflow: hidden; /* Asegura que la imagen no se desborde */
   }
-  
 
   .container-crear-conver {
     margin-left: 15px;
@@ -1753,12 +1746,10 @@ header .navbar ul li ul li a:hover {
   .btnCerrar,
   .btnGuardarS,
   .btnContinuar,
-  .btnRegresar{
+  .btnRegresar {
     font-size: 10px;
     width: 22%;
   }
-
-
 
   .btnFina {
     max-width: 20%;
@@ -1782,40 +1773,35 @@ header .navbar ul li ul li a:hover {
 
     } */
 
-    /*Link de Funcionamiento*/
-    .link-func {
-      align-items: center; 
-      margin-left: 280px;
-      height: 20vh; 
-    }
+  /*Link de Funcionamiento*/
+  .link-func {
+    align-items: center;
+    margin-left: 280px;
+    height: 20vh;
+  }
 
-    .label-func {
-        margin-left: 120px; 
-    }
+  .label-func {
+    margin-left: 120px;
+  }
 
-  
-    .container-input {
-      max-width: 450px;
-    }
-  
-    .txtfunc {
-      width: 50%; 
-    }
-  
-    .btnGenerar {
-      margin-left: 130px; 
-      width: 100%;
-      max-width: 150px; 
-    }
+  .container-input {
+    max-width: 450px;
+  }
+
+  .txtfunc {
+    width: 50%;
+  }
+
+  .btnGenerar {
+    margin-left: 130px;
+    width: 100%;
+    max-width: 150px;
+  }
 }
 
 .btn-icon {
   display: none;
 }
-
-
-
-
 
 /* Ajustes adicionales para pantallas extremadamente pequeñas */
 @media (max-width: 480px) {
@@ -1870,7 +1856,6 @@ header .navbar ul li ul li a:hover {
     justify-content: center;
     align-items: center;
   }
-
 
   .input-nombre,
   .input-saludo,
@@ -1955,7 +1940,6 @@ header .navbar ul li ul li a:hover {
     background-color: #ffffff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
-
 
   .chatbot-content2 {
     background-color: #f1f1f1;
@@ -2078,50 +2062,48 @@ header .navbar ul li ul li a:hover {
     margin-top: 20px;
   }
 
-/*link de funcionamiento*/
-.link-func {
-  align-items: center;
-  margin-left: 120px;
-  width: 100%;
-  height: 20vh; 
-}
+  /*link de funcionamiento*/
+  .link-func {
+    align-items: center;
+    margin-left: 120px;
+    width: 100%;
+    height: 20vh;
+  }
 
-.label-func {
-  margin-left: 20px; 
-}
+  .label-func {
+    margin-left: 20px;
+  }
 
-.container-input {
-  width: 90%;
-  align-items: center;
-}
+  .container-input {
+    width: 90%;
+    align-items: center;
+  }
 
-.txtfunc {
-  max-width: 100%;
-  min-width: unset;
-  width: 100%;
-}
+  .txtfunc {
+    max-width: 100%;
+    min-width: unset;
+    width: 100%;
+  }
 
+  .btnGenerar {
+    width: 100%;
+    margin-left: 0;
+    text-align: center;
+    justify-content: center;
+  }
 
-.btnGenerar {
-  width: 100%;
-  margin-left: 0;
-  text-align: center;
-  justify-content: center;
-}
+  /*Estilo para input del logo */
+  .input-url {
+    max-width: 120%;
+    min-width: 130%;
+    width: 100%;
+    height: 35px;
+    padding: 8px 12px;
+  }
 
-/*Estilo para input del logo */
-.input-url {
-  max-width: 120%; 
-  min-width: 130%; 
-  width: 100%; 
-  height: 35px;
-  padding: 8px 12px;
-}
-
-.update-logo-button {
-  width: 75%; 
-  margin-left: 25%; 
-  text-align: center;
-}
-
+  .update-logo-button {
+    width: 75%;
+    margin-left: 25%;
+    text-align: center;
+  }
 }
