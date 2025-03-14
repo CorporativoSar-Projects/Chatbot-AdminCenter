@@ -19,15 +19,8 @@ function impMenu1(event) {
 
             <div class="container-archivo">
                 <label for="archivoLogotipo">Selecciona un archivo</label><br>
-                <div class="select-archivo">
-                    <input type="file" id="archivo" accept="" onchange="previsualizarImagen()"
-                        style="display: none;">
-                    <button class="btn-select-archivo"
-                        onclick="document.getElementById('archivoLogotipo').click()">
-                        <span id="nombreArchivo" class="nombre-archivo">Valores de respuesta</span>
-                        <img src="img/add1.png" width="20" alt="Edit ChatBot">
-                    </button>
-                </div>
+                <input type="text" name="inp-columna" id="inp-url-valores" placeholder="Valores de respuesta"
+                class="input-columna-crear" required><br>
             </div>
 
             <label class="label-nombrechat">URL de origen de datos</label><br>
@@ -53,15 +46,8 @@ function impMenu2(event) {
 
             <div class="container-archivo">
                 <label for="archivoLogotipo">Selecciona un archivo</label><br>
-                <div class="select-archivo">
-                    <input type="file" id="archivo" accept="" onchange="previsualizarImagen()"
-                        style="display: none;">
-                    <button class="btn-select-archivo"
-                        onclick="document.getElementById('archivoLogotipo').click()">
-                        <span id="nombreArchivo" class="nombre-archivo">Valores de respuesta</span>
-                        <img src="img/add1.png" width="20" alt="Edit ChatBot">
-                    </button>
-                </div>
+                <input type="text" name="inp-columna" id="inp-url-valores" placeholder="Valores de respuesta"
+                class="input-columna-crear" required><br>
             </div>
 
               <label class="label-nombrechat">URL de origen de datos</label><br>
@@ -87,15 +73,8 @@ function impMenu3(event) {
 
             <div class="container-archivo">
                 <label for="archivoLogotipo">Selecciona un archivo</label><br>
-                <div class="select-archivo">
-                    <input type="file" id="archivo" accept="" onchange="previsualizarImagen()"
-                        style="display: none;">
-                    <button class="btn-select-archivo"
-                        onclick="document.getElementById('archivoLogotipo').click()">
-                        <span id="nombreArchivo" class="nombre-archivo">Valores de respuesta</span>
-                        <img src="img/add1.png" width="20" alt="Edit ChatBot">
-                    </button>
-                </div>
+                <input type="text" name="inp-columna" id="inp-url-valores" placeholder="Valores de respuesta"
+                class="input-columna-crear" required><br>
             </div>
 
             <label class="label-nombrechat">URL de origen de datos</label><br>
