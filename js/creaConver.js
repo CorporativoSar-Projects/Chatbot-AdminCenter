@@ -24,8 +24,16 @@ function impMenu1(event) {
             </div>
 
             <label class="label-nombrechat">URL de origen de datos</label><br>
-            <input type="text" name="inp-columna" id="inp-url" placeholder="Escribe"
-                class="input-columna-crear" required><br>
+   <div class="select-archivo">
+                    <input type="file" id="archivo" accept="" onchange="previsualizarImagen()"
+                        style="display: none;">
+                    <button class="btn-select-archivo"
+                        onclick="document.getElementById('archivoLogotipo').click()">
+                        <span id="nombreArchivo" class="nombre-archivo">Valores de respuesta</span>
+                        <img src="img/add1.png" width="20" alt="Edit ChatBot">
+                    </button>
+                </div>
+            
 
             <label class="label-nombrechat">Origen de búsqueda</label><br>
             <input type="text" name="inp-columna" id="inp-columna" placeholder="Escribe"
@@ -33,6 +41,9 @@ function impMenu1(event) {
         </div>
     `;
   document.getElementById("imprimir").innerHTML = stringMenu;
+  /* Campo para insertar la Url de origen de datos
+            <input type="text" name="inp-columna" id="inp-url" placeholder="Escribe"
+                class="input-columna-crear" required><br> */
 }
 
 function impMenu2(event) {
@@ -51,8 +62,16 @@ function impMenu2(event) {
             </div>
 
               <label class="label-nombrechat">URL de origen de datos</label><br>
-            <input type="text" name="inp-columna" id="inp-url" placeholder="Escribe"
-                class="input-columna-crear" required><br>
+            <div class="select-archivo">
+                    <input type="file" id="archivo" accept="" onchange="previsualizarImagen()"
+                        style="display: none;">
+                    <button class="btn-select-archivo"
+                        onclick="document.getElementById('archivoLogotipo').click()">
+                        <span id="nombreArchivo" class="nombre-archivo">Valores de respuesta</span>
+                        <img src="img/add1.png" width="20" alt="Edit ChatBot">
+                    </button>
+                </div>
+            
 
             <label class="label-nombrechat">Origen de búsqueda</label><br>
             <input type="text" name="inp-columna" id="inp-columna" placeholder="Escribe"
@@ -60,6 +79,9 @@ function impMenu2(event) {
         </div>
     `;
   document.getElementById("imprimir").innerHTML = stringMenu;
+  /* Campo para insertar la Url de origen de datos
+            <input type="text" name="inp-columna" id="inp-url" placeholder="Escribe"
+                class="input-columna-crear" required><br> */
 }
 
 function impMenu3(event) {
@@ -78,15 +100,25 @@ function impMenu3(event) {
             </div>
 
             <label class="label-nombrechat">URL de origen de datos</label><br>
-            <input type="text" name="inp-columna" id="inp-url" placeholder="Escribe"
-                class="input-columna-crear" required><br>
-
+            <div class="select-archivo">
+                    <input type="file" id="archivo" accept="" onchange="previsualizarImagen()"
+                        style="display: none;">
+                    <button class="btn-select-archivo"
+                        onclick="document.getElementById('archivoLogotipo').click()">
+                        <span id="nombreArchivo" class="nombre-archivo">Valores de respuesta</span>
+                        <img src="img/add1.png" width="20" alt="Edit ChatBot">
+                    </button>
+                </div>
+            
             <label class="label-nombrechat">Origen de búsqueda </label><br>
             <input type="text" name="inp-columna" id="inp-columna" placeholder="Escribe"
                 class="input-columna-crear" required><br>
         </div>
     `;
   document.getElementById("imprimir").innerHTML = stringMenu;
+  /* Campo para insertar la Url de origen de datos
+            <input type="text" name="inp-columna" id="inp-url" placeholder="Escribe"
+                class="input-columna-crear" required><br> */
 }
 
 // Añadir eventos a los botones
