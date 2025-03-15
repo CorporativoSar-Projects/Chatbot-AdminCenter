@@ -16,15 +16,9 @@ function impMenu1(event) {
             <label class="label-nombrechat2">Mensaje inicial de la conversación<span class="false-span" style="color: white;">1234567891011121314151617181920</span></label><br>
             <input type="text" name="inp-mensaje-usuario" id="inp-mensaje-usuario" placeholder="Escribe"
                 class="inp-mensaje-usuario-crear" required><br>
-
             <div class="container-archivo">
                 <label for="archivoLogotipo">Selecciona un archivo</label><br>
-                <input type="text" name="inp-columna" id="inp-url-valores" placeholder="Valores de respuesta"
-                class="input-columna-crear" required><br>
-            </div>
-
-            <label class="label-nombrechat">URL de origen de datos</label><br>
-   <div class="select-archivo">
+                <div class="select-archivo">
                     <input type="file" id="archivo" accept="" onchange="previsualizarImagen()"
                         style="display: none;">
                     <button class="btn-select-archivo"
@@ -33,12 +27,15 @@ function impMenu1(event) {
                         <img src="img/add1.png" width="20" alt="Edit ChatBot">
                     </button>
                 </div>
-            
-
+            </div>
+            <label class="label-nombrechat">URL de origen de datos</label><br>
+            <input type="text" name="inp-columna" id="inp-url" placeholder="Escribe"
+                class="input-columna-crear" required><br>
             <label class="label-nombrechat">Origen de búsqueda</label><br>
             <input type="text" name="inp-columna" id="inp-columna" placeholder="Escribe"
                 class="input-columna-crear" required><br>
         </div>
+
     `;
   document.getElementById("imprimir").innerHTML = stringMenu;
   /* Campo para insertar la Url de origen de datos
@@ -54,15 +51,9 @@ function impMenu2(event) {
             <label class="label-nombrechat2">Mensaje inicial de la conversación<span class="false-span" style="color: white;">1234567891011121314151617181920</span></label><br>
             <input type="text" name="inp-mensaje-usuario" id="inp-mensaje-usuario" placeholder="Escribe"
                 class="inp-mensaje-usuario-crear" required><br>
-
             <div class="container-archivo">
                 <label for="archivoLogotipo">Selecciona un archivo</label><br>
-                <input type="text" name="inp-columna" id="inp-url-valores" placeholder="Valores de respuesta"
-                class="input-columna-crear" required><br>
-            </div>
-
-              <label class="label-nombrechat">URL de origen de datos</label><br>
-            <div class="select-archivo">
+                <div class="select-archivo">
                     <input type="file" id="archivo" accept="" onchange="previsualizarImagen()"
                         style="display: none;">
                     <button class="btn-select-archivo"
@@ -71,8 +62,10 @@ function impMenu2(event) {
                         <img src="img/add1.png" width="20" alt="Edit ChatBot">
                     </button>
                 </div>
-            
-
+            </div>
+            <label class="label-nombrechat">URL de origen de datos</label><br>
+            <input type="text" name="inp-columna" id="inp-url" placeholder="Escribe"
+                class="input-columna-crear" required><br>
             <label class="label-nombrechat">Origen de búsqueda</label><br>
             <input type="text" name="inp-columna" id="inp-columna" placeholder="Escribe"
                 class="input-columna-crear" required><br>
@@ -92,15 +85,9 @@ function impMenu3(event) {
             <label class="label-nombrechat2">Mensaje inicial de la conversación<span class="false-span" style="color: white;">1234567891011121314151617181920</span></label><br>
             <input type="text" name="inp-mensaje-usuario" id="inp-mensaje-usuario" placeholder="Escribe"
                 class="inp-mensaje-usuario-crear" required><br>
-
             <div class="container-archivo">
                 <label for="archivoLogotipo">Selecciona un archivo</label><br>
-                <input type="text" name="inp-columna" id="inp-url-valores" placeholder="Valores de respuesta"
-                class="input-columna-crear" required><br>
-            </div>
-
-            <label class="label-nombrechat">URL de origen de datos</label><br>
-            <div class="select-archivo">
+                <div class="select-archivo">
                     <input type="file" id="archivo" accept="" onchange="previsualizarImagen()"
                         style="display: none;">
                     <button class="btn-select-archivo"
@@ -109,8 +96,11 @@ function impMenu3(event) {
                         <img src="img/add1.png" width="20" alt="Edit ChatBot">
                     </button>
                 </div>
-            
-            <label class="label-nombrechat">Origen de búsqueda </label><br>
+            </div>
+            <label class="label-nombrechat">URL de origen de datos</label><br>
+            <input type="text" name="inp-columna" id="inp-url" placeholder="Escribe"
+                class="input-columna-crear" required><br>
+            <label class="label-nombrechat">Origen de búsqueda</label><br>
             <input type="text" name="inp-columna" id="inp-columna" placeholder="Escribe"
                 class="input-columna-crear" required><br>
         </div>
