@@ -123,6 +123,7 @@ if (!isset($_SESSION['idEmpresa'])) {
                         <div class="container-conversacion">
                             <div class="asi-conversacion">
                                 <label>Temas de conversación</label><br>
+                                <!-- Se modifico el limite de caracterés a 33 de los inputs de conversación  -->
                                 <ul id="listaTemas">
                                     <li class="tema-item">
                                         <input type="text" name="inp-conversa" class="inp-conversa"

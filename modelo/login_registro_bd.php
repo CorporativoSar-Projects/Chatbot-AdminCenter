@@ -1,6 +1,11 @@
+<!-- Código para registar a un usuario en la base de datos de manera segura con sentencias preparadas
+y evitar la intección SQL -->
+
 <?php
 
 include 'conexion_bd.php';
+
+/* Valores de los campos del formulario de registro */
 
 $idEmpresa = trim($_POST['idEmpresa']);
 $correo = filter_var($_POST['correo'], FILTER_VALIDATE_EMAIL);
@@ -52,6 +57,8 @@ contraseña: password */
 $stmt = mysqli_prepare($conexion, "INSERT INTO usuarios (idEmpresa, correo, contra) VALUES (?, ?, ?)");
 mysqli_stmt_bind_param($stmt, "sss", $idEmpresa, $correo, $contra);
 $ejecutar = mysqli_stmt_execute($stmt);
+
+/* Condicional para verifica si el registro fue exitoso o no */
 
 if ($ejecutar) {
     echo "<script>alert('Registro exitoso'); 

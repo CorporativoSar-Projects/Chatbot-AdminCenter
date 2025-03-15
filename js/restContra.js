@@ -7,24 +7,29 @@ const customAlert = document.getElementById("custom-alert");
 const customAlertMessage = document.getElementById("custom-alert-message");
 const customAlertClose = document.getElementById("custom-alert-close");
 
+/* Funcion para abir el formulario de restablecer contraseña */
 forgotPasswordLink.addEventListener("click", function (event) {
   event.preventDefault();
+  /* Cada vez que se envía se limpia el input del correo */
   emailInput.value = "";
   resetPasswordForm.style.display = "flex";
 });
 
+/* Se cierra el formulario de restablecimiento de contraseña */
 function cerrarModal() {
   resetPasswordForm.style.display = "none";
 }
 
 closeFormButton.addEventListener("click", cerrarModal);
 
+/* Para cerrar el formulario de restablecimiento al hacer click afuera */
 window.addEventListener("click", function (event) {
   if (event.target === resetPasswordForm) {
     cerrarModal();
   }
 });
 
+/* Para cerrar el formulario de restablecimiento al presionar la tecla ESC */
 document.addEventListener("keydown", function (event) {
   if (event.key === "Escape") {
     cerrarModal();
@@ -35,15 +40,17 @@ document.addEventListener("keydown", function (event) {
   }
 });
 
+/* Función que envía el correo con la contraseña aleatoria */
 resetForm.addEventListener("submit", function (event) {
   event.preventDefault();
 
   const email = emailInput.value.trim();
   if (!email) {
+    /* Si el correo no es valido el correo aparecera un mensaje de error */
     showCustomAlert("Por favor, ingresa un correo electrónico válido.");
     return;
   }
-
+  /* Función que vincula al archivo de php para enviar el correo con la contraseña aleatoria */
   const newPassword = generateRandomPassword();
   console.log({ email, newPassword });
   fetch("send-reset-password.php", {

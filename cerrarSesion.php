@@ -1,3 +1,5 @@
+<!-- Funcion para cerrar la sesión del usuario -->
+
 <?php
 session_start();
 session_destroy();

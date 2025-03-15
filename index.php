@@ -1,3 +1,5 @@
+<!-- Función que redirige a la página principal si el usuario ingresa los datos correctos -->
+
 <?php
 session_start();
 
@@ -64,6 +66,7 @@ if (isset($_SESSION['idEmpresa'])) {
             class="txtpsw"
             required /><br />
           <div class="container-btn-sesion">
+            <!-- Enlace para restablecer la contraseña -->
             <a href="#" id="link-restablecer" class="link-restablecer">¿Olvidaste la contraseña?</a>
 
             <button
@@ -80,7 +83,7 @@ if (isset($_SESSION['idEmpresa'])) {
   </div>
   <a href="registerForm.php" id="link-registro" class="link-registro">¿Aun no estás registrado?</a>
 
-  <!--Formulario del modal-->
+  <!--Formulario del modal para el restablecimiento de la contraseña-->
   <div id="reset-password-form" class="modal" style="display: none">
     <div class="modal-content">
       <div class="modal-header">
@@ -113,7 +116,9 @@ if (isset($_SESSION['idEmpresa'])) {
       <button id="custom-alert-close" type="button" class="alert-close">Cerrar</button>
     </div>
   </div>
+  <!-- Se vincula el archivo js que contiene el restablecimiento de la contraseña -->
   <script src="js/restContra.js" type="module"></script>
+  <!-- Se vincula el archivo js que contiene el mensaje de error del login -->
   <script src="js/loginError.js" type="module"></script>
   <!-- <p class="txtGii">GIINTAPE INNOVAHUE</p> -->
 

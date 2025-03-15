@@ -37,6 +37,8 @@ function impMenu1(event) {
     `;
   document.getElementById("imprimir").innerHTML = stringMenu;
 
+  //Se movio el bloque de código comentado de la url porque el marcado que devuelve js no permite comentarios
+
   /* <label class="label-nombrechat">URL de origen de datos</label><br>
             <input type="text" name="inp-columna" id="inp-url" placeholder="Escribe"
                 class="input-columna-crear" required><br> */
@@ -69,6 +71,8 @@ function impMenu2(event) {
         </div>
     `;
   document.getElementById("imprimir").innerHTML = stringMenu;
+  //Se movio el bloque de código comentado de la url porque el marcado que devuelve js no permite comentarios
+
   /*   <label class="label-nombrechat">URL de origen de datos</label><br>
             <input type="text" name="inp-columna" id="inp-url" placeholder="Escribe"
                 class="input-columna-crear" required><br> */
@@ -101,6 +105,8 @@ function impMenu3(event) {
         </div>
     `;
   document.getElementById("imprimir").innerHTML = stringMenu;
+  //Se movio el bloque de código comentado de la url porque el marcado que devuelve js no permite comentarios
+
   /* <label class="label-nombrechat">URL de origen de datos</label><br>
             <input type="text" name="inp-columna" id="inp-url" placeholder="Escribe"
                 class="input-columna-crear" required><br> */

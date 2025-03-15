@@ -1,7 +1,10 @@
+<!-- Código para verificar  el incio de sesón de un usuario en la base de datos -->
 <?php
 
 session_start();
 include 'conexion_bd.php';
+
+//Datos del usuario que se ingresan al formulario de login
 
 $idEmpresa = $_POST['idEmpresa'];
 $correo = $_POST['correo'];
@@ -22,6 +25,7 @@ $result = mysqli_stmt_get_result($stmt);
 
 if ($row = mysqli_fetch_assoc($result)) {
     // Se verifica la contraseña que sea igual a la encriptada
+    // Si los datos son correctos se inicia la sesión
     if (password_verify($contra, $row['contra'])) {
         $_SESSION['idEmpresa'] = $correo;
         header("location: ../menu.php");
