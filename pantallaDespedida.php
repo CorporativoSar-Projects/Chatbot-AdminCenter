@@ -1,3 +1,15 @@
+<?php
+
+session_start();
+
+if (!isset($_SESSION['idEmpresa'])) {
+    session_destroy();
+    header("location: ./index.php?error=2");
+    exit;
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -7,7 +19,7 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/sty.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-   
+
 
     <title>Pantalla Despedida</title>
     <link rel="shortcut icon" href="logoPagina.png" />
@@ -22,7 +34,7 @@
         <div class="user-dropdown">
             <div class="cont-btn-user">
                 <button class="btn-user"><img src="img/user.png" width="30" alt="User Icon"></button>
-           </div>
+            </div>
             <div class="dropdown-content">
                 <div class="d-flex align-items-center px-3 user-info">
                     <img src="img/user.png" width="40" alt="User Icon">
@@ -55,7 +67,7 @@
                 <div class="container-btn-cerrar-guar">
 
                     <div class="btn-group">
-                        <a href="#" class="btnContinuar" id="btnRegresar"> 
+                        <a href="#" class="btnContinuar" id="btnRegresar">
                             <span class="btn-text">Regresar</span>
                             <img src="img/flecha-r.png" class="btn-icon" style="width: 15px;">
                         </a>
@@ -108,7 +120,7 @@
                             placeholder="Gracias por usar JobHelper, es un gusto haber podido ayudarte... ¡Hasta la próxima!"
                             class="input-despedida" required><br>
 
-                        
+
 
                     </div>
 
@@ -126,16 +138,16 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="chatbot-content" >
+                            <div class="chatbot-content">
                                 <p class="txt-chatbot" id="txt-chatbot-Desp">
                                     Gracias por usar JobHelper, es un gusto haber podido ayudarte... ¡Hasta la próxima!
                                 </p>
 
-                                <img src="img/logogiintape.png" alt="" style="margin: 0 auto; display: block; width: 100px; height: auto;"/>
+                                <img src="img/logogiintape.png" alt="" style="margin: 0 auto; display: block; width: 100px; height: auto;" />
                             </div>
-                            <div id="user-input-container" class="user-input-container" >
+                            <div id="user-input-container" class="user-input-container">
                                 <input type="text" id="user-input" placeholder="Escribe aquí tu respuesta...">
-                                <button >Enviar</button>
+                                <button>Enviar</button>
                             </div>
                         </div>
                     </div>
@@ -150,7 +162,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/pantallaDesp.js"></script>
     <script src="js/custom.js"></script>
-    
+
 
 </body>
 
