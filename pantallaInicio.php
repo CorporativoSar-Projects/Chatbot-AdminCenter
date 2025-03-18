@@ -1,3 +1,15 @@
+<?php
+
+session_start();
+
+if (!isset($_SESSION['idEmpresa'])) {
+    session_destroy();
+    header("location: ./index.php?error=2");
+    exit;
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -53,9 +65,9 @@
                 <div class="container-btn-cerrar-guar">
 
                     <div class="btn-group">
-                        <a href="#" class="btnContinuar" id="btnRegresar"> 
+                        <a href="#" class="btnContinuar" id="btnRegresar">
                             <span class="btn-text">Regresar</span>
-                            <img src="img/flecha-r.png" class="btn-icon" style="width: 15px;">                   
+                            <img src="img/flecha-r.png" class="btn-icon" style="width: 15px;">
                         </a>
 
                         <a href="#" class="btnContinuar" id="btnContinuar">
@@ -73,10 +85,10 @@
                             <img src="img/icons8-close-26.png" class="btn-icon" style="width: 15px;">
                         </a>
                     </div>
-                    
-                   
+
+
                 </div>
-                
+
             </div>
 
             <div class="container-menu-pers">
@@ -103,18 +115,19 @@
                     </div>
 
                     <div>
-                        <label class="label-nombrechat">Mensaje de saludo</label><br>
+                        <label class="label-nombrechat">Mensaje inicial</label><br>
                         <input type="text" name="inp-saludo" id="inp-saludo"
                             placeholder="¡Saludos! Soy JobHelper, tu guía virtual en el mundo laboral."
-                            class="input-saludo" minlength="2" maxlength="80" required><br>
+                            class="input-saludo" minlength="2" maxlength="66" required><br>
 
                         <div class="container-conversacion">
                             <div class="asi-conversacion">
                                 <label>Temas de conversación</label><br>
+                                <!-- Se modifico el limite de caracterés a 33 de los inputs de conversación  -->
                                 <ul id="listaTemas">
                                     <li class="tema-item">
                                         <input type="text" name="inp-conversa" class="inp-conversa"
-                                            placeholder="Buscar vacantes por categoría" minlength="2" maxlength="28"
+                                            placeholder="Buscar vacantes por categoría" minlength="2" maxlength="33"
                                             required>
                                         <button class="btn-borrar" onclick="eliminarTema(this)">
                                             <img src="img/trash.png" width="20" alt="Delete Topic">
@@ -122,15 +135,15 @@
                                     </li>
                                     <li class="tema-item">
                                         <input type="text" name="inp-conversa" class="inp-conversa"
-                                            placeholder="Buscar vacantes por ubicación" required>
-                                        <button class="btn-borrar" onclick="eliminarTema(this)">
+                                            placeholder="Buscar vacantes por ubicación" minlength="2" maxlength="33" required>
+                                        <button class=" btn-borrar" onclick="eliminarTema(this)">
                                             <img src="img/trash.png" width="20" alt="Delete Topic">
                                         </button>
                                     </li>
                                     <li class="tema-item">
                                         <input type="text" name="inp-conversa" class="inp-conversa"
-                                            placeholder="Seguimiento de mi postulación" required>
-                                        <button class="btn-borrar" onclick="eliminarTema(this)">
+                                            placeholder="Seguimiento de mi postulación" minlength="2" maxlength="33" required>
+                                        <button class=" btn-borrar" onclick="eliminarTema(this)">
                                             <img src="img/trash.png" width="20" alt="Delete Topic">
                                         </button>
                                     </li>
@@ -189,7 +202,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/pantallaIn.js"></script>
     <script src="js/custom.js"></script>
-    
+
 
 </body>
 

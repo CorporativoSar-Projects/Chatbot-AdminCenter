@@ -1,3 +1,15 @@
+<?php
+
+session_start();
+
+if (!isset($_SESSION['idEmpresa'])) {
+    session_destroy();
+    header("location: ./index.php?error=2");
+    exit;
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -133,15 +145,10 @@
 
                             <!-- Contenedor para cargar la imagen con icono adjunto -->
                             <div class="container-archivo">
-                                <label for="archivoLogotipo">Ingresa Logotipo</label><br>
+                                <label for="urlLogotipo">Ingresa la URL del Logotipo</label><br>
                                 <div class="select-archivo">
-                                    <input type="file" id="archivoLogotipo" accept="image/*"
-                                        onchange="previsualizarImagen()" style="display: none;">
-                                    <button class="btn-select-archivo"
-                                        onclick="document.getElementById('archivoLogotipo').click()">
-                                        <span id="nombreArchivo" class="nombre-archivo">Seleccione un archivo</span>
-                                        <img src="img/add1.png" width="20" alt="Edit ChatBot">
-                                    </button>
+                                    <input type="text" id="urlLogotipo" placeholder="https://logo" class="input-url">
+                                    <button type="button" onclick="previsualizarImagen()" class="update-logo-button">Actualizar logo</button>
                                 </div>
                             </div>
                         </div>
@@ -149,7 +156,7 @@
                     <div class="chatbot-principal">
                         <div class="chatbot-container">
                             <div class="chatbot-header" id="chatbot-header">
-                                <img src="img/logochiquito.png" alt="Chatbot" class="chatbot-icon">
+                                <img src="img/logochiquito.png" alt="Chatbot" class="chatbot-icon" id="chatbotIcon">
                                 <p class="txt-titulo-chat" id="txt-titulo-chat">JobHelper</p>
                                 <div class="container1">
                                     <div class="chatbot-min" title="Minimizar" onclick="toggleChatbot()">

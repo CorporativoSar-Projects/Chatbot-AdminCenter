@@ -1,14 +1,17 @@
+<!-- Funcionalidades que nos proporciona PHP Mailer para enviar correos electronicos -->
+
 <?php
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require 'vendor/autoload.php'; 
+require 'vendor/autoload.php';
 
 header('Content-Type: application/json');
 
 
 $data = json_decode(file_get_contents("php://input"), true);
-error_log(print_r($data, true)); 
+error_log(print_r($data, true));
 
 
 if (json_last_error() !== JSON_ERROR_NONE) {
@@ -38,7 +41,9 @@ try {
     $mail->SMTPAuth = false; // No se requiere autenticación para MailHog
     $mail->Port = 1025; // Puerto SMTP de MailHog
 
-    $mail->setFrom('holamundo@gmail.com', 'Soporte'); 
+    //Este bloque simula el envió de un correo electronico con su nueva contraseña restablecida
+
+    $mail->setFrom('holamundo@gmail.com', 'Soporte');
     $mail->addAddress($email);
     $mail->Subject = 'Recuperación de Contraseña';
     $mail->isHTML(true);
@@ -48,9 +53,10 @@ try {
 
     $mail->send();
 
+    //Si la solicitud es correcta se envián los datos en formato JSON o por el contrario mandará un mensaje de error
     echo json_encode(['success' => true]);
 } catch (Exception $e) {
-    error_log('Error al enviar el correo: ' . $mail->ErrorInfo); 
+    error_log('Error al enviar el correo: ' . $mail->ErrorInfo);
     echo json_encode(['success' => false, 'message' => 'Error al enviar el correo: ' . $mail->ErrorInfo]);
 }
 ?>

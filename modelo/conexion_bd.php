@@ -1,3 +1,5 @@
+<!-- Código para la conexión a la base de datos MySQL -->
+
 <?php
 /* Si la conexión esta activa o no */
 $conexion = mysqli_connect("localhost", "root", "", "login_registro", 3306);

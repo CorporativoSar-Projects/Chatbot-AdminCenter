@@ -55,7 +55,6 @@ h1 {
   margin-top: 10px;
   gap: 15px;
   position: relative; /* Permite posicionamiento interno */
-
 }
 
 .link-restablecer,
@@ -63,7 +62,7 @@ h1 {
 .link-miembro {
   text-decoration: none;
   font-weight: 600;
-  background: linear-gradient(to right, #219EBC, #023047);
+  background: linear-gradient(to right, #219ebc, #023047);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   transition: transform 0.2s ease-in-out;
@@ -75,7 +74,6 @@ h1 {
   margin-bottom: 10px;
   align-self: flex-start; /* Lo alinea a la izquierda */
   margin-left: 0; /* Se asegura que esté pegado a la izquierda */
-
 }
 
 .link-restablecer:hover {
@@ -101,7 +99,6 @@ h1 {
   border-radius: 40px;
   font-size: 16px;
   transition: all 0.2s ease-in-out;
-
 }
 
 /* efecto buttons */
