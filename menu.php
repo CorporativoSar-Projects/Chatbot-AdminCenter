@@ -71,12 +71,12 @@ if (!isset($_SESSION['idEmpresa'])) {
 
         <div class="dropdown-links">
           <div class="user-info">
-            <a href="#">ChatBot para vacantes</a>
-            <span>Plan Básico Mensual</span>
+            <a href="#"><!-- ChatBot para vacantes --></a>
+            <span><!-- Plan Básico Mensual --></span>
           </div>
           <div class="user-info">
-            <a href="#">ChatBot para pedidos</a>
-            <span>Plan Básico 3 Meses</span>
+            <a href="#"><!-- ChatBot para pedidos --></a>
+            <span><!-- Plan Básico 3 Meses --></span>
           </div>
           <!-- Enlace que vincula al botón de cerrar sesión con su respectiva función -->
           <a href="cerrarSesion.php">Cerrar Sesión</a>

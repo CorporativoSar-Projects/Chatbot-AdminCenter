@@ -60,12 +60,12 @@ if (!isset($_SESSION['idEmpresa'])) {
 
                 <div class="dropdown-links">
                     <div class="user-info">
-                        <a href="#">ChatBot para vacantes</a>
-                        <span>Plan Básico Mensual</span>
+                        <a href="#"><!-- ChatBot para vacantes --></a>
+                        <span><!-- Plan Básico Mensual --></span>
                     </div>
                     <div class="user-info">
-                        <a href="#">ChatBot para pedidos</a>
-                        <span>Plan Básico 3 Meses</span>
+                        <a href="#"><!-- ChatBot para pedidos --></a>
+                        <span><!-- Plan Básico 3 Meses --></span>
                     </div>
 
                     <a href="cerrarSesion.php">Cerrar Sesión</a>
@@ -156,7 +156,7 @@ if (!isset($_SESSION['idEmpresa'])) {
 
                         </div>
 
-                       <!-- Burbuja del chatbot -->
+                        <!-- Burbuja del chatbot -->
                         <div id="chatbot-toggle" class="chat-toggle">
                             <span id="chatTextBurb" class="chat-text">¡Encuentra Vacantes!</span>
                             <img id="chatBubbleIcon" src="img/chatbot2.png" alt="Chat" class="toggle-icon">

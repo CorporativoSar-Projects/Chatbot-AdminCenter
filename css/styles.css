@@ -122,11 +122,11 @@ button:hover {
 .imgLogo {
   position: absolute;
   top: 50px;
-  right: 70px;
+  right: 0px;
   border-right: 0;
   margin: 0 auto;
-  width: 30%;
-  height: 65%;
+  width: 40%;
+  object-fit: fill;
 }
 
 /* Modal de alerta */
