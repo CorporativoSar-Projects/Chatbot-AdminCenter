@@ -33,7 +33,7 @@ if (!isset($_SESSION['idEmpresa'])) {
 <body>
   <div class="rectangulo-container">
     <img
-      src="img/logochiquito.png"
+      src="img/newLogo.svg"
       width="70px"
       alt="Logo"
       class="img-logo-chiq" />
@@ -68,7 +68,8 @@ if (!isset($_SESSION['idEmpresa'])) {
             <small>kduranc@giint...</small>
           </div>
         </div>
-
+        <!-- Nuevas leyendas -->
+        <!--         Nombre del chatbot (IXAH), versión 1.0.0, "Desarrollado por Giintape Innovahue" Y correo, soporte@giintapeinnovahueteam.onmicrosoft.com -->
         <div class="dropdown-links">
           <div class="user-info">
             <a href="#"><!-- ChatBot para vacantes --></a>

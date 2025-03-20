@@ -27,7 +27,7 @@ if (!isset($_SESSION['idEmpresa'])) {
 
 <body>
     <div class="rectangulo-container">
-        <img src="img/logochiquito.png" width="70px" alt="Logo" class="img-logo-chiq">
+        <img src="img/newLogo.svg" width="70px" alt="Logo" class="img-logo-chiq">
     </div>
 
     <header>
@@ -115,8 +115,8 @@ if (!isset($_SESSION['idEmpresa'])) {
                     </div>
 
                     <div>
-                        <textarea id="inp-depedida" 
-                            placeholder="Gracias por usar JobHelper, es un gusto haber podido ayudarte... ¡Hasta la próxima!" 
+                        <textarea id="inp-depedida"
+                            placeholder="Gracias por usar JobHelper, es un gusto haber podido ayudarte... ¡Hasta la próxima!"
                             class="input-despedida" required maxlength="300"></textarea><br>
 
 

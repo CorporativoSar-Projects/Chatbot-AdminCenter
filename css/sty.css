@@ -46,7 +46,7 @@ h1 {
 
 .img-logo-chiq {
   position: absolute;
-  top: 10px;
+  top: 5px;
   left: 10px;
   width: 70px;
   z-index: 1;
@@ -400,7 +400,7 @@ header .navbar ul li ul li a:hover {
 
 .input-nombre,
 .input-saludo,
-.input-burbuja{
+.input-burbuja {
   width: 40%;
   height: 40px;
   padding: 12px 20px;
@@ -437,7 +437,7 @@ header .navbar ul li ul li a:hover {
   border-color: #d9d9d9;
   box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
   margin-bottom: 30px;
-  resize: none;  
+  resize: none;
 }
 
 .input-columna {
@@ -695,9 +695,8 @@ header .navbar ul li ul li a:hover {
   overflow-wrap: break-word;
   overflow: hidden;
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
 }
-
 
 .chatbot-content2 {
   background-color: #f1f1f1;
@@ -1573,8 +1572,6 @@ header .navbar ul li ul li a:hover {
   margin-top: 10px;
 }
 
-
-
 /* Media Queries para responsividad */
 @media (max-width: 1300px) {
   .menu-pers ul {
@@ -1752,8 +1749,8 @@ header .navbar ul li ul li a:hover {
     height: 40px;
   }
   /*Tamaño del text-area*/
-  .input-despedida{
-    width: 90%; 
+  .input-despedida {
+    width: 90%;
     height: 150px;
   }
 
@@ -1897,8 +1894,8 @@ header .navbar ul li ul li a:hover {
   }
 
   /*tamaño del text-area*/
-  .input-despedida{
-    width: 90%; 
+  .input-despedida {
+    width: 90%;
     height: 150px;
   }
 

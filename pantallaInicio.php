@@ -25,7 +25,7 @@ if (!isset($_SESSION['idEmpresa'])) {
 
 <body>
     <div class="rectangulo-container">
-        <img src="img/logochiquito.png" width="70px" alt="Logo" class="img-logo-chiq">
+        <img src="img/newLogo.svg" width="70px" alt="Logo" class="img-logo-chiq">
     </div>
 
     <header>

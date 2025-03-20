@@ -16,7 +16,7 @@
 <body>
   <div class="rectangulo-container">
     <img
-      src="img/logochiquito.png"
+      src="img/newLogo.svg"
       width="70px"
       alt="Logo"
       class="img-logo-chiq" />
