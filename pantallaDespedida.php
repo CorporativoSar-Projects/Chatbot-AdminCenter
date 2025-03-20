@@ -115,10 +115,9 @@ if (!isset($_SESSION['idEmpresa'])) {
                     </div>
 
                     <div>
-                        <label class="label-nombrechat">Escribe el mensaje de despedida </label><br>
-                        <input type="text" id="inp-depedida"
-                            placeholder="Gracias por usar JobHelper, es un gusto haber podido ayudarte... ¡Hasta la próxima!"
-                            class="input-despedida" required><br>
+                        <textarea id="inp-depedida" 
+                            placeholder="Gracias por usar JobHelper, es un gusto haber podido ayudarte... ¡Hasta la próxima!" 
+                            class="input-despedida" required maxlength="300"></textarea><br>
 
 
 
@@ -143,7 +142,8 @@ if (!isset($_SESSION['idEmpresa'])) {
                                     Gracias por usar JobHelper, es un gusto haber podido ayudarte... ¡Hasta la próxima!
                                 </p>
 
-                                <img src="img/logogiintape.png" alt="" style="margin: 0 auto; display: block; width: 100px; height: auto;" />
+                                <img src="img/logogiintape.png" alt="" style="margin: 0 auto; display: block; width: 100px; height: auto; max-width: 100%; overflow: hidden;" />
+
                             </div>
                             <div id="user-input-container" class="user-input-container">
                                 <input type="text" id="user-input" placeholder="Escribe aquí tu respuesta...">
