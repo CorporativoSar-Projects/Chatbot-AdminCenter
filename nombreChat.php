@@ -52,12 +52,12 @@
 
         <div class="dropdown-links">
           <div class="user-info">
-            <a href="#"><!-- ChatBot para vacantes --></a>
-            <span><!-- Plan Básico Mensual --></span>
+            <a href="#">Chatbot IXAH</a>
+            <span>Versión 1.0.0</span>
           </div>
           <div class="user-info">
-            <a href="#"><!-- ChatBot para pedidos --></a>
-            <span><!-- Plan Básico 3 Meses --></span>
+            <a href="#">Desarrollado por Giintape Innovahue</a>
+            <span> soporte@giintapeinnovahueteam.onmicrosoft.com</span>
           </div>
 
           <a href="cerrarSesion.php">Cerrar Sesión</a>

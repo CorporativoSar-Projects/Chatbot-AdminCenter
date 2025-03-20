@@ -65,19 +65,19 @@ if (!isset($_SESSION['idEmpresa'])) {
           <img src="img/user.png" width="40" alt="User Icon" />
           <div class="div-user">
             <strong>Karla Durán</strong><br />
-            <small>kduranc@giint...</small>
+            <small><?php echo ($_SESSION['idEmpresa']) ?></small>
           </div>
         </div>
         <!-- Nuevas leyendas -->
         <!--         Nombre del chatbot (IXAH), versión 1.0.0, "Desarrollado por Giintape Innovahue" Y correo, soporte@giintapeinnovahueteam.onmicrosoft.com -->
         <div class="dropdown-links">
           <div class="user-info">
-            <a href="#"><!-- ChatBot para vacantes --></a>
-            <span><!-- Plan Básico Mensual --></span>
+            <a href="#">Chatbot IXAH</a>
+            <span>Versión 1.0.0</span>
           </div>
           <div class="user-info">
-            <a href="#"><!-- ChatBot para pedidos --></a>
-            <span><!-- Plan Básico 3 Meses --></span>
+            <a href="#">Desarrollado por Giintape Innovahue</a>
+            <span> soporte@giintapeinnovahueteam.onmicrosoft.com</span>
           </div>
           <!-- Enlace que vincula al botón de cerrar sesión con su respectiva función -->
           <a href="cerrarSesion.php">Cerrar Sesión</a>
