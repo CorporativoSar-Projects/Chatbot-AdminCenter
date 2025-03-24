@@ -117,7 +117,7 @@ if (!isset($_SESSION['idEmpresa'])) {
                     <div>
                         <textarea id="inp-depedida"
                             placeholder="Gracias por usar JobHelper, es un gusto haber podido ayudarte... ¡Hasta la próxima!"
-                            class="input-despedida" required maxlength="300"></textarea><br>
+                            class="input-despedida" required maxlength="280"></textarea><br>
 
 
 
