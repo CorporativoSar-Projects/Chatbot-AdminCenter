@@ -1,3 +1,15 @@
+<?php
+
+session_start();
+
+if (!isset($_SESSION['idEmpresa'])) {
+    session_destroy();
+    header("location: ./index.php?error=2");
+    exit;
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -22,25 +34,25 @@
         <div class="user-dropdown">
             <div class="cont-btn-user">
                 <button class="btn-user"><img src="img/user.png" width="30" alt="User Icon"></button>
-           </div>
+            </div>
             <div class="dropdown-content">
 
                 <div class="d-flex align-items-center px-3 user-info">
                     <img src="img/user.png" width="40" alt="User Icon">
                     <div class="div-user">
                         <strong>Karla Durán</strong><br>
-                        <small>kduranc@giint...</small>
+                        <small><?php echo ($_SESSION['idEmpresa']) ?></small>
                     </div>
                 </div>
 
                 <div class="dropdown-links">
                     <div class="user-info">
-                        <a href="#">ChatBot para vacantes</a>
-                        <span>Plan Básico Mensual</span>
+                        <a href="#">Chatbot IXAH</a>
+                        <span>Versión 1.0.0</span>
                     </div>
                     <div class="user-info">
-                        <a href="#">ChatBot para pedidos</a>
-                        <span>Plan Básico 3 Meses</span>
+                        <a href="#">Desarrollado por Giintape Innovahue</a>
+                        <span> soporte@giintapeinnovahueteam.onmicrosoft.com</span>
                     </div>
 
                     <a href="cerrarSesion.php">Cerrar Sesión</a>
@@ -54,32 +66,32 @@
             <div class="container-bienv">
                 <p class="txt-nombre-chat">ChatBot para vacantes</p>
                 <div class="container-btn-cerrar-guar">
-            <div class="btn-group">
-                <a href="#" class="btnContinuar" id="btnRegresar"> 
-                    <span class="btn-text">Regresar</span>
-                    <img src="img/flecha-r.png" class="btn-icon" style="width: 15px;">
-                </a>
-                <a href="#" class="btnContinuar" id="btnContinuar">
-                    <span class="btn-text">Continuar</span>
-                    <img src="img/flecha-c.png" class="btn-icon" style="width: 15px;">
-                </a>
-            </div>
-            <div class="btn-group">
+                    <div class="btn-group">
+                        <a href="#" class="btnContinuar" id="btnRegresar">
+                            <span class="btn-text">Regresar</span>
+                            <img src="img/flecha-r.png" class="btn-icon" style="width: 15px;">
+                        </a>
+                        <a href="#" class="btnContinuar" id="btnContinuar">
+                            <span class="btn-text">Continuar</span>
+                            <img src="img/flecha-c.png" class="btn-icon" style="width: 15px;">
+                        </a>
+                    </div>
+                    <div class="btn-group">
 
-                <button type="submit" id="btnGuardar" class="btnGuardarS">
-                    <span class="btn-text">Guardar</span>
-                    <img src="img/icons8-save-24.png" class="btn-icon" style="width: 15px;">
-                </button>
-                
-                <a href="menu.php" class="btnCerrar">
-                    <span class="btn-text">Salir</span>
-                    <img src="img/icons8-close-26.png" class="btn-icon" style="width: 15px;">
-                </a>
+                        <button type="submit" id="btnGuardar" class="btnGuardarS">
+                            <span class="btn-text">Guardar</span>
+                            <img src="img/icons8-save-24.png" class="btn-icon" style="width: 15px;">
+                        </button>
+
+                        <a href="menu.php" class="btnCerrar">
+                            <span class="btn-text">Salir</span>
+                            <img src="img/icons8-close-26.png" class="btn-icon" style="width: 15px;">
+                        </a>
+                    </div>
+
+                </div>
             </div>
 
-        </div>     
-    </div>
-    
             <div class="container-menu-pers">
                 <nav class="menu-pers">
                     <ul>
@@ -139,10 +151,10 @@
                             </div>
                             <div class="container-input">
                                 <input type="text" id="input" class="txtfunc">
-                                    <button type="submit" id="myBtn" class="btnGenerar">
-                                        <span class="btn-text-Generar">Generar</span>
+                                <button type="submit" id="myBtn" class="btnGenerar">
+                                    <span class="btn-text-Generar">Generar</span>
                                     <!--  <img src="img/icons8-link-24.png" class="btn-icon" style="width: 20px;">-->
-                                    </button>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -151,7 +163,7 @@
 
                 <div id="myModal" class="modal">
 
-                    
+
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5>¡Copia el link de tu ChatBot!</h5>
@@ -161,7 +173,7 @@
                             <p>Link</p>
                             <input type="text" name="inp-nombre" id="inp-link"
                                 value="https://web-chat.naquistristiquevitaeenim " class="input-link">
-                                <button class="copy-button" onclick="copyLink()">Copiar</button>
+                            <button class="copy-button" onclick="copyLink()">Copiar</button>
                         </div>
                         <div class="modal-footer close-footer">
                             <h6>Cerrar</h6>
@@ -172,10 +184,10 @@
 
             </div>
 
-           
+
     </main>
 
-   
+
 
     <!-- jQuery y Bootstrap JavaScript -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -183,7 +195,7 @@
     <script src="js/custom.js"></script>
 
     <script src="js/link.js"></script>
-   
+
 
 </body>
 

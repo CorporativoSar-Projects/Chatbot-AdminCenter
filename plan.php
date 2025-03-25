@@ -14,7 +14,7 @@
 <body>
 
     <div class="rectangulo-container">
-        <img src="img/logochiquito.png" width="70px" alt="Logo" class="img-logo-chiq">
+        <img src="img/newLogo.svg" width="70px" alt="Logo" class="img-logo-chiq">
     </div>
     <header>
         <nav class="navbar">
@@ -46,12 +46,12 @@
 
                 <div class="dropdown-links">
                     <div class="user-info">
-                        <a href="#">ChatBot para vacantes</a>
-                        <span>Plan Básico Mensual</span>
+                        <a href="#">Chatbot IXAH</a>
+                        <span>Versión 1.0.0</span>
                     </div>
                     <div class="user-info">
-                        <a href="#">ChatBot para pedidos</a>
-                        <span>Plan Básico 3 Meses</span>
+                        <a href="#">Desarrollado por Giintape Innovahue</a>
+                        <span> soporte@giintapeinnovahueteam.onmicrosoft.com</span>
                     </div>
 
                     <a href="cerrarSesion.php">Cerrar Sesión</a>
@@ -258,31 +258,31 @@
                             </div>
                             <iframe src="recursos/Terminos-y-Condiciones-de-Venta.pdf#toolbar=0" class="ifr"></iframe>
                             <br>
-                            <div  class="check">
-                                 <input type="checkbox" id="acceptTerms"> <label for="acceptTerms">Acepto términos y condiciones.</label>
+                            <div class="check">
+                                <input type="checkbox" id="acceptTerms"> <label for="acceptTerms">Acepto términos y condiciones.</label>
                             </div>
-                           
+
                         </div>
                         <div class="modal-footer modal-footer-b">
                             <button type="button" class="btn btn-secondary btn-cancelar" data-dismiss="modal">Cancelar</button>
-                            <button type="button" class="btn btn-primary btn-continuar"id="confirmSelection" disabled>Continuar</button>
+                            <button type="button" class="btn btn-primary btn-continuar" id="confirmSelection" disabled>Continuar</button>
                         </div>
                     </div>
                 </div>
             </div>
-            
+
 
 
 
             <div class="container-btn">
-                <button type="button" id="btnSiguiente" class="btnSiguiente" >Siguiente</button>
+                <button type="button" id="btnSiguiente" class="btnSiguiente">Siguiente</button>
             </div>
 
 
 
 
         </form>
-    
+
 
 
     </main>

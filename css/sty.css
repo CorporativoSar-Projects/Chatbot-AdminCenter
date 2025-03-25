@@ -46,7 +46,7 @@ h1 {
 
 .img-logo-chiq {
   position: absolute;
-  top: 10px;
+  top: 5px;
   left: 10px;
   width: 70px;
   z-index: 1;
@@ -183,6 +183,15 @@ header .navbar ul li ul li a:hover {
   color: white;
   text-decoration: none;
   font-size: 14px;
+}
+
+.close-button {
+  padding-left: 30px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: white;
+  text-align: left;
 }
 
 .dropdown-links a:hover {
@@ -400,8 +409,7 @@ header .navbar ul li ul li a:hover {
 
 .input-nombre,
 .input-saludo,
-.input-burbuja,
-.input-despedida {
+.input-burbuja {
   width: 40%;
   height: 40px;
   padding: 12px 20px;
@@ -418,6 +426,27 @@ header .navbar ul li ul li a:hover {
   border-color: #d9d9d9;
   box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
   margin-bottom: 30px;
+}
+
+/*diseño del text-area*/
+.input-despedida {
+  width: 40%;
+  height: 150px;
+  padding: 12px 20px;
+  margin: 8px 0;
+  border: none;
+  display: inline-block;
+  background-color: #ffffff;
+  box-sizing: border-box;
+  border-radius: 15px;
+  text-decoration: none;
+  outline: none;
+  transition: opacity 0.2s ease;
+  opacity: 1;
+  border-color: #d9d9d9;
+  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
+  margin-bottom: 30px;
+  resize: none;
 }
 
 .input-columna {
@@ -582,6 +611,7 @@ header .navbar ul li ul li a:hover {
 
 .txt-chatbot {
   font-size: 15px;
+  word-wrap: break-word;
 }
 
 .chatbot-container {
@@ -672,6 +702,9 @@ header .navbar ul li ul li a:hover {
     rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
   border-radius: 15px;
   overflow-wrap: break-word;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .chatbot-content2 {
@@ -1724,6 +1757,11 @@ header .navbar ul li ul li a:hover {
     width: 80%;
     height: 40px;
   }
+  /*Tamaño del text-area*/
+  .input-despedida {
+    width: 90%;
+    height: 150px;
+  }
 
   .container-btn-cerrar-guar {
     width: 100%;
@@ -1859,10 +1897,15 @@ header .navbar ul li ul li a:hover {
 
   .input-nombre,
   .input-saludo,
-  .input-burbuja,
-  .input-despedida {
+  .input-burbuja {
     width: 80%;
     height: 40px;
+  }
+
+  /*tamaño del text-area*/
+  .input-despedida {
+    width: 90%;
+    height: 150px;
   }
 
   .inp-conversa {

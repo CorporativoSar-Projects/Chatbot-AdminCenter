@@ -27,9 +27,10 @@ if (isset($_SESSION['idEmpresa'])) {
 
 <body>
   <div class="container-logo">
-    <img src="img/Innovahue_logo.svg" class="imgLogo" />
+    <img src="img/newLogo.svg" class="imgLogo" />
   </div>
-  <p class="txtGii">GIINTAPE INNOVAHUE 3</p>
+  <!-- Texto anterior -->
+  <!-- <p class="txtGii">GIINTAPE INNOVAHUE 3</p> -->
 
   <div class="vector">
     <img src="img/Vector.png" class="imgVect" />

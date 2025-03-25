@@ -1,3 +1,15 @@
+<?php
+
+session_start();
+
+if (!isset($_SESSION['idEmpresa'])) {
+    session_destroy();
+    header("location: ./index.php?error=2");
+    exit;
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -17,7 +29,7 @@
 
     <div class="rectangulo-container">
 
-        <img src="img/logochiquito.png" width="70px" alt="Logo" class="img-logo-chiq">
+        <img src="img/newLogo.svg" width="70px" alt="Logo" class="img-logo-chiq">
     </div>
     <header>
 
@@ -32,18 +44,18 @@
                     <img src="img/user.png" width="40" alt="User Icon">
                     <div class="div-user">
                         <strong>Karla Durán</strong><br>
-                        <small>kduranc@giint...</small>
+                        <small><?php echo ($_SESSION['idEmpresa']) ?></small>
                     </div>
                 </div>
 
                 <div class="dropdown-links">
                     <div class="user-info">
-                        <a href="#">ChatBot para vacantes</a>
-                        <span>Plan Básico Mensual</span>
+                        <a href="#">Chatbot IXAH</a>
+                        <span>Versión 1.0.0</span>
                     </div>
                     <div class="user-info">
-                        <a href="#">ChatBot para pedidos</a>
-                        <span>Plan Básico 3 Meses</span>
+                        <a href="#">Desarrollado por Giintape Innovahue</a>
+                        <span> soporte@giintapeinnovahueteam.onmicrosoft.com</span>
                     </div>
 
                     <a href="cerrarSesion.php">Cerrar Sesión</a>
