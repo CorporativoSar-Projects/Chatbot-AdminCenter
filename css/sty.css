@@ -1852,8 +1852,26 @@ header .navbar ul li ul li a:hover {
     padding: 8px;
   }
 
+  /* Propiedades para que la ventana modal del chatbot
+  aparezca en pantallas más pequeñas en la 
+  sección de despedida */
+
   .chatbot-principal {
-    display: none;
+    position: relative;
+
+    margin-top: 80px;
+    top: auto;
+    right: 40.5%;
+    width: 100%;
+    height: auto;
+    bottom: 50px;
+  }
+
+  /* Propiedades del footer para separar los elementos
+  de la parte inferior de la página */
+
+  .despedida-footer {
+    padding-bottom: 70%;
   }
 
   .container-chats {
@@ -1973,6 +1991,7 @@ header .navbar ul li ul li a:hover {
     width: 210px;
   }
 
+  .chatbot-container,
   .chatbot-container2 {
     margin-left: 42%;
     position: absolute;
@@ -1984,6 +2003,7 @@ header .navbar ul li ul li a:hover {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
 
+  .chatbot-content,
   .chatbot-content2 {
     background-color: #f1f1f1;
     color: var(--color-texto, #000000);

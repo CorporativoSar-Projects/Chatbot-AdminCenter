@@ -70,6 +70,9 @@ if (isset($_SESSION['idEmpresa'])) {
             <!-- Enlace para restablecer la contraseña -->
             <a href="#" id="link-restablecer" class="link-restablecer">¿Olvidaste la contraseña?</a>
 
+            <!-- Enlace para registrarse -->
+            <a href="registerForm.php" id="link-registro" class="link-registro">¿Aun no estás registrado?</a>
+
             <button
               type="submit"
               name="inicioSesion"
@@ -82,7 +85,7 @@ if (isset($_SESSION['idEmpresa'])) {
       </div>
     </form>
   </div>
-  <a href="registerForm.php" id="link-registro" class="link-registro">¿Aun no estás registrado?</a>
+
 
   <!--Formulario del modal para el restablecimiento de la contraseña-->
   <div id="reset-password-form" class="modal" style="display: none">
