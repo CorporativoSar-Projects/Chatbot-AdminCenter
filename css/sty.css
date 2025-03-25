@@ -2150,3 +2150,16 @@ header .navbar ul li ul li a:hover {
     text-align: center;
   }
 }
+
+/* Nueva resolución para cambiar el tamaño
+del texto de mensaje de despedida */
+
+@media (max-width: 398px) {
+  .txt-crea-conv {
+    font-size: 20px;
+  }
+  .img-icono-dia {
+    width: 40px;
+    height: 45px;
+  }
+}

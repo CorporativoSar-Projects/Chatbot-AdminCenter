@@ -55,7 +55,7 @@ if (!isset($_SESSION['idEmpresa'])) {
 
     <div class="user-dropdown">
       <div class="cont-btn-user">
-        <button class="btn-user">
+        <button class="btn-user" id="btn-user">
           <img src="img/user.png" width="30" alt="User Icon" />
         </button>
       </div>
