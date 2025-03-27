@@ -14,6 +14,23 @@ html {
   min-height: 100vh;
 }
 
+/* A pesar de utilizar !important como ultimo recurso
+No se ha podido modificar la altura del body */
+/* @media (max-width: 1300px) and (min-width: 784px) {
+  body {
+    height: 80% !important;
+    min-height: 50vh !important;
+  }
+} */
+/* Si bien si aparece el color que implemente para visualizar mejor el
+body aun asi no cambia la altura 
+@media (max-width: 1300px) {
+  body {
+    height: 40vh;
+    background-color: #f3f3f3;
+  }
+} */
+
 /* Abajo de estas propiedades tambien coloque el body en distintas resoluciones
 pero las elimine porque no vi ningun cambio reflejado en la pagina */
 

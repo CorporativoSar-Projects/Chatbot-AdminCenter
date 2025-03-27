@@ -27,7 +27,7 @@ if (isset($_SESSION['idEmpresa'])) {
 <!-- Agregue una clase a este body para modificar la altura 
 y no altere el comportamiento de las demás secciones -->
 
-<body class="login-body">
+<body>
   <!-- habia agregado este div para intentar modificar la altura de la página
   y agregar algunas propiedades respecto la altura pero tampoco funciono -->
   <!-- <div class="page"> -->
