@@ -319,6 +319,20 @@ button:hover {
   height: 100%;
 }
 
+/* Consulta para controlar los margins de los inputs de login y registro */
+@media (max-width: 1300px) and (min-width: 784px) {
+  .contUs {
+    margin-top: 0;
+  }
+  .form-label {
+    margin-top: 2.5%;
+  }
+  .container-btn-sesion,
+  .container-btn-registro {
+    margin-top: 35px;
+  }
+}
+
 @media (max-width: 1100px) {
   .imgVect {
     position: absolute;
