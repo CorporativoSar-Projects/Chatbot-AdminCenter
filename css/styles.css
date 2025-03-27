@@ -1,3 +1,6 @@
+/* Aqui intente separar el html y el body, para colocarle a cada uno propiedades distintas
+A pesar de modifcar ambas etiquetas desde css y la consola no he tenido exito */
+
 body,
 html {
   margin: 0;
@@ -10,6 +13,9 @@ html {
   text-decoration: none;
   min-height: 100vh;
 }
+
+/* Abajo de estas propiedades tambien coloque el body en distintas resoluciones
+pero las elimine porque no vi ningun cambio reflejado en la pagina */
 
 h1 {
   color: #ffb703;

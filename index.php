@@ -24,8 +24,13 @@ if (isset($_SESSION['idEmpresa'])) {
   <link rel="shortcut icon" href="img/logoginnatapechiquito.png" />
 
 </head>
+<!-- Agregue una clase a este body para modificar la altura 
+y no altere el comportamiento de las demás secciones -->
 
 <body class="login-body">
+  <!-- habia agregado este div para intentar modificar la altura de la página
+  y agregar algunas propiedades respecto la altura pero tampoco funciono -->
+  <!-- <div class="page"> -->
   <div class="container-logo">
     <img src="img/newLogo.svg" class="imgLogo" />
   </div>
