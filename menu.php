@@ -89,7 +89,7 @@ if (!isset($_SESSION['idEmpresa'])) {
   <main>
     <div class="container-prin">
       <div class="container-bienv">
-        <img src="img/icons8.png" width="70px" alt="Welcome Icon" />
+        <img src="img/icons8.png" width="70px" alt="Welcome Icon" class="img-Bien";/>
         <p class="txtBien">Bienvenido</p>
         <div class="container-btn-refresh">
           <button class="btn-refresh">
