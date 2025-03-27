@@ -23,6 +23,7 @@
     <img src="img/Vector.png" class="imgVect" />
   </div>
 
+  <!-- Formulario registro -->
   <div class="registro-container">
     <form id=register-form method="POST" action="modelo/login_registro_bd.php">
       <div class="contIn">

@@ -25,7 +25,7 @@ if (isset($_SESSION['idEmpresa'])) {
 
 </head>
 
-<body>
+<body class="login-body">
   <div class="container-logo">
     <img src="img/newLogo.svg" class="imgLogo" />
   </div>
@@ -70,8 +70,7 @@ if (isset($_SESSION['idEmpresa'])) {
             <!-- Enlace para restablecer la contraseña -->
             <a href="#" id="link-restablecer" class="link-restablecer">¿Olvidaste la contraseña?</a>
 
-            <!-- Enlace para registrarse -->
-            <a href="registerForm.php" id="link-registro" class="link-registro">¿Aun no estás registrado?</a>
+
 
             <button
               type="submit"
@@ -80,6 +79,8 @@ if (isset($_SESSION['idEmpresa'])) {
               class="btnSesion">
               Iniciar sesión
             </button>
+            <!-- Enlace para registrarse -->
+            <a href="registerForm.php" id="link-registro" class="link-registro">¿Aun no estás registrado?</a>
           </div>
         </div>
       </div>

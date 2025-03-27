@@ -422,9 +422,14 @@ para que no se corte el texto */
     text-align: center;
     width: 100%;
   }
-
+  .link-registro {
+    font-size: 14px;
+    position: absolute;
+    top: 210%;
+    right: 70%;
+    margin-left: 20%;
+  }
   .link-restablecer,
-  .link-registro,
   .link-miembro {
     margin-top: 13px;
     margin-left: auto;
@@ -463,6 +468,15 @@ para que no se corte el texto */
   }
 }
 
+/* Nueva consulta para acomodar el link de registro */
+@media (max-width: 604px) {
+  .link-registro {
+    font-size: 14px;
+    position: absolute;
+    top: 180%;
+    right: 60%;
+  }
+}
 @media (max-width: 480px) {
   body,
   html {
@@ -476,7 +490,8 @@ para que no se corte el texto */
     );
   }
 
-  .login-container {
+  .login-container,
+  .registro-container {
     width: 80%;
     height: 65%;
     margin: auto;
@@ -546,6 +561,13 @@ para que no se corte el texto */
     display: block;
     margin-left: auto;
     text-align: right;
+  }
+
+  .link-registro {
+    font-size: 14px;
+    position: absolute;
+    top: 190%;
+    right: 40%;
   }
   .imgLogo {
     width: 100px;

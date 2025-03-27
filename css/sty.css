@@ -408,7 +408,6 @@ header .navbar ul li ul li a:hover {
 }
 
 .input-nombre,
-.input-saludo,
 .input-burbuja {
   width: 40%;
   height: 40px;
@@ -429,6 +428,26 @@ header .navbar ul li ul li a:hover {
 }
 
 /*diseño del text-area*/
+
+.input-saludo {
+  width: 42%;
+  height: 50px;
+  padding: 12px 20px;
+  margin: 8px 0;
+  border: none;
+  display: inline-block;
+  background-color: #ffffff;
+  box-sizing: border-box;
+  border-radius: 15px;
+  text-decoration: none;
+  outline: none;
+  transition: opacity 0.2s ease;
+  opacity: 1;
+  border-color: #d9d9d9;
+  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
+  margin-bottom: 30px;
+  resize: none;
+}
 .input-despedida {
   width: 40%;
   height: 150px;
@@ -1751,13 +1770,23 @@ header .navbar ul li ul li a:hover {
   }
 
   .input-nombre,
-  .input-saludo,
   .input-burbuja,
   .input-despedida {
     width: 80%;
     height: 40px;
   }
   /*Tamaño del text-area*/
+  .input-saludo {
+    width: 90%;
+  }
+  /* consulta nueva para ajustar el texto del textarea saludo */
+
+  @media (max-width: 1262px) {
+    .input-saludo {
+      width: 90%;
+    }
+  }
+
   .input-despedida {
     width: 90%;
     height: 150px;
@@ -1841,8 +1870,41 @@ header .navbar ul li ul li a:hover {
   display: none;
 }
 
+/* Consulta para cambiar el input de saludo */
+@media (max-width: 604px) {
+  .input-saludo {
+    width: 90%;
+    height: 70px;
+  }
+}
+
+/* Consulta para mensaje y texto de la sección de pantalla de inicio
+ */
+
+@media (max-width: 536px) {
+  .msg-perso-chat {
+    font-size: 14px;
+  }
+}
+
 /* Ajustes adicionales para pantallas extremadamente pequeñas */
 @media (max-width: 480px) {
+  .container-pers2 {
+    margin-left: 10px;
+  }
+  .msg-perso-chat {
+    font-size: 12px;
+  }
+
+  .img-icono-dia {
+    width: 40px;
+    height: 45px;
+  }
+
+  .txt-perso-chat {
+    font-size: 22px;
+  }
+
   .container-menu-pers {
     padding: 5px;
   }
@@ -1869,6 +1931,14 @@ header .navbar ul li ul li a:hover {
 
   /* Propiedades del footer para separar los elementos
   de la parte inferior de la página */
+
+  .pantInicio-footer {
+    padding-bottom: 140%;
+  }
+
+  .estilo-footer {
+    padding-bottom: 40%;
+  }
 
   .despedida-footer {
     padding-bottom: 70%;
@@ -1914,20 +1984,47 @@ header .navbar ul li ul li a:hover {
   }
 
   .input-nombre,
-  .input-saludo,
   .input-burbuja {
     width: 80%;
     height: 40px;
   }
 
   /*tamaño del text-area*/
+  .input-saludo {
+    width: 90%;
+    height: 70px;
+  }
+
+  /* Consulta para hacer los inputs de pantalla de inicio más pequeños */
+  @media (max-width: 410px) {
+    .inp-conversa {
+      width: 220px !important;
+      font-size: 12px !important;
+      padding-left: 8px;
+    }
+    .tema-item {
+      color: #ffb703;
+      width: 280px !important;
+    }
+  }
+
+  /* consulta para el input de mensaje inicial
+  en dispositivos más pequeños */
+
+  @media (max-width: 356px) {
+    .input-saludo {
+      width: 90%;
+      height: 95px;
+    }
+  }
+
   .input-despedida {
     width: 90%;
     height: 150px;
   }
 
   .inp-conversa {
-    width: 170px;
+    width: 290px;
     height: 40px;
   }
 
@@ -1988,7 +2085,7 @@ header .navbar ul li ul li a:hover {
 
   .tema-item {
     color: #ffb703;
-    width: 210px;
+    width: 340px;
   }
 
   .chatbot-container,
