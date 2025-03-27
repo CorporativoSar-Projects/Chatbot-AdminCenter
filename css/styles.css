@@ -1,3 +1,6 @@
+/* Aqui intente separar el html y el body, para colocarle a cada uno propiedades distintas
+A pesar de modifcar ambas etiquetas desde css y la consola no he tenido exito */
+
 body,
 html {
   margin: 0;
@@ -11,6 +14,26 @@ html {
   min-height: 100vh;
 }
 
+/* A pesar de utilizar !important como ultimo recurso
+No se ha podido modificar la altura del body */
+/* @media (max-width: 1300px) and (min-width: 784px) {
+  body {
+    height: 80% !important;
+    min-height: 50vh !important;
+  }
+} */
+/* Si bien si aparece el color que implemente para visualizar mejor el
+body aun asi no cambia la altura 
+@media (max-width: 1300px) {
+  body {
+    height: 40vh;
+    background-color: #f3f3f3;
+  }
+} */
+
+/* Abajo de estas propiedades tambien coloque el body en distintas resoluciones
+pero las elimine porque no vi ningun cambio reflejado en la pagina */
+
 h1 {
   color: #ffb703;
   font-size: 40px;
@@ -18,7 +41,7 @@ h1 {
 }
 
 .contIn {
-  margin-top: 10%;
+  margin-top: 6%;
   margin-left: 10%;
 }
 
@@ -52,7 +75,7 @@ h1 {
   flex-direction: column;
   align-items: center; /* Mantiene el botón centrado */
   width: 30%;
-  margin-top: 10px;
+  margin-top: 15px;
   gap: 15px;
   position: relative; /* Permite posicionamiento interno */
 }
@@ -71,7 +94,7 @@ h1 {
   white-space: nowrap;
   width: fit-content;
   text-align: left;
-  margin-bottom: 10px;
+  margin-bottom: 0px;
   align-self: flex-start; /* Lo alinea a la izquierda */
   margin-left: 0; /* Se asegura que esté pegado a la izquierda */
 }
@@ -92,7 +115,7 @@ h1 {
   background-color: #ffb703;
   color: #f3f3f3;
   padding: 10px 16px;
-  margin: 8px 0;
+  margin: 10px 0;
   border: none;
   cursor: pointer;
   width: 60%;
@@ -362,7 +385,8 @@ para que no se corte el texto */
     );
   }
 
-  .login-container {
+  .login-container,
+  .registro-container {
     width: 80%;
     height: 65%;
     margin: auto;
@@ -414,14 +438,23 @@ para que no se corte el texto */
     font-size: 20px;
   }
 
-  .container-btn-sesion {
+  .container-btn-sesion,
+  .container-btn-registro {
     justify-content: center;
     align-items: center;
     text-align: center;
     width: 100%;
   }
-
-  .link-restablecer {
+  .link-registro {
+    font-size: 14px;
+    position: absolute;
+    top: 210%;
+    right: 70%;
+    margin-left: 20%;
+  }
+  .link-restablecer,
+  .link-miembro {
+    margin-top: 13px;
     margin-left: auto;
     font-size: 14px;
 
@@ -429,19 +462,21 @@ para que no se corte el texto */
       0 3px 10px 0 rgba(80, 78, 78, 0.19);
   }
 
-  .container-btn-sesion {
+  .container-btn-sesion,
+  .container-btn-registro {
     justify-content: center;
     align-items: center;
     text-align: center;
   }
 
-  .btnSesion {
+  .btnSesion,
+  .btnRegistro {
     width: 35%;
     justify-content: center;
     align-items: center;
     text-align: center;
     margin: auto;
-    margin-top: 30px;
+    margin-top: 20px;
   }
 
   .titleIn {
@@ -456,6 +491,15 @@ para que no se corte el texto */
   }
 }
 
+/* Nueva consulta para acomodar el link de registro */
+@media (max-width: 604px) {
+  .link-registro {
+    font-size: 14px;
+    position: absolute;
+    top: 180%;
+    right: 60%;
+  }
+}
 @media (max-width: 480px) {
   body,
   html {
@@ -469,7 +513,8 @@ para que no se corte el texto */
     );
   }
 
-  .login-container {
+  .login-container,
+  .registro-container {
     width: 80%;
     height: 65%;
     margin: auto;
@@ -514,7 +559,8 @@ para que no se corte el texto */
     text-align: center;
   }
 
-  .btnSesion {
+  .btnSesion,
+  .btnRegistro {
     width: 60%;
     margin-top: 30px;
     font-size: 13px;
@@ -538,6 +584,13 @@ para que no se corte el texto */
     display: block;
     margin-left: auto;
     text-align: right;
+  }
+
+  .link-registro {
+    font-size: 14px;
+    position: absolute;
+    top: 190%;
+    right: 40%;
   }
   .imgLogo {
     width: 100px;

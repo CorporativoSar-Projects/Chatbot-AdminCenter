@@ -110,15 +110,15 @@ if (!isset($_SESSION['idEmpresa'])) {
                         <img src="img/icono-dia.png" class="img-icono-dia">
                         <div class="container-pers2">
                             <p class="txt-perso-chat">Pantalla de inicio</p>
-                            <p>Ayuda a tus clientes a obtener respuestas más rápidas.</p>
+                            <p class="msg-perso-chat">Ayuda a tus clientes a obtener respuestas más rápidas.</p>
                         </div>
                     </div>
 
                     <div>
                         <label class="label-nombrechat">Mensaje inicial</label><br>
-                        <input type="text" name="inp-saludo" id="inp-saludo"
+                        <textarea type="text" name="inp-saludo" id="inp-saludo"
                             placeholder="¡Saludos! Soy JobHelper, tu guía virtual en el mundo laboral."
-                            class="input-saludo" minlength="2" maxlength="66" required><br>
+                            class="input-saludo" minlength="2" maxlength="66" required></textarea> <br>
 
                         <div class="container-conversacion">
                             <div class="asi-conversacion">
@@ -196,6 +196,7 @@ if (!isset($_SESSION['idEmpresa'])) {
             </div>
         </div>
     </main>
+    <footer class="pantInicio-footer"></footer>
 
     <!-- jQuery y Bootstrap JavaScript -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
