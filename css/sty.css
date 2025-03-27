@@ -1628,6 +1628,7 @@ header .navbar ul li ul li a:hover {
     border-radius: 20px;
     margin-bottom: 200vh;
   }
+  /*Medidas para eliminar los espacios en blanco*/
   .container-prin,
   .container-prin-PI {
     height: 50vh;
@@ -1693,7 +1694,7 @@ header .navbar ul li ul li a:hover {
   .container-chats {
     inline-size: 80%;
   }
-
+/*Adaptacion de la burbuja dentro de la media*/
   .chat-toggle {
     position: relative;
     margin-left: 73%;
@@ -1706,13 +1707,13 @@ header .navbar ul li ul li a:hover {
     width: 55px;
     height: 55px;
     border-radius: 50%;
-    overflow: hidden; /* Asegura que la imagen no se desborde */
+    overflow: hidden; 
     display: inline-block;
   }
 
   .chat-text {
     right: 24px;  
-    padding: 4px 20px; /* Se reduce el padding verticalmente */
+    padding: 4px 20px; 
     height: 40px;
   }
 
@@ -1918,8 +1919,8 @@ header .navbar ul li ul li a:hover {
 /*Adaptacion para la burbuja*/
 .chat-toggle {
   position: relative;
-  margin-left: 60%;  /* Ajusta el valor según lo que necesites */
-  margin-top: 50px;  /* Puedes ajustar el valor de margen superior */
+  margin-left: 60%;  
+  margin-top: 50px; 
   transition: right 0.3s ease, bottom 0.3s ease; 
   display: flex;
 }
@@ -1927,20 +1928,20 @@ header .navbar ul li ul li a:hover {
   width: 45px;
   height: 45px;
   border-radius: 50%;
-  overflow: hidden; /* Asegura que la imagen no se desborde */
+  overflow: hidden; 
   display: inline-block;
 }
 
 .chat-text {
   right: 20px;  
   font-size: 11px;  
-  padding: 4px 20px; /* Se reduce el padding verticalmente */
+  padding: 4px 20px; 
   height: 40px;
 }
 
 /*Adaptacion para los botones de conversación*/
   .boton1 {
-    width: 60%; /* Aumenta el tamaño para pantallas intermedias */
+    width: 60%; 
   }
 }
 
@@ -2020,7 +2021,7 @@ header .navbar ul li ul li a:hover {
     width: 170px;
     height: 40px;
   }
-
+/*Estilo de la burbuja */
   .chat-toggle {
     position: relative;
     margin-left: 50%;
@@ -2197,7 +2198,7 @@ header .navbar ul li ul li a:hover {
     border-color: #d9d9d9;
     box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
   }
-
+/*Medidas para eliminar los espacios en blanco*/
   .container-prin {
     height: 100vh;
   }
