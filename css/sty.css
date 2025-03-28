@@ -6,7 +6,7 @@ html {
   height: 100%;
   box-sizing: border-box;
   font-family: "Montserrat", sans-serif;
-  min-height: 100vh;
+  min-height: 100%;
 }
 
 h1 {
@@ -578,28 +578,38 @@ header .navbar ul li ul li a:hover {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  justify-content: center;
-  height: 65vh;
-  margin-left: 8%;
+  justify-content: flex-start;
+  height: auto;
+  margin-left: auto; 
+  margin-right: 50%; 
+  top: 20vh; 
+  position: relative;
+  width: 80%; 
+  max-width: 600px; 
 }
 
+/* Etiqueta */
 .label-func {
   margin-bottom: 5px;
-  align-self: flex-start;
+  margin-left: 10px; 
 }
 
+/* Contenedor de los inputs */
 .container-input {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 10px;
-  width: 100%;
+  width: 80%; 
+  max-width: 500px; 
+  margin: 10px; 
 }
 
+/* Campo de texto */
 .txtfunc {
   flex-grow: 1;
-  max-width: 200px;
-  min-width: 400px;
+  max-width: 100%; 
+  min-width: 450px; 
   height: 35px;
   padding: 10px 15px;
   border: 2px solid #ccc;
@@ -607,9 +617,8 @@ header .navbar ul li ul li a:hover {
   background-color: #f3f3f3;
   box-sizing: border-box;
   outline: none;
-  transition: opacity 0.2s ease;
 }
-
+/* Botón */
 .btnGenerar {
   border-radius: 20px;
   padding: 8px 25px;
@@ -619,12 +628,13 @@ header .navbar ul li ul li a:hover {
   cursor: pointer;
   white-space: nowrap;
   height: 37px;
-  margin-left: 140px;
+  margin-left: 35%; 
 }
 
 .btnGenerar:hover {
   opacity: 0.8;
 }
+
 
 /*chatbot diseño*/
 
@@ -656,6 +666,7 @@ header .navbar ul li ul li a:hover {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border-radius: 20px;
 }
+
 
 .chatbot-close {
   cursor: pointer;
@@ -907,6 +918,7 @@ header .navbar ul li ul li a:hover {
   position: fixed;
   right: 20px;
   bottom: 20px;
+  width: auto;
   cursor: pointer;
   z-index: 1000;
 }
@@ -992,7 +1004,7 @@ header .navbar ul li ul li a:hover {
   margin-left: 50px;
 }
 
-/* Viasta Crea conversacion*/
+/* Vista Crea conversacion*/
 .boton1 {
   flex: 1;
   background-color: #f3f3f3;
@@ -1610,6 +1622,7 @@ header .navbar ul li ul li a:hover {
     margin: 5px 0;
     padding: 10px;
     font-size: 16px;
+    margin-left: 10px;
   }
 
   .chatbot-principal {
@@ -1634,9 +1647,14 @@ header .navbar ul li ul li a:hover {
     border-radius: 20px;
     margin-bottom: 200vh;
   }
+  /*Medidas para eliminar los espacios en blanco*/
   .container-prin,
   .container-prin-PI {
+
+    height: 50vh;
+
     height: 180vh;
+
   }
 
   .container-prin-Desp {
@@ -1644,13 +1662,13 @@ header .navbar ul li ul li a:hover {
   }
 
   .container-prinF {
-    height: 170vh;
+    height: 150vh;
   }
 
   .chatbot-container2 {
-    margin-left: 40%;
+    margin-left: 90%;
     position: absolute;
-    top: 100%;
+    top: 70%;
     width: 400px;
     height: 450px;
     border: 1px solid #ccc;
@@ -1658,6 +1676,31 @@ header .navbar ul li ul li a:hover {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 20px;
     margin-bottom: 20px;
+  }
+
+  /*Link de Funcionamiento*/
+  .link-func {
+    width: 85%; 
+    margin-left: 35%;
+    margin-right: auto;
+    top: 30vh; 
+  }
+
+  .container-input {
+    width: 100%;
+    max-width: 500px;
+  }
+
+  .txtfunc {
+    min-width: 85%;
+    max-width: 400px;
+  }
+
+  .btnGenerar {
+    margin-left: 30%;
+    margin-right: 0;
+    width: auto;
+    max-width: 200px;
   }
 
   .chatbot-principal-desp {
@@ -1674,25 +1717,34 @@ header .navbar ul li ul li a:hover {
   .container-chats {
     inline-size: 80%;
   }
-
+/*Adaptacion de la burbuja dentro de la media*/
   .chat-toggle {
     position: relative;
-    margin-left: 45%;
+    margin-left: 73%;
     margin-top: 30px;
     height: auto;
+    display: flex;
   }
 
   .toggle-icon {
-    width: 50px;
-    height: 50px;
+    width: 55px;
+    height: 55px;
     border-radius: 50%;
-    overflow: hidden; /* Asegura que la imagen no se desborde */
+    overflow: hidden; 
+    display: inline-block;
+  }
+
+  .chat-text {
+    right: 24px;  
+    padding: 4px 20px; 
+    height: 40px;
   }
 
   .container-crear-conver {
     margin-left: 15px;
     position: relative;
     top: 80%;
+    padding-bottom: 20px;
   }
 
   .inp-mensaje-usuario-crear {
@@ -1775,6 +1827,7 @@ header .navbar ul li ul li a:hover {
     width: 80%;
     height: 40px;
   }
+
   /*Tamaño del text-area*/
   .input-saludo {
     width: 90%;
@@ -1818,6 +1871,16 @@ header .navbar ul li ul li a:hover {
     width: 22%;
   }
 
+  /*Adpacion de los botones de crear la conversación*/
+  .boton1 {
+    width: 40%; 
+    font-size: 14px; 
+    padding: 12px; 
+    margin: 8px 5px;
+    display: inline-block; 
+    box-sizing: border-box; 
+  }
+
   .btnFina {
     max-width: 20%;
   }
@@ -1840,34 +1903,98 @@ header .navbar ul li ul li a:hover {
 
     } */
 
-  /*Link de Funcionamiento*/
-  .link-func {
-    align-items: center;
-    margin-left: 280px;
-    height: 20vh;
-  }
 
-  .label-func {
-    margin-left: 120px;
-  }
-
-  .container-input {
-    max-width: 450px;
-  }
-
-  .txtfunc {
-    width: 50%;
-  }
-
-  .btnGenerar {
-    margin-left: 130px;
-    width: 100%;
-    max-width: 150px;
-  }
 }
 
 .btn-icon {
   display: none;
+}
+
+
+/*Nueva resolución */
+@media (max-width: 880px) {
+
+/*Contenerdor del chatBot*/
+  .chatbot-container2 {
+    width: 80%;
+    max-width: 350px;
+    right: -28px; 
+    margin-left: auto; 
+    top: 30vh;
+  }
+  /*Estilo del link de funcionamiento*/
+  .link-func {
+    position: relative;
+    width: 95%; 
+    margin-left: auto;
+    margin-right: -33%;
+    top: 5vh; 
+  }
+
+  .container-input {
+    width: 100%;
+    max-width: 100%; 
+  }
+
+  .txtfunc {
+    width: 100%; 
+    max-width: 70%;
+    min-width: auto; 
+    height: 40px;
+  }
+
+  .btnGenerar {
+    width: auto; 
+    margin-left: 25%;
+    margin-right: auto;
+    max-width: 30%;
+  }
+/*Adaptacion para la burbuja*/
+.chat-toggle {
+  position: relative;
+  margin-left: 60%;  
+  margin-top: 50px; 
+  transition: right 0.3s ease, bottom 0.3s ease; 
+  display: flex;
+}
+.toggle-icon {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  overflow: hidden; 
+  display: inline-block;
+}
+
+.chat-text {
+  right: 20px;  
+  font-size: 11px;  
+  padding: 4px 20px; 
+  height: 40px;
+}
+
+/*Adaptacion para los botones de conversación*/
+  .boton1 {
+    width: 60%; 
+  }
+}
+
+
+/* Consulta para cambiar el input de saludo */
+@media (max-width: 604px) {
+  .input-saludo {
+    width: 90%;
+    height: 70px;
+  }
+}
+
+/* Consulta para mensaje y texto de la sección de pantalla de inicio
+ */
+
+@media (max-width: 536px) {
+  .msg-perso-chat,
+  .txt-msg-chat {
+    font-size: 14px;
+  }
 }
 
 /* Consulta para cambiar el input de saludo */
@@ -1892,13 +2019,23 @@ header .navbar ul li ul li a:hover {
   .container-pers2 {
     margin-left: 10px;
   }
+
+  .msg-perso-chat,
+  .txt-msg-chat {
+
   .msg-perso-chat {
+
     font-size: 12px;
   }
 
   .img-icono-dia {
+
+    width: 30px;
+    height: 35px;
+
     width: 40px;
     height: 45px;
+
   }
 
   .txt-perso-chat {
@@ -1945,16 +2082,20 @@ header .navbar ul li ul li a:hover {
   }
 
   .container-chats {
-    inline-size: 77%;
+    inline-size: 79%; 
+    max-width: 100%; 
+    box-sizing: border-box; 
+    overflow-x: hidden;
+    padding: 10px 10px;
   }
 
   .container-btn-cerrar-guar {
+    display: flex;
     flex-direction: column-reverse;
-
     justify-content: center;
-    align-items: center;
-    width: 50%;
-    margin-left: 0;
+    align-items: flex-end;
+    width: 100%; 
+    margin: -20px auto 0 auto;
   }
 
   .btn-group {
@@ -2027,12 +2168,13 @@ header .navbar ul li ul li a:hover {
     width: 290px;
     height: 40px;
   }
-
+/*Estilo de la burbuja */
   .chat-toggle {
     position: relative;
-    margin-left: 20%;
-    margin-top: 30px;
-    height: auto;
+    margin-left: 50%;
+    width: 60%;
+    transform: translateX(-50px);
+    display: flex;
   }
 
   .container-plan-basico {
@@ -2090,14 +2232,14 @@ header .navbar ul li ul li a:hover {
 
   .chatbot-container,
   .chatbot-container2 {
-    margin-left: 42%;
-    position: absolute;
-    top: 120%;
-    width: 300px;
-    height: 450px;
-    border: 1px solid #ccc;
-    background-color: #ffffff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      margin-right: -14%;
+      position: absolute;
+      top: 150%;
+      width: 300px;
+      height: 450px;
+      border: 1px solid #ccc;
+      background-color: #ffffff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
 
   .chatbot-content,
@@ -2205,9 +2347,9 @@ header .navbar ul li ul li a:hover {
     border-color: #d9d9d9;
     box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
   }
-
+/*Medidas para eliminar los espacios en blanco*/
   .container-prin {
-    height: 180vh;
+    height: 100vh;
   }
   .container-prin-PI,
   .container-prin-Desp {
@@ -2215,43 +2357,60 @@ header .navbar ul li ul li a:hover {
   }
 
   .container-prinF {
-    height: 170vh;
+    height: 140vh;
   }
   .container-pers3 {
     margin-left: 2px;
     margin-top: 20px;
   }
 
-  /*link de funcionamiento*/
+  /*Estilo del link de funcionamiento*/
   .link-func {
-    align-items: center;
-    margin-left: 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch; 
+    justify-content: flex-start;
     width: 100%;
-    height: 20vh;
-  }
+    height: auto;
+    position: relative;
+    padding: 0 70px; 
+    box-sizing: border-box;
+}
 
+  /* Etiqueta */
   .label-func {
-    margin-left: 20px;
+    text-align: left;
+    width: 100%;
   }
 
+  /* Contenedor del input */
   .container-input {
-    width: 90%;
-    align-items: center;
-  }
+    display: flex;
+    flex-direction: column;
+    align-items: stretch; 
+}
 
+  /* Input */
   .txtfunc {
-    max-width: 100%;
-    min-width: unset;
     width: 100%;
-  }
+    max-width: 280px;
+    min-width: auto; 
+    text-align: left;
+    padding: 8px;
+    box-sizing: border-box;
+}
 
-  .btnGenerar {
-    width: 100%;
-    margin-left: 0;
-    text-align: center;
-    justify-content: center;
-  }
-
+.btnGenerar {
+  width: auto;
+  max-width: 150px;
+  text-align: center;
+  min-width: auto; 
+  margin-top: 10px;
+  align-self: flex-end; 
+  padding: 8px 12px;
+  box-sizing: border-box;
+  transform: translateX(25px);
+}
   /*Estilo para input del logo */
   .input-url {
     max-width: 120%;
@@ -2266,6 +2425,53 @@ header .navbar ul li ul li a:hover {
     margin-left: 25%;
     text-align: center;
   }
+
+  .txt-perso-chat,
+  .txt-crea-conv {
+    font-size: 17px;
+  }
+/*adaptacion de las imagenes de iconos */
+  .img-paint {
+    width: 30px;
+    height: 35px;
+    margin-top: 10px;
+    margin-right: 10px;
+  }
+/*Adaptación del icono de Menu*/
+  .img-Bien{
+    width: 50px;
+    height: 50px;
+    top: -5px;
+    margin-right: 10px;
+    position: relative; 
+  }
+  
+  .txtBien {
+    font-size: 20px;
+    top: -5px;
+  }
+/*Adaptación de el contenedor y botones de Conversacion*/
+  .container-btn-edit-chat {
+    float: none; 
+    margin-top: 10px; 
+    width: 100%;  
+    text-align: right; 
+  }
+
+  .boton1 {
+    width: 90%; 
+    font-size: 14px; 
+    padding: 10px; 
+    margin: 10px auto; 
+    text-align: center; 
+    
+  }
+  /*Adaptación del titulo del ChatBot*/
+  .txt-nombre-chat{
+    font-size: 16px; /* Reduce el tamaño del texto en pantallas pequeñas */
+    white-space: nowrap;
+  }
+
 }
 
 /* Nueva resolución para cambiar el tamaño
@@ -2276,7 +2482,7 @@ del texto de mensaje de despedida */
     font-size: 20px;
   }
   .img-icono-dia {
-    width: 40px;
-    height: 45px;
+    width: 30px;
+    height: 35px;
   }
 }
