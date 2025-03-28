@@ -1870,6 +1870,24 @@ header .navbar ul li ul li a:hover {
   display: none;
 }
 
+/* Consultas para modificar algunos elementos
+en la seccion de estilo */
+
+@media (max-width: 658px) {
+  .txt-perso-chat {
+    font-size: 23px;
+  }
+
+  .img-paint {
+    width: 45px;
+    height: 45px;
+  }
+
+  .msg-perso-chat {
+    font-size: 14px;
+  }
+}
+
 /* Consulta para cambiar el input de saludo */
 @media (max-width: 604px) {
   .input-saludo {
@@ -1878,12 +1896,22 @@ header .navbar ul li ul li a:hover {
   }
 }
 
-/* Consulta para mensaje y texto de la sección de pantalla de inicio
- */
+/* Consultas para modificar algunos elementos
+en la seccion de estilo(pantallas más pequeñas) */
 
-@media (max-width: 536px) {
+@media (max-width: 570px) {
+  .txt-perso-chat {
+    font-size: 18px;
+  }
+
+  .img-paint {
+    width: 40px;
+    height: 40px;
+    margin-top: 8px;
+  }
+
   .msg-perso-chat {
-    font-size: 14px;
+    font-size: 11px;
   }
 }
 
@@ -1893,16 +1921,17 @@ header .navbar ul li ul li a:hover {
     margin-left: 10px;
   }
   .msg-perso-chat {
-    font-size: 12px;
-  }
-
-  .img-icono-dia {
-    width: 40px;
-    height: 45px;
+    font-size: 11px;
   }
 
   .txt-perso-chat {
-    font-size: 22px;
+    font-size: 18px;
+  }
+
+  .img-paint {
+    width: 40px;
+    height: 40px;
+    margin-top: 5px;
   }
 
   .container-menu-pers {

@@ -104,7 +104,7 @@ if (!isset($_SESSION['idEmpresa'])) {
                         <img src="img/paint.png" class="img-paint">
                         <div class="container-pers2">
                             <p class="txt-perso-chat">Personaliza la interfaz de usuario del chat</p>
-                            <p>Actualiza el estilo para que coincida con tu marca y tu sitio web.</p>
+                            <p class="msg-perso-chat">Actualiza el estilo para que coincida con tu marca y tu sitio web.</p>
                         </div>
                     </div>
 
