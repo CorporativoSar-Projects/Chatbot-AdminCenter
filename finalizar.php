@@ -175,14 +175,14 @@ if (!isset($_SESSION['idEmpresa'])) {
                                 value="https://web-chat.naquistristiquevitaeenim " class="input-link">
                             <button class="copy-button" onclick="copyLink()">Copiar</button>
                         </div>
-                        <div class="modal-footer close-footer">
-                            <h6>Cerrar</h6>
-                        </div>
-                    </div>
 
+                        <h6>Cerrar</h6>
+                    </div>
                 </div>
 
             </div>
+
+        </div>
 
 
     </main>

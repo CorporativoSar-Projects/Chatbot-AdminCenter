@@ -1650,7 +1650,11 @@ header .navbar ul li ul li a:hover {
   /*Medidas para eliminar los espacios en blanco*/
   .container-prin,
   .container-prin-PI {
+
     height: 50vh;
+
+    height: 180vh;
+
   }
 
   .container-prin-Desp {
@@ -1993,19 +1997,45 @@ header .navbar ul li ul li a:hover {
   }
 }
 
+/* Consulta para cambiar el input de saludo */
+@media (max-width: 604px) {
+  .input-saludo {
+    width: 90%;
+    height: 70px;
+  }
+}
+
+/* Consulta para mensaje y texto de la sección de pantalla de inicio
+ */
+
+@media (max-width: 536px) {
+  .msg-perso-chat {
+    font-size: 14px;
+  }
+}
+
 /* Ajustes adicionales para pantallas extremadamente pequeñas */
 @media (max-width: 480px) {
   .container-pers2 {
     margin-left: 10px;
   }
+
   .msg-perso-chat,
   .txt-msg-chat {
+
+  .msg-perso-chat {
+
     font-size: 12px;
   }
 
   .img-icono-dia {
+
     width: 30px;
     height: 35px;
+
+    width: 40px;
+    height: 45px;
+
   }
 
   .txt-perso-chat {
