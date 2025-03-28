@@ -161,6 +161,7 @@ header .navbar ul li ul li a:hover {
   overflow: hidden;
 }
 
+/* Pasar el cursor sobre el icono de usuario */
 .user-dropdown:hover .dropdown-content {
   display: block;
 }
@@ -176,7 +177,7 @@ header .navbar ul li ul li a:hover {
   margin-left: 10px;
 }
 
-.dropdown-links a,
+a,
 .dropdown-links span {
   padding: 10px 15px;
   display: block;
@@ -1967,6 +1968,22 @@ header .navbar ul li ul li a:hover {
   /*Adaptacion para los botones de conversación*/
   .boton1 {
     width: 60%;
+  }
+}
+
+/* Consulta de medio para el menu lateral */
+
+@media (max-width: 780px) {
+  .dropdown-content {
+    width: 280px;
+  }
+  .user-info {
+    font-size: 12px;
+  }
+
+  .dropdown-links a,
+  .dropdown-links span {
+    font-size: 9.6px;
   }
 }
 
