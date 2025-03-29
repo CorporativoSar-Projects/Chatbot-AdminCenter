@@ -125,7 +125,7 @@ if (!isset($_SESSION['idEmpresa'])) {
                         <img src="img/icono-dia.png" class="img-icono-dia">
                         <div class="container-pers2">
                             <p class="txt-perso-chat">Personaliza el mensaje de la burbuja</p>
-                            <p>Muéstrales a tus clientes que el chat está para ayudarles.</p>
+                            <p class="txt-msg-chat">Muéstrales a tus clientes que el chat está para ayudarles.</p>
                         </div>
                     </div>
 
