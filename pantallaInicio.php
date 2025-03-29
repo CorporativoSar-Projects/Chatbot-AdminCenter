@@ -197,7 +197,7 @@ if (!isset($_SESSION['idEmpresa'])) {
             </div>
         </div>
     </main>
-    <footer class="pantInicio-footer"></footer>
+
 
 
     <!-- jQuery y Bootstrap JavaScript -->
