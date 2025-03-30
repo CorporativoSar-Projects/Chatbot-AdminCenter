@@ -108,7 +108,7 @@ if (!isset($_SESSION['idEmpresa'])) {
             <div>
                 <div class="container-personalizacion">
                     <div class="container-pers">
-                        <img src="img/icono-dia.png" class="img-icono-dia">
+                        <img src="img/icono-dia.png" class="img-icono-dia2">
                         <div class="container-pers2">
                             <p class="txt-perso-chat">Pantalla de inicio</p>
                             <p class="msg-perso-chat">Ayuda a tus clientes a obtener respuestas más rápidas.</p>
