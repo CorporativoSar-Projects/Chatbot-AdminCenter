@@ -1991,7 +1991,6 @@ a,
   }
 }
 
-
 /* Consulta para cambiar el input de saludo */
 @media (max-width: 604px) {
   .input-saludo {
@@ -2151,18 +2150,18 @@ a,
     height: 150px;
   }
 
-  .inp-conversa {
-    width: 290px;
-    height: 40px;
-  }
-/*Estilo de la burbuja */
-  .chat-toggle {
-    position: relative;
-    margin-left: 50%;
-    width: 60%;
-    transform: translateX(-50px);
-    display: flex;
-  }
+    .inp-conversa {
+      width: 290px;
+      height: 40px;
+    }
+  /*Estilo de la burbuja */
+    .chat-toggle {
+      position: relative;
+      margin-left: 50%;
+      width: 60%;
+      transform: translateX(-50px);
+      display: flex;
+    }
 
   .container-plan-basico {
     width: 90%;
@@ -2217,17 +2216,17 @@ a,
     width: 340px;
   }
 
-  .chatbot-container,
-  .chatbot-container2 {
-      margin-right: -14%;
-      position: absolute;
-      top: 150%;
-      width: 300px;
-      height: 450px;
-      border: 1px solid #ccc;
-      background-color: #ffffff;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
+    .chatbot-container,
+    .chatbot-container2 {
+        margin-right: -14%;
+        position: absolute;
+        top: 150%;
+        width: 300px;
+        height: 450px;
+        border: 1px solid #ccc;
+        background-color: #ffffff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
 
   .chatbot-content,
   .chatbot-content2 {
@@ -2351,61 +2350,61 @@ a,
     margin-top: 20px;
   }
 
-  /*Estilo del link de funcionamiento*/
-  .link-func {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch; 
-    justify-content: flex-start;
-    width: 100%;
-    height: auto;
-    position: relative;
-    padding: 0 70px; 
-    box-sizing: border-box;
-}
-
-  /* Etiqueta */
-  .label-func {
-    text-align: left;
-    width: 100%;
+    /*Estilo del link de funcionamiento*/
+    .link-func {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch; 
+      justify-content: flex-start;
+      width: 100%;
+      height: auto;
+      position: relative;
+      padding: 0 70px; 
+      box-sizing: border-box;
   }
 
-  /* Contenedor del input */
-  .container-input {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch; 
-}
+    /* Etiqueta */
+    .label-func {
+      text-align: left;
+      width: 100%;
+    }
 
-  /* Input */
-  .txtfunc {
-    width: 100%;
-    max-width: 280px;
+    /* Contenedor del input */
+    .container-input {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch; 
+  }
+
+    /* Input */
+    .txtfunc {
+      width: 100%;
+      max-width: 280px;
+      min-width: auto; 
+      text-align: left;
+      padding: 8px;
+      box-sizing: border-box;
+  }
+
+  .btnGenerar {
+    width: auto;
+    max-width: 150px;
+    text-align: center;
     min-width: auto; 
-    text-align: left;
-    padding: 8px;
-    box-sizing: border-box;
-}
-
-.btnGenerar {
-  width: auto;
-  max-width: 150px;
-  text-align: center;
-  min-width: auto; 
-  margin-top: 10px;
-  align-self: flex-end; 
-  padding: 8px 12px;
-  box-sizing: border-box;
-  transform: translateX(25px);
-}
-  /*Estilo para input del logo */
-  .input-url {
-    max-width: 120%;
-    min-width: 130%;
-    width: 100%;
-    height: 35px;
+    margin-top: 10px;
+    align-self: flex-end; 
     padding: 8px 12px;
+    box-sizing: border-box;
+    transform: translateX(25px);
   }
+    /*Estilo para input del logo */
+    .input-url {
+      max-width: 120%;
+      min-width: 130%;
+      width: 100%;
+      height: 35px;
+      padding: 8px 12px;
+    }
 
   .update-logo-button {
     width: 75%;
@@ -2413,52 +2412,53 @@ a,
     text-align: center;
   }
 
-  .txt-perso-chat,
-  .txt-crea-conv {
-    font-size: 17px;
-  }
-/*adaptacion de las imagenes de iconos */
-  .img-paint {
-    width: 30px;
-    height: 35px;
-    margin-top: 10px;
-    margin-right: 10px;
-  }
-/*Adaptación del icono de Menu*/
-  .img-Bien{
-    width: 50px;
-    height: 50px;
-    top: -5px;
-    margin-right: 10px;
-    position: relative; 
-  }
+    .txt-perso-chat,
+    .txt-crea-conv {
+      font-size: 17px;
+    }
+  /*adaptacion de las imagenes de iconos */
+    .img-paint {
+      width: 30px;
+      height: 35px;
+      margin-top: 10px;
+      margin-right: 10px;
+    }
+  /*Adaptación del icono de Menu*/
+    .img-Bien{
+      width: 50px;
+      height: 50px;
+      top: -5px;
+      margin-right: 10px;
+      position: relative; 
+    }
   
-  .txtBien {
-    font-size: 20px;
-    top: -5px;
-  }
-/*Adaptación de el contenedor y botones de Conversacion*/
-  .container-btn-edit-chat {
-    float: none; 
-    margin-top: 10px; 
-    width: 100%;  
-    text-align: right; 
-  }
+    .txtBien {
+      font-size: 20px;
+      top: -5px;
+    }
+  /*Adaptación de el contenedor y botones de Conversacion*/
+    .container-btn-edit-chat {
+      float: none; 
+      margin-top: 10px; 
+      width: 100%;  
+      text-align: right; 
+    }
 
-  .boton1 {
-    width: 90%; 
-    font-size: 14px; 
-    padding: 10px; 
-    margin: 10px auto; 
-    text-align: center; 
+    .boton1 {
+      width: 90%; 
+      font-size: 14px; 
+      padding: 10px; 
+      margin: 10px auto; 
+      text-align: center; 
     
-  }
-  /*Adaptación del titulo del ChatBot*/
-  .txt-nombre-chat{
-    font-size: 16px; /* Reduce el tamaño del texto en pantallas pequeñas */
-    white-space: nowrap;
+    }
+    /*Adaptación del titulo del ChatBot*/
+    .txt-nombre-chat{
+      font-size: 16px; /* Reduce el tamaño del texto en pantallas pequeñas */
+      white-space: nowrap;
   }
 
+  }
 }
 
 /* Nueva resolución para cambiar el tamaño
