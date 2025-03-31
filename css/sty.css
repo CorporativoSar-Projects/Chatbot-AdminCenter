@@ -2158,81 +2158,6 @@ a,
     height: 70px;
   }
 
-  /* consulta espacio inferior ventana panatlla inicio */
-
-  @media (max-width: 430px) {
-    .container-prin-PI {
-      height: 110vh;
-    }
-  }
-
-  /* Consulta para hacer los inputs de pantalla de inicio más pequeños */
-  @media (max-width: 410px) {
-    .inp-conversa {
-      width: 220px !important;
-      font-size: 12px !important;
-      padding-left: 8px;
-    }
-    .tema-item {
-      color: #ffb703;
-      width: 280px !important;
-    }
-  }
-
-  /* consulta para el input de mensaje inicial
-  en dispositivos más pequeños */
-
-  @media (max-width: 430px) {
-    .container-prin-PI {
-      height: 173vh;
-    }
-  }
-
-  @media (max-width: 380px) {
-    .container-archivo {
-      margin-right: 29%;
-    }
-  }
-
-  /* Nueva resolución para cambiar el tamaño
-del texto de mensaje de despedida */
-
-  @media (max-width: 398px) {
-    .txt-crea-conv {
-      font-size: 20px;
-    }
-    .img-icono-dia {
-      margin-top: 10px;
-      width: 30px;
-      height: 35px;
-    }
-  }
-
-  @media (max-width: 356px) {
-    .input-saludo {
-      width: 90%;
-      height: 95px;
-    }
-  }
-
-  .input-despedida {
-    width: 90%;
-    height: 150px;
-  }
-
-  .inp-conversa {
-    width: 290px;
-    height: 40px;
-  }
-  /*Estilo de la burbuja */
-  .chat-toggle {
-    position: relative;
-    margin-left: 50%;
-    width: 60%;
-    transform: translateX(-50px);
-    display: flex;
-  }
-
   .container-plan-basico {
     width: 90%;
     height: 120px;
@@ -2255,6 +2180,73 @@ del texto de mensaje de despedida */
     margin-left: 0;
     margin-right: 0;
     margin-bottom: 15px;
+  }
+  /*Estilo de la burbuja */
+  .chat-toggle {
+    position: relative;
+    margin-left: 50%;
+    width: 60%;
+    transform: translateX(-50px);
+    display: flex;
+  }
+}
+
+/* consulta espacio inferior ventana panatlla inicio */
+
+@media (max-width: 430px) {
+  .container-prin-PI {
+    height: 110vh;
+  }
+}
+
+/* Consulta para hacer los inputs de pantalla de inicio más pequeños */
+@media (max-width: 410px) {
+  .inp-conversa {
+    width: 220px !important;
+    font-size: 12px !important;
+    padding-left: 8px;
+  }
+  .tema-item {
+    color: #ffb703;
+    width: 280px !important;
+  }
+}
+
+/* consulta para el input de mensaje inicial
+  en dispositivos más pequeños */
+
+@media (max-width: 430px) {
+  .container-prin-PI {
+    height: 173vh;
+  }
+}
+
+@media (max-width: 380px) {
+  .container-archivo {
+    margin-right: 29%;
+  }
+}
+
+/* Nueva resolución para cambiar el tamaño
+del texto de mensaje de despedida */
+
+@media (max-width: 398px) {
+  .txt-crea-conv {
+    font-size: 20px;
+  }
+  .img-icono-dia {
+    margin-top: 10px;
+    width: 30px;
+    height: 35px;
+  }
+  .input-despedida {
+    width: 90%;
+    height: 150px;
+  }
+
+  .inp-conversa {
+    width: 290px;
+    height: 40px;
   }
 
   .container-btn {
@@ -2408,6 +2400,13 @@ del texto de mensaje de despedida */
   .container-pers3 {
     margin-left: 2px;
     margin-top: 20px;
+  }
+}
+
+@media (max-width: 356px) {
+  .input-saludo {
+    width: 90%;
+    height: 95px;
   }
 
   /*Estilo del link de funcionamiento*/
