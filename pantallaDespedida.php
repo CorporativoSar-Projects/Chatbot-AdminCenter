@@ -157,7 +157,7 @@ if (!isset($_SESSION['idEmpresa'])) {
             </div>
         </div>
     </main>
-    <footer class="despedida-footer"></footer>
+
 
 
     <!-- jQuery y Bootstrap JavaScript -->
