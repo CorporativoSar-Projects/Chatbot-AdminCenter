@@ -2189,6 +2189,18 @@ a,
     transform: translateX(-50px);
     display: flex;
   }
+
+  .chatbot-container,
+  .chatbot-container2 {
+    margin-right: -14%;
+    position: absolute;
+    top: 150%;
+    width: 450px;
+    height: 450px;
+    border: 1px solid #ccc;
+    background-color: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
 }
 
 /* consulta espacio inferior ventana panatlla inicio */
@@ -2310,17 +2322,6 @@ del texto de mensaje de despedida */
     width: 340px;
   }
 
-  .chatbot-container,
-  .chatbot-container2 {
-    margin-right: -14%;
-    position: absolute;
-    top: 150%;
-    width: 300px;
-    height: 450px;
-    border: 1px solid #ccc;
-    background-color: #ffffff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
     .chatbot-container,
     .chatbot-container2 {
         margin-right: -14%;
