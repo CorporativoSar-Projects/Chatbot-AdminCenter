@@ -22,17 +22,6 @@ No se ha podido modificar la altura del body */
     min-height: 50vh !important;
   }
 } */
-/* Si bien si aparece el color que implemente para visualizar mejor el
-body aun asi no cambia la altura 
-@media (max-width: 1300px) {
-  body {
-    height: 40vh;
-    background-color: #f3f3f3;
-  }
-} */
-
-/* Abajo de estas propiedades tambien coloque el body en distintas resoluciones
-pero las elimine porque no vi ningun cambio reflejado en la pagina */
 
 h1 {
   color: #ffb703;
@@ -329,7 +318,7 @@ button:hover {
   }
   .container-btn-sesion,
   .container-btn-registro {
-    margin-top: 35px;
+    margin-top: 18px;
   }
 }
 
@@ -459,16 +448,9 @@ para que no se corte el texto */
     text-align: center;
     width: 100%;
   }
-  .link-registro {
-    font-size: 14px;
-    position: absolute;
-    top: 210%;
-    right: 70%;
-    margin-left: 20%;
-  }
+  .link-registro,
   .link-restablecer,
   .link-miembro {
-    margin-top: 13px;
     margin-left: auto;
     font-size: 14px;
   }
@@ -478,16 +460,24 @@ para que no se corte el texto */
     justify-content: center;
     align-items: center;
     text-align: center;
+    margin-top: 20px;
   }
 
-  .btnSesion,
-  .btnRegistro {
+  .btnSesion {
     width: 35%;
     justify-content: center;
     align-items: center;
     text-align: center;
     margin: auto;
     margin-top: 20px;
+  }
+  .btnRegistro {
+    width: 35%;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin: auto;
+    margin-top: 40px;
   }
 
   .titleIn {
@@ -502,15 +492,6 @@ para que no se corte el texto */
   }
 }
 
-/* Nueva consulta para acomodar el link de registro */
-@media (max-width: 604px) {
-  .link-registro {
-    font-size: 14px;
-    position: absolute;
-    top: 180%;
-    right: 60%;
-  }
-}
 @media (max-width: 480px) {
   body,
   html {
@@ -570,10 +551,8 @@ para que no se corte el texto */
     text-align: center;
   }
 
-  .btnSesion,
-  .btnRegistro {
+  .btnSesion {
     width: 60%;
-    margin-top: 30px;
     font-size: 13px;
     justify-content: center;
     align-items: center;
@@ -590,6 +569,7 @@ para que no se corte el texto */
       0 3px 10px 0 rgba(80, 78, 78, 0.19);
   }
 
+  .link-registro,
   .link-restablecer {
     font-size: 13px;
     display: block;
@@ -597,12 +577,6 @@ para que no se corte el texto */
     text-align: right;
   }
 
-  .link-registro {
-    font-size: 14px;
-    position: absolute;
-    top: 190%;
-    right: 40%;
-  }
   .imgLogo {
     width: 100px;
     height: 100px;
@@ -617,9 +591,9 @@ para que no se corte el texto */
     text-align: center;
   }
 
-  .btnSesion {
+  .btnRegistro {
     width: 60%;
-    margin-top: 30px;
+    margin-top: 40px;
     font-size: 13px;
     justify-content: center;
     align-items: center;
