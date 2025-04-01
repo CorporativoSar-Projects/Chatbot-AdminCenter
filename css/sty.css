@@ -1615,6 +1615,7 @@ a,
 
 /* Media Queries para responsividad */
 
+
 @media (max-width: 1300px) {
   .menu-pers ul {
     flex-direction: column;
