@@ -30,10 +30,11 @@ if (!isset($_SESSION['idEmpresa'])) {
     </div>
     <header>
         <div class="user-dropdown">
-            <div class="cont-btn-user">
-                <button class="btn-user"><img src="img/user.png" width="30" alt="User Icon"></button>
+            <div class="cont-btn-user" id="close-btn-user">
+                <button class="btn-user" id="user-btn"><img src="img/user.png" width="30" alt="User Icon"></button>
             </div>
-            <div class="dropdown-content">
+            <!--  Menu lateral -->
+            <div class="dropdown-content" id="dropdown-content">
                 <div class="d-flex align-items-center px-3 user-info">
                     <img src="img/user.png" width="40" alt="User Icon">
                     <div class="div-user">
@@ -103,8 +104,8 @@ if (!isset($_SESSION['idEmpresa'])) {
                     <div class="container-pers">
                         <img src="img/paint.png" class="img-paint">
                         <div class="container-pers2">
-                            <p class="txt-perso-chat">Personaliza la interfaz de usuario del chat</p>
-                            <p>Actualiza el estilo para que coincida con tu marca y tu sitio web.</p>
+                            <p class="txt-perso-chat2">Personaliza la interfaz de usuario del chat</p>
+                            <p class="msg-perso-chat2">Actualiza el estilo para que coincida con tu marca y tu sitio web.</p>
                         </div>
                     </div>
 
@@ -193,6 +194,7 @@ if (!isset($_SESSION['idEmpresa'])) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/estilo.js"></script>
     <script src="js/custom.js"></script>
+    <script src="js/menuLateral.js" type="module"></script>
 
 </body>
 

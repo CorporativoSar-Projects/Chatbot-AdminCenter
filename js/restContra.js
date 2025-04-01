@@ -3,9 +3,9 @@ const resetPasswordForm = document.getElementById("reset-password-form");
 const closeFormButton = document.getElementById("close-modal");
 const resetForm = document.getElementById("reset-form");
 const emailInput = document.getElementById("email");
-const customAlert = document.getElementById("custom-alert");
+export const customAlert = document.getElementById("custom-alert");
 const customAlertMessage = document.getElementById("custom-alert-message");
-const customAlertClose = document.getElementById("custom-alert-close");
+export const customAlertClose = document.getElementById("custom-alert-close");
 
 /* Funcion para abir el formulario de restablecer contraseña */
 forgotPasswordLink.addEventListener("click", function (event) {
@@ -16,7 +16,7 @@ forgotPasswordLink.addEventListener("click", function (event) {
 });
 
 /* Se cierra el formulario de restablecimiento de contraseña */
-function cerrarModal() {
+export function cerrarModal() {
   resetPasswordForm.style.display = "none";
 }
 

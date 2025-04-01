@@ -30,10 +30,11 @@ if (!isset($_SESSION['idEmpresa'])) {
 
     <header>
         <div class="user-dropdown">
-            <div class="cont-btn-user">
-                <button class="btn-user"><img src="img/user.png" width="30" alt="User Icon"></button>
+            <div class="cont-btn-user" id="close-btn-user">
+                <button class="btn-user" id="user-btn"><img src="img/user.png" width="30" alt="User Icon"></button>
             </div>
-            <div class="dropdown-content">
+            <!-- Menu lateral -->
+            <div class="dropdown-content" id="dropdown-content">
                 <div class="d-flex align-items-center px-3 user-info">
                     <img src="img/user.png" width="40" alt="User Icon">
                     <div class="div-user">
@@ -107,18 +108,18 @@ if (!isset($_SESSION['idEmpresa'])) {
             <div>
                 <div class="container-personalizacion">
                     <div class="container-pers">
-                        <img src="img/icono-dia.png" class="img-icono-dia">
+                        <img src="img/icono-dia.png" class="img-icono-dia2">
                         <div class="container-pers2">
                             <p class="txt-perso-chat">Pantalla de inicio</p>
-                            <p>Ayuda a tus clientes a obtener respuestas más rápidas.</p>
+                            <p class="msg-perso-chat">Ayuda a tus clientes a obtener respuestas más rápidas.</p>
                         </div>
                     </div>
 
                     <div>
                         <label class="label-nombrechat">Mensaje inicial</label><br>
-                        <input type="text" name="inp-saludo" id="inp-saludo"
+                        <textarea type="text" name="inp-saludo" id="inp-saludo"
                             placeholder="¡Saludos! Soy JobHelper, tu guía virtual en el mundo laboral."
-                            class="input-saludo" minlength="2" maxlength="66" required><br>
+                            class="input-saludo" minlength="2" maxlength="66" required></textarea> <br>
 
                         <div class="container-conversacion">
                             <div class="asi-conversacion">
@@ -197,11 +198,14 @@ if (!isset($_SESSION['idEmpresa'])) {
         </div>
     </main>
 
+
+
     <!-- jQuery y Bootstrap JavaScript -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/pantallaIn.js"></script>
     <script src="js/custom.js"></script>
+    <script src="js/menuLateral.js" type="module"></script>
 
 
 </body>

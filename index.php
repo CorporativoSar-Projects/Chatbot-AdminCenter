@@ -24,8 +24,13 @@ if (isset($_SESSION['idEmpresa'])) {
   <link rel="shortcut icon" href="img/logoginnatapechiquito.png" />
 
 </head>
+<!-- Agregue una clase a este body para modificar la altura 
+y no altere el comportamiento de las demás secciones -->
 
 <body>
+  <!-- habia agregado este div para intentar modificar la altura de la página
+  y agregar algunas propiedades respecto la altura pero tampoco funciono -->
+  <!-- <div class="page"> -->
   <div class="container-logo">
     <img src="img/newLogo.svg" class="imgLogo" />
   </div>
@@ -69,6 +74,8 @@ if (isset($_SESSION['idEmpresa'])) {
           <div class="container-btn-sesion">
             <!-- Enlace para restablecer la contraseña -->
             <a href="#" id="link-restablecer" class="link-restablecer">¿Olvidaste la contraseña?</a>
+            <a href="registerForm.php" id="link-registro" class="link-registro">¿Aun no estás registrado?</a>
+
 
             <button
               type="submit"
@@ -77,12 +84,14 @@ if (isset($_SESSION['idEmpresa'])) {
               class="btnSesion">
               Iniciar sesión
             </button>
+            <!-- Enlace para registrarse -->
+
           </div>
         </div>
       </div>
     </form>
   </div>
-  <a href="registerForm.php" id="link-registro" class="link-registro">¿Aun no estás registrado?</a>
+
 
   <!--Formulario del modal para el restablecimiento de la contraseña-->
   <div id="reset-password-form" class="modal" style="display: none">

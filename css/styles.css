@@ -1,3 +1,6 @@
+/* Aqui intente separar el html y el body, para colocarle a cada uno propiedades distintas
+A pesar de modifcar ambas etiquetas desde css y la consola no he tenido exito */
+
 body,
 html {
   margin: 0;
@@ -11,6 +14,15 @@ html {
   min-height: 100vh;
 }
 
+/* A pesar de utilizar !important como ultimo recurso
+No se ha podido modificar la altura del body */
+/* @media (max-width: 1300px) and (min-width: 784px) {
+  body {
+    height: 80% !important;
+    min-height: 50vh !important;
+  }
+} */
+
 h1 {
   color: #ffb703;
   font-size: 40px;
@@ -18,7 +30,7 @@ h1 {
 }
 
 .contIn {
-  margin-top: 10%;
+  margin-top: 6%;
   margin-left: 10%;
 }
 
@@ -52,7 +64,7 @@ h1 {
   flex-direction: column;
   align-items: center; /* Mantiene el botón centrado */
   width: 30%;
-  margin-top: 10px;
+  margin-top: 15px;
   gap: 15px;
   position: relative; /* Permite posicionamiento interno */
 }
@@ -71,7 +83,7 @@ h1 {
   white-space: nowrap;
   width: fit-content;
   text-align: left;
-  margin-bottom: 10px;
+  margin-bottom: 0px;
   align-self: flex-start; /* Lo alinea a la izquierda */
   margin-left: 0; /* Se asegura que esté pegado a la izquierda */
 }
@@ -92,7 +104,7 @@ h1 {
   background-color: #ffb703;
   color: #f3f3f3;
   padding: 10px 16px;
-  margin: 8px 0;
+  margin: 10px 0;
   border: none;
   cursor: pointer;
   width: 60%;
@@ -296,6 +308,19 @@ button:hover {
   height: 100%;
 }
 
+/* Consulta para controlar los margins de los inputs de login y registro */
+@media (max-width: 1300px) and (min-width: 784px) {
+  .contUs {
+    margin-top: 0;
+  }
+  .form-label {
+    margin-top: 2.5%;
+  }
+  .container-btn-sesion,
+  .container-btn-registro {
+    margin-top: 18px;
+  }
+}
 
 @media (max-width: 1100px) {
   .imgVect {
@@ -321,18 +346,32 @@ button:hover {
     width: 35%;
     height: 65%;
   }
+}
 
-  .btnSesion {
-    background-color: #ffb703;
-    color: white;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: none;
-    cursor: pointer;
-    width: 17%;
-    border-radius: 50px;
+/* Cambiar el tamaño de fuente de los inputs
+para que no se corte el texto */
+
+@media (max-width: 1148px) {
+  .txtUsu,
+  .txtMail,
+  .txtpsw {
     font-size: 16px;
-    margin-left: 50px;
+  }
+}
+
+@media (max-width: 958px) {
+  .txtUsu,
+  .txtMail,
+  .txtpsw {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 826px) {
+  .txtUsu,
+  .txtMail,
+  .txtpsw {
+    font-size: 14px;
   }
 }
 
@@ -340,7 +379,7 @@ button:hover {
   body,
   html {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
     background: linear-gradient(
       180deg,
@@ -349,7 +388,8 @@ button:hover {
     );
   }
 
-  .login-container {
+  .login-container,
+  .registro-container {
     width: 80%;
     height: 65%;
     margin: auto;
@@ -398,27 +438,29 @@ button:hover {
 
     box-shadow: 0 2px 4px 0 rgba(78, 77, 77, 0.2),
       0 3px 10px 0 rgba(80, 78, 78, 0.19);
+    font-size: 20px;
   }
 
-  .container-btn-sesion {
+  .container-btn-sesion,
+  .container-btn-registro {
     justify-content: center;
     align-items: center;
     text-align: center;
     width: 100%;
   }
-
-  .link-restablecer {
+  .link-registro,
+  .link-restablecer,
+  .link-miembro {
     margin-left: auto;
     font-size: 14px;
-
-    box-shadow: 0 2px 4px 0 rgba(78, 77, 77, 0.2),
-      0 3px 10px 0 rgba(80, 78, 78, 0.19);
   }
 
-  .container-btn-sesion {
+  .container-btn-sesion,
+  .container-btn-registro {
     justify-content: center;
     align-items: center;
     text-align: center;
+    margin-top: 20px;
   }
 
   .btnSesion {
@@ -427,7 +469,15 @@ button:hover {
     align-items: center;
     text-align: center;
     margin: auto;
-    margin-top: 30px;
+    margin-top: 20px;
+  }
+  .btnRegistro {
+    width: 35%;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin: auto;
+    margin-top: 40px;
   }
 
   .titleIn {
@@ -455,7 +505,8 @@ button:hover {
     );
   }
 
-  .login-container {
+  .login-container,
+  .registro-container {
     width: 80%;
     height: 65%;
     margin: auto;
@@ -502,7 +553,6 @@ button:hover {
 
   .btnSesion {
     width: 60%;
-    margin-top: 30px;
     font-size: 13px;
     justify-content: center;
     align-items: center;
@@ -514,17 +564,19 @@ button:hover {
   .txtpsw {
     width: 100%;
     background-color: #ffffffda;
-
+    font-size: 16px;
     box-shadow: 0 2px 4px 0 rgba(78, 77, 77, 0.2),
       0 3px 10px 0 rgba(80, 78, 78, 0.19);
   }
 
+  .link-registro,
   .link-restablecer {
     font-size: 13px;
     display: block;
     margin-left: auto;
     text-align: right;
   }
+
   .imgLogo {
     width: 100px;
     height: 100px;
@@ -539,23 +591,13 @@ button:hover {
     text-align: center;
   }
 
-  .btnSesion {
+  .btnRegistro {
     width: 60%;
-    margin-top: 30px;
+    margin-top: 40px;
     font-size: 13px;
     justify-content: center;
     align-items: center;
     text-align: center;
-  }
-
-  .txtUsu,
-  .txtMail,
-  .txtpsw {
-    width: 100%;
-    background-color: #ffffffda;
-
-    box-shadow: 0 2px 4px 0 rgba(78, 77, 77, 0.2),
-      0 3px 10px 0 rgba(80, 78, 78, 0.19);
   }
 
   .txtGii {

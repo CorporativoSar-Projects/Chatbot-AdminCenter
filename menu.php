@@ -54,13 +54,13 @@ if (!isset($_SESSION['idEmpresa'])) {
     </nav>
 
     <div class="user-dropdown">
-      <div class="cont-btn-user">
-        <button class="btn-user">
+      <div class="cont-btn-user" id="close-btn-user">
+        <button class="btn-user" id="user-btn">
           <img src="img/user.png" width="30" alt="User Icon" />
         </button>
       </div>
-
-      <div class="dropdown-content">
+      <!-- Menu lateral -->
+      <div class="dropdown-content" id="dropdown-content">
         <div class="d-flex align-items-center px-3 user-info">
           <img src="img/user.png" width="40" alt="User Icon" />
           <div class="div-user">
@@ -83,13 +83,14 @@ if (!isset($_SESSION['idEmpresa'])) {
           <a href="cerrarSesion.php">Cerrar Sesión</a>
         </div>
       </div>
+
     </div>
   </header>
 
   <main>
     <div class="container-prin">
       <div class="container-bienv">
-        <img src="img/icons8.png" width="70px" alt="Welcome Icon" />
+        <img src="img/icons8.png" width="70px" alt="Welcome Icon" class="img-Bien" ; />
         <p class="txtBien">Bienvenido</p>
         <div class="container-btn-refresh">
           <button class="btn-refresh">
@@ -131,6 +132,8 @@ if (!isset($_SESSION['idEmpresa'])) {
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="js/loginError.js" type="module"></script>
+  <script src="js/menuLateral.js" type="module"></script>
+
 </body>
 
 </html>
