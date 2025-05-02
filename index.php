@@ -74,7 +74,7 @@ y no altere el comportamiento de las demás secciones -->
           <div class="container-btn-sesion">
             <!-- Enlace para restablecer la contraseña -->
             <a href="#" id="link-restablecer" class="link-restablecer">¿Olvidaste la contraseña?</a>
-            <a href="registerForm.php" id="link-registro" class="link-registro">¿Aun no estás registrado?</a>
+            <a href="registerForm.php" id="link-registro" class="link-registro">¿Aún no estás registrado?</a>
 
 
             <button
