@@ -19,18 +19,16 @@ if (!isset($_SESSION['idEmpresa'])) {
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/sty.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-
-    <title>Finalizar</title>
-    <link rel="shortcut icon" href="img/logoPagina.png" />
+    <title>Pantalla Inicio</title>
+    <link rel="shortcut icon" href="logoPagina.png" />
 </head>
 
 <body>
-
     <div class="rectangulo-container">
-        <img src="img/logochiquito.png" width="70px" alt="Logo" class="img-logo-chiq">
+        <img src="img/newLogo.svg" width="70px" alt="Logo" class="img-logo-chiq">
     </div>
-    <header>
 
+    <header>
         <div class="user-dropdown">
             <div class="cont-btn-user" id="close-btn-user">
                 <button class="btn-user" id="user-btn"><img src="img/user.png" width="30" alt="User Icon"></button>
@@ -62,34 +60,36 @@ if (!isset($_SESSION['idEmpresa'])) {
     </header>
 
     <main>
-        <div class="container-prinF">
+        <div class="container-prin-PI">
             <div class="container-bienv">
                 <p class="txt-nombre-chat">ChatBot para vacantes</p>
                 <div class="container-btn-cerrar-guar">
+
                     <div class="btn-group">
                         <a href="#" class="btnContinuar" id="btnRegresar">
                             <span class="btn-text">Regresar</span>
                             <img src="img/flecha-r.png" class="btn-icon" style="width: 15px;">
                         </a>
+
                         <a href="#" class="btnContinuar" id="btnContinuar">
                             <span class="btn-text">Continuar</span>
                             <img src="img/flecha-c.png" class="btn-icon" style="width: 15px;">
                         </a>
                     </div>
                     <div class="btn-group">
-
-                        <button type="submit" id="btnGuardar" class="btnGuardarS">
+                        <button type="submit" id="btnGuardarS" class="btnGuardarS">
                             <span class="btn-text">Guardar</span>
                             <img src="img/icons8-save-24.png" class="btn-icon" style="width: 15px;">
                         </button>
-
                         <a href="menu.php" class="btnCerrar">
                             <span class="btn-text">Salir</span>
                             <img src="img/icons8-close-26.png" class="btn-icon" style="width: 15px;">
                         </a>
                     </div>
 
+
                 </div>
+
             </div>
 
             <div class="container-menu-pers">
@@ -97,10 +97,10 @@ if (!isset($_SESSION['idEmpresa'])) {
                     <ul>
                         <li><a href="estilo.php">Estilo</a></li>
                         <li><a href="burbuja.php">Burbuja</a></li>
-                        <li><a href="pantallaInicio.php">Mensaje Inicial</a></li>
+                        <li class="estas"><a href="pantallaInicio.php">Mensaje Inicial</a></li>
                         <li><a href="crearConversacion.php">Conversación</a></li>
                         <li><a href="pantallaDespedida.php">Despedida</a></li>
-                        <li class="estas"><a href="finalizar.php">Vista previa</a></li>
+                        <li><a href="finalizar.php">Vista previa</a></li>
                     </ul>
                 </nav>
             </div>
@@ -108,19 +108,67 @@ if (!isset($_SESSION['idEmpresa'])) {
             <div>
                 <div class="container-personalizacion">
                     <div class="container-pers">
-                        <img src="img/paint.png" class="img-paint">
-                        <div class="container-pers3">
-                            <p class="txt-perso-chat">Prueba tu ChatBot </p>
+                        <img src="img/icono-dia.png" class="img-icono-dia2">
+                        <div class="container-pers2">
+                            <p class="txt-perso-chat">Pantalla de inicio</p>
+                            <p class="msg-perso-chat">Ayuda a tus clientes a obtener respuestas más rápidas.</p>
                         </div>
                     </div>
 
+                    <div>
+                        <label class="label-nombrechat">Mensaje inicial</label><br>
+                        <textarea type="text" name="inp-saludo" id="inp-saludo"
+                            placeholder="¡Saludos! Soy JobHelper, tu guía virtual en el mundo laboral."
+                            class="input-saludo" minlength="2" maxlength="66" required></textarea> <br>
 
-                    <div class="chatbot-principal-desp">
-                        <div class="chatbot-container2">
+                        <div class="container-conversacion">
+                            <div class="asi-conversacion">
+                                <label>Temas de conversación</label><br>
+                                <!-- Se modifico el limite de caracterés a 33 de los inputs de conversación  -->
+                                <ul id="listaTemas">
+                                    <li class="tema-item">
+                                        <input type="text" name="inp-conversa" class="inp-conversa"
+                                            placeholder="Buscar vacantes por categoría" minlength="2" maxlength="33"
+                                            required>
+                                        <button class="btn-borrar" onclick="eliminarTema(this)">
+                                            <img src="img/trash.png" width="20" alt="Delete Topic">
+                                        </button>
+                                    </li>
+                                    <li class="tema-item">
+                                        <input type="text" name="inp-conversa" class="inp-conversa"
+                                            placeholder="Buscar vacantes por ubicación" minlength="2" maxlength="33" required>
+                                        <button class=" btn-borrar" onclick="eliminarTema(this)">
+                                            <img src="img/trash.png" width="20" alt="Delete Topic">
+                                        </button>
+                                    </li>
+                                    <li class="tema-item">
+                                        <input type="text" name="inp-conversa" class="inp-conversa"
+                                            placeholder="Seguimiento de mi postulación" minlength="2" maxlength="33" required>
+                                        <button class=" btn-borrar" onclick="eliminarTema(this)">
+                                            <img src="img/trash.png" width="20" alt="Delete Topic">
+                                        </button>
+                                    </li>
+                                </ul>
+                                <div class="container-tema">
+                                    <span id="nuevoTema" class="nuevoTema">Añadir tema de conversación</span>
+                                    <button onclick="agregarTema()" class="btn-add-conv">
+                                        <img src="img/add1.png" width="20" alt="Add Topic">
+                                    </button>
+                                </div>
+                                <!-- Mensaje de notificación -->
+                                <p id="errorMensaje" class="errorMensaje" style="color: red; display: none;">No puedes
+                                    añadir más de 5 temas.</p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="chatbot-principal">
+                        <div class="chatbot-container">
                             <div class="chatbot-header" id="chatbot-header">
-                                <img src="img/Logo_cabeza.svg" alt="Chatbot" class="chatbot-icon">
+                                <img src="img/logochiquito.png" alt="Chatbot" class="chatbot-icon">
                                 <p class="txt-titulo-chat" id="txt-titulo-chat">JobHelper</p>
-                                <div class="container2">
+                                <div class="container1">
                                     <div class="chatbot-min" title="Minimizar" onclick="toggleChatbot()">
                                         <img src="img/line.png" />
                                     </div>
@@ -129,69 +177,25 @@ if (!isset($_SESSION['idEmpresa'])) {
                                     </div>
                                 </div>
                             </div>
-                            <div class="chatbot-content2">
-                                <p class="txt-chatbot">
+                            <div class="chatbot-content">
+                                <p class="txt-chatbot" id="txt-chatbot">
                                     ¡Saludos! Soy JobHelper, tu guía virtual en el mundo laboral.
                                     Mi misión es facilitarte el buscar la mejor opción.
                                 </p>
-                                <div class="chatbot-buttons2">
-                                    <button class="chatbot-button2">Buscar vacantes por categoría</button>
-                                    <button class="chatbot-button2">Buscar vacantes por ubicación</button>
-                                    <button class="chatbot-button2">Seguimiento de mi postulación</button>
+                                <div class="chatbot-buttons" id="chatbot-buttons">
+                                    <!-- Botones del chatbot se agregarán aquí -->
                                 </div>
                             </div>
-
-                                <!--Contenedor para respuesta del usuario-->
-                            <div class="user-message2">
-                                    <p>vurzolakku@gufum.com</p>
-                            </div>
-
-
                             <div id="user-input-container" class="user-input-container">
                                 <input type="text" id="user-input" placeholder="Escribe aquí tu respuesta...">
                                 <button>Enviar</button>
                             </div>
                         </div>
-                        <div class="link-func">
-                            <div class="label-func">
-                                <label for="input">URL de funcionamiento</label>
-                            </div>
-                            <div class="container-input">
-                                <input type="text" id="input" class="txtfunc">
-                                <button type="submit" id="myBtn" class="btnGenerar">
-                                    <span class="btn-text-Generar">Generar</span>
-                                    <!--  <img src="img/icons8-link-24.png" class="btn-icon" style="width: 20px;">-->
-                                </button>
-                            </div>
-                        </div>
                     </div>
 
                 </div>
-
-                <div id="myModal" class="modal">
-
-
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5>¡Copia el link de tu ChatBot!</h5>
-                            <span class="close">&times;</span>
-                        </div>
-                        <div class="modal-body">
-                            <p>Link</p>
-                            <input type="text" name="inp-nombre" id="inp-link"
-                                value="https://web-chat.naquistristiquevitaeenim " class="input-link">
-                            <button class="copy-button" onclick="copyLink()">Copiar</button>
-                        </div>
-
-                        <h6>Cerrar</h6>
-                    </div>
-                </div>
-
             </div>
-
         </div>
-
-
     </main>
 
 
@@ -199,9 +203,9 @@ if (!isset($_SESSION['idEmpresa'])) {
     <!-- jQuery y Bootstrap JavaScript -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/pantallaIn.js"></script>
     <script src="js/custom.js"></script>
     <script src="js/menuLateral.js" type="module"></script>
-    <script src="js/link.js"></script>
 
 
 </body>

@@ -127,7 +127,7 @@ if (!isset($_SESSION['idEmpresa'])) {
                     <div class="chatbot-principal">
                         <div class="chatbot-container">
                             <div class="chatbot-header" id="chatbot-header">
-                                <img src="img/logochiquito.png" alt="Chatbot" class="chatbot-icon">
+                                <img src="img/Logo_cabeza.svg" alt="Chatbot" class="chatbot-icon">
                                 <p class="txt-titulo-chat" id="txt-titulo-chat">JobHelper</p>
                                 <div class="container1">
                                     <div class="chatbot-min" title="Minimizar" onclick="toggleChatbot()">
@@ -143,7 +143,7 @@ if (!isset($_SESSION['idEmpresa'])) {
                                     Gracias por usar JobHelper, es un gusto haber podido ayudarte... ¡Hasta la próxima!
                                 </p>
 
-                                <img src="img/logogiintape.png" alt="" style="margin: 0 auto; display: block; width: 100px; height: auto; max-width: 100%; overflow: hidden;" />
+                                <img src="img/Logo_principal.svg" alt="" style="margin: 0 auto; display: block; width: 100px; height: auto; max-width: 100%; overflow: hidden;" />
 
                             </div>
                             <div id="user-input-container" class="user-input-container">
