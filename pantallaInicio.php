@@ -128,33 +128,18 @@ if (!isset($_SESSION['idEmpresa'])) {
                                 <ul id="listaTemas">
                                     <li class="tema-item">
                                         <input type="text" name="inp-conversa" class="inp-conversa"
-                                            placeholder="Buscar vacantes por categoría" minlength="2" maxlength="33"
-                                            required>
-                                        <button class="btn-borrar" onclick="eliminarTema(this)">
-                                            <img src="img/trash.png" width="20" alt="Delete Topic">
-                                        </button>
+                                            value="Buscar vacantes por categoría" minlength="2" maxlength="33"
+                                            readonly disabled>
                                     </li>
                                     <li class="tema-item">
                                         <input type="text" name="inp-conversa" class="inp-conversa"
-                                            placeholder="Buscar vacantes por ubicación" minlength="2" maxlength="33" required>
-                                        <button class=" btn-borrar" onclick="eliminarTema(this)">
-                                            <img src="img/trash.png" width="20" alt="Delete Topic">
-                                        </button>
+                                            value="Buscar vacantes por ubicación" minlength="2" maxlength="33" readonly disabled>
                                     </li>
                                     <li class="tema-item">
                                         <input type="text" name="inp-conversa" class="inp-conversa"
-                                            placeholder="Seguimiento de mi postulación" minlength="2" maxlength="33" required>
-                                        <button class=" btn-borrar" onclick="eliminarTema(this)">
-                                            <img src="img/trash.png" width="20" alt="Delete Topic">
-                                        </button>
+                                            value="Seguimiento de mi postulación" minlength="2" maxlength="33" readonly disabled>
                                     </li>
                                 </ul>
-                                <div class="container-tema">
-                                    <span id="nuevoTema" class="nuevoTema">Añadir tema de conversación</span>
-                                    <button onclick="agregarTema()" class="btn-add-conv">
-                                        <img src="img/add1.png" width="20" alt="Add Topic">
-                                    </button>
-                                </div>
                                 <!-- Mensaje de notificación -->
                                 <p id="errorMensaje" class="errorMensaje" style="color: red; display: none;">No puedes
                                     añadir más de 5 temas.</p>
@@ -166,7 +151,7 @@ if (!isset($_SESSION['idEmpresa'])) {
                     <div class="chatbot-principal">
                         <div class="chatbot-container">
                             <div class="chatbot-header" id="chatbot-header">
-                                <img src="img/logochiquito.png" alt="Chatbot" class="chatbot-icon">
+                                <img src="img/Logo_cabeza.svg" alt="Chatbot" class="chatbot-icon">
                                 <p class="txt-titulo-chat" id="txt-titulo-chat">JobHelper</p>
                                 <div class="container1">
                                     <div class="chatbot-min" title="Minimizar" onclick="toggleChatbot()">
