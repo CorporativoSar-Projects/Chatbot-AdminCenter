@@ -3,7 +3,8 @@ document.addEventListener("DOMContentLoaded", function () {
         { id: 'colorPrimario', defaultValue: '#e39842' },
         { id: 'colorSecundario', defaultValue: '#b6b6b6' },
         { id: 'colorAcento', defaultValue: '#383838' },
-        { id: 'colorTexto', defaultValue: '#000000' }
+        { id: 'colorTexto', defaultValue: '#000000' },
+        { id: 'colorUsuario', defaultValue: '#219ebc' }
     ];
 
     inputs.forEach(inputData => {
@@ -38,6 +39,7 @@ function actualizarColores() {
         '--color-acento': document.getElementById('colorAcento').value,
         '--color-texto': document.getElementById('colorTexto').value,
         '--color-texto-boton': document.getElementById('colorTexto').value,
+        '--color-usuario': document.getElementById('colorUsuario').value,
     };
 
     for (const [key, value] of Object.entries(colors)) {
@@ -45,6 +47,9 @@ function actualizarColores() {
             document.documentElement.style.setProperty(key, value);
         }
     }
+
+    localStorage.setItem('colorPrimario', colors['--color-primario']);
+    localStorage.setItem('colorTexto', colors['--color-texto']);
 }
 
 

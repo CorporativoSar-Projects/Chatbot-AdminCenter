@@ -1,3 +1,4 @@
+
 document.addEventListener("DOMContentLoaded", function() {
     const inputs = [
         { id: 'colorPrimarioBurbuja', defaultValue: '#e39842' },
@@ -8,7 +9,19 @@ document.addEventListener("DOMContentLoaded", function() {
         const inputElement = document.getElementById(inputData.id);
         const muestraElement = document.getElementById(`muestra${capitalize(inputData.id)}`);
 
-        muestraElement.style.backgroundColor = inputElement.value;
+        //clave que se uso para el localStorage
+        const colorStorageKey = inputData.id.includes("Primario") ? 'colorPrimario' : 'colorTexto';
+       //Recupera el color que esta guardado en el almacenamiento
+        const savedColor = localStorage.getItem(colorStorageKey);
+
+        const colorToUse = isValidHex(savedColor) ? savedColor : inputData.defaultValue;
+
+        inputElement.value = colorToUse; //Establecera el valor del color en el input
+        muestraElement.style.backgroundColor = colorToUse;
+
+        actualizarColores();
+
+        inputElement.disabled = true;
 
         inputElement.addEventListener("input", function() {
             const color = inputElement.value;
@@ -17,6 +30,12 @@ document.addEventListener("DOMContentLoaded", function() {
                 actualizarColores();
             }
         });
+    });
+
+    //Ayuda a eliminar los colores que se guardaron en localstorage
+ window.addEventListener('beforeunload', function() {
+        localStorage.removeItem('colorPrimario');
+        localStorage.removeItem('colorTexto');
     });
 });
 
@@ -65,5 +84,4 @@ document.addEventListener('DOMContentLoaded', function () {
         localStorage.removeItem('chatbotLogo');
     });
 });
-
 

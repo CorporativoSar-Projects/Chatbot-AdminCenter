@@ -158,6 +158,10 @@ if (!isset($_SESSION['idEmpresa'])) {
                         <label class="label-nombrechat">Define el nombre de la columna </label><br>
                         <input type="text" name="inp-columna" id="inp-columna" placeholder="Escribe"
                             class="input-columna" required><br>
+
+                        <label class="label-nombrechat">Link de referencia</label><br>
+                        <input type="url" name="inp-link-referencia" id="inp-link-referencia" placeholder="https://ejemplo.com"
+                             class="input-columna-crear"><br>
                     </div>  -->
 
     </main>
