@@ -370,6 +370,7 @@ a,
 
 .container-personalizacion {
   margin-left: 30px;
+  height: 100vh;
 }
 
 .container-pers {
@@ -518,6 +519,7 @@ a,
 #colorAcento,
 #colorSecundario,
 #colorTexto,
+#colorUsuario,
 #colorPrimarioBurbuja,
 #colorTextoBurbuja {
   width: 120px;
@@ -645,23 +647,27 @@ a,
 }
 
 .chatbot-container {
+  display: flex;
+  flex-direction: column;
   margin-left: 65%;
   position: absolute;
   top: 45%;
   width: 400px;
-  height: 450px;
+  height: auto;
   border: 1px solid #ccc;
   background-color: #ffffff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  border-radius: 20px;
+  border-radius: 20px; 
 }
 
 .chatbot-container2 {
+  display: flex;
+  flex-direction: column;
   margin-left: 55%;
   position: absolute;
   top: 45%;
   width: 400px;
-  height: 450px;
+  height: auto;
   border: 1px solid #ccc;
   background-color: #ffffff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -694,7 +700,7 @@ a,
 .chatbot-icon {
   width: 35px;
   height: 35px;
-  border-radius: 50%;
+  border-radius: 40%;
   overflow: hidden;
   margin-top: 6px;
   margin-left: 12px;
@@ -725,7 +731,7 @@ a,
   margin-top: 20px;
   margin-left: 20px;
   width: 300px;
-  height: 300px;
+  height: 270px;
   text-align: left;
   align-self: flex-start;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
@@ -745,7 +751,7 @@ a,
   margin-top: 20px;
   margin-left: 20px;
   width: 300px;
-  height: 300px;
+  height: 270px;
   text-align: left;
   align-self: flex-start;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
@@ -779,6 +785,21 @@ a,
   background-color: var(--color-acento, #383838);
   color: var(--color-texto-hover, #ffffff);
 }
+/*Estilo del contenedor para la respuesta del usuario*/
+.user-message2{
+  background-color:var(--color-usuario, #219ebc); /* Fondo azul para el usuario */
+  color: var(--color-texto, #000000 );
+  padding: 10px;
+  border-radius: 15px;
+  margin-right: 20px;
+  margin-top: 20px;
+  text-align: left;
+  align-self: flex-end; /* Alinea los mensajes del usuario a la derecha */
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+    rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+}
+
+
 
 .chatbot-buttons2 {
   display: flex;
@@ -949,7 +970,7 @@ a,
   background-color: var(--colorPrimarioBurbuja, #e39842);
   border: none;
   border-radius: 20px;
-  color: black;
+  color: var(--colorTextoBurbuja, #000000);
   font-family: Arial, Helvetica, sans-serif;
   font-size: 14px;
   cursor: pointer;
@@ -1647,23 +1668,14 @@ a,
 
   .chatbot-container {
     margin-left: 65%;
-
     position: absolute;
-
     top: 45%;
-
     width: 400px;
-
-    height: 450px;
-
+    height: auto;
     border: 1px solid #ccc;
-
     background-color: #ffffff;
-
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-
     border-radius: 20px;
-
     margin-bottom: 200vh;
   }
 
@@ -1687,23 +1699,14 @@ a,
 
   .chatbot-container2 {
     margin-left: 90%;
-
     position: absolute;
-
     top: 70%;
-
     width: 400px;
-
-    height: 450px;
-
+    height: auto;
     border: 1px solid #ccc;
-
     background-color: #ffffff;
-
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-
     border-radius: 20px;
-
     margin-bottom: 20px;
   }
 
@@ -1711,17 +1714,13 @@ a,
 
   .link-func {
     width: 85%;
-
     margin-left: 35%;
-
     margin-right: auto;
-
     top: 30vh;
   }
 
   .container-input {
     width: 100%;
-
     max-width: 500px;
   }
 
@@ -1733,29 +1732,19 @@ a,
 
   .btnGenerar {
     margin-left: 30%;
-
     margin-right: 0;
-
     width: auto;
-
     max-width: 200px;
   }
 
   .chatbot-principal-desp {
     position: relative;
-
     margin-left: 0;
-
     margin-top: 80px;
-
     top: auto;
-
     right: 35%;
-
     width: 100%;
-
     height: auto;
-
     bottom: 50px;
   }
 
@@ -1767,43 +1756,31 @@ a,
 
   .chat-toggle {
     position: relative;
-
     margin-left: 73%;
-
     margin-top: 30px;
-
     height: auto;
-
     display: flex;
   }
 
   .toggle-icon {
     width: 55px;
-
     height: 55px;
-
+    margin-top: -5px;
     border-radius: 50%;
-
     overflow: hidden;
-
     display: inline-block;
   }
 
   .chat-text {
     right: 24px;
-
     padding: 4px 20px;
-
     height: 40px;
   }
 
   .container-crear-conver {
     margin-left: 15px;
-
     position: relative;
-
     top: 80%;
-
     padding-bottom: 20px;
   }
 
@@ -1921,6 +1898,10 @@ a,
 
   .input-saludo {
     width: 90%;
+  }
+
+  .container-personalizacion {
+    height: 200vh;
   }
 
   /* consulta nueva para ajustar el texto del textarea saludo */
@@ -2089,36 +2070,25 @@ a,
 
   .chat-toggle {
     position: relative;
-
     margin-left: 60%;
-
     margin-top: 50px;
-
     transition: right 0.3s ease, bottom 0.3s ease;
-
     display: flex;
   }
 
   .toggle-icon {
     width: 45px;
-
     height: 45px;
-
     border-radius: 50%;
-
     overflow: hidden;
-
     display: inline-block;
   }
 
   .chat-text {
     right: 20px;
-
     font-size: 11px;
-
     padding: 4px 20px;
-
-    height: 40px;
+    height: 35px;
   }
 
   /*Adaptacion para los botones de conversación*/
@@ -2325,26 +2295,18 @@ a,
   .btnContinuar,
   .btnRegresar {
     width: 10%;
-
     font-size: 14px;
-
     padding: 10px;
-
     margin: 5px 3px;
-
     height: auto;
-
     display: flex;
-
     justify-content: center;
-
     align-items: center;
   }
 
   .input-nombre,
   .input-burbuja {
     width: 80%;
-
     height: 40px;
   }
 
@@ -2355,6 +2317,34 @@ a,
 
     height: 70px;
   }
+
+  .container-prin {
+    height: 218vh;
+  }
+
+  .chatbot-button {
+    padding: 2px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: left;
+    width: auto;
+    height: 25px;
+    font-size: 13px;
+    transition: background-color 0.3s;
+  }
+
+  .container-personalizacion {
+    height: 250vh;
+  }
+
+  .user-message2 {
+    max-width: 95%;
+    font-size: 14px;
+    margin-right: 10px;
+    margin-left: 10px;
+  }
+
 
   /* consulta espacio inferior ventana panatlla inicio */
 
@@ -2532,89 +2522,56 @@ del texto de mensaje de despedida */
   .chatbot-container,
   .chatbot-container2 {
     margin-right: -14%;
-
     position: absolute;
-
     top: 150%;
-
     width: 300px;
-
-    height: 450px;
-
+    height: auto;
     border: 1px solid #ccc;
-
     background-color: #ffffff;
-
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
 
   .chatbot-content,
   .chatbot-content2 {
     background-color: #f1f1f1;
-
     color: var(--color-texto, #000000);
-
     padding: 10px;
-
     margin: 5px;
-
     margin-top: 20px;
-
     margin-left: 20px;
-
     width: 250px;
-
-    height: 300px;
-
+    height: 270px;
     text-align: left;
-
     align-self: flex-start;
-
     box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
       rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
-
     border-radius: 15px;
-
     overflow-wrap: break-word;
   }
 
   .chatbot-buttons2 {
     display: flex;
-
     flex-direction: column;
-
     gap: 10px;
-
     margin-top: 15px;
   }
 
   .chatbot-button2 {
     background-color: var(--color-secundario, #b6b6b6);
-
     color: var(--color-texto-boton, #000000);
-
     padding: 2px 10px;
-
     border: none;
-
     border-radius: 5px;
-
     cursor: pointer;
-
     text-align: left;
-
     width: 200px;
-
     height: 25px;
-
     font-size: 10px;
-
     transition: background-color 0.3s;
   }
 
   .chatbot-button2:hover {
     background-color: var(--color-acento, #383838);
-
     color: var(--color-texto-hover, #ffffff);
   }
 
@@ -2710,7 +2667,6 @@ del texto de mensaje de despedida */
 
   .container-pers3 {
     margin-left: 2px;
-
     margin-top: 20px;
   }
 
