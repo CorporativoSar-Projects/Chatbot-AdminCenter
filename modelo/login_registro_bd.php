@@ -1,73 +1,55 @@
-<!-- Código para registar a un usuario en la base de datos de manera segura con sentencias preparadas
-y evitar la intección SQL -->
-
 <?php
-
 include 'conexion_bd.php';
 
-/* Valores de los campos del formulario de registro */
+// Recibir datos
+$id_adm = trim($_POST['id_adm']);
+$correo_adm = filter_var($_POST['correo_adm']);
+$pass_adm = trim($_POST['pass_adm']);
+$nombre_adm = trim($_POST['nombre_adm']);
+$apellidop_adm = trim($_POST['apellidop_adm']);
+$apellidom_adm = trim($_POST['apellidom_adm']);
+$tel_adm = trim($_POST['tel_adm']);
+$Empresa_RFC_emp = $_POST['Empresa_RFC_emp'];
 
-$idEmpresa = trim($_POST['idEmpresa']);
-$correo = filter_var($_POST['correo'], FILTER_VALIDATE_EMAIL);
-$contra = trim($_POST['contra']);
-
-if (!$correo) {
+// Validación básica
+if (!$correo_adm) {
     die("<script>alert('Correo inválido'); window.location = '../registerForm.php';</script>");
 }
 
+// Encriptar contraseña
+$pass_adm_hash = password_hash($pass_adm, PASSWORD_DEFAULT);
 
-// Código para encriptar la contraseña
-$contra = password_hash($contra, PASSWORD_DEFAULT);
-
-// Verificar que el correo no se repita en la base de datos
-$stmt = mysqli_prepare($conexion, "SELECT * FROM usuarios WHERE correo = ?");
-mysqli_stmt_bind_param($stmt, "s", $correo);
+// Verificar si ya existe el correo
+$stmt = mysqli_prepare($conexion, "SELECT * FROM administrador WHERE correo_adm = ?");
+mysqli_stmt_bind_param($stmt, "s", $correo_adm);
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
-
 if (mysqli_num_rows($result) > 0) {
-    echo "<script>alert('Este correo ya está registrado, prueba con otro distinto'); 
-    window.location = '../registerForm.php';
-    </script>";
+    echo "<script>alert('Este correo ya está registrado'); window.location = '../registerForm.php';</script>";
     exit();
 }
 mysqli_stmt_close($stmt);
 
-// Verificar que el usuario no se repita en la base de datos
-$stmt = mysqli_prepare($conexion, "SELECT * FROM usuarios WHERE idEmpresa = ?");
-mysqli_stmt_bind_param($stmt, "s", $idEmpresa);
+// Verificar si ya existe el ID
+$stmt = mysqli_prepare($conexion, "SELECT * FROM administrador WHERE id_adm = ?");
+mysqli_stmt_bind_param($stmt, "s", $id_adm);
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
-
 if (mysqli_num_rows($result) > 0) {
-    echo "<script>alert('Este usuario ya está registrado'); 
-    window.location = '../registerForm.php';
-    </script>";
+    echo "<script>alert('Este ID ya está registrado'); window.location = '../registerForm.php';</script>";
     exit();
 }
 mysqli_stmt_close($stmt);
 
-// Insertar datos de manera segura con sentencia preparada y evitar la inyección SQL
-
-/* IMPORTANTE!: este es un ejemplo de registro de usuario con código maliciosos */
-/* idEmpresa: test123
-correo: test@example.com' -- 
-contraseña: password */
-/* Si el sistema permite el registro entonces estaría vulnerable */
-$stmt = mysqli_prepare($conexion, "INSERT INTO usuarios (idEmpresa, correo, contra) VALUES (?, ?, ?)");
-mysqli_stmt_bind_param($stmt, "sss", $idEmpresa, $correo, $contra);
+// Insertar nuevo administrador
+$stmt = mysqli_prepare($conexion, "INSERT INTO administrador (id_adm, correo_adm, pass_adm, nombre_adm, apellidop_adm, apellidom_adm, tel_adm, Empresa_RFC_emp) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+mysqli_stmt_bind_param($stmt, "ssssssss", $id_adm, $correo_adm, $pass_adm_hash, $nombre_adm, $apellidop_adm, $apellidom_adm, $tel_adm, $Empresa_RFC_emp);
 $ejecutar = mysqli_stmt_execute($stmt);
 
-/* Condicional para verifica si el registro fue exitoso o no */
-
 if ($ejecutar) {
-    echo "<script>alert('Registro exitoso'); 
-    window.location = '../index.php';
-    </script>";
+    echo "<script>alert('Registro exitoso'); window.location = '../index.php';</script>";
 } else {
-    echo "<script>alert('Registro no exitoso'); 
-    window.location = '../registerForm.php';
-    </script>";
+    echo "<script>alert('Error en el registro'); window.location = '../registerForm.php';</script>";
 }
 
 mysqli_stmt_close($stmt);

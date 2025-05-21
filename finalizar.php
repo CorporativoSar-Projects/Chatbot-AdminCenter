@@ -2,7 +2,7 @@
 
 session_start();
 
-if (!isset($_SESSION['idEmpresa'])) {
+if (!isset($_SESSION['id_adm'])) {
     session_destroy();
     header("location: ./index.php?error=2");
     exit;
@@ -157,7 +157,7 @@ if (!isset($_SESSION['idEmpresa'])) {
                                 <label for="input">URL de funcionamiento</label>
                             </div>
                             <div class="container-input">
-                                <input type="text" id="input" class="txtfunc">
+                                <input type="text" id="input" class="txtfunc" readonly>
                                 <button type="submit" id="myBtn" class="btnGenerar">
                                     <span class="btn-text-Generar">Generar</span>
                                     <!--  <img src="img/icons8-link-24.png" class="btn-icon" style="width: 20px;">-->
@@ -183,8 +183,9 @@ if (!isset($_SESSION['idEmpresa'])) {
                             <button class="copy-button" onclick="copyLink()">Copiar</button>
                         </div>
 
-                        <h6>Cerrar</h6>
-                    </div>
+                      <div class="modal-footer close-footer">
+                            <h6>Cerrar</h6>
+                        </div>
                 </div>
 
             </div>

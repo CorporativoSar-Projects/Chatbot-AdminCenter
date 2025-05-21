@@ -2,7 +2,7 @@
 
 session_start();
 
-if (!isset($_SESSION['idEmpresa'])) {
+if (!isset($_SESSION['id_adm'])) {
     session_destroy();
     header("location: ./index.php?error=2");
     exit;
@@ -119,9 +119,6 @@ if (!isset($_SESSION['idEmpresa'])) {
                         <textarea id="inp-depedida"
                             placeholder="Gracias por usar JobHelper, es un gusto haber podido ayudarte... ¡Hasta la próxima!"
                             class="input-despedida" required maxlength="280"></textarea><br>
-
-
-
                     </div>
 
                     <div class="chatbot-principal">

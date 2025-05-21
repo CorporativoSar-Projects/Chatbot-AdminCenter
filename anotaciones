@@ -23,3 +23,8 @@ http://localhost/phpmyadmin/
   idEmpresa: 123
   Correo: holamundo@gmail.com
   contraseña: 12345678
+
+  nuevo inicio 
+  id_adm: 1
+  correo_adm: correoadmprueba@outlook.com
+  contraseña: 12345
