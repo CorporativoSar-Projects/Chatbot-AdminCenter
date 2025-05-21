@@ -1726,7 +1726,6 @@ a,
 
   .txtfunc {
     min-width: 85%;
-
     max-width: 400px;
   }
 
@@ -2016,13 +2015,9 @@ a,
 
   .chatbot-container2 {
     width: 80%;
-
     max-width: 350px;
-
     right: -28px;
-
     margin-left: auto;
-
     top: 30vh;
   }
 
@@ -2030,39 +2025,28 @@ a,
 
   .link-func {
     position: relative;
-
     width: 95%;
-
     margin-left: auto;
-
     margin-right: -33%;
-
     top: 5vh;
   }
 
   .container-input {
     width: 100%;
-
     max-width: 100%;
   }
 
   .txtfunc {
     width: 100%;
-
     max-width: 70%;
-
     min-width: auto;
-
     height: 40px;
   }
 
   .btnGenerar {
     width: auto;
-
     margin-left: 25%;
-
     margin-right: auto;
-
     max-width: 30%;
   }
 
@@ -2158,16 +2142,12 @@ a,
 
   .img-paint {
     margin-top: 6px;
-
     height: 45px;
-
     width: 45px;
   }
 }
 
-/* Consulta para mensaje y texto de la sección de pantalla de inicio
-
- */
+/* Consulta para mensaje y texto de la sección de pantalla de inicio*/
 
 @media (max-width: 536px) {
   .msg-perso-chat,
@@ -2218,23 +2198,15 @@ a,
 
   .chatbot-principal {
     position: relative;
-
     margin-top: 80px;
-
     top: auto;
-
     right: 68%;
-
     width: 100%;
-
     height: auto;
-
     bottom: 50px;
   }
 
-  /* Propiedades del footer para separar los elementos
-
-  de la parte inferior de la página */
+  /* Propiedades del footer para separar los elementos de la parte inferior de la página */
 
   .container-prinF {
     height: 150vh;
@@ -2250,27 +2222,18 @@ a,
 
   .container-chats {
     inline-size: 79%;
-
     max-width: 100%;
-
     box-sizing: border-box;
-
     overflow-x: hidden;
-
     padding: 10px 10px;
   }
 
   .container-btn-cerrar-guar {
     display: flex;
-
     flex-direction: column-reverse;
-
     justify-content: center;
-
     align-items: flex-end;
-
     width: 100%;
-
     margin: -20px auto 0 auto;
   }
 
@@ -2359,15 +2322,12 @@ a,
   @media (max-width: 410px) {
     .inp-conversa {
       width: 220px !important;
-
       font-size: 12px !important;
-
       padding-left: 8px;
     }
 
     .tema-item {
       color: #ffb703;
-
       width: 280px !important;
     }
   }
@@ -2400,9 +2360,7 @@ del texto de mensaje de despedida */
 
     .img-icono-dia {
       margin-top: 10px;
-
       width: 30px;
-
       height: 35px;
     }
   }
@@ -2431,91 +2389,62 @@ del texto de mensaje de despedida */
 
   .chat-toggle {
     position: relative;
-
     margin-left: 50%;
-
     width: 60%;
-
     transform: translateX(-50px);
-
     display: flex;
   }
 
   .container-plan-basico {
     width: 90%;
-
     height: 120px;
-
     margin-left: 0;
-
     margin-right: 0;
-
     margin-bottom: 15px;
   }
 
   .container-plan-inter {
     width: 90%;
-
     height: 180px;
-
     margin-left: 0;
-
     margin-right: 0;
-
     margin-bottom: 15px;
   }
 
   .container-plan-ava {
     width: 90%;
-
     height: 230px;
-
     margin-left: 0;
-
     margin-right: 0;
-
     margin-bottom: 15px;
   }
 
   .container-btn {
     justify-content: center;
-
     align-items: center;
-
     text-align: center;
   }
 
   .btnSiguiente {
     background-color: #fb8300;
-
     color: white;
-
     padding: 14px 20px;
-
     margin: 8px 0;
-
     border: none;
-
     cursor: pointer;
-
     width: 40%;
-
     border-radius: 15px;
-
     font-size: 16px;
-
     text-decoration: none;
   }
 
   .nuevoTema {
     margin-left: 15px;
-
     font-size: 12px;
   }
 
   .tema-item {
     color: #ffb703;
-
     width: 340px;
   }
 
@@ -2633,33 +2562,19 @@ del texto de mensaje de despedida */
 
   .input-link {
     width: 60%;
-
     height: 30px;
-
     padding: 12px 20px;
-
     margin: 8px 0;
-
     border: none;
-
     display: inline-block;
-
     background-color: #ffffff;
-
     box-sizing: border-box;
-
     border-radius: 15px;
-
     text-decoration: none;
-
     outline: none;
-
     transition: opacity 0.2s ease;
-
     opacity: 1;
-
     border-color: #d9d9d9;
-
     box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
   }
 
@@ -2674,21 +2589,13 @@ del texto de mensaje de despedida */
 
   .link-func {
     display: flex;
-
     flex-direction: column;
-
     align-items: stretch;
-
     justify-content: flex-start;
-
     width: 100%;
-
     height: auto;
-
     position: relative;
-
     padding: 0 70px;
-
     box-sizing: border-box;
   }
 
@@ -2696,7 +2603,6 @@ del texto de mensaje de despedida */
 
   .label-func {
     text-align: left;
-
     width: 100%;
   }
 
@@ -2704,9 +2610,7 @@ del texto de mensaje de despedida */
 
   .container-input {
     display: flex;
-
     flex-direction: column;
-
     align-items: stretch;
   }
 
@@ -2714,35 +2618,22 @@ del texto de mensaje de despedida */
 
   .txtfunc {
     width: 100%;
-
     max-width: 280px;
-
     min-width: auto;
-
     text-align: left;
-
     padding: 8px;
-
     box-sizing: border-box;
   }
 
   .btnGenerar {
     width: auto;
-
     max-width: 150px;
-
     text-align: center;
-
     min-width: auto;
-
     margin-top: 10px;
-
     align-self: flex-end;
-
     padding: 8px 12px;
-
     box-sizing: border-box;
-
     transform: translateX(25px);
   }
 
@@ -2750,21 +2641,15 @@ del texto de mensaje de despedida */
 
   .input-url {
     max-width: 120%;
-
     min-width: 130%;
-
     width: 100%;
-
     height: 35px;
-
     padding: 8px 12px;
   }
 
   .update-logo-button {
     width: 75%;
-
     margin-left: 25%;
-
     text-align: center;
   }
 
@@ -2776,11 +2661,8 @@ del texto de mensaje de despedida */
 
   .img-paint {
     width: 30px;
-
     height: 35px;
-
     margin-top: 10px;
-
     margin-right: 10px;
   }
 
@@ -2788,43 +2670,30 @@ del texto de mensaje de despedida */
 
   .img-Bien {
     width: 50px;
-
     height: 50px;
-
     top: -5px;
-
     margin-right: 10px;
-
     position: relative;
   }
 
   .txtBien {
     font-size: 20px;
-
     top: -5px;
   }
 
   /*Adaptación de el contenedor y botones de Conversacion*/
-
   .container-btn-edit-chat {
     float: none;
-
     margin-top: 10px;
-
     width: 100%;
-
     text-align: right;
   }
 
   .boton1 {
     width: 90%;
-
     font-size: 14px;
-
     padding: 10px;
-
     margin: 10px auto;
-
     text-align: center;
   }
 
@@ -2832,7 +2701,6 @@ del texto de mensaje de despedida */
 
   .txt-nombre-chat {
     font-size: 16px; /* Reduce el tamaño del texto en pantallas pequeñas */
-
     white-space: nowrap;
   }
 }
