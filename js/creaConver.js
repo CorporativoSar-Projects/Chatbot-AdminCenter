@@ -52,9 +52,9 @@ function impMenu2(event) {
             <input type="text" name="inp-columna" id="inp-columna" placeholder="Escribe"
                 class="input-columna-crear" required><br>
 
-             <label class="label-nombrechat">URL del informe</label><br>
+            <!-- <label class="label-nombrechat">URL del informe</label><br>
             <input type="url" name="inp-url-informe" id="inp-url-informe" placeholder="https://ejemplo.com"
-                    class="input-columna-crear"><br>
+                    class="input-columna-crear"><br>-->
         </div>
     `;
   document.getElementById("imprimir").innerHTML = stringMenu;
@@ -78,11 +78,11 @@ function impMenu3(event) {
             <label class="label-nombrechat">Origen de búsqueda</label><br>
             <input type="text" name="inp-columna" id="inp-columna" placeholder="Escribe"
                 class="input-columna-crear" required><br>
-              <!--
+      
             <label class="label-nombrechat">URL del informe</label><br>
             <input type="url" name="inp-url-informe" id="inp-url-informe" placeholder="https://ejemplo.com"
-                    class="input-columna-crear"><br>*/
-                     -->
+                    class="input-columna-crear"><br>
+                     
         </div>
     `;
   document.getElementById("imprimir").innerHTML = stringMenu;

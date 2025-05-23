@@ -41,7 +41,7 @@ if (!isset($_SESSION['id_adm'])) {
                     <img src="img/user.png" width="40" alt="User Icon">
                     <div class="div-user">
                         <strong>Karla Durán</strong><br>
-                        <small><?php echo ($_SESSION['idEmpresa']) ?></small>
+                        <small><?php echo ($_SESSION['id_adm']) ?></small>
                     </div>
                 </div>
 
