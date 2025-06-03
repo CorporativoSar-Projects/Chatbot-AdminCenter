@@ -39,7 +39,7 @@ if (!isset($_SESSION['id_adm'])) {
                     <img src="img/user.png" width="40" alt="User Icon">
                     <div class="div-user">
                         <strong>Karla Durán</strong><br>
-                        <small><?php echo ($_SESSION['idEmpresa']) ?></small>
+                        <small><?php echo ($_SESSION['correo_adm']) ?></small>
                     </div>
                 </div>
                 <div class="dropdown-links">
@@ -73,7 +73,7 @@ if (!isset($_SESSION['id_adm'])) {
                         </a>
                     </div>
                     <div class="btn-group">
-                        <button type="submit" id="btnGuardarS" class="btnGuardarS">
+                        <button type="submit" id="btnGuardarEstilo" class="btnGuardarS">
                             <span class="btn-text">Guardar</span>
                             <img src="img/icons8-save-24.png" class="btn-icon" style="width: 15px;">
                         </button>
@@ -111,7 +111,7 @@ if (!isset($_SESSION['id_adm'])) {
 
                     <div>
                         <label class="label-nombrechat">Nombre visible de tu ChatBot</label><br>
-                        <input type="text" name="inp-nombre" id="inp-nombre" placeholder="JobHelper"
+                        <input type="text" name="inp_nombre" id="inp_nombre" placeholder="JobHelper"
                             class="input-nombre" minlength="2" maxlength="10" required><br>
 
                         <div class="container-colors">
@@ -131,9 +131,9 @@ if (!isset($_SESSION['id_adm'])) {
 
                                 <label for="colorUsuario">Respuesta Usuario</label><br>
                                 <div class="color-selector">
-                                    <input type="color" id="colorUsuario" value="#219ebc"
+                                    <input type="color" id="colorRespuestaUsuario" value="#219ebc"
                                         oninput="actualizarColores()">
-                                    <div id="muestraColorUsuario" class="color-circle"></div><br>
+                                    <div id="muestraColorRespuestaUsuario" class="color-circle"></div><br>
                                 </div>
                             </div>
                             <div class="nombre-colorc">

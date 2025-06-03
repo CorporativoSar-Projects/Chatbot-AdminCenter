@@ -1,26 +1,26 @@
 // Seleccionar el input y el contenedor del texto del chatbot
-const txtSaludo = document.querySelector('#inp-saludo');
+const txtSaludo = document.querySelector('#inp_saludo');
 const divCopiaSaludo = document.getElementById('txt-chatbot');
 
-txtSaludo.addEventListener('keyup', () => {
-    divCopiaSaludo.innerHTML = txtSaludo.value;
-});
+//txtSaludo.addEventListener('keyup', () => {
+   // divCopiaSaludo.innerHTML = txtSaludo.value;
+//});
 
 //  // Función para ajustar el contenido del saludo
-//  txtSaludo.addEventListener('keyup', () => {
-//     divCopiaSaludo.innerHTML = txtSaludo.value;
-//     // Guardar el saludo en el Local Storage
-//     localStorage.setItem('saludoChatbot', txtSaludo.value);
-// });
+ txtSaludo.addEventListener('keyup', () => {
+  divCopiaSaludo.innerHTML = txtSaludo.value;
+   // Guardar el saludo en el Local Storage
+ 
+   localStorage.setItem('saludoChatbot', txtSaludo.value); });
 
-// // Recuperar el saludo desde el Local Storage cuando la página se carga
-// document.addEventListener('DOMContentLoaded', () => {
-//     const saludoGuardado = localStorage.getItem('saludoChatbot');
-//     if (saludoGuardado) {
-//         txtSaludo.value = saludoGuardado;
-//         divCopiaSaludo.innerHTML = saludoGuardado;
-//     }
-// });
+// // Recuperar el saludo desde el Local Storage 
+document.addEventListener('DOMContentLoaded', () => {
+    const saludoGuardado = localStorage.getItem('saludoChatbot');
+    if (saludoGuardado) {
+         txtSaludo.value = saludoGuardado;
+         divCopiaSaludo.innerHTML = saludoGuardado;
+}
+ });
 
 
 
@@ -109,3 +109,40 @@ function eliminarTema(btn) {
         document.getElementById('errorMensaje').style.display = 'none';
     }
 }
+
+//Objeto con el que los datos se van a guardar
+document.addEventListener("DOMContentLoaded", function () {
+    const btnGuardar = document.getElementById("btnGuardarMensaje");
+
+    btnGuardar.addEventListener("click", function (event) {
+        event.preventDefault(); 
+
+        const datosMensajeInicial = {
+            "inp_saludo": document.getElementById('inp_saludo').value,
+            "inp_conversa1": document.getElementById('inp_conversa1').value,
+            "inp_conversa2": document.getElementById('inp_conversa2').value,
+            "inp_conversa3": document.getElementById('inp_conversa3').value
+        };
+
+         // Envía los datos al archivo PHP mediante fetch
+        fetch('modelo/guardar_chatbot.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                seccion: 'mensaje_inicial', //Sección donde se almacenaran los datos 
+                datos: datosMensajeInicial
+            })
+        })
+        .then(response => response.json())
+        .then(result => {
+            if (result.success) {
+                console.log("Sección 'mensaje_inicial' guardada correctamente en sesión");
+            } else {
+                console.error("Error al guardar mensaje inicial:", result.error);
+            }
+        })
+        .catch(error => console.error("Error en fetch:", error));
+    });
+});

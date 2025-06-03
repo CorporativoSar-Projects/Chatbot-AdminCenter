@@ -41,7 +41,7 @@ if (!isset($_SESSION['id_adm'])) {
                     <img src="img/user.png" width="40" alt="User Icon">
                     <div class="div-user">
                         <strong>Karla Durán</strong><br>
-                        <small><?php echo ($_SESSION['id_adm']) ?></small>
+                        <small><?php echo ($_SESSION['correo_adm']) ?></small>
                     </div>
                 </div>
 
@@ -78,12 +78,12 @@ if (!isset($_SESSION['id_adm'])) {
                     </div>
                     <div class="btn-group">
 
-                        <button type="submit" id="btnGuardar" class="btnGuardarS">
+                        <button type="submit" id="btnGuardarFinalizar" class="btnGuardarS">
                             <span class="btn-text">Guardar</span>
                             <img src="img/icons8-save-24.png" class="btn-icon" style="width: 15px;">
                         </button>
 
-                        <a href="menu.php" class="btnCerrar">
+                        <a href="menu.php" class="btnCerrar" id="btnCerrar">
                             <span class="btn-text">Salir</span>
                             <img src="img/icons8-close-26.png" class="btn-icon" style="width: 15px;">
                         </a>
@@ -118,7 +118,7 @@ if (!isset($_SESSION['id_adm'])) {
                     <div class="chatbot-principal-desp">
                         <div class="chatbot-container2">
                             <div class="chatbot-header" id="chatbot-header">
-                                <img src="img/Logo_cabeza.svg" alt="Chatbot" class="chatbot-icon">
+                                <img src="img/Logo_cabeza.svg" alt="Chatbot" class="chatbot-icon" id="logoPreview">
                                 <p class="txt-titulo-chat" id="txt-titulo-chat">JobHelper</p>
                                 <div class="container2">
                                     <div class="chatbot-min" title="Minimizar" onclick="toggleChatbot()">
@@ -130,7 +130,7 @@ if (!isset($_SESSION['id_adm'])) {
                                 </div>
                             </div>
                             <div class="chatbot-content2">
-                                <p class="txt-chatbot">
+                                <p class="txt-chatbot" id="txt-chatbot">
                                     ¡Saludos! Soy JobHelper, tu guía virtual en el mundo laboral.
                                     Mi misión es facilitarte el buscar la mejor opción.
                                 </p>
@@ -203,6 +203,7 @@ if (!isset($_SESSION['id_adm'])) {
     <script src="js/custom.js"></script>
     <script src="js/menuLateral.js" type="module"></script>
     <script src="js/link.js"></script>
+    <script src="js/guardar.js"></script>
 
 
 </body>

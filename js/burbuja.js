@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         const colorToUse = isValidHex(savedColor) ? savedColor : inputData.defaultValue;
 
-        inputElement.value = colorToUse; //Establecera el valor del color en el input
+        inputElement.value = colorToUse; 
         muestraElement.style.backgroundColor = colorToUse;
 
         actualizarColores();
@@ -33,10 +33,10 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     //Ayuda a eliminar los colores que se guardaron en localstorage
- window.addEventListener('beforeunload', function() {
-        localStorage.removeItem('colorPrimario');
-        localStorage.removeItem('colorTexto');
-    });
+ //window.addEventListener('beforeunload', function() {
+       // localStorage.removeItem('colorPrimario');
+       // localStorage.removeItem('colorTexto');
+    //});
 });
 
 function capitalize(str) {
@@ -61,16 +61,18 @@ function actualizarColores() {
     }
 }
 
-const txtBurbuja = document.querySelector('#inp-burbuja');
+const txtBurbuja = document.querySelector('#inp_burbuja');
 const divCopiaBurb = document.getElementById('chatTextBurb');
 
 txtBurbuja.addEventListener('keyup', () => {
     divCopiaBurb.innerHTML = txtBurbuja.value;
+    localStorage.setItem('nombreBurbuja', txtBurbuja.value);
 });
 
-// Este código maneja el logo de la burbuja de chat, cargando un logo personalizado desde localStorage
+//codigo que llama el logo desde el localStorage
 document.addEventListener('DOMContentLoaded', function () {
     const bubbleIcon = document.getElementById('chatBubbleIcon');
+    const nombreBurbuja = localStorage.getItem('nombreBurbuja');
 
     // Revisar si hay un logo guardado en localStorage
     const savedLogo = localStorage.getItem('chatbotLogo');
@@ -79,9 +81,46 @@ document.addEventListener('DOMContentLoaded', function () {
         bubbleIcon.src = savedLogo; // Aplicar el logo guardado
     }
 
+     if (nombreBurbuja) {
+        document.getElementById('inp_burbuja').value = nombreBurbuja;
+        document.getElementById('chatTextBurb').innerHTML = nombreBurbuja;
+    }
+
     // Al recargar la página, eliminar la URL guardada
-    window.addEventListener('beforeunload', function () {
-        localStorage.removeItem('chatbotLogo');
+   // window.addEventListener('beforeunload', function () {
+       // localStorage.removeItem('chatbotLogo');
+    //});
+});
+//DOM 
+document.addEventListener("DOMContentLoaded", function () {
+    const btnGuardar = document.getElementById("btnGuardarBurbuja");
+
+    btnGuardar.addEventListener("click", function (event) {
+        event.preventDefault();
+
+        //Objeto con el que el dato se va a guardar
+        const datosBurbuja = {
+            "inp_burbuja": document.getElementById('inp_burbuja').value
+        };
+        // Envía los datos al archivo PHP mediante fetch
+        fetch('modelo/guardar_chatbot.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json' 
+            },
+            body: JSON.stringify({
+                seccion: 'burbuja', //Sección en la que se almacenan los datos
+                datos: datosBurbuja
+            })
+        })
+        .then(response => response.json()) //// Convierte la respuesta a formato JSON
+        //.then(result => {
+            //if (result.success) {
+                //console.log("Sección 'burbuja' guardada correctamente en sesión");
+          //  } else {
+             //   console.error("Error al guardar burbuja:", result.error);
+           // }
+       // })
+        .catch(error => console.error("Error en fetch:", error));
     });
 });
-

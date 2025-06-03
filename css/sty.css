@@ -519,7 +519,7 @@ a,
 #colorAcento,
 #colorSecundario,
 #colorTexto,
-#colorUsuario,
+#colorRespuestaUsuario,
 #colorPrimarioBurbuja,
 #colorTextoBurbuja {
   width: 120px;
@@ -787,7 +787,7 @@ a,
 }
 /*Estilo del contenedor para la respuesta del usuario*/
 .user-message2{
-  background-color:var(--color-usuario, #219ebc); /* Fondo azul para el usuario */
+  background-color:var(--color-respuesta-usuario, #219ebc); /* Fondo azul para el usuario */
   color: var(--color-texto, #000000 );
   padding: 10px;
   border-radius: 15px;

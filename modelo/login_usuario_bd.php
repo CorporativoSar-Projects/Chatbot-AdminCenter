@@ -27,7 +27,8 @@ if ($row = mysqli_fetch_assoc($result)) {
     // Se verifica la contraseña que sea igual a la encriptada
     // Si los datos son correctos se inicia la sesión
     if (password_verify($pass_adm, $row['pass_adm'])) {
-        $_SESSION['id_adm'] = $correo_adm;
+        $_SESSION['id_adm'] = $id_adm;
+        $_SESSION['correo_adm'] = $row['correo_adm']; 
         header("location: ../menu.php");
         exit;
     } else {

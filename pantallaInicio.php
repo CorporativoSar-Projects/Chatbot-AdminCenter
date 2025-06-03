@@ -39,7 +39,7 @@ if (!isset($_SESSION['id_adm'])) {
                     <img src="img/user.png" width="40" alt="User Icon">
                     <div class="div-user">
                         <strong>Karla Durán</strong><br>
-                        <small><?php echo ($_SESSION['idEmpresa']) ?></small>
+                        <small><?php echo ($_SESSION['correo_adm']) ?></small>
                     </div>
                 </div>
 
@@ -77,7 +77,7 @@ if (!isset($_SESSION['id_adm'])) {
                         </a>
                     </div>
                     <div class="btn-group">
-                        <button type="submit" id="btnGuardarS" class="btnGuardarS">
+                        <button type="submit" id="btnGuardarMensaje" class="btnGuardarS">
                             <span class="btn-text">Guardar</span>
                             <img src="img/icons8-save-24.png" class="btn-icon" style="width: 15px;">
                         </button>
@@ -117,9 +117,9 @@ if (!isset($_SESSION['id_adm'])) {
 
                     <div>
                         <label class="label-nombrechat">Mensaje inicial</label><br>
-                        <textarea type="text" name="inp-saludo" id="inp-saludo"
+                        <textarea type="text" name="inp_saludo" id="inp_saludo"
                             placeholder="¡Saludos! Soy JobHelper, tu guía virtual en el mundo laboral."
-                            class="input-saludo" minlength="2" maxlength="66" required></textarea> <br>
+                            class="input-saludo" minlength="2" maxlength="70" required></textarea> <br>
 
                         <div class="container-conversacion">
                             <div class="asi-conversacion">
@@ -127,16 +127,16 @@ if (!isset($_SESSION['id_adm'])) {
                                 <!-- Se modifico el limite de caracterés a 33 de los inputs de conversación  -->
                                 <ul id="listaTemas">
                                     <li class="tema-item">
-                                        <input type="text" name="inp-conversa" class="inp-conversa"
+                                        <input type="text" name="inp-conversa" class="inp-conversa" id="inp_conversa1"
                                             value="Buscar vacantes por categoría" minlength="2" maxlength="33"
                                             readonly disabled>
                                     </li>
                                     <li class="tema-item">
-                                        <input type="text" name="inp-conversa" class="inp-conversa"
+                                        <input type="text" name="inp-conversa" class="inp-conversa" id="inp_conversa2"
                                             value="Buscar vacantes por ubicación" minlength="2" maxlength="33" readonly disabled>
                                     </li>
                                     <li class="tema-item">
-                                        <input type="text" name="inp-conversa" class="inp-conversa"
+                                        <input type="text" name="inp-conversa" class="inp-conversa" id="inp_conversa3"
                                             value="Seguimiento de mi postulación" minlength="2" maxlength="33" readonly disabled>
                                     </li>
                                 </ul>
@@ -151,7 +151,7 @@ if (!isset($_SESSION['id_adm'])) {
                     <div class="chatbot-principal">
                         <div class="chatbot-container">
                             <div class="chatbot-header" id="chatbot-header">
-                                <img src="img/Logo_cabeza.svg" alt="Chatbot" class="chatbot-icon">
+                                <img src="img/Logo_cabeza.svg" alt="Chatbot" class="chatbot-icon" id="logoPreview">
                                 <p class="txt-titulo-chat" id="txt-titulo-chat">JobHelper</p>
                                 <div class="container1">
                                     <div class="chatbot-min" title="Minimizar" onclick="toggleChatbot()">
