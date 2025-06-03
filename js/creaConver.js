@@ -160,7 +160,7 @@ document.getElementById("btnGuardarConver").addEventListener("click", function (
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      seccion: "conversacion", // <- nombre de la sección
+      seccion: "conversacion", // Seccion donde se almacenaran los datos
       datos: datos
     })
   })
