@@ -14,28 +14,28 @@ function impMenu1(event) {
   var stringMenu = `
         <div class="container-crear-conver">
             <label class="label-nombrechat2">Mensaje inicial de la conversación<span class="false-span" style="color: white;">1234567891011121314151617181920</span></label><br>
-            <input type="text" name="inp-mensaje-usuario" id="inp-mensaje-usuario" placeholder="Escribe"
+            <input type="text" name="inp_mensaje_usuario" id="inp_mensaje_usuario" placeholder="Escribe"
                 class="inp-mensaje-usuario-crear" required><br>
-            <div class="container-archivo">
-                <label for="archivoLogotipo">Selecciona un archivo</label><br>
-                <div class="select-archivo">
-                    <input type="file" id="archivo" accept="" onchange="previsualizarImagen()"
-                        style="display: none;">
-                    <button class="btn-select-archivo"
-                        onclick="document.getElementById('archivoLogotipo').click()">
-                        <span id="nombreArchivo" class="nombre-archivo">Valores de lista desplegable</span>
-                        <img src="img/add1.png" width="20" alt="Edit ChatBot">
-                    </button>
-                </div>
-            </div>
+       
             
             <label class="label-nombrechat">Origen de búsqueda</label><br>
-            <input type="text" name="inp-columna" id="inp-columna" placeholder="Escribe"
+            <input type="text" name="inp_columna" id="inp_columna" placeholder="Escribe"
                 class="input-columna-crear" required><br>
+
+            <label class="label-nombrechat">URL del informe</label><br>
+            <input type="url" name="inp_url_informe" id="inp_url_informe" placeholder="https://ejemplo.com"
+                    class="input-columna-crear"><br>
+
+            
         </div>
 
     `;
   document.getElementById("imprimir").innerHTML = stringMenu;
+
+  //Recupera los datos del localStogare
+  document.getElementById("inp_mensaje_usuario").value = localStorage.getItem("inp_mensaje_usuario") || "";
+  document.getElementById("inp_columna").value = localStorage.getItem("inp_columna") || "";
+  document.getElementById("inp_url_informe").value = localStorage.getItem("inp_url_informe") || "";
 
   //Se movio el bloque de código comentado de la url porque el marcado que devuelve js no permite comentarios
 
@@ -50,27 +50,23 @@ function impMenu2(event) {
   var stringMenu = `
         <div class="container-crear-conver">
             <label class="label-nombrechat2">Mensaje inicial de la conversación<span class="false-span" style="color: white;">1234567891011121314151617181920</span></label><br>
-            <input type="text" name="inp-mensaje-usuario" id="inp-mensaje-usuario" placeholder="Escribe"
+            <input type="text" name="inp_mensaje_usuario2" id="inp_mensaje_usuario2" placeholder="Escribe"
                 class="inp-mensaje-usuario-crear" required><br>
-            <div class="container-archivo">
-                <label for="archivoLogotipo">Selecciona un archivo</label><br>
-                <div class="select-archivo">
-                    <input type="file" id="archivo" accept="" onchange="previsualizarImagen()"
-                        style="display: none;">
-                    <button class="btn-select-archivo"
-                        onclick="document.getElementById('archivoLogotipo').click()">
-                        <span id="nombreArchivo" class="nombre-archivo">Valores de lista desplegable</span>
-                        <img src="img/add1.png" width="20" alt="Edit ChatBot">
-                    </button>
-                </div>
-            </div>
           
             <label class="label-nombrechat">Origen de búsqueda</label><br>
-            <input type="text" name="inp-columna" id="inp-columna" placeholder="Escribe"
+            <input type="text" name="inp_columna2" id="inp_columna2" placeholder="Escribe"
                 class="input-columna-crear" required><br>
+
+            <!-- <label class="label-nombrechat">URL del informe</label><br>
+            <input type="url" name="inp-url-informe" id="inp-url-informe" placeholder="https://ejemplo.com"
+                    class="input-columna-crear"><br>-->
         </div>
     `;
   document.getElementById("imprimir").innerHTML = stringMenu;
+  //Recupera los datos del localStorage
+  document.getElementById("inp_mensaje_usuario2").value = localStorage.getItem("inp_mensaje_usuario2") || "";
+  document.getElementById("inp_columna2").value = localStorage.getItem("inp_columna2") || "";
+
   //Se movio el bloque de código comentado de la url porque el marcado que devuelve js no permite comentarios
 
   /*   <label class="label-nombrechat">URL de origen de datos</label><br>
@@ -84,27 +80,26 @@ function impMenu3(event) {
   var stringMenu = `
         <div class="container-crear-conver">
             <label class="label-nombrechat2">Mensaje inicial de la conversación<span class="false-span" style="color: white;">1234567891011121314151617181920</span></label><br>
-            <input type="text" name="inp-mensaje-usuario" id="inp-mensaje-usuario" placeholder="Escribe"
+            <input type="text" name="inp_mensaje_usuario3" id="inp_mensaje_usuario3" placeholder="Escribe"
                 class="inp-mensaje-usuario-crear" required><br>
-            <div class="container-archivo">
-                <label for="archivoLogotipo">Selecciona un archivo</label><br>
-                <div class="select-archivo">
-                    <input type="file" id="archivo" accept="" onchange="previsualizarImagen()"
-                        style="display: none;">
-                    <button class="btn-select-archivo"
-                        onclick="document.getElementById('archivoLogotipo').click()">
-                        <span id="nombreArchivo" class="nombre-archivo">Valores de lista desplegable</span>
-                        <img src="img/add1.png" width="20" alt="Edit ChatBot">
-                    </button>
-                </div>
-            </div>
+           
             
             <label class="label-nombrechat">Origen de búsqueda</label><br>
-            <input type="text" name="inp-columna" id="inp-columna" placeholder="Escribe"
+            <input type="text" name="inp_columna3" id="inp_columna3" placeholder="Escribe"
                 class="input-columna-crear" required><br>
+      
+            <label class="label-nombrechat">URL del informe</label><br>
+            <input type="url" name="inp_url_informe3" id="inp_url_informe3" placeholder="https://ejemplo.com"
+                    class="input-columna-crear"><br>
+                     
         </div>
     `;
   document.getElementById("imprimir").innerHTML = stringMenu;
+
+  //Recupera los datos del localStogare
+  document.getElementById("inp_mensaje_usuario3").value = localStorage.getItem("inp_mensaje_usuario3") || "";
+  document.getElementById("inp_columna3").value = localStorage.getItem("inp_columna3") || "";
+  document.getElementById("inp_url_informe3").value = localStorage.getItem("inp_url_informe3") || "";
   //Se movio el bloque de código comentado de la url porque el marcado que devuelve js no permite comentarios
 
   /* <label class="label-nombrechat">URL de origen de datos</label><br>
@@ -116,3 +111,71 @@ function impMenu3(event) {
 document.getElementById("boton1").addEventListener("click", impMenu1);
 document.getElementById("boton2").addEventListener("click", impMenu2);
 document.getElementById("boton3").addEventListener("click", impMenu3);
+
+// Guarda automáticamente en localStorage cuando se escriben los campos
+document.addEventListener("input", function (e) {
+  //si es inp-mensaje-usuario se guarda en el localStorage 
+  if (e.target.id === "inp_mensaje_usuario") {
+    localStorage.setItem("inp_mensaje_usuario", e.target.value);
+    // Si el input tiene el Id 'inp_columna', se guarda en localStorage.
+  } else if (e.target.id === "inp_columna") {
+    localStorage.setItem("inp_columna", e.target.value);
+    // Si el input tiene el ID 'inp_url_informe', se guarda su valor.
+  } else if (e.target.id === "inp_url_informe") {
+    localStorage.setItem("inp_url_informe", e.target.value);
+  }
+
+  if (e.target.id === "inp_mensaje_usuario2") {
+    localStorage.setItem("inp_mensaje_usuario2", e.target.value);
+  } else if (e.target.id === "inp_columna2") {
+    localStorage.setItem("inp_columna2", e.target.value);
+  } 
+
+  if (e.target.id === "inp_mensaje_usuario3") {
+    localStorage.setItem("inp_mensaje_usuario3", e.target.value);
+  } else if (e.target.id === "inp_columna3") {
+    localStorage.setItem("inp_columna3", e.target.value);
+  } else if (e.target.id === "inp_url_informe3") {
+    localStorage.setItem("inp_url_informe3", e.target.value);
+  }
+});
+
+//Objeto con el que los datos se van a guardar
+document.getElementById("btnGuardarConver").addEventListener("click", function () {
+  const datos = {
+    "inp_mensaje_usuario": localStorage.getItem("inp_mensaje_usuario") || "",
+    "inp_columna": localStorage.getItem("inp_columna") || "",
+    "inp_url_informe": localStorage.getItem("inp_url_informe") || "",
+
+   "inp_mensaje_usuario2": localStorage.getItem("inp_mensaje_usuario2") || "",
+    "inp_columna2": localStorage.getItem("inp_columna2") || "",
+
+    "inp_mensaje_usuario3": localStorage.getItem("inp_mensaje_usuario3") || "",
+    "inp_columna3": localStorage.getItem("inp_columna3") || "",
+    "inp_url_informe3": localStorage.getItem("inp_url_informe3") || ""
+  };
+
+   // Envía los datos al archivo PHP mediante fetch
+  fetch("modelo/guardar_chatbot.php", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      seccion: "conversacion", // Seccion donde se almacenaran los datos
+      datos: datos
+    })
+  })
+    .then(res => res.json())
+    //.then(response => {
+     // if (response.success) {
+        //console.log("Conversación guardada en sesión correctamente");
+     // } else {
+       // alert("Error al guardar: " + response.error);
+     // }
+   // })
+   
+   // Muestra un error en consola si ocurre un fallo en la petición fetch
+    .catch(err => {
+      console.error("Error al guardar en sesión", err);
+    });
+});
+

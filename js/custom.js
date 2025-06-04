@@ -82,4 +82,39 @@ document.addEventListener("DOMContentLoaded", function() {
 // }
 
 
+//funcion para recuperar los datos del localStorage
+document.addEventListener("DOMContentLoaded", function () {
+    // Recuperar colores desde localStorage
+    const colorPrimario = localStorage.getItem("colorPrimario");
+    const colorSecundario = localStorage.getItem("colorSecundario");
+    const colorAcento = localStorage.getItem("colorAcento");
+    const colorTexto = localStorage.getItem("colorTexto");
+    const colorRespuestaUsuario = localStorage.getItem("colorRespuestaUsuario");
 
+    if (colorPrimario) document.documentElement.style.setProperty("--color-primario", colorPrimario);
+    if (colorSecundario) document.documentElement.style.setProperty("--color-secundario", colorSecundario);
+    if (colorAcento) document.documentElement.style.setProperty("--color-acento", colorAcento);
+    if (colorTexto) document.documentElement.style.setProperty("--color-texto", colorTexto);
+     if (colorRespuestaUsuario) document.documentElement.style.setProperty("--color-respuesta-usuario", colorRespuestaUsuario);
+
+    // Recuperar saludo (mensaje inicial)
+    const saludo = localStorage.getItem("saludoChatbot");
+    if (saludo) {
+        const divCopiaSaludo = document.getElementById("txt-chatbot");
+        if (divCopiaSaludo) divCopiaSaludo.textContent = saludo;
+    }
+
+    // Recuperar logo
+    const logoSrc = localStorage.getItem("chatbotLogo");
+    if (logoSrc) {
+        const logoPreview = document.getElementById("logoPreview"); 
+        if (logoPreview) logoPreview.src = logoSrc;
+    }
+
+    const nombrechat = localStorage.getItem("inp_nombre");
+    if(nombrechat){
+        const nombrePreview = document.getElementById("txt-titulo-chat");
+        if (nombrePreview) nombrePreview.textContent = nombrechat;
+    }
+    
+});

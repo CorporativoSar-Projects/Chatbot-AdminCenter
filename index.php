@@ -3,7 +3,7 @@
 <?php
 session_start();
 
-if (isset($_SESSION['idEmpresa'])) {
+if (isset($_SESSION['id_adm'])) {
   header("location: menu.php");
 };
 
@@ -51,23 +51,22 @@ y no altere el comportamiento de las demás secciones -->
           <label class="form-label">ID de Empresa</label><br />
           <input
             type="text"
-            name="idEmpresa"
+            name="id_adm"
             id="empresaId"
             class="txtUsu"
             required /><br />
 
           <label class="form-label">Correo</label><br />
-
           <input
             type="email"
-            name="correo"
+            name="correo_adm"
             id="email1"
             class="txtMail"
             required /><br />
           <label class="form-label">Contraseña</label><br />
           <input
             type="password"
-            name="contra"
+            name="pass_adm"
             id="password"
             class="txtpsw"
             required /><br />

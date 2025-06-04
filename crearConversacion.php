@@ -2,7 +2,7 @@
 
 session_start();
 
-if (!isset($_SESSION['idEmpresa'])) {
+if (!isset($_SESSION['id_adm'])) {
     session_destroy();
     header("location: ./index.php?error=2");
     exit;
@@ -44,7 +44,7 @@ if (!isset($_SESSION['idEmpresa'])) {
                     <img src="img/user.png" width="40" alt="User Icon">
                     <div class="div-user">
                         <strong>Karla Durán</strong><br>
-                        <small><?php echo ($_SESSION['idEmpresa']) ?></small>
+                        <small><?php echo ($_SESSION['correo_adm']) ?></small>
                     </div>
                 </div>
 
@@ -82,7 +82,7 @@ if (!isset($_SESSION['idEmpresa'])) {
                         </a>
                     </div>
                     <div class="btn-group">
-                        <button type="submit" id="btnGuardarS" class="btnGuardarS">
+                        <button type="submit" id="btnGuardarConver" class="btnGuardarS">
                             <span class="btn-text">Guardar</span>
                             <img src="img/icons8-save-24.png" class="btn-icon" style="width: 15px;">
                         </button>
@@ -158,6 +158,10 @@ if (!isset($_SESSION['idEmpresa'])) {
                         <label class="label-nombrechat">Define el nombre de la columna </label><br>
                         <input type="text" name="inp-columna" id="inp-columna" placeholder="Escribe"
                             class="input-columna" required><br>
+
+                        <label class="label-nombrechat">Link de referencia</label><br>
+                        <input type="url" name="inp-link-referencia" id="inp-link-referencia" placeholder="https://ejemplo.com"
+                             class="input-columna-crear"><br>
                     </div>  -->
 
     </main>

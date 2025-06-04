@@ -6,9 +6,9 @@ include 'conexion_bd.php';
 
 //Datos del usuario que se ingresan al formulario de login
 
-$idEmpresa = $_POST['idEmpresa'];
-$correo = $_POST['correo'];
-$contra = $_POST['contra'];
+$id_adm = $_POST['id_adm'];
+$correo_adm = $_POST['correo_adm'];
+$pass_adm = $_POST['pass_adm'];
 
 // Consulta segura con sentencias preparadas y prevenir la inyección SQL en la validación del usuario
 // Insertar datos de manera segura con sentencia preparada y evitar la inyección SQL
@@ -18,16 +18,17 @@ $contra = $_POST['contra'];
 correo: ' OR '1'='1' -- 
 contraseña: anything */
 /* Si el sistema permite el inicio de sesión entonces estaría vulnerable */
-$stmt = mysqli_prepare($conexion, "SELECT * FROM usuarios WHERE idEmpresa = ? AND correo = ?");
-mysqli_stmt_bind_param($stmt, "ss", $idEmpresa, $correo);
+$stmt = mysqli_prepare($conexion, "SELECT * FROM administrador WHERE id_adm = ? AND correo_adm = ?");
+mysqli_stmt_bind_param($stmt, "ss", $id_adm, $correo_adm);
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
 
 if ($row = mysqli_fetch_assoc($result)) {
     // Se verifica la contraseña que sea igual a la encriptada
     // Si los datos son correctos se inicia la sesión
-    if (password_verify($contra, $row['contra'])) {
-        $_SESSION['idEmpresa'] = $correo;
+    if (password_verify($pass_adm, $row['pass_adm'])) {
+        $_SESSION['id_adm'] = $id_adm;
+        $_SESSION['correo_adm'] = $row['correo_adm']; 
         header("location: ../menu.php");
         exit;
     } else {

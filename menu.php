@@ -7,7 +7,7 @@ si no esta validado es redirigido a la página de inicio -->
 
 session_start();
 
-if (!isset($_SESSION['idEmpresa'])) {
+if (!isset($_SESSION['id_adm'])) {
   session_destroy();
   header("location: ./index.php?error=2");
   exit;
@@ -65,7 +65,7 @@ if (!isset($_SESSION['idEmpresa'])) {
           <img src="img/user.png" width="40" alt="User Icon" />
           <div class="div-user">
             <strong>Karla Durán</strong><br />
-            <small><?php echo ($_SESSION['idEmpresa']) ?></small>
+            <small><?php echo ($_SESSION['correo_adm']) ?></small>
           </div>
         </div>
         <!-- Nuevas leyendas -->

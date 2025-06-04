@@ -2,7 +2,7 @@
 
 session_start();
 
-if (!isset($_SESSION['idEmpresa'])) {
+if (!isset($_SESSION['id_adm'])) {
     session_destroy();
     header("location: ./index.php?error=2");
     exit;
@@ -39,7 +39,7 @@ if (!isset($_SESSION['idEmpresa'])) {
                     <img src="img/user.png" width="40" alt="User Icon">
                     <div class="div-user">
                         <strong>Karla Durán</strong><br>
-                        <small><?php echo ($_SESSION['idEmpresa']) ?></small>
+                        <small><?php echo ($_SESSION['correo_adm']) ?></small>
                     </div>
                 </div>
                 <div class="dropdown-links">
@@ -73,7 +73,7 @@ if (!isset($_SESSION['idEmpresa'])) {
                         </a>
                     </div>
                     <div class="btn-group">
-                        <button type="submit" id="btnGuardarS" class="btnGuardarS">
+                        <button type="submit" id="btnGuardarEstilo" class="btnGuardarS">
                             <span class="btn-text">Guardar</span>
                             <img src="img/icons8-save-24.png" class="btn-icon" style="width: 15px;">
                         </button>
@@ -111,7 +111,7 @@ if (!isset($_SESSION['idEmpresa'])) {
 
                     <div>
                         <label class="label-nombrechat">Nombre visible de tu ChatBot</label><br>
-                        <input type="text" name="inp-nombre" id="inp-nombre" placeholder="JobHelper"
+                        <input type="text" name="inp_nombre" id="inp_nombre" placeholder="JobHelper"
                             class="input-nombre" minlength="2" maxlength="10" required><br>
 
                         <div class="container-colors">
@@ -128,6 +128,13 @@ if (!isset($_SESSION['idEmpresa'])) {
                                     <input type="color" id="colorAcento" value="#383838" oninput="actualizarColores()">
                                     <div id="muestraColorAcento" class="color-circle"></div><br>
                                 </div>
+
+                                <label for="colorUsuario">Respuesta Usuario</label><br>
+                                <div class="color-selector">
+                                    <input type="color" id="colorRespuestaUsuario" value="#219ebc"
+                                        oninput="actualizarColores()">
+                                    <div id="muestraColorRespuestaUsuario" class="color-circle"></div><br>
+                                </div>
                             </div>
                             <div class="nombre-colorc">
                                 <label for="colorSecundario">Color Secundario</label><br>
@@ -141,8 +148,13 @@ if (!isset($_SESSION['idEmpresa'])) {
                                 <div class="color-selector">
                                     <input type="color" id="colorTexto" value="#000000" oninput="actualizarColores()">
                                     <div id="muestraColorTexto" class="color-circle"></div><br>
+    
                                 </div>
+                                
                             </div>
+                        
+                                
+                        
 
                             <!-- Contenedor para cargar la imagen con icono adjunto -->
                             <div class="container-archivo">
@@ -157,7 +169,7 @@ if (!isset($_SESSION['idEmpresa'])) {
                     <div class="chatbot-principal">
                         <div class="chatbot-container">
                             <div class="chatbot-header" id="chatbot-header">
-                                <img src="img/logochiquito.png" alt="Chatbot" class="chatbot-icon" id="chatbotIcon">
+                                <img src="img/Logo_cabeza.svg" alt="Chatbot" class="chatbot-icon" id="chatbotIcon">
                                 <p class="txt-titulo-chat" id="txt-titulo-chat">JobHelper</p>
                                 <div class="container1">
                                     <div class="chatbot-min" title="Minimizar" onclick="toggleChatbot()">
@@ -178,6 +190,10 @@ if (!isset($_SESSION['idEmpresa'])) {
                                     <button class="chatbot-button">Buscar vacantes por ubicación</button>
                                     <button class="chatbot-button">Seguimiento de mi postulación</button>
                                 </div>
+                            </div>
+
+                            <div class="user-message2">
+                                    <p>vurzolakku@gufum.com</p>
                             </div>
                             <div id="user-input-container" class="user-input-container">
                                 <input type="text" id="user-input" placeholder="Escribe aquí tu respuesta...">

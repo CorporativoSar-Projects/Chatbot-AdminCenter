@@ -2,7 +2,7 @@
 
 session_start();
 
-if (!isset($_SESSION['idEmpresa'])) {
+if (!isset($_SESSION['id_adm'])) {
     session_destroy();
     header("location: ./index.php?error=2");
     exit;
@@ -39,7 +39,7 @@ if (!isset($_SESSION['idEmpresa'])) {
                     <img src="img/user.png" width="40" alt="User Icon">
                     <div class="div-user">
                         <strong>Karla Durán</strong><br>
-                        <small><?php echo ($_SESSION['idEmpresa']) ?></small>
+                        <small><?php echo ($_SESSION['correo_adm']) ?></small>
                     </div>
                 </div>
 
@@ -77,7 +77,7 @@ if (!isset($_SESSION['idEmpresa'])) {
                         </a>
                     </div>
                     <div class="btn-group">
-                        <button type="submit" id="btnGuardarS" class="btnGuardarS">
+                        <button type="submit" id="btnGuardarMensaje" class="btnGuardarS">
                             <span class="btn-text">Guardar</span>
                             <img src="img/icons8-save-24.png" class="btn-icon" style="width: 15px;">
                         </button>
@@ -117,9 +117,9 @@ if (!isset($_SESSION['idEmpresa'])) {
 
                     <div>
                         <label class="label-nombrechat">Mensaje inicial</label><br>
-                        <textarea type="text" name="inp-saludo" id="inp-saludo"
+                        <textarea type="text" name="inp_saludo" id="inp_saludo"
                             placeholder="¡Saludos! Soy JobHelper, tu guía virtual en el mundo laboral."
-                            class="input-saludo" minlength="2" maxlength="66" required></textarea> <br>
+                            class="input-saludo" minlength="2" maxlength="70" required></textarea> <br>
 
                         <div class="container-conversacion">
                             <div class="asi-conversacion">
@@ -127,34 +127,19 @@ if (!isset($_SESSION['idEmpresa'])) {
                                 <!-- Se modifico el limite de caracterés a 33 de los inputs de conversación  -->
                                 <ul id="listaTemas">
                                     <li class="tema-item">
-                                        <input type="text" name="inp-conversa" class="inp-conversa"
-                                            placeholder="Buscar vacantes por categoría" minlength="2" maxlength="33"
-                                            required>
-                                        <button class="btn-borrar" onclick="eliminarTema(this)">
-                                            <img src="img/trash.png" width="20" alt="Delete Topic">
-                                        </button>
+                                        <input type="text" name="inp-conversa" class="inp-conversa" id="inp_conversa1"
+                                            value="Buscar vacantes por categoría" minlength="2" maxlength="33"
+                                            readonly disabled>
                                     </li>
                                     <li class="tema-item">
-                                        <input type="text" name="inp-conversa" class="inp-conversa"
-                                            placeholder="Buscar vacantes por ubicación" minlength="2" maxlength="33" required>
-                                        <button class=" btn-borrar" onclick="eliminarTema(this)">
-                                            <img src="img/trash.png" width="20" alt="Delete Topic">
-                                        </button>
+                                        <input type="text" name="inp-conversa" class="inp-conversa" id="inp_conversa2"
+                                            value="Buscar vacantes por ubicación" minlength="2" maxlength="33" readonly disabled>
                                     </li>
                                     <li class="tema-item">
-                                        <input type="text" name="inp-conversa" class="inp-conversa"
-                                            placeholder="Seguimiento de mi postulación" minlength="2" maxlength="33" required>
-                                        <button class=" btn-borrar" onclick="eliminarTema(this)">
-                                            <img src="img/trash.png" width="20" alt="Delete Topic">
-                                        </button>
+                                        <input type="text" name="inp-conversa" class="inp-conversa" id="inp_conversa3"
+                                            value="Seguimiento de mi postulación" minlength="2" maxlength="33" readonly disabled>
                                     </li>
                                 </ul>
-                                <div class="container-tema">
-                                    <span id="nuevoTema" class="nuevoTema">Añadir tema de conversación</span>
-                                    <button onclick="agregarTema()" class="btn-add-conv">
-                                        <img src="img/add1.png" width="20" alt="Add Topic">
-                                    </button>
-                                </div>
                                 <!-- Mensaje de notificación -->
                                 <p id="errorMensaje" class="errorMensaje" style="color: red; display: none;">No puedes
                                     añadir más de 5 temas.</p>
@@ -166,7 +151,7 @@ if (!isset($_SESSION['idEmpresa'])) {
                     <div class="chatbot-principal">
                         <div class="chatbot-container">
                             <div class="chatbot-header" id="chatbot-header">
-                                <img src="img/logochiquito.png" alt="Chatbot" class="chatbot-icon">
+                                <img src="img/Logo_cabeza.svg" alt="Chatbot" class="chatbot-icon" id="logoPreview">
                                 <p class="txt-titulo-chat" id="txt-titulo-chat">JobHelper</p>
                                 <div class="container1">
                                     <div class="chatbot-min" title="Minimizar" onclick="toggleChatbot()">

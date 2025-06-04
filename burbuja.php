@@ -2,7 +2,7 @@
 
 session_start();
 
-if (!isset($_SESSION['idEmpresa'])) {
+if (!isset($_SESSION['id_adm'])) {
     session_destroy();
     header("location: ./index.php?error=2");
     exit;
@@ -54,7 +54,7 @@ if (!isset($_SESSION['idEmpresa'])) {
                     <img src="img/user.png" width="40" alt="User Icon">
                     <div class="div-user">
                         <strong>Karla Durán</strong><br>
-                        <small><?php echo ($_SESSION['idEmpresa']) ?></small>
+                        <small><?php echo ($_SESSION['correo_adm']) ?></small>
                     </div>
                 </div>
 
@@ -92,7 +92,7 @@ if (!isset($_SESSION['idEmpresa'])) {
                         </a>
                     </div>
                     <div class="btn-group">
-                        <button type="submit" id="btnGuardarS" class="btnGuardarS">
+                        <button type="submit" id="btnGuardarBurbuja" class="btnGuardarS">
                             <span class="btn-text">Guardar</span>
                             <img src="img/icons8-save-24.png" class="btn-icon" style="width: 15px;">
                         </button>
@@ -131,7 +131,7 @@ if (!isset($_SESSION['idEmpresa'])) {
 
                     <div>
                         <label class="label-nombrechat">Mensaje</label><br>
-                        <input type="text" name="inp-burbuja" id="inp-burbuja" placeholder="¡Encuentra vacantes!"
+                        <input type="text" name="inp_burbuja" id="inp_burbuja" placeholder="¡Encuentra vacantes!"
                             class="input-burbuja" minlength="2" maxlength="20" required><br>
 
                         <div class="container-colors">
@@ -159,7 +159,7 @@ if (!isset($_SESSION['idEmpresa'])) {
                         <!-- Burbuja del chatbot -->
                         <div id="chatbot-toggle" class="chat-toggle">
                             <span id="chatTextBurb" class="chat-text">¡Encuentra Vacantes!</span>
-                            <img id="chatBubbleIcon" src="img/chatbot2.png" alt="Chat" class="toggle-icon">
+                            <img id="chatBubbleIcon" src="img/Logo_cabeza.svg" alt="Chat" class="toggle-icon">
                         </div>
 
 
