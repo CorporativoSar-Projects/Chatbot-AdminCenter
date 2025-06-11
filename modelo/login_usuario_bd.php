@@ -1,4 +1,4 @@
-<!-- Código para verificar  el incio de sesón de un usuario en la base de datos -->
+
 <?php
 
 session_start();

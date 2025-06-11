@@ -117,32 +117,37 @@ document.addEventListener("DOMContentLoaded", function () {
     btnGuardar.addEventListener("click", function (event) {
         event.preventDefault(); 
 
+        // Obtener id_chatbot desde localStorage
+        const id_chatbot = localStorage.getItem("id_chatbot");
+        if (!id_chatbot) {
+            alert("Primero debes guardar el estilo para generar el chatbot.");
+            return;
+        }
+
+        //Objeto con el que los datos se van a guardar
         const datosMensajeInicial = {
-            "inp_saludo": document.getElementById('inp_saludo').value,
-            "inp_conversa1": document.getElementById('inp_conversa1').value,
-            "inp_conversa2": document.getElementById('inp_conversa2').value,
-            "inp_conversa3": document.getElementById('inp_conversa3').value
+            id_chatbot: parseInt(id_chatbot),
+            inp_saludo: document.getElementById('inp_saludo').value,
+            inp_conversa1: document.getElementById('inp_conversa1').value,
+            inp_conversa2: document.getElementById('inp_conversa2').value,
+            inp_conversa3: document.getElementById('inp_conversa3').value
         };
 
-         // Envía los datos al archivo PHP mediante fetch
-        fetch('modelo/guardar_chatbot.php', {
+        // Envía los datos al archivo PHP mediante fetch
+        fetch('modelo/guardar_datos.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                seccion: 'mensaje_inicial', //Sección donde se almacenaran los datos 
-                datos: datosMensajeInicial
+                seccion: 'mensaje_inicial', // Seccion donde se almacenaran los datos
+                datos: datosMensajeInicial 
             })
         })
         .then(response => response.json())
-        .then(result => {
-            if (result.success) {
-                console.log("Sección 'mensaje_inicial' guardada correctamente en sesión");
-            } else {
-                console.error("Error al guardar mensaje inicial:", result.error);
-            }
-        })
-        .catch(error => console.error("Error en fetch:", error));
+        .catch(error => {
+            console.error("Error en fetch:", error);
+            alert("Error de red o del servidor.");
+        });
     });
 });

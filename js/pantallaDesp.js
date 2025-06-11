@@ -25,23 +25,32 @@ txtDespedida.addEventListener('input', () => {
   localStorage.setItem('inp_despedida', txtDespedida.value);
 });
 
-//Objeto con el que los datos se van a guardar
 document.getElementById("btnGuardarDespedida").addEventListener("click", function () {
-  const datos = {
-    "inp_despedida": document.getElementById('inp_despedida').value
-  };
+    // Validar que haya un id_chatbot guardado
+    const id_chatbot = localStorage.getItem("id_chatbot");
+    if (!id_chatbot) {
+      alert("Primero debes guardar el estilo para generar el chatbot.");
+      return;
+    }
+    //Objeto con el que los datos se van a guardar
+    const datosDespedida = {
+      id_chatbot: parseInt(id_chatbot),
+      inp_despedida: document.getElementById('inp_despedida').value
+    };
 
-   // Envía los datos al archivo PHP mediante fetch
-  fetch("modelo/guardar_chatbot.php", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      seccion: "despedida", // Seccion donde se guardaran los datos
-      datos: datos
+    // Envía los datos al archivo PHP mediante fetch
+    fetch("modelo/guardar_datos.php", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        seccion: "despedida", // Seccion donde se almacenaran los datos
+        datos: datosDespedida
+      })
     })
-  })
-    .then(res => res.json())
+    
+    .then(response => response.json()) // Convierte la respuesta a formato JSON
     .catch(err => {
-      console.error("Error al guardar en sesión", err);
+      console.error("Error al guardar en base de datos", err);
+      alert("Error de red o del servidor.");
     });
 });

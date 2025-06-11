@@ -1,5 +1,3 @@
-<!-- Código para la conexión a la base de datos MySQL -->
-
 <?php
 /* Si la conexión esta activa o no */
 $conexion = mysqli_connect("localhost", "root", "", "ixah", 3306);
@@ -7,7 +5,7 @@ $conexion = mysqli_connect("localhost", "root", "", "ixah", 3306);
 if (!$conexion) {
     die("Error al conectar a la base de datos: " . mysqli_connect_error());
 } else {
-    echo "Conexión exitosa a la base de datos";
+    //echo "Conexión exitosa a la base de datos";
 } 
 
 $conexion->set_charset("utf8");

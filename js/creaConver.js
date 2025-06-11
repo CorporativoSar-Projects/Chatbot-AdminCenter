@@ -56,10 +56,6 @@ function impMenu2(event) {
             <label class="label-nombrechat">Origen de búsqueda</label><br>
             <input type="text" name="inp_columna2" id="inp_columna2" placeholder="Escribe"
                 class="input-columna-crear" required><br>
-
-            <!-- <label class="label-nombrechat">URL del informe</label><br>
-            <input type="url" name="inp-url-informe" id="inp-url-informe" placeholder="https://ejemplo.com"
-                    class="input-columna-crear"><br>-->
         </div>
     `;
   document.getElementById("imprimir").innerHTML = stringMenu;
@@ -140,42 +136,50 @@ document.addEventListener("input", function (e) {
   }
 });
 
-//Objeto con el que los datos se van a guardar
+
 document.getElementById("btnGuardarConver").addEventListener("click", function () {
-  const datos = {
-    "inp_mensaje_usuario": localStorage.getItem("inp_mensaje_usuario") || "",
-    "inp_columna": localStorage.getItem("inp_columna") || "",
-    "inp_url_informe": localStorage.getItem("inp_url_informe") || "",
+    // Recuperar id_chatbot desde localStorage
+    const id_chatbot = localStorage.getItem("id_chatbot");
+    if (!id_chatbot) {
+        alert("Primero debes guardar el estilo para generar el chatbot.");
+        return;
+    }
 
-   "inp_mensaje_usuario2": localStorage.getItem("inp_mensaje_usuario2") || "",
-    "inp_columna2": localStorage.getItem("inp_columna2") || "",
+     //Objeto con el que los datos se van a guardar
+    const datosConver = {
+        id_chatbot: parseInt(id_chatbot), // importante para asociarlo correctamente
+        inp_mensaje_usuario: localStorage.getItem("inp_mensaje_usuario") || "",
+        inp_columna: localStorage.getItem("inp_columna") || "",
+        inp_url_informe: localStorage.getItem("inp_url_informe") || "",
+        inp_mensaje_usuario2: localStorage.getItem("inp_mensaje_usuario2") || "",
+        inp_columna2: localStorage.getItem("inp_columna2") || "",
+        inp_mensaje_usuario3: localStorage.getItem("inp_mensaje_usuario3") || "",
+        inp_columna3: localStorage.getItem("inp_columna3") || "",
+        inp_url_informe3: localStorage.getItem("inp_url_informe3") || ""
+    };
 
-    "inp_mensaje_usuario3": localStorage.getItem("inp_mensaje_usuario3") || "",
-    "inp_columna3": localStorage.getItem("inp_columna3") || "",
-    "inp_url_informe3": localStorage.getItem("inp_url_informe3") || ""
-  };
-
-   // Envía los datos al archivo PHP mediante fetch
-  fetch("modelo/guardar_chatbot.php", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      seccion: "conversacion", // Seccion donde se almacenaran los datos
-      datos: datos
+    // Envía los datos al archivo PHP mediante fetch
+    fetch("modelo/guardar_datos.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            seccion: "conversacion", // Seccion donde se almacenaran los datos
+            datos: datosConver
+        })
     })
-  })
-    .then(res => res.json())
-    //.then(response => {
-     // if (response.success) {
-        //console.log("Conversación guardada en sesión correctamente");
-     // } else {
-       // alert("Error al guardar: " + response.error);
-     // }
-   // })
-   
-   // Muestra un error en consola si ocurre un fallo en la petición fetch
+    .then(response => response.json()) // Convierte la respuesta a formato JSON
+    /*.then(response => {
+        if (response.success) {
+            alert("Conversación guardada correctamente.");
+        } else {
+            console.error("Error en el backend:", response.error);
+            alert("Error al guardar la conversación: " + response.error);
+        }
+    })*/
     .catch(err => {
-      console.error("Error al guardar en sesión", err);
+        console.error("Error al guardar conversación", err);
+        alert("Error de red o del servidor.");
     });
 });
+
 

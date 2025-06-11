@@ -91,6 +91,7 @@ document.addEventListener('DOMContentLoaded', function () {
        // localStorage.removeItem('chatbotLogo');
     //});
 });
+
 //DOM 
 document.addEventListener("DOMContentLoaded", function () {
     const btnGuardar = document.getElementById("btnGuardarBurbuja");
@@ -98,29 +99,34 @@ document.addEventListener("DOMContentLoaded", function () {
     btnGuardar.addEventListener("click", function (event) {
         event.preventDefault();
 
-        //Objeto con el que el dato se va a guardar
+        // Recuperar ID del chatbot 
+        const id_chatbot = localStorage.getItem("id_chatbot");
+        if (!id_chatbot) {
+            alert("Primero debes guardar el estilo para generar el chatbot.");
+            return;
+        }
+
+        //Objeto con el que los datos se van a guardar
         const datosBurbuja = {
-            "inp_burbuja": document.getElementById('inp_burbuja').value
+            id_chatbot: parseInt(id_chatbot),
+            inp_burbuja: document.getElementById('inp_burbuja').value
         };
-        // Envía los datos al archivo PHP mediante fetch
-        fetch('modelo/guardar_chatbot.php', {
+
+         // Envía los datos al archivo PHP mediante fetch
+        fetch('modelo/guardar_datos.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json' 
             },
             body: JSON.stringify({
-                seccion: 'burbuja', //Sección en la que se almacenan los datos
+                seccion: 'burbuja', // Seccion donde se almacenaran los datos
                 datos: datosBurbuja
             })
         })
-        .then(response => response.json()) //// Convierte la respuesta a formato JSON
-        //.then(result => {
-            //if (result.success) {
-                //console.log("Sección 'burbuja' guardada correctamente en sesión");
-          //  } else {
-             //   console.error("Error al guardar burbuja:", result.error);
-           // }
-       // })
-        .catch(error => console.error("Error en fetch:", error));
+        .then(response => response.json()) // Convierte la respuesta a formato JSON
+        .catch(error => {
+            console.error("Error en fetch:", error);
+            alert("Error de red o del servidor.");
+        })
     });
 });
