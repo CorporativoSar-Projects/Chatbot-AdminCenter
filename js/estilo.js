@@ -144,8 +144,9 @@ document.getElementById("btnGuardarEstilo").addEventListener("click", function (
         alert("Error: " + res.error);
     }
 })
-.catch(error => {
-    console.error(" Error en la petición:", error);
+.catch(err => {
+     console.error("Error al guardar en base de datos", err);
+        alert("Error de red o del servidor.");
 });
     
 });

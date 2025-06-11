@@ -124,8 +124,8 @@ document.addEventListener("DOMContentLoaded", function () {
             })
         })
         .then(response => response.json()) // Convierte la respuesta a formato JSON
-        .catch(error => {
-            console.error("Error en fetch:", error);
+        .catch(err => {
+             console.error("Error al guardar en base de datos", err);
             alert("Error de red o del servidor.");
         })
     });

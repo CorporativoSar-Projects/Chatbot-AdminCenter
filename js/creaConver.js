@@ -177,8 +177,8 @@ document.getElementById("btnGuardarConver").addEventListener("click", function (
         }
     })*/
     .catch(err => {
-        console.error("Error al guardar conversación", err);
-        alert("Error de red o del servidor.");
+        console.error("Error al guardar en base de datos", err);
+      alert("Error de red o del servidor.");
     });
 });
 
