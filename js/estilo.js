@@ -6,14 +6,22 @@ document.addEventListener("DOMContentLoaded", function () {
         { id: 'colorTexto', defaultValue: '#000000' },
         { id: 'colorRespuestaUsuario', defaultValue: '#219ebc' }
     ];
+    
 
     inputs.forEach(inputData => {
         const inputElement = document.getElementById(inputData.id);
         const muestraElement = document.getElementById(`muestra${capitalize(inputData.id)}`);
 
-      const storedValue = localStorage.getItem(inputData.id) || inputData.defaultValue;
+        let storedValue = localStorage.getItem(inputData.id);
+
+       if (!storedValue) {
+        storedValue = inputData.defaultValue;
+        localStorage.setItem(inputData.id, storedValue); 
+    }
+
         inputElement.value = storedValue;
         muestraElement.style.backgroundColor = storedValue;
+
 
         inputElement.addEventListener("input", function () {
             const color = inputElement.value;

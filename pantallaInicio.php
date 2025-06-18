@@ -81,7 +81,7 @@ if (!isset($_SESSION['id_adm'])) {
                             <span class="btn-text">Guardar</span>
                             <img src="img/icons8-save-24.png" class="btn-icon" style="width: 15px;">
                         </button>
-                        <a href="menu.php" class="btnCerrar">
+                        <a href="menu.php" class="btnCerrar" id="btnCerrar">
                             <span class="btn-text">Salir</span>
                             <img src="img/icons8-close-26.png" class="btn-icon" style="width: 15px;">
                         </a>
@@ -190,6 +190,7 @@ if (!isset($_SESSION['id_adm'])) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/pantallaIn.js"></script>
     <script src="js/custom.js"></script>
+    <script src="js/guardar.js"></script>
     <script src="js/menuLateral.js" type="module"></script>
 
 

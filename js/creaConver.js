@@ -16,7 +16,6 @@ function impMenu1(event) {
             <label class="label-nombrechat2">Mensaje inicial de la conversación<span class="false-span" style="color: white;">1234567891011121314151617181920</span></label><br>
             <input type="text" name="inp_mensaje_usuario" id="inp_mensaje_usuario" placeholder="Escribe"
                 class="inp-mensaje-usuario-crear" required><br>
-       
             
             <label class="label-nombrechat">Origen de búsqueda</label><br>
             <input type="text" name="inp_columna" id="inp_columna" placeholder="Escribe"
@@ -137,6 +136,17 @@ document.addEventListener("input", function (e) {
 });
 
 
+function validarURL(valor) {
+    if (!valor) return true; // Permite campos vacíos, si no son obligatorios
+
+    try {
+        const url = new URL(valor);
+        return url.protocol === "http:" || url.protocol === "https:";
+    } catch (_) {
+        return false;
+    }
+}
+
 document.getElementById("btnGuardarConver").addEventListener("click", function () {
     // Recuperar id_chatbot desde localStorage
     const id_chatbot = localStorage.getItem("id_chatbot");
@@ -145,17 +155,32 @@ document.getElementById("btnGuardarConver").addEventListener("click", function (
         return;
     }
 
+
+    // Validar URLs antes de guardar
+    const url1 = localStorage.getItem("inp_url_informe") || "";
+    const url3 = localStorage.getItem("inp_url_informe3") || "";
+
+    if (!validarURL(url1)) {
+        alert("La URL del informe del tema 1 no es válida.");
+        return;
+    }
+
+    if (!validarURL(url3)) {
+        alert("La URL del informe del tema 3 no es válida.");
+        return;
+    }
+
      //Objeto con el que los datos se van a guardar
     const datosConver = {
         id_chatbot: parseInt(id_chatbot), // importante para asociarlo correctamente
         inp_mensaje_usuario: localStorage.getItem("inp_mensaje_usuario") || "",
         inp_columna: localStorage.getItem("inp_columna") || "",
-        inp_url_informe: localStorage.getItem("inp_url_informe") || "",
+        inp_url_informe: url1,
         inp_mensaje_usuario2: localStorage.getItem("inp_mensaje_usuario2") || "",
         inp_columna2: localStorage.getItem("inp_columna2") || "",
         inp_mensaje_usuario3: localStorage.getItem("inp_mensaje_usuario3") || "",
         inp_columna3: localStorage.getItem("inp_columna3") || "",
-        inp_url_informe3: localStorage.getItem("inp_url_informe3") || ""
+        inp_url_informe3: url3
     };
 
     // Envía los datos al archivo PHP mediante fetch
