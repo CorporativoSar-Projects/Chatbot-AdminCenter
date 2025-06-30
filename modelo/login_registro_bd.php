@@ -1,17 +1,31 @@
 <?php
+session_start();
 include 'conexion_bd.php';
 
-// Recibir datos
-$id_adm = trim($_POST['id_adm']);
-$correo_adm = filter_var($_POST['correo_adm']);
-$pass_adm = trim($_POST['pass_adm']);
-$nombre_adm = trim($_POST['nombre_adm']);
-$apellidop_adm = trim($_POST['apellidop_adm']);
-$apellidom_adm = trim($_POST['apellidom_adm']);
-$tel_adm = trim($_POST['tel_adm']);
-$Empresa_RFC_emp = $_POST['Empresa_RFC_emp'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // 1. Generar ID personalizado para empresa
+    $nombre_empresa = trim($_POST['nombre_emp']);
+    $base = substr(preg_replace('/[^a-zA-Z0-9]/', '', strtolower($nombre_empresa)), 0, 5);
+    $sufijo = substr(time(), -4) . substr(str_shuffle('abcdefghijklmnopqrstuvwxyz'), 0, 2);
+    $id_emp = $base . $sufijo;
 
-// Validación básica
+    // 2. Recibir datos de empresa
+    $rfc_emp = strtoupper(trim($_POST['RFC_emp']));
+    $nombre_emp = trim($_POST['nombre_emp']);
+    $sitioweb_emp = trim($_POST['sitioweb_emp']);
+    $ubicacion_emp = trim($_POST['ubicacion_emp']);
+    $url_cs_emp = trim($_POST['url_cs_emp']);
+
+    // 3. Recibir datos del administrador
+    $correo_adm = filter_var($_POST['correo_adm'], FILTER_SANITIZE_EMAIL);
+    $pass_adm = trim($_POST['pass_adm']);
+    $nombre_adm = trim($_POST['nombre_adm']);
+    $apellidop_adm = trim($_POST['apellidop_adm']);
+    $apellidom_adm = trim($_POST['apellidom_adm']);
+    $tel_adm = trim($_POST['tel_adm']);
+
+
+// Validación 
 if (!$correo_adm) {
     die("<script>alert('Correo inválido'); window.location = '../registerForm.php';</script>");
 }
@@ -19,7 +33,24 @@ if (!$correo_adm) {
 // Encriptar contraseña
 $pass_adm_hash = password_hash($pass_adm, PASSWORD_DEFAULT);
 
-// Verificar si ya existe el correo
+// 1. Verifica si ya existe la empresa
+$stmt = mysqli_prepare($conexion, "SELECT * FROM empresa WHERE RFC_emp = ?");
+mysqli_stmt_bind_param($stmt, "s", $rfc_emp);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
+if (mysqli_num_rows($result) > 0) {
+    echo "<script>alert('Este RFC ya está registrado.'); window.location = '../registerForm.php';</script>";
+    exit();
+}
+mysqli_stmt_close($stmt);
+
+// 2. Insertar empresa
+$stmt = mysqli_prepare($conexion, "INSERT INTO empresa (id_emp, RFC_emp, nombre_emp, sitioweb_emp, ubicacion_emp, url_cs_emp) VALUES (?, ?, ?, ?, ?, ?)");
+mysqli_stmt_bind_param($stmt, "ssssss",$id_emp, $rfc_emp, $nombre_emp, $sitioweb_emp, $ubicacion_emp, $url_cs_emp);
+mysqli_stmt_execute($stmt);
+mysqli_stmt_close($stmt);
+
+// 3. Verifica si el correo del administrador ya existe
 $stmt = mysqli_prepare($conexion, "SELECT * FROM administrador WHERE correo_adm = ?");
 mysqli_stmt_bind_param($stmt, "s", $correo_adm);
 mysqli_stmt_execute($stmt);
@@ -30,27 +61,31 @@ if (mysqli_num_rows($result) > 0) {
 }
 mysqli_stmt_close($stmt);
 
-// Verificar si ya existe el ID
-$stmt = mysqli_prepare($conexion, "SELECT * FROM administrador WHERE id_adm = ?");
-mysqli_stmt_bind_param($stmt, "s", $id_adm);
-mysqli_stmt_execute($stmt);
-$result = mysqli_stmt_get_result($stmt);
-if (mysqli_num_rows($result) > 0) {
-    echo "<script>alert('Este ID ya está registrado'); window.location = '../registerForm.php';</script>";
-    exit();
-}
-mysqli_stmt_close($stmt);
-
-// Insertar nuevo administrador
-$stmt = mysqli_prepare($conexion, "INSERT INTO administrador (id_adm, correo_adm, pass_adm, nombre_adm, apellidop_adm, apellidom_adm, tel_adm, Empresa_RFC_emp) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-mysqli_stmt_bind_param($stmt, "ssssssss", $id_adm, $correo_adm, $pass_adm_hash, $nombre_adm, $apellidop_adm, $apellidom_adm, $tel_adm, $Empresa_RFC_emp);
+// 4. Insertar administrador
+$stmt = mysqli_prepare($conexion, "INSERT INTO administrador (correo_adm, pass_adm, nombre_adm, apellidop_adm, apellidom_adm, tel_adm, Empresa_id_emp) VALUES (?, ?, ?, ?, ?, ?, ?)");
+mysqli_stmt_bind_param($stmt, "sssssss", $correo_adm, $pass_adm_hash, $nombre_adm, $apellidop_adm, $apellidom_adm, $tel_adm, $id_emp);
 $ejecutar = mysqli_stmt_execute($stmt);
 
+// Obtener el ID autoincremental del administrador 
+$id_adm = mysqli_insert_id($conexion);
+
+// Guardar en sesión lo necesario
+$_SESSION['id_adm'] = $id_adm;
+$_SESSION['id_emp'] = $id_emp;
+$_SESSION['nombre_emp'] = $nombre_emp;
+
 if ($ejecutar) {
-    echo "<script>alert('Registro exitoso'); window.location = '../index.php';</script>";
+    header("Location: ../index.php"); 
+    exit;
 } else {
-    echo "<script>alert('Error en el registro'); window.location = '../registerForm.php';</script>";
+    echo "<script>
+        alert('Error al registrar administrador');
+        window.location = '../registerForm.php';
+    </script>";
+}
+
 }
 
 mysqli_stmt_close($stmt);
 mysqli_close($conexion);
+?>

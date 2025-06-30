@@ -601,7 +601,7 @@ a,
 /* Contenedor de los inputs */
 .container-input {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: flex-start;
   gap: 10px;
   width: 80%;
@@ -622,6 +622,12 @@ a,
   box-sizing: border-box;
   outline: none;
 }
+
+.generar-container {
+  margin-left: 23%;
+  margin-top: 5px;
+}
+
 /* Botón */
 .btnGenerar {
   border-radius: 20px;
@@ -636,6 +642,36 @@ a,
 }
 
 .btnGenerar:hover {
+  opacity: 0.8;
+}
+
+.btnGuardarurl {
+  display: flex;
+  align-items: center;
+  background-color: #f57c00; /* naranja */
+  color: white;
+  border: none;
+  padding: 8px 25px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.btnGuardarurl:hover {
+  opacity: 0.8;
+}
+
+.btnGuardarurl i {
+ /* margin-right: 8px; /* espacio entre icono y texto */
+  align-items: center;
+}
+
+.btnGuardarurl:disabled {
+  background-color: #ccc;   /* gris claro */
+  color: #666;              /* texto gris más oscuro */
+  cursor: not-allowed;
+  border: 1px solid #aaa;
   opacity: 0.8;
 }
 
@@ -2027,7 +2063,7 @@ a,
     position: relative;
     width: 95%;
     margin-left: auto;
-    margin-right: -33%;
+    margin-right: -25%;
     top: 5vh;
   }
 
@@ -2043,11 +2079,22 @@ a,
     height: 40px;
   }
 
+   .generar-container {
+    margin-left: 24%;
+    text-align: center;
+  }
+
   .btnGenerar {
     width: auto;
     margin-left: 25%;
     margin-right: auto;
-    max-width: 30%;
+  }
+
+   .btnGuardarurl {
+    justify-content: center;
+    width: 100%;
+    max-width: 100px;
+    padding: 12px;
   }
 
   /*Adaptacion para la burbuja*/
@@ -2625,16 +2672,29 @@ del texto de mensaje de despedida */
     box-sizing: border-box;
   }
 
-  .btnGenerar {
-    width: auto;
-    max-width: 150px;
-    text-align: center;
-    min-width: auto;
-    margin-top: 10px;
-    align-self: flex-end;
-    padding: 8px 12px;
-    box-sizing: border-box;
-    transform: translateX(25px);
+.generar-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px -50px;
+    width: 90%;
+  }
+
+  .btnGenerar,
+  .btnGuardarurl {
+    width: 100%;
+    max-width: 300px;
+    font-size: 14px;
+    padding: 10px 20px;
+    margin-bottom: 10px;
+    border-radius: 999px; /* para que sea muy redondo */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .btnGuardarurl i {
+    margin-bottom: 5px;
   }
 
   /*Estilo para input del logo */

@@ -19,6 +19,7 @@ if (!isset($_SESSION['id_adm'])) {
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/sty.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <title>Finalizar</title>
     <link rel="shortcut icon" href="img/logoPagina.png" />
@@ -40,7 +41,7 @@ if (!isset($_SESSION['id_adm'])) {
                 <div class="d-flex align-items-center px-3 user-info">
                     <img src="img/user.png" width="40" alt="User Icon">
                     <div class="div-user">
-                        <strong>Karla Durán</strong><br>
+                        <strong><?php echo $_SESSION['nombre_adm'] . ' '. $_SESSION['apellidop_adm']; ?></strong><br>
                         <small><?php echo ($_SESSION['correo_adm']) ?></small>
                     </div>
                 </div>
@@ -157,15 +158,19 @@ if (!isset($_SESSION['id_adm'])) {
                                 <label for="input">URL de funcionamiento</label>
                             </div>
                             <div class="container-input">
-                                <input type="text" id="input" class="txtfunc" readonly>
+                                <input type="text" id="input" class="txtfunc" name="url_cs_emp"> 
+                                <button type="submit" class="btnGuardarurl" id="btnGuardarurl">
+                                        <i class="fas fa-save"></i>
+                                        <span class="btn-text-Guardar"></span>
+                                </button>
+                            </div>
+                             <div class="generar-container">
                                 <button type="submit" id="myBtn" class="btnGenerar">
-                                    <span class="btn-text-Generar">Generar</span>
-                                    <!--  <img src="img/icons8-link-24.png" class="btn-icon" style="width: 20px;">-->
+                                <span class="btn-text-Generar">Generar</span>
                                 </button>
                             </div>
                         </div>
-                    </div>
-
+                    </div>  
                 </div>
 
                 <div id="myModal" class="modal">
@@ -204,7 +209,7 @@ if (!isset($_SESSION['id_adm'])) {
     <script src="js/menuLateral.js" type="module"></script>
     <script src="js/link.js"></script>
     <script src="js/guardar.js"></script>
-
+    <script src="js/urlFuncionamiento.js"></script>
 
 </body>
 

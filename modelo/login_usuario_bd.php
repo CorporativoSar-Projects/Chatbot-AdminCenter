@@ -1,43 +1,48 @@
-
 <?php
-
 session_start();
 include 'conexion_bd.php';
 
-//Datos del usuario que se ingresan al formulario de login
-
-$id_adm = $_POST['id_adm'];
-$correo_adm = $_POST['correo_adm'];
+// Recibir datos del login
+$id_emp = trim($_POST['id_emp']);
+$correo_adm = trim($_POST['correo_adm']);
 $pass_adm = $_POST['pass_adm'];
 
-// Consulta segura con sentencias preparadas y prevenir la inyección SQL en la validación del usuario
-// Insertar datos de manera segura con sentencia preparada y evitar la inyección SQL
+// Comprobación de campos vacíos
+if (empty($id_emp) || empty($correo_adm) || empty($pass_adm)) {
+    echo "<script>console.log('Error: campos vacíos');</script>";
+    header("Location: ../index.php?error=campos");
+    exit;
+}
 
-/* IMPORTANTE!: este es un ejemplo de inicio de sesión con código maliciosos */
-/* idEmpresa: ' OR 1=1 --
-correo: ' OR '1'='1' -- 
-contraseña: anything */
-/* Si el sistema permite el inicio de sesión entonces estaría vulnerable */
-$stmt = mysqli_prepare($conexion, "SELECT * FROM administrador WHERE id_adm = ? AND correo_adm = ?");
-mysqli_stmt_bind_param($stmt, "ss", $id_adm, $correo_adm);
+
+// Consulta preparada para prevenir inyección SQL
+$stmt = mysqli_prepare($conexion, "SELECT * FROM administrador WHERE correo_adm = ? AND Empresa_id_emp = ?");
+mysqli_stmt_bind_param($stmt, "ss", $correo_adm, $id_emp);
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
 
+// Verificar si encontró usuario
 if ($row = mysqli_fetch_assoc($result)) {
-    // Se verifica la contraseña que sea igual a la encriptada
-    // Si los datos son correctos se inicia la sesión
+    // Verificar contraseña
     if (password_verify($pass_adm, $row['pass_adm'])) {
-        $_SESSION['id_adm'] = $id_adm;
+        // Iniciar sesión
+        $_SESSION['id_adm'] = $row['id_adm'];
         $_SESSION['correo_adm'] = $row['correo_adm']; 
-        header("location: ../menu.php");
+        $_SESSION['nombre_adm'] = $row['nombre_adm'];
+        $_SESSION['apellidop_adm'] = $row['apellidop_adm'];
+        $_SESSION['id_emp'] = $row['Empresa_id_emp'];
+
+        echo "<script>console.log('Login exitoso: usuario encontrado');</script>";
+        header("Location: ../menu.php");
         exit;
     } else {
-        header("location: ../index.php?error=1");
+        echo "<script>console.log('Error: contraseña incorrecta');</script>";
+        header("Location: ../index.php?error=contrasena");
         exit;
     }
 } else {
-    header("location: ../index.php?error=1");
-
+    echo "<script>console.log('Error: usuario no encontrado');</script>";
+    header("Location: ../index.php?error=credenciales");
     exit;
 }
 

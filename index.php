@@ -5,6 +5,7 @@ session_start();
 
 if (isset($_SESSION['id_adm'])) {
   header("location: menu.php");
+  exit;
 };
 
 ?>
@@ -51,7 +52,7 @@ y no altere el comportamiento de las demás secciones -->
           <label class="form-label">ID de Empresa</label><br />
           <input
             type="text"
-            name="id_adm"
+            name="id_emp"
             id="empresaId"
             class="txtUsu"
             required /><br />
