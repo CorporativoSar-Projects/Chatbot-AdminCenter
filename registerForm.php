@@ -64,8 +64,7 @@
       </div>
       <div class="form-group">
           <input
-            type="text" name="url_cs_emp" placeholder="URL de Funcionamiento"
-            required>
+            type="text" name="url_cs_emp" placeholder="URL de Funcionamiento">
       </div>
       <div class="buttons">
         <button type="button" class="btnNext" id="btnNext">Siguiente</button>
