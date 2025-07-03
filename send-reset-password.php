@@ -1,30 +1,31 @@
-<!-- Funcionalidades que nos proporciona PHP Mailer para enviar correos electronicos -->
-
 <?php
+
+require 'PHPMailer-master/src/Exception.php';
+require 'PHPMailer-master/src/PHPMailer.php';
+require 'PHPMailer-master/src/SMTP.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require 'vendor/autoload.php';
-
 header('Content-Type: application/json');
 
-
+// Leer datos JSON recibidos
 $data = json_decode(file_get_contents("php://input"), true);
 error_log(print_r($data, true));
 
-
+// Validar JSON
 if (json_last_error() !== JSON_ERROR_NONE) {
     echo json_encode(['success' => false, 'message' => 'Error al decodificar los datos JSON']);
     exit;
 }
 
-
-if (!isset($data['email']) || !isset($data['newPassword'])) {
+// Validar campos obligatorios
+if (empty($data['email']) || empty($data['newPassword'])) {
     echo json_encode(['success' => false, 'message' => 'Datos incompletos']);
     exit;
 }
 
+//validar email
 $email = filter_var($data['email'], FILTER_SANITIZE_EMAIL);
 $newPassword = $data['newPassword'];
 
@@ -34,29 +35,35 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 }
 
 $mail = new PHPMailer(true);
-
 try {
+    // Configuración SMTP con los datos del segundo bloque
+    $mail->CharSet = "UTF-8";
     $mail->isSMTP();
-    $mail->Host = 'localhost'; // Cambiar el servidor SMTP por el local
-    $mail->SMTPAuth = false; // No se requiere autenticación para MailHog
-    $mail->Port = 1025; // Puerto SMTP de MailHog
+    $mail->SMTPDebug = 0; 
+    $mail->SMTPAuth = true;
+    $mail->SMTPSecure = 'STARTTLS'; 
+    $mail->Host = "smtp-mail.outlook.com";
+    $mail->Port = 587;
 
-    //Este bloque simula el envió de un correo electronico con su nueva contraseña restablecida
+    // Credenciales
+    $mail->Username = "jmoralesa@giintapeinnovahueteam.onmicrosoft.com";
+    $mail->Password = "$"; 
 
-    $mail->setFrom('holamundo@gmail.com', 'Soporte');
-    $mail->addAddress($email);
-    $mail->Subject = 'Recuperación de Contraseña';
+    // Configuración del correo
+    $mail->setFrom("jmoralesa@giintapeinnovahueteam.onmicrosoft.com", "Soporte");
+    $mail->addAddress($email); // Aquí se envía al correo recibido en JSON
+
     $mail->isHTML(true);
+    $mail->Subject = "Recuperación de Contraseña";
     $mail->Body = "<p>Hola,</p>
-                   <p>Tu nueva contraseña es: <strong>$newPassword</strong></p>
+                   <p>Tu nueva contraseña es: <strong>" . htmlspecialchars($newPassword) . "</strong></p>
                    <p>Te recomendamos cambiarla después de iniciar sesión.</p>";
 
+    // Enviar correo
     $mail->send();
 
-    //Si la solicitud es correcta se envián los datos en formato JSON o por el contrario mandará un mensaje de error
     echo json_encode(['success' => true]);
 } catch (Exception $e) {
-    error_log('Error al enviar el correo: ' . $mail->ErrorInfo);
-    echo json_encode(['success' => false, 'message' => 'Error al enviar el correo: ' . $mail->ErrorInfo]);
+    error_log('Error al enviar correo: ' . $mail->ErrorInfo);
+    echo json_encode(['success' => false, 'message' => 'Error al enviar correo: ' . $mail->ErrorInfo]);
 }
-?>

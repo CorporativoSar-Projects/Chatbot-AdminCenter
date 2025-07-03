@@ -13,8 +13,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $rfc_emp = strtoupper(trim($_POST['RFC_emp']));
     $nombre_emp = trim($_POST['nombre_emp']);
     $sitioweb_emp = trim($_POST['sitioweb_emp']);
-    $ubicacion_emp = trim($_POST['ubicacion_emp']);
+    $codigoPostal_emp = trim($_POST['codigoPostal_emp']);
+    $estado_emp = trim($_POST['estado_emp']);
     $url_cs_emp = trim($_POST['url_cs_emp']);
+
 
     // 3. Recibir datos del administrador
     $correo_adm = filter_var($_POST['correo_adm'], FILTER_SANITIZE_EMAIL);
@@ -45,8 +47,8 @@ if (mysqli_num_rows($result) > 0) {
 mysqli_stmt_close($stmt);
 
 // 2. Insertar empresa
-$stmt = mysqli_prepare($conexion, "INSERT INTO empresa (id_emp, RFC_emp, nombre_emp, sitioweb_emp, ubicacion_emp, url_cs_emp) VALUES (?, ?, ?, ?, ?, ?)");
-mysqli_stmt_bind_param($stmt, "ssssss",$id_emp, $rfc_emp, $nombre_emp, $sitioweb_emp, $ubicacion_emp, $url_cs_emp);
+$stmt = mysqli_prepare($conexion, "INSERT INTO empresa (id_emp, RFC_emp, nombre_emp, sitioweb_emp, codigoPostal_emp, estado_emp, url_cs_emp) VALUES (?, ?, ?, ?, ?, ?, ?)");
+mysqli_stmt_bind_param($stmt, "sssssss",$id_emp, $rfc_emp, $nombre_emp, $sitioweb_emp, $codigoPostal_emp, $estado_emp, $url_cs_emp);
 mysqli_stmt_execute($stmt);
 mysqli_stmt_close($stmt);
 
@@ -71,6 +73,9 @@ $id_adm = mysqli_insert_id($conexion);
 
 // Guardar en sesión lo necesario
 $_SESSION['id_adm'] = $id_adm;
+$_SESSION['nombre_adm'] = $nombre_adm;
+$_SESSION['apellidop_adm'] = $apellidop_adm;
+$_SESSION['correo_adm'] = $correo_adm;
 $_SESSION['id_emp'] = $id_emp;
 $_SESSION['nombre_emp'] = $nombre_emp;
 

@@ -59,8 +59,48 @@
       </div>
       <div class="form-group">
           <input
-            type="text" name="ubicacion_emp" placeholder="Ubicación"
+            type="text" name="codigoPostal_emp"  maxlength="5" placeholder="Código Postal"
             required>
+      </div>
+      <div class="form-group">
+          <select
+            type="text" name="estado_emp" 
+            required>
+
+              <option value="">Selecciona un estado</option>
+              <option value="MX-AGU">Aguascalientes</option>
+              <option value="MX-BCN">Baja California</option>
+              <option value="MX-BCS">Baja California Sur</option>
+              <option value="MX-CAM">Campeche</option>
+              <option value="MX-CHP">Chiapas</option>
+              <option value="MX-CHH">Chihuahua</option>
+              <option value="MX-CMX">Ciudad de México</option>
+              <option value="MX-COA">Coahuila</option>
+              <option value="MX-COL">Colima</option>
+              <option value="MX-DUR">Durango</option>
+              <option value="MX-GUA">Guanajuato</option>
+              <option value="MX-GRO">Guerrero</option>
+              <option value="MX-HID">Hidalgo</option>
+              <option value="MX-JAL">Jalisco</option>
+              <option value="MX-MEX">Estado de México</option>
+              <option value="MX-MIC">Michoacán</option>
+              <option value="MX-MOR">Morelos</option>
+              <option value="MX-NAY">Nayarit</option>
+              <option value="MX-NLE">Nuevo León</option>
+              <option value="MX-OAX">Oaxaca</option>
+              <option value="MX-PUE">Puebla</option>
+              <option value="MX-QUE">Querétaro</option>
+              <option value="MX-ROO">Quintana Roo</option>
+              <option value="MX-SLP">San Luis Potosí</option>
+              <option value="MX-SIN">Sinaloa</option>
+              <option value="MX-SON">Sonora</option>
+              <option value="MX-TAB">Tabasco</option>
+              <option value="MX-TAM">Tamaulipas</option>
+              <option value="MX-TLA">Tlaxcala</option>
+              <option value="MX-VER">Veracruz</option>
+              <option value="MX-YUC">Yucatán</option>
+              <option value="MX-ZAC">Zacatecas</option>
+            </select>
       </div>
       <div class="form-group">
           <input
