@@ -151,7 +151,15 @@ document.getElementById("btnGuardarConver").addEventListener("click", function (
     // Recuperar id_chatbot desde localStorage
     const id_chatbot = localStorage.getItem("id_chatbot");
     if (!id_chatbot) {
-        alert("Primero debes guardar el estilo para generar el chatbot.");
+         Swal.fire({
+          icon: 'warning',
+          title: 'Atención',
+          text: 'Primero debes guardar el estilo para generar el chatbot.',
+          confirmButtonText: 'Entendido',
+          showCloseButton: true,
+          confirmButtonColor: '#ffb703'
+
+      });
         return;
     }
 

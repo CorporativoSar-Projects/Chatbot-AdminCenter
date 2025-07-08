@@ -29,8 +29,16 @@ document.getElementById("btnGuardarDespedida").addEventListener("click", functio
     // Validar que haya un id_chatbot guardado
     const id_chatbot = localStorage.getItem("id_chatbot");
     if (!id_chatbot) {
-      alert("Primero debes guardar el estilo para generar el chatbot.");
-      return;
+       Swal.fire({
+          icon: 'warning',
+          title: 'Atención',
+          text: 'Primero debes guardar el estilo para generar el chatbot.',
+          confirmButtonText: 'Entendido',
+          showCloseButton: true,
+          confirmButtonColor: '#ffb703'
+
+      });
+        return;
     }
     //Objeto con el que los datos se van a guardar
     const datosDespedida = {

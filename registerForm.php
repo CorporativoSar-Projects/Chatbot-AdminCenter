@@ -44,8 +44,7 @@
       <div class="form-step active">
        <div class="form-group">
           <input
-            type="text" name="RFC_emp" placeholder="RFC de la empresa"
-            required>
+            type="text" name="RFC_emp" placeholder="RFC de la empresa">
        </div>
         <div class="form-group">
           <input

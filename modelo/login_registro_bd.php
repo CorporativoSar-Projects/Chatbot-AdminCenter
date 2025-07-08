@@ -2,6 +2,13 @@
 session_start();
 include 'conexion_bd.php';
 
+    require '../PHPMailer-master/src/Exception.php';
+    require '../PHPMailer-master/src/PHPMailer.php';
+    require '../PHPMailer-master/src/SMTP.php';
+
+    use PHPMailer\PHPMailer\PHPMailer;
+    use PHPMailer\PHPMailer\Exception;
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // 1. Generar ID personalizado para empresa
     $nombre_empresa = trim($_POST['nombre_emp']);
@@ -80,6 +87,44 @@ $_SESSION['id_emp'] = $id_emp;
 $_SESSION['nombre_emp'] = $nombre_emp;
 
 if ($ejecutar) {
+
+
+try {
+    $mail = new PHPMailer(true);
+    $mail->CharSet = "UTF-8";
+    $mail->isSMTP();
+    $mail->SMTPDebug = 0;
+    $mail->SMTPAuth = true;
+    $mail->SMTPSecure = 'tls';
+     $mail->Host = "smtp-mail.outlook.com";
+    $mail->Port = 587;
+
+    // Credenciales
+    $mail->Username = "contacto@giintapeinnovahue.com";
+    $mail->Password = "$"; 
+
+    // Configuración del correo
+    $mail->setFrom("contacto@giintapeinnovahue.com", "Soporte");
+    $mail->addAddress($correo_adm);
+
+    $mail->isHTML(true);
+    $mail->Subject = "Registro exitoso - ID de tu empresa";
+
+    
+     $plantilla = file_get_contents('envioId.php');
+
+    $plantilla = str_replace('{{LOGO_URL}}', 'https://i.postimg.cc/RhxH6X8C/LOGO-GI-05.png', $plantilla);
+    $plantilla = str_replace('{{NOMBRE_EMPRESA}}', htmlspecialchars($nombre_emp), $plantilla);
+    $plantilla = str_replace('{{NOMBRE_ADMIN}}', htmlspecialchars($nombre_adm), $plantilla);
+    $plantilla = str_replace('{{ID_EMPRESA}}', htmlspecialchars($id_emp), $plantilla);
+    $plantilla = str_replace('{{URL_LOGIN}}', 'http://localhost/Chatbot-AdminCenter/index.php', $plantilla);
+    
+    $mail->Body = $plantilla;
+    $mail->send();
+    } catch (Exception $e) {
+    error_log("Error al enviar correo: " . $mail->ErrorInfo);
+
+    }
     header("Location: ../index.php"); 
     exit;
 } else {
@@ -89,8 +134,7 @@ if ($ejecutar) {
     </script>";
 }
 
-}
-
+        }
 mysqli_stmt_close($stmt);
 mysqli_close($conexion);
 ?>

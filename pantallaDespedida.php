@@ -164,6 +164,7 @@ if (!isset($_SESSION['id_adm'])) {
     <script src="js/custom.js"></script>
      <script src="js/guardar.js"></script>
     <script src="js/menuLateral.js" type="module"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </body>
 

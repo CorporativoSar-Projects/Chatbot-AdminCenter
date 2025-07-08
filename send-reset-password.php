@@ -3,6 +3,7 @@
 require 'PHPMailer-master/src/Exception.php';
 require 'PHPMailer-master/src/PHPMailer.php';
 require 'PHPMailer-master/src/SMTP.php';
+require 'modelo/conexion_bd.php'; 
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -34,6 +35,36 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     exit;
 }
 
+$stmt = $conexion->prepare("SELECT id_adm, nombre_adm FROM administrador WHERE correo_adm = ?");
+$stmt->bind_param("s", $email);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows === 0) {
+    echo json_encode(['success' => false, 'message' => 'El correo no está registrado']);
+    exit;
+}
+
+$row = $result->fetch_assoc();
+$nombre_adm = $row['nombre_adm'];
+
+
+$hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+
+$update = $conexion->prepare("UPDATE administrador SET pass_adm = ? WHERE correo_adm = ?");
+$update->bind_param("ss", $hashedPassword, $email);
+
+if (!$update->execute()) {
+    echo json_encode(['success' => false, 'message' => 'Error al actualizar contraseña']);
+    exit;
+}
+
+$plantilla_res = file_get_contents('restablecimiento.php'); // El archivo que tiene el HTML de plantilla
+
+$plantilla_res = str_replace('{{NOMBRE_ADMIN}}', htmlspecialchars($nombre_adm), $plantilla_res );
+$plantilla_res = str_replace('{{NUEVA_CONTRASENA}}', htmlspecialchars($newPassword), $plantilla_res );
+
+
 $mail = new PHPMailer(true);
 try {
     // Configuración SMTP con los datos del segundo bloque
@@ -46,18 +77,16 @@ try {
     $mail->Port = 587;
 
     // Credenciales
-    $mail->Username = "jmoralesa@giintapeinnovahueteam.onmicrosoft.com";
+    $mail->Username = "contacto@giintapeinnovahue.com";
     $mail->Password = "$"; 
 
     // Configuración del correo
-    $mail->setFrom("jmoralesa@giintapeinnovahueteam.onmicrosoft.com", "Soporte");
+    $mail->setFrom("contacto@giintapeinnovahue.com", "Soporte");
     $mail->addAddress($email); // Aquí se envía al correo recibido en JSON
 
     $mail->isHTML(true);
     $mail->Subject = "Recuperación de Contraseña";
-    $mail->Body = "<p>Hola,</p>
-                   <p>Tu nueva contraseña es: <strong>" . htmlspecialchars($newPassword) . "</strong></p>
-                   <p>Te recomendamos cambiarla después de iniciar sesión.</p>";
+    $mail->Body = $plantilla_res;
 
     // Enviar correo
     $mail->send();
