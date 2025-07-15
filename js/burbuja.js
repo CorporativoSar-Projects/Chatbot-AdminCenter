@@ -105,7 +105,7 @@ document.addEventListener("DOMContentLoaded", function () {
            Swal.fire({
         icon: 'warning',
         title: 'Atención',
-        text: 'Primero debes guardar el estilo para generar el chatbot.',
+        text: 'Para generar el chatbot necesitas al menos guardar la configuración de estilo.',
         confirmButtonText: 'Entendido',
         showCloseButton: true,
         confirmButtonColor: '#ffb703'

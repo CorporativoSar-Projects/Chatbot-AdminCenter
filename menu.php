@@ -13,6 +13,22 @@ if (!isset($_SESSION['id_adm'])) {
   exit;
 }
 
+include 'modelo/conexion_bd.php'; // Asegúrate que este archivo contiene la conexión a la BD
+
+$id_adm = $_SESSION['id_adm'];
+$sql = "SELECT c.id_chatbot, c.inp_nombre, t.nombre_tipo_chatbot
+        FROM chatbot c
+        INNER JOIN tipo_chatbot t ON c.Tipo_Chatbot_idTipo_Chatbot = t.idTipo_Chatbot 
+        WHERE c.Administrador_id_adm = ?";
+$stmt = $conexion->prepare($sql);
+$stmt->bind_param("i", $id_adm);
+$stmt->execute();
+$result = $stmt->get_result();
+
+$chatbots = [];
+while ($row = $result->fetch_assoc()) {
+    $chatbots[] = $row;
+}
 ?>
 
 <!DOCTYPE html>
@@ -103,15 +119,16 @@ if (!isset($_SESSION['id_adm'])) {
         <div class="txt-disena-chat">
           <p>Configuración</p>
         </div>
-
+        <?php if (count($chatbots) > 0): ?>
+        <?php foreach ($chatbots as $chatbot): ?>
         <div class="container-chats">
           <div class="nombre-chat">
             <p class="txt-chat-edit" id="txt-chat-edit">
-              ChatBot para vacantes
+             <?php echo htmlspecialchars($chatbot['inp_nombre']); ?> - Tipo: <small><?php  echo htmlspecialchars ($chatbot['nombre_tipo_chatbot']); ?></small>
             </p>
           </div>
           <div class="container-btn-edit-chat">
-            <a href="estilo.php">
+            <a href="estilo.php?id_chatbot=<?php echo $chatbot['id_chatbot']; ?>">
               <button class="btn-edit-chat">
                 <img src="img/icons9.png" width="35" alt="Edit ChatBot" />
               </button>
@@ -119,9 +136,13 @@ if (!isset($_SESSION['id_adm'])) {
           </div>
         </div>
       </div>
+       <?php endforeach; ?>
+      <?php else: ?>
+        <p class="text-muted"></p>
+      <?php endif; ?>
 
       <div class="container-agregar">
-        <a class="btn-add-chat" href="plan.php">
+        <a class="btn-add-chat" href="estilo.php?nuevo=1" >
           <img src="img/add.png" width="60" alt="Add ChatBot" />
         </a>
       </div>
@@ -133,7 +154,7 @@ if (!isset($_SESSION['id_adm'])) {
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="js/loginError.js" type="module"></script>
   <script src="js/menuLateral.js" type="module"></script>
-
+  <script src="js/navegacion.js"></script>
 </body>
 
 </html>

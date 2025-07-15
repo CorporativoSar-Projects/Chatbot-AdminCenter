@@ -8,30 +8,32 @@ document.addEventListener("DOMContentLoaded", function () {
     ];
     
 
-    inputs.forEach(inputData => {
-        const inputElement = document.getElementById(inputData.id);
-        const muestraElement = document.getElementById(`muestra${capitalize(inputData.id)}`);
+   inputs.forEach(inputData => {
+    const inputElement = document.getElementById(inputData.id);
+    const muestraElement = document.getElementById(`muestra${capitalize(inputData.id)}`);
 
-        let storedValue = localStorage.getItem(inputData.id);
+    let storedValue = localStorage.getItem(inputData.id);
 
-       if (!storedValue) {
-        storedValue = inputData.defaultValue;
-        localStorage.setItem(inputData.id, storedValue); 
+    if (!storedValue) {
+        // 👇 Usamos el value que ya está en el input (asignado por PHP)
+        storedValue = inputElement.value || inputData.defaultValue;
+        localStorage.setItem(inputData.id, storedValue);
     }
 
-        inputElement.value = storedValue;
-        muestraElement.style.backgroundColor = storedValue;
+    // Aseguramos que el input y muestra visual reflejen el valor correcto
+    inputElement.value = storedValue;
+    muestraElement.style.backgroundColor = storedValue;
 
-
-        inputElement.addEventListener("input", function () {
-            const color = inputElement.value;
-            if (isValidHex(color)) {
-                muestraElement.style.backgroundColor = color;
-                 localStorage.setItem(inputData.id, color);
-                actualizarColores();
-            }
-        });
+    inputElement.addEventListener("input", function () {
+        const color = inputElement.value;
+        if (isValidHex(color)) {
+            muestraElement.style.backgroundColor = color;
+            localStorage.setItem(inputData.id, color);
+            actualizarColores();
+        }
     });
+});
+
 });
 
 function capitalize(str) {

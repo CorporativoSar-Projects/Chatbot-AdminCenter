@@ -49,6 +49,7 @@ if ($seccion === 'estilo') {
 
         if ($stmt->execute()) {
             $nuevoID = $stmt->insert_id; //id creado 
+            $_SESSION['id_chatbot'] = $nuevoID; 
             echo json_encode(['success' => true, 'id_chatbot' => $nuevoID]);
         } else {
             echo json_encode(['success' => false, 'error' => $stmt->error]);

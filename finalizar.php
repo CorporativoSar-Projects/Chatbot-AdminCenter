@@ -1,12 +1,6 @@
 <?php
 
-session_start();
-
-if (!isset($_SESSION['id_adm'])) {
-    session_destroy();
-    header("location: ./index.php?error=2");
-    exit;
-}
+include('modelo/obtenerDatos.php')
 
 ?>
 
@@ -119,8 +113,11 @@ if (!isset($_SESSION['id_adm'])) {
                     <div class="chatbot-principal-desp">
                         <div class="chatbot-container2">
                             <div class="chatbot-header" id="chatbot-header">
-                                <img src="img/Logo_cabeza.svg" alt="Chatbot" class="chatbot-icon" id="logoPreview">
-                                <p class="txt-titulo-chat" id="txt-titulo-chat">JobHelper</p>
+                                 <?php
+                                $logo = (!empty($chatbot['urlLogotipo'])) ? $chatbot['urlLogotipo'] : 'img/Logo_cabeza.svg';
+                                ?>
+                                <img src="<?php echo htmlspecialchars($logo); ?>" alt="Chatbot" class="chatbot-icon" id="logoPreview">
+                                <p class="txt-titulo-chat" id="txt-titulo-chat"><?php echo htmlspecialchars($chatbot['inp_nombre'] ?? 'JobHelper');?></p>
                                 <div class="container2">
                                     <div class="chatbot-min" title="Minimizar" onclick="toggleChatbot()">
                                         <img src="img/line.png" />
@@ -132,8 +129,12 @@ if (!isset($_SESSION['id_adm'])) {
                             </div>
                             <div class="chatbot-content2">
                                 <p class="txt-chatbot" id="txt-chatbot">
-                                    ¡Saludos! Soy JobHelper, tu guía virtual en el mundo laboral.
-                                    Mi misión es facilitarte el buscar la mejor opción.
+                                    <?php 
+                                    $saludo = !empty($chatbot['inp_saludo']) 
+                                        ? $chatbot['inp_saludo'] 
+                                        : '¡Saludos! Soy JobHelper, tu guía virtual en el mundo laboral. Mi misión es facilitarte el buscar la mejor opción.';
+                                    echo htmlspecialchars($saludo);
+                                    ?>
                                 </p>
                                 <div class="chatbot-buttons2">
                                     <button class="chatbot-button2">Buscar vacantes por categoría</button>

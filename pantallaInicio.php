@@ -1,13 +1,9 @@
 <?php
 
-session_start();
 
-if (!isset($_SESSION['id_adm'])) {
-    session_destroy();
-    header("location: ./index.php?error=2");
-    exit;
-}
+include('modelo/obtenerDatos.php');
 
+$id_chatbot = $_SESSION['id_chatbot']?? null;
 ?>
 
 <!DOCTYPE html>
@@ -119,7 +115,7 @@ if (!isset($_SESSION['id_adm'])) {
                         <label class="label-nombrechat">Mensaje inicial</label><br>
                         <textarea type="text" name="inp_saludo" id="inp_saludo"
                             placeholder="¡Saludos! Soy JobHelper, tu guía virtual en el mundo laboral."
-                            class="input-saludo" minlength="2" maxlength="70" required></textarea> <br>
+                            class="input-saludo" minlength="2" maxlength="150"><?php echo htmlspecialchars($chatbot['inp_saludo'] ?? ''); ?></textarea> <br>
 
                         <div class="container-conversacion">
                             <div class="asi-conversacion">
@@ -128,16 +124,16 @@ if (!isset($_SESSION['id_adm'])) {
                                 <ul id="listaTemas">
                                     <li class="tema-item">
                                         <input type="text" name="inp-conversa" class="inp-conversa" id="inp_conversa1"
-                                            value="Buscar vacantes por categoría" minlength="2" maxlength="33"
+                                            value="<?php echo htmlspecialchars(!empty($chatbot['inp_conversa1']) ? $chatbot['inp_conversa1'] : 'Buscar vacantes por categoría'); ?>" minlength="2" maxlength="33"
                                             readonly disabled>
                                     </li>
                                     <li class="tema-item">
                                         <input type="text" name="inp-conversa" class="inp-conversa" id="inp_conversa2"
-                                            value="Buscar vacantes por ubicación" minlength="2" maxlength="33" readonly disabled>
+                                            value="<?php echo htmlspecialchars(!empty($chatbot['inp_conversa2']) ? $chatbot['inp_conversa2'] : 'Buscar vacantes por ubicación'); ?>" minlength="2" maxlength="33" readonly disabled>
                                     </li>
                                     <li class="tema-item">
                                         <input type="text" name="inp-conversa" class="inp-conversa" id="inp_conversa3"
-                                            value="Seguimiento de mi postulación" minlength="2" maxlength="33" readonly disabled>
+                                            value="<?php echo htmlspecialchars(!empty($chatbot['inp_conversa3']) ? $chatbot['inp_conversa3'] : 'Seguimiento de mi postulación'); ?>" minlength="2" maxlength="33" readonly disabled>
                                     </li>
                                 </ul>
                                 <!-- Mensaje de notificación -->
@@ -151,8 +147,11 @@ if (!isset($_SESSION['id_adm'])) {
                     <div class="chatbot-principal">
                         <div class="chatbot-container">
                             <div class="chatbot-header" id="chatbot-header">
-                                <img src="img/Logo_cabeza.svg" alt="Chatbot" class="chatbot-icon" id="logoPreview">
-                                <p class="txt-titulo-chat" id="txt-titulo-chat">JobHelper</p>
+                                  <?php
+                                $logo = (!empty($chatbot['urlLogotipo'])) ? $chatbot['urlLogotipo'] : 'img/Logo_cabeza.svg';
+                                ?>
+                                <img src="<?php echo htmlspecialchars($logo); ?>" alt="Chatbot" class="chatbot-icon" id="logoPreview">
+                                <p class="txt-titulo-chat" id="txt-titulo-chat"><?php echo htmlspecialchars($chatbot['inp_nombre'] ?? 'JobHelper');?></p>
                                 <div class="container1">
                                     <div class="chatbot-min" title="Minimizar" onclick="toggleChatbot()">
                                         <img src="img/line.png" />
@@ -164,8 +163,13 @@ if (!isset($_SESSION['id_adm'])) {
                             </div>
                             <div class="chatbot-content">
                                 <p class="txt-chatbot" id="txt-chatbot">
-                                    ¡Saludos! Soy JobHelper, tu guía virtual en el mundo laboral.
-                                    Mi misión es facilitarte el buscar la mejor opción.
+                                 <?php 
+                                    $saludo = !empty($chatbot['inp_saludo']) 
+                                        ? $chatbot['inp_saludo'] 
+                                        : '¡Saludos! Soy JobHelper, tu guía virtual en el mundo laboral. Mi misión es facilitarte el buscar la mejor opción.';
+                                    echo htmlspecialchars($saludo);
+                                    ?>
+                                   
                                 </p>
                                 <div class="chatbot-buttons" id="chatbot-buttons">
                                     <!-- Botones del chatbot se agregarán aquí -->
@@ -189,6 +193,12 @@ if (!isset($_SESSION['id_adm'])) {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/pantallaIn.js"></script>
+     <script>
+    const id_chatbot = <?php echo json_encode($id_chatbot); ?>;
+    if (id_chatbot) {
+        localStorage.setItem("id_chatbot", id_chatbot);
+    }
+    </script>
     <script src="js/custom.js"></script>
     <script src="js/guardar.js"></script>
     <script src="js/menuLateral.js" type="module"></script>

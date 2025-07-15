@@ -1,12 +1,9 @@
 <?php
 
-session_start();
+include ('modelo/obtenerDatos.php');
 
-if (!isset($_SESSION['id_adm'])) {
-    session_destroy();
-    header("location: ./index.php?error=2");
-    exit;
-}
+
+$id_chatbot = $_SESSION['id_chatbot'] ?? null;
 
 ?>
 
@@ -118,14 +115,17 @@ if (!isset($_SESSION['id_adm'])) {
                     <div>
                         <textarea id="inp_despedida"
                             placeholder="Gracias por usar JobHelper, es un gusto haber podido ayudarte... ¡Hasta la próxima!"
-                            class="input-despedida" required maxlength="280"></textarea><br>
+                            class="input-despedida" required maxlength="280"><?php echo htmlspecialchars($chatbot['inp_despedida'] ?? ''); ?></textarea><br>
                     </div>
 
                     <div class="chatbot-principal">
                         <div class="chatbot-container">
                             <div class="chatbot-header" id="chatbot-header">
-                                <img src="img/Logo_cabeza.svg" alt="Chatbot" class="chatbot-icon" id="logoPreview">
-                                <p class="txt-titulo-chat" id="txt-titulo-chat">JobHelper</p>
+                                 <?php
+                                $logo = (!empty($chatbot['urlLogotipo'])) ? $chatbot['urlLogotipo'] : 'img/Logo_cabeza.svg';
+                                ?>
+                                <img src="<?php echo htmlspecialchars($logo); ?>" alt="Chatbot" class="chatbot-icon" id="logoPreview">
+                                <p class="txt-titulo-chat" id="txt-titulo-chat"><?php echo htmlspecialchars($chatbot['inp_nombre'] ?? 'JobHelper' ); ?></p>
                                 <div class="container1">
                                     <div class="chatbot-min" title="Minimizar" onclick="toggleChatbot()">
                                         <img src="img/line.png" />
@@ -137,7 +137,13 @@ if (!isset($_SESSION['id_adm'])) {
                             </div>
                             <div class="chatbot-content">
                                 <p class="txt-chatbot" id="txt-chatbot-Desp">
-                                    Gracias por usar JobHelper, es un gusto haber podido ayudarte... ¡Hasta la próxima!
+
+                                     <?php 
+                                    $despedida = !empty($chatbot['inp_despedida']) 
+                                        ? $chatbot['inp_despedida'] 
+                                        : 'Gracias por usar JobHelper, es un gusto haber podido ayudarte... ¡Hasta la próxima!';
+                                    echo htmlspecialchars($despedida);
+                                    ?>
                                 </p>
 
                                 <img src="img/Logo_principal.svg" alt="" style="margin: 0 auto; display: block; width: 100px; height: auto; max-width: 100%; overflow: hidden;" />
@@ -161,6 +167,12 @@ if (!isset($_SESSION['id_adm'])) {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/pantallaDesp.js"></script>
+     <script>
+    const id_chatbot = <?php echo json_encode($id_chatbot); ?>;
+    if (id_chatbot) {
+        localStorage.setItem("id_chatbot", id_chatbot);
+    }
+    </script>
     <script src="js/custom.js"></script>
      <script src="js/guardar.js"></script>
     <script src="js/menuLateral.js" type="module"></script>

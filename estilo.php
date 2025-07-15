@@ -1,12 +1,6 @@
 <?php
 
-session_start();
-
-if (!isset($_SESSION['id_adm'])) {
-    session_destroy();
-    header("location: ./index.php?error=2");
-    exit;
-}
+include('modelo/obtenerDatos.php')
 
 ?>
 
@@ -112,26 +106,26 @@ if (!isset($_SESSION['id_adm'])) {
                     <div>
                         <label class="label-nombrechat">Nombre visible de tu ChatBot</label><br>
                         <input type="text" name="inp_nombre" id="inp_nombre" placeholder="JobHelper"
-                            class="input-nombre" minlength="2" maxlength="10" required><br>
+                            class="input-nombre" minlength="2" maxlength="10" required  value="<?php echo htmlspecialchars($chatbot['inp_nombre'] ?? ''); ?>"><br>
 
                         <div class="container-colors">
                             <div class="nombre-colord">
                                 <label for="colorPrimario">Color Primario</label><br>
                                 <div class="color-selector">
-                                    <input type="color" id="colorPrimario" value="#e39842"
+                                    <input type="color" id="colorPrimario"  value="<?php echo htmlspecialchars($chatbot['colorPrimario'] ?? '#e39842'); ?>"
                                         oninput="actualizarColores()">
                                     <div id="muestraColorPrimario" class="color-circle"></div><br>
                                 </div>
 
                                 <label for="colorAcento">Color de Acento</label><br>
                                 <div class="color-selector">
-                                    <input type="color" id="colorAcento" value="#383838" oninput="actualizarColores()">
+                                    <input type="color" id="colorAcento" value="<?php echo htmlspecialchars($chatbot['colorAcento'] ?? '#383838' ); ?>" oninput="actualizarColores()">
                                     <div id="muestraColorAcento" class="color-circle"></div><br>
                                 </div>
 
                                 <label for="colorUsuario">Respuesta Usuario</label><br>
                                 <div class="color-selector">
-                                    <input type="color" id="colorRespuestaUsuario" value="#219ebc"
+                                    <input type="color" id="colorRespuestaUsuario" value="<?php echo htmlspecialchars($chatbot['colorRespuestaUsuario'] ?? '#219ebc') ; ?>"
                                         oninput="actualizarColores()">
                                     <div id="muestraColorRespuestaUsuario" class="color-circle"></div><br>
                                 </div>
@@ -139,14 +133,14 @@ if (!isset($_SESSION['id_adm'])) {
                             <div class="nombre-colorc">
                                 <label for="colorSecundario">Color Secundario</label><br>
                                 <div class="color-selector">
-                                    <input type="color" id="colorSecundario" value="#b6b6b6"
+                                    <input type="color" id="colorSecundario" value="<?php echo htmlspecialchars($chatbot['colorSecundario'] ?? '#b6b6b6') ; ?>"
                                         oninput="actualizarColores()">
                                     <div id="muestraColorSecundario" class="color-circle"></div><br>
                                 </div>
 
                                 <label for="colorTexto">Color de Texto</label><br>
                                 <div class="color-selector">
-                                    <input type="color" id="colorTexto" value="#000000" oninput="actualizarColores()">
+                                    <input type="color" id="colorTexto" value="<?php echo htmlspecialchars($chatbot['colorTexto'] ?? '#000000' ) ; ?>" oninput="actualizarColores()">
                                     <div id="muestraColorTexto" class="color-circle"></div><br>
     
                                 </div>
@@ -160,7 +154,7 @@ if (!isset($_SESSION['id_adm'])) {
                             <div class="container-archivo">
                                 <label for="urlLogotipo">Ingresa la URL del Logotipo</label><br>
                                 <div class="select-archivo">
-                                    <input type="text" id="urlLogotipo" placeholder="https://logo" class="input-url">
+                                    <input type="text" id="urlLogotipo" placeholder="https://logo" class="input-url" value="<?php echo htmlspecialchars($chatbot['urlLogotipo'] ?? ''); ?>">
                                     <button type="button" onclick="previsualizarImagen()" class="update-logo-button">Actualizar logo</button>
                                 </div>
                             </div>
@@ -169,8 +163,11 @@ if (!isset($_SESSION['id_adm'])) {
                     <div class="chatbot-principal">
                         <div class="chatbot-container">
                             <div class="chatbot-header" id="chatbot-header">
-                                <img src="img/Logo_cabeza.svg" alt="Chatbot" class="chatbot-icon" id="chatbotIcon">
-                                <p class="txt-titulo-chat" id="txt-titulo-chat">JobHelper</p>
+                                <?php
+                                $logo = (!empty($chatbot['urlLogotipo'])) ? $chatbot['urlLogotipo'] : 'img/Logo_cabeza.svg';
+                                ?>
+                                <img src="<?php echo htmlspecialchars($logo); ?>" alt="Chatbot" class="chatbot-icon" id="chatbotIcon">
+                                <p class="txt-titulo-chat" id="txt-titulo-chat"><?php echo htmlspecialchars($chatbot['inp_nombre'] ?? 'JobHelper' ) ;?></p>
                                 <div class="container1">
                                     <div class="chatbot-min" title="Minimizar" onclick="toggleChatbot()">
                                         <img src="https://chatbot.giintapeinnovahue.com/img/line.png" />
@@ -182,8 +179,12 @@ if (!isset($_SESSION['id_adm'])) {
                             </div>
                             <div class="chatbot-content">
                                 <p class="txt-chatbot">
-                                    ¡Saludos! Soy JobHelper, tu guía virtual en el mundo laboral.
-                                    Mi misión es facilitarte el buscar la mejor opción.
+                                    <?php 
+                                    $saludo = !empty($chatbot['inp_saludo']) 
+                                        ? $chatbot['inp_saludo'] 
+                                        : '¡Saludos! Soy JobHelper, tu guía virtual en el mundo laboral. Mi misión es facilitarte el buscar la mejor opción.';
+                                    echo htmlspecialchars($saludo);
+                                    ?>
                                 </p>
                                 <div class="chatbot-buttons">
                                     <button class="chatbot-button">Buscar vacantes por categoría</button>
@@ -207,7 +208,14 @@ if (!isset($_SESSION['id_adm'])) {
 
     <!-- jQuery y Bootstrap JavaScript -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+            <script>
+        const id_chatbot = <?php echo json_encode($id_chatbot); ?>;
+        if (id_chatbot) {
+            localStorage.setItem("id_chatbot", id_chatbot);
+        }
+        </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/estilo.js"></script>
     <script src="js/custom.js"></script>
      <script src="js/guardar.js"></script>

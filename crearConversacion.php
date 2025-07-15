@@ -1,13 +1,9 @@
 <?php
 
-session_start();
+include('modelo/obtenerDatos.php');
 
-if (!isset($_SESSION['id_adm'])) {
-    session_destroy();
-    header("location: ./index.php?error=2");
-    exit;
-}
 
+$id_chatbot = $_SESSION['id_chatbot'] ?? null;
 ?>
 
 <!DOCTYPE html>
@@ -169,9 +165,20 @@ if (!isset($_SESSION['id_adm'])) {
 
 
     <!-- jQuery y Bootstrap JavaScript -->
+    <script>
+    // Pasamos los datos PHP a un objeto JS llamado datosChatbot
+    const datosChatbot = <?php echo json_encode($chatbot); ?>;
+    </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/creaConver.js"></script>
+
+     <script>
+    const id_chatbot = <?php echo json_encode($id_chatbot); ?>;
+    if (id_chatbot) {
+        localStorage.setItem("id_chatbot", id_chatbot);
+    }
+    </script>
     <script src="js/custom.js"></script>
      <script src="js/guardar.js"></script>
     <script src="js/menuLateral.js" type="module"></script>

@@ -19,7 +19,7 @@ function impMenu1(event) {
             
             <label class="label-nombrechat">Origen de búsqueda</label><br>
             <input type="text" name="inp_columna" id="inp_columna" placeholder="Escribe"
-                class="input-columna-crear" required><br>
+                class="input-columna-crear" required ><br>
 
             <label class="label-nombrechat">URL del informe</label><br>
             <input type="url" name="inp_url_informe" id="inp_url_informe" placeholder="https://ejemplo.com"
@@ -32,9 +32,9 @@ function impMenu1(event) {
   document.getElementById("imprimir").innerHTML = stringMenu;
 
   //Recupera los datos del localStogare
-  document.getElementById("inp_mensaje_usuario").value = localStorage.getItem("inp_mensaje_usuario") || "";
-  document.getElementById("inp_columna").value = localStorage.getItem("inp_columna") || "";
-  document.getElementById("inp_url_informe").value = localStorage.getItem("inp_url_informe") || "";
+    document.getElementById("inp_mensaje_usuario").value = localStorage.getItem("inp_mensaje_usuario") || datosChatbot.inp_mensaje_usuario || "";
+  document.getElementById("inp_columna").value = localStorage.getItem("inp_columna") || datosChatbot.inp_columna || "";
+  document.getElementById("inp_url_informe").value = localStorage.getItem("inp_url_informe") || datosChatbot.inp_url_informe || "";
 
   //Se movio el bloque de código comentado de la url porque el marcado que devuelve js no permite comentarios
 
@@ -59,9 +59,8 @@ function impMenu2(event) {
     `;
   document.getElementById("imprimir").innerHTML = stringMenu;
   //Recupera los datos del localStorage
-  document.getElementById("inp_mensaje_usuario2").value = localStorage.getItem("inp_mensaje_usuario2") || "";
-  document.getElementById("inp_columna2").value = localStorage.getItem("inp_columna2") || "";
-
+   document.getElementById("inp_mensaje_usuario2").value = localStorage.getItem("inp_mensaje_usuario2") || datosChatbot.inp_mensaje_usuario2 || "";
+  document.getElementById("inp_columna2").value = localStorage.getItem("inp_columna2") || datosChatbot.inp_columna2 || "";
   //Se movio el bloque de código comentado de la url porque el marcado que devuelve js no permite comentarios
 
   /*   <label class="label-nombrechat">URL de origen de datos</label><br>
@@ -92,9 +91,9 @@ function impMenu3(event) {
   document.getElementById("imprimir").innerHTML = stringMenu;
 
   //Recupera los datos del localStogare
-  document.getElementById("inp_mensaje_usuario3").value = localStorage.getItem("inp_mensaje_usuario3") || "";
-  document.getElementById("inp_columna3").value = localStorage.getItem("inp_columna3") || "";
-  document.getElementById("inp_url_informe3").value = localStorage.getItem("inp_url_informe3") || "";
+    document.getElementById("inp_mensaje_usuario3").value = localStorage.getItem("inp_mensaje_usuario3") || datosChatbot.inp_mensaje_usuario3 || "";
+  document.getElementById("inp_columna3").value = localStorage.getItem("inp_columna3") || datosChatbot.inp_columna3 || "";
+  document.getElementById("inp_url_informe3").value = localStorage.getItem("inp_url_informe3") || datosChatbot.inp_url_informe3 || "";
   //Se movio el bloque de código comentado de la url porque el marcado que devuelve js no permite comentarios
 
   /* <label class="label-nombrechat">URL de origen de datos</label><br>
@@ -151,16 +150,16 @@ document.getElementById("btnGuardarConver").addEventListener("click", function (
     // Recuperar id_chatbot desde localStorage
     const id_chatbot = localStorage.getItem("id_chatbot");
     if (!id_chatbot) {
-         Swal.fire({
-          icon: 'warning',
-          title: 'Atención',
-          text: 'Primero debes guardar el estilo para generar el chatbot.',
-          confirmButtonText: 'Entendido',
-          showCloseButton: true,
-          confirmButtonColor: '#ffb703'
+     Swal.fire({
+        icon: 'warning',
+        title: 'Atención',
+        text: 'Para generar el chatbot necesitas al menos guardar la configuración de estilo.',
+        confirmButtonText: 'Entendido',
+        showCloseButton: true,
+        confirmButtonColor: '#ffb703'
 
-      });
-        return;
+  });
+  return;
     }
 
 

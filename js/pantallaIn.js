@@ -121,15 +121,15 @@ document.addEventListener("DOMContentLoaded", function () {
         const id_chatbot = localStorage.getItem("id_chatbot");
         if (!id_chatbot) {
               Swal.fire({
-                icon: 'warning',
-                title: 'Atención',
-                text: 'Primero debes guardar el estilo para generar el chatbot.',
-                confirmButtonText: 'Entendido',
-                showCloseButton: true,
-                confirmButtonColor: '#ffb703'
+        icon: 'warning',
+        title: 'Atención',
+        text: 'Para generar el chatbot necesitas al menos guardar la configuración de estilo.',
+        confirmButtonText: 'Entendido',
+        showCloseButton: true,
+        confirmButtonColor: '#ffb703'
 
-            });
-            return;
+  });
+  return;
         }
 
         //Objeto con el que los datos se van a guardar
