@@ -148,8 +148,14 @@ document.getElementById("btnGuardarEstilo").addEventListener("click", function (
 
     if (res.success) {
         if (res.id_chatbot) { //si la respuesta es exitosa
-            localStorage.setItem("id_chatbot", res.id_chatbot); //Se devuelve el id 
-        }
+            localStorage.setItem("id_chatbot", res.id_chatbot); //Se devuelve el id
+             Swal.fire({
+          icon: 'success',
+          title: 'Estilo guardado',
+          text: 'El estilo del chatbot se guardó correctamente.',
+          confirmButtonColor: '#ffb703'
+        }); 
+    }
     } else {
         alert("Error: " + res.error);
     }

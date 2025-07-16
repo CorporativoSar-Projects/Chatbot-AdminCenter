@@ -37,7 +37,7 @@ if ($accion === 'verificar') {
     $stmt2->fetch();
     $stmt2->close();
 
-   file_put_contents("debug.txt", "ID empresa usada: [$Empresa_id_emp]\nURL leída desde BD: [$url]");
+   
     header('Content-Type: application/json');
     echo json_encode([
         "url" => $url,
