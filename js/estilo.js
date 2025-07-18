@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
     const inputs = [
-        { id: 'colorPrimario', defaultValue: '#e39842' },
+        { id: 'colorPrimario', defaultValue: '#3ca6e5' },
         { id: 'colorSecundario', defaultValue: '#b6b6b6' },
         { id: 'colorAcento', defaultValue: '#383838' },
         { id: 'colorTexto', defaultValue: '#000000' },
@@ -15,12 +15,12 @@ document.addEventListener("DOMContentLoaded", function () {
     let storedValue = localStorage.getItem(inputData.id);
 
     if (!storedValue) {
-        // 👇 Usamos el value que ya está en el input (asignado por PHP)
+       
         storedValue = inputElement.value || inputData.defaultValue;
         localStorage.setItem(inputData.id, storedValue);
     }
 
-    // Aseguramos que el input y muestra visual reflejen el valor correcto
+    
     inputElement.value = storedValue;
     muestraElement.style.backgroundColor = storedValue;
 
@@ -29,11 +29,12 @@ document.addEventListener("DOMContentLoaded", function () {
         if (isValidHex(color)) {
             muestraElement.style.backgroundColor = color;
             localStorage.setItem(inputData.id, color);
-            actualizarColores();
+           actualizarColores();
         }
     });
+    
 });
-
+actualizarColores();
 });
 
 function capitalize(str) {
@@ -66,6 +67,7 @@ function actualizarColores() {
     localStorage.setItem('colorTexto', colors['--color-texto']);
     localStorage.setItem('colorAcento', colors['--color-acento']);
     localStorage.setItem('colorTexto', colors['--color-texto']);
+    localStorage.setItem('colorTexto', colors['--color-texto-boton']);
     localStorage.setItem('colorRespuestaUsuario', colors['--color-respuesta-usuario']);
 }
 

@@ -49,15 +49,16 @@ while ($row = $result->fetch_assoc()) {
 <body>
   <div class="rectangulo-container">
     <img
-      src="img/newLogo.svg"
+      src="img/Logo_cabeza.svg"
       width="70px"
       alt="Logo"
       class="img-logo-chiq" />
   </div>
+ 
   <header>
     <nav class="navbar">
       <ul class="filas">
-        <li><a href="menu.php" class="txt-home">Home</a></li>
+       <!-- <li><a href="menu.php" class="txt-home">Home</a></li>-->
         <!-- <li><a href="estilo.php">ChatBot para vacantes</a>
                     <ul>
                         <li><a href="#">Chatbot para pedidos</a></li>
@@ -95,18 +96,19 @@ while ($row = $result->fetch_assoc()) {
             <a href="#">Desarrollado por Giintape Innovahue</a>
             <span> soporte@giintapeinnovahueteam.onmicrosoft.com</span>
           </div>
+         
           <!-- Enlace que vincula al botón de cerrar sesión con su respectiva función -->
-          <a href="cerrarSesion.php">Cerrar Sesión</a>
+          <a class="a1" href="cerrarSesion.php">Cerrar Sesión</a>
         </div>
       </div>
-
     </div>
   </header>
 
   <main>
+
     <div class="container-prin">
       <div class="container-bienv">
-        <img src="img/icons8.png" width="70px" alt="Welcome Icon" class="img-Bien" ; />
+        
         <p class="txtBien">Bienvenido</p>
         <div class="container-btn-refresh">
           <button class="btn-refresh">
@@ -147,7 +149,11 @@ while ($row = $result->fetch_assoc()) {
         </a>
       </div>
     </div>
+
+
   </main>
+
+
 
   <!-- jQuery y Bootstrap JavaScript -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -155,6 +161,7 @@ while ($row = $result->fetch_assoc()) {
   <script src="js/loginError.js" type="module"></script>
   <script src="js/menuLateral.js" type="module"></script>
   <script src="js/navegacion.js"></script>
+   <script src="js/formulario.js"></script>
 </body>
 
 </html>

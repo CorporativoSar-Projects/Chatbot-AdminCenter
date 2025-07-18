@@ -25,7 +25,7 @@ $id_chatbot = $_SESSION['id_chatbot'] ?? null;
 
     <div class="rectangulo-container">
 
-        <img src="img/newLogo.svg" width="70px" alt="Logo" class="img-logo-chiq">
+        <img src="img/Logo_cabeza.svg" width="70px" alt="Logo" class="img-logo-chiq">
     </div>
     <header>
 
@@ -54,7 +54,7 @@ $id_chatbot = $_SESSION['id_chatbot'] ?? null;
                         <span> soporte@giintapeinnovahueteam.onmicrosoft.com</span>
                     </div>
 
-                    <a href="cerrarSesion.php">Cerrar Sesión</a>
+                    <a class="a1" href="cerrarSesion.php">Cerrar Sesión</a>
                 </div>
             </div>
         </div>

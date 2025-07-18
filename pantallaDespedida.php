@@ -24,7 +24,7 @@ $id_chatbot = $_SESSION['id_chatbot'] ?? null;
 
 <body>
     <div class="rectangulo-container">
-        <img src="img/newLogo.svg" width="70px" alt="Logo" class="img-logo-chiq">
+        <img src="img/Logo_cabeza.svg" width="70px" alt="Logo" class="img-logo-chiq">
     </div>
 
     <header>
@@ -52,7 +52,7 @@ $id_chatbot = $_SESSION['id_chatbot'] ?? null;
                         <span> soporte@giintapeinnovahueteam.onmicrosoft.com</span>
                     </div>
 
-                    <a href="cerrarSesion.php">Cerrar Sesión</a>
+                    <a class="a1" href="cerrarSesion.php">Cerrar Sesión</a>
                 </div>
             </div>
         </div>
@@ -114,7 +114,7 @@ $id_chatbot = $_SESSION['id_chatbot'] ?? null;
 
                     <div>
                         <textarea id="inp_despedida"
-                            placeholder="Gracias por usar JobHelper, es un gusto haber podido ayudarte... ¡Hasta la próxima!"
+                            placeholder="Gracias por usarme, me dio mucho gusto poder ayudarte... ¡Hasta la próxima!"
                             class="input-despedida" required maxlength="280"><?php echo htmlspecialchars($chatbot['inp_despedida'] ?? ''); ?></textarea><br>
                     </div>
 
@@ -125,13 +125,17 @@ $id_chatbot = $_SESSION['id_chatbot'] ?? null;
                                 $logo = (!empty($chatbot['urlLogotipo'])) ? $chatbot['urlLogotipo'] : 'img/Logo_cabeza.svg';
                                 ?>
                                 <img src="<?php echo htmlspecialchars($logo); ?>" alt="Chatbot" class="chatbot-icon" id="logoPreview">
-                                <p class="txt-titulo-chat" id="txt-titulo-chat"><?php echo htmlspecialchars($chatbot['inp_nombre'] ?? 'JobHelper' ); ?></p>
+                                <p class="txt-titulo-chat" id="txt-titulo-chat"><?php echo htmlspecialchars($chatbot['inp_nombre'] ?? 'IXAH' ); ?></p>
                                 <div class="container1">
                                     <div class="chatbot-min" title="Minimizar" onclick="toggleChatbot()">
-                                        <img src="img/line.png" />
+                                         <svg class="icono-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M 6 12 C 6 11.449219 6.449219 11 7 11 L 17 11 C 17.550781 11 18 11.449219 18 12 C 18 12.550781 17.550781 13 17 13 L 7 13 C 6.449219 13 6 12.550781 6 12 Z"/>
+                                    </svg>
                                     </div>
                                     <div class="chatbot-close" title="Cerrar" onclick="cerrar()">
-                                        <img src="img/close.png" />
+                                         <svg class="icono-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="miter">
+                                            <path d="M 16 8 L 8 16 M 8 8 L 16 16"/>
+                                            </svg>
                                     </div>
                                 </div>
                             </div>
@@ -141,12 +145,14 @@ $id_chatbot = $_SESSION['id_chatbot'] ?? null;
                                      <?php 
                                     $despedida = !empty($chatbot['inp_despedida']) 
                                         ? $chatbot['inp_despedida'] 
-                                        : 'Gracias por usar JobHelper, es un gusto haber podido ayudarte... ¡Hasta la próxima!';
+                                        : 'Gracias por usarme, me dio mucho gusto poder ayudarte... ¡Hasta la próxima!';
                                     echo htmlspecialchars($despedida);
                                     ?>
                                 </p>
-
-                                <img src="img/Logo_principal.svg" alt="" style="margin: 0 auto; display: block; width: 100px; height: auto; max-width: 100%; overflow: hidden;" />
+                                <?php
+                                $logodes = (!empty($chatbot['urlLogotipo'])) ? $chatbot['urlLogotipo'] : 'img/Logo_principal.svg';
+                                ?>
+                                <img src="<?php echo htmlspecialchars($logodes); ?>" alt="" style="margin: 0 auto; display: block; width: 100px; height: auto; max-width: 100%; overflow: hidden;" />
 
                             </div>
                             <div id="user-input-container" class="user-input-container">

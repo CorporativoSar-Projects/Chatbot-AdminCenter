@@ -20,6 +20,30 @@ document.addEventListener('DOMContentLoaded', () => {
          txtSaludo.value = saludoGuardado;
          divCopiaSaludo.innerHTML = saludoGuardado;
 }
+    const colorTexto = localStorage.getItem('colorTexto') || '#000000';
+    const colorSecundario= localStorage.getItem('colorSecundario') || '#b6b6b6';
+    const colorAcento = localStorage.getItem('colorAcento') || '#383838';
+
+    const iconos = document.querySelectorAll('.chatbot-min svg, .chatbot-close svg');
+    iconos.forEach(svg => {
+        svg.style.color = colorTexto;
+    });
+    // Aplicar color al texto del chatbot
+
+    // Aplicar color a todos los botones del chatbot
+    const botonesChatbot = document.querySelectorAll('.chatbot-button');
+    botonesChatbot.forEach(boton => {
+        boton.style.backgroundColor = colorSecundario;
+        boton.style.color = colorTexto;
+
+        // Hover dinámico para efecto visual
+        boton.addEventListener('mouseenter', () => {
+            boton.style.backgroundColor = colorAcento;
+        });
+        boton.addEventListener('mouseleave', () => {
+            boton.style.backgroundColor = colorSecundario;
+        });
+    });
  });
 
 

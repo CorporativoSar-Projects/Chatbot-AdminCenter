@@ -1,6 +1,6 @@
 <?php
 
-include('modelo/obtenerDatos.php')
+include('modelo/obtenerDatos.php');
 
 ?>
 
@@ -20,7 +20,7 @@ include('modelo/obtenerDatos.php')
 <body>
 
     <div class="rectangulo-container">
-        <img src="img/newLogo.svg" width="70px" alt="Logo" class="img-logo-chiq">
+        <img src="img/Logo_cabeza.svg" width="70px" alt="Logo" class="img-logo-chiq">
     </div>
     <header>
         <div class="user-dropdown">
@@ -45,7 +45,7 @@ include('modelo/obtenerDatos.php')
                         <a href="#">Desarrollado por Giintape Innovahue</a>
                         <span> soporte@giintapeinnovahueteam.onmicrosoft.com</span>
                     </div>
-                    <a href="cerrarSesion.php">Cerrar Sesión</a>
+                    <a class="a1" href="cerrarSesion.php">Cerrar Sesión</a>
                 </div>
             </div>
         </div>
@@ -105,14 +105,14 @@ include('modelo/obtenerDatos.php')
 
                     <div>
                         <label class="label-nombrechat">Nombre visible de tu ChatBot</label><br>
-                        <input type="text" name="inp_nombre" id="inp_nombre" placeholder="JobHelper"
+                        <input type="text" name="inp_nombre" id="inp_nombre" placeholder="IXAH"
                             class="input-nombre" minlength="2" maxlength="10" required  value="<?php echo htmlspecialchars($chatbot['inp_nombre'] ?? ''); ?>"><br>
 
                         <div class="container-colors">
                             <div class="nombre-colord">
                                 <label for="colorPrimario">Color Primario</label><br>
                                 <div class="color-selector">
-                                    <input type="color" id="colorPrimario"  value="<?php echo htmlspecialchars($chatbot['colorPrimario'] ?? '#e39842'); ?>"
+                                    <input type="color" id="colorPrimario"  value="<?php echo htmlspecialchars($chatbot['colorPrimario'] ?? '#3ca6e5'); ?>"
                                         oninput="actualizarColores()">
                                     <div id="muestraColorPrimario" class="color-circle"></div><br>
                                 </div>
@@ -167,13 +167,18 @@ include('modelo/obtenerDatos.php')
                                 $logo = (!empty($chatbot['urlLogotipo'])) ? $chatbot['urlLogotipo'] : 'img/Logo_cabeza.svg';
                                 ?>
                                 <img src="<?php echo htmlspecialchars($logo); ?>" alt="Chatbot" class="chatbot-icon" id="chatbotIcon">
-                                <p class="txt-titulo-chat" id="txt-titulo-chat"><?php echo htmlspecialchars($chatbot['inp_nombre'] ?? 'JobHelper' ) ;?></p>
+                                <p class="txt-titulo-chat" id="txt-titulo-chat"><?php echo htmlspecialchars($chatbot['inp_nombre'] ?? 'IXAH' ) ;?></p>
                                 <div class="container1">
                                     <div class="chatbot-min" title="Minimizar" onclick="toggleChatbot()">
-                                        <img src="https://chatbot.giintapeinnovahue.com/img/line.png" />
+                                        <svg class="icono-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M 6 12 C 6 11.449219 6.449219 11 7 11 L 17 11 C 17.550781 11 18 11.449219 18 12 C 18 12.550781 17.550781 13 17 13 L 7 13 C 6.449219 13 6 12.550781 6 12 Z"/>
+                                    </svg>
+
                                     </div>
                                     <div class="chatbot-close" title="Cerrar" onclick="cerrar()">
-                                        <img src="https://chatbot.giintapeinnovahue.com/img/close.png" />
+                                         <svg class="icono-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="miter">
+                                            <path d="M 16 8 L 8 16 M 8 8 L 16 16"/>
+                                            </svg>
                                     </div>
                                 </div>
                             </div>
@@ -182,7 +187,7 @@ include('modelo/obtenerDatos.php')
                                     <?php 
                                     $saludo = !empty($chatbot['inp_saludo']) 
                                         ? $chatbot['inp_saludo'] 
-                                        : '¡Saludos! Soy JobHelper, tu guía virtual en el mundo laboral. Mi misión es facilitarte el buscar la mejor opción.';
+                                        : '¡Hola! Soy IXAH, tu asistente virtual en el mundo laboral. ¿En qué te puedo ayudar hoy?';
                                     echo htmlspecialchars($saludo);
                                     ?>
                                 </p>

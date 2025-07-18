@@ -25,6 +25,20 @@ txtDespedida.addEventListener('input', () => {
   localStorage.setItem('inp_despedida', txtDespedida.value);
 });
 
+document.addEventListener('DOMContentLoaded', () => {
+  const colorTexto = localStorage.getItem('colorTexto') || '#000000';
+  
+  
+  const iconosSVG = document.querySelectorAll('.chatbot-min svg, .chatbot-close svg');
+
+  iconosSVG.forEach(svg => {
+    
+    svg.style.stroke = colorTexto;  
+    svg.style.fill = colorTexto;    
+  });
+});
+
+
 document.getElementById("btnGuardarDespedida").addEventListener("click", function () {
     // Validar que haya un id_chatbot guardado
     const id_chatbot = localStorage.getItem("id_chatbot");

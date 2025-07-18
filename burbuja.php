@@ -25,7 +25,7 @@ $id_chatbot = $_SESSION['id_chatbot'] ?? null;
 
     <div class="rectangulo-container">
 
-        <img src="img/newLogo.svg" width="70px" alt="Logo" class="img-logo-chiq">
+        <img src="img/Logo_cabeza.svg" width="70px" alt="Logo" class="img-logo-chiq">
     </div>
     <header>
         <!-- <nav class="navbar">
@@ -65,7 +65,7 @@ $id_chatbot = $_SESSION['id_chatbot'] ?? null;
                         <span> soporte@giintapeinnovahueteam.onmicrosoft.com</span>
                     </div>
 
-                    <a href="cerrarSesion.php">Cerrar Sesión</a>
+                    <a class="a1" href="cerrarSesion.php">Cerrar Sesión</a>
                 </div>
             </div>
         </div>
@@ -135,7 +135,7 @@ $id_chatbot = $_SESSION['id_chatbot'] ?? null;
                             <div class="nombre-colord">
                                 <label for="colorPrimarioBurbuja">Color Primario</label><br>
                                 <div div class="color-selector">
-                                    <input type="color" id="colorPrimarioBurbuja" value="<?php echo htmlspecialchars($chatbot['colorPrimario'] ?? '#e39842'); ?>"
+                                    <input type="color" id="colorPrimarioBurbuja" value="<?php echo htmlspecialchars($chatbot['colorPrimario'] ?? '#3ca6e5'); ?>"
                                         oninput="actualizarColores()">
                                     <div id="muestraColorPrimarioBurbuja" class="color-circle"></div><br>
 
@@ -155,7 +155,7 @@ $id_chatbot = $_SESSION['id_chatbot'] ?? null;
 
                         <!-- Burbuja del chatbot -->
                         <div id="chatbot-toggle" class="chat-toggle">
-                            <span id="chatTextBurb" class="chat-text"><?php echo htmlspecialchars($chatbot['inp_burbuja'] ?? '¡Encuentra Vacantes!'); ?></span>
+                            <span id="chatTextBurb" class="chat-text"><?php echo !empty($chatbot['inp_burbuja']) ? htmlspecialchars($chatbot['inp_burbuja']) : '¡Encuentra Vacantes!'; ?></span>
                             <?php
                                 $logo = (!empty($chatbot['urlLogotipo'])) ? $chatbot['urlLogotipo'] : 'img/Logo_cabeza.svg';
                                 ?>

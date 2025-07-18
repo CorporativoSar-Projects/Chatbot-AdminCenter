@@ -2,6 +2,22 @@
   const input = document.getElementById("input");
   const btnGuardarUrl = document.getElementById("btnGuardarurl");
 
+  const colorTexto = localStorage.getItem('colorTexto') || '#000000';
+  const iconosSVG = document.querySelectorAll('.chatbot-min svg, .chatbot-close svg');
+
+  document.documentElement.style.setProperty('--color-texto-boton', colorTexto);
+
+  iconosSVG.forEach(svg => {
+    
+    svg.style.stroke = colorTexto;  
+    svg.style.fill = colorTexto;    
+  });
+
+      const botones = document.querySelectorAll('.chatbot-button');
+    botones.forEach(btn => {
+      btn.style.color = colorTexto;
+    });
+
   // Si no se encuentra alguno, salimos para evitar errores
   if (!input || !btnGuardarUrl) return;
 

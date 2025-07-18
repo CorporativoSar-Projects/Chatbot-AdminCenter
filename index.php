@@ -22,7 +22,7 @@ if (isset($_SESSION['id_adm'])) {
     href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap"
     rel="stylesheet" />
   <title>Inicio de sesion</title>
-  <link rel="shortcut icon" href="img/logoginnatapechiquito.png" />
+  <link rel="shortcut icon" href="img/Lo.png" />
 
 </head>
 <!-- Agregue una clase a este body para modificar la altura 
@@ -33,7 +33,7 @@ y no altere el comportamiento de las demás secciones -->
   y agregar algunas propiedades respecto la altura pero tampoco funciono -->
   <!-- <div class="page"> -->
   <div class="container-logo">
-    <img src="img/newLogo.svg" class="imgLogo" />
+    <img src="img/LOGO_IXAH.svg" class="imgLogo" />
   </div>
   <!-- Texto anterior -->
   <!-- <p class="txtGii">GIINTAPE INNOVAHUE 3</p> -->

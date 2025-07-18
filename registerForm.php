@@ -17,7 +17,7 @@
 
 <body>
   <div class="container-logo">
-    <img src="img/newLogo.svg" class="imgLogo" />
+    <img src="img/LOGO_IXAH.svg" class="imgLogo" />
   </div>
 
 
@@ -28,7 +28,7 @@
   <!-- Formulario registro -->
   <div class="container-form">
   <div class="registro-container">
-    <h2>Registrate</h2>
+    <h1 class="titleRe">Registrate</h1>
   <div class="progressbar">
   <div class="progress-step active" data-step="0">
     <div class="icon"><i class="fas fa-building"></i></div>

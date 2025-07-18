@@ -10,7 +10,7 @@ html {
 }
 
 h1 {
-  color: #ffb703;
+  color: #002B45;
   font-size: 40px;
   font-weight: bold;
 }
@@ -29,11 +29,12 @@ h1 {
   top: 0;
   left: 0;
   width: 100%;
-  background: rgb(255, 183, 3);
+  background: rgb(0, 43, 69); 
   background: linear-gradient(
     90deg,
-    rgba(255, 183, 3, 1) 27%,
-    rgba(251, 131, 0, 1) 100%
+    rgba(0, 43, 69) 27%,
+     rgba(60, 166, 229) 100%
+     
   );
   height: 80px;
   z-index: -1;
@@ -46,9 +47,9 @@ h1 {
 
 .img-logo-chiq {
   position: absolute;
-  top: 5px;
+  top: 24px;
   left: 10px;
-  width: 70px;
+  width: 50px;
   z-index: 1;
 }
 
@@ -154,7 +155,7 @@ header .navbar ul li ul li a:hover {
   position: fixed;
   right: 0;
   top: 80px;
-  background-color: #fb8300;
+  background-color: #3ca6e5;
   min-width: 250px;
   box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
   z-index: 1;
@@ -167,7 +168,7 @@ header .navbar ul li ul li a:hover {
 
 .user-info {
   padding: 10px;
-  background-color: #fb8300;
+  background-color: #3ca6e5;
   color: white;
   border-bottom: 1px solid #ffffff;
 }
@@ -176,10 +177,17 @@ header .navbar ul li ul li a:hover {
   margin-left: 10px;
 }
 
-a,
+.a1,
 .dropdown-links span {
   padding: 10px 15px;
   display: block;
+  color: white;
+  text-decoration: none;
+  font-size: 14px;
+}
+a{
+/*padding: 10px 15px;*/
+ 
   color: white;
   text-decoration: none;
   font-size: 14px;
@@ -206,7 +214,7 @@ a,
   align-items: center;
   box-shadow: 4px 4px 6px #c5c5c5, -4px -4px 6px #ffffff;
   border-radius: 20px;
-  background-color: #ffb703;
+  background-color: #3ca6e5;
   margin-top: 5px;
 }
 
@@ -215,7 +223,7 @@ a,
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  background-color: #ffb703;
+  background-color: #3ca6e5;
   width: 100%;
   /* height: 60px; */
   border-radius: 20px;
@@ -245,11 +253,11 @@ a,
 
 .menu-pers ul li a {
   text-decoration: none;
-  color: #777;
+  color: #ffffff;
 }
 
 .estas {
-  background: #ffe6a7;
+  background: #8ecae6;
   border-radius: 20px;
   color: #777;
 }
@@ -257,7 +265,7 @@ a,
 /* Efecto de hover */
 .menu-pers ul li a::after {
   content: "";
-  background: #ffe6a7;
+  background: #8ecae6;
   width: 100%;
   height: 100%;
   border-radius: 20px;
@@ -319,7 +327,7 @@ a,
 .btnContinuar,
 .btnRegresar {
   flex: 1;
-  background-color: #fb8300;
+  background-color: #F9BE21;
   color: white;
   padding: 10px;
   margin: 5px 5px;
@@ -434,7 +442,7 @@ a,
 
 .input-saludo {
   width: 42%;
-  height: 50px;
+  height: 70px;
   padding: 12px 20px;
   margin: 8px 0;
   border: none;
@@ -632,7 +640,7 @@ a,
 .btnGenerar {
   border-radius: 20px;
   padding: 8px 25px;
-  background-color: #fb8300;
+  background-color: #F9BE21;
   color: white;
   border: none;
   cursor: pointer;
@@ -648,7 +656,7 @@ a,
 .btnGuardarurl {
   display: flex;
   align-items: center;
-  background-color: #f57c00; /* naranja */
+  background-color: #F9BE21;
   color: white;
   border: none;
   padding: 8px 25px;
@@ -714,12 +722,19 @@ a,
   cursor: pointer;
   margin-right: 5px;
   padding: 7px 15px;
+  
 }
-
+.icono-svg {
+  color: var(--color-texto-boton, #000000);
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
 .chatbot-min {
   cursor: pointer;
   margin-right: 5px;
   padding: 7px 15px;
+ 
 }
 
 .container1,
@@ -731,6 +746,7 @@ a,
 .txt-titulo-chat {
   margin-top: 10px;
   font-size: 15px;
+ color: var(--color-texto, #000000);
 }
 
 .chatbot-icon {
@@ -742,6 +758,8 @@ a,
   margin-left: 12px;
 }
 
+
+
 .chatbot-icon img {
   width: 100%;
   height: 100%;
@@ -749,7 +767,7 @@ a,
 }
 
 .chatbot-header {
-  background-color: var(--color-primario, #e39842);
+  background-color: var(--color-primario, #3ca6e5);
   padding: 5px;
   border-radius: 20px 20px 0 0;
   text-align: center;
@@ -761,7 +779,7 @@ a,
 
 .chatbot-content {
   background-color: #f1f1f1;
-  color: var(--color-texto, #000000);
+  color: black;
   padding: 10px;
   margin: 5px;
   margin-top: 20px;
@@ -781,7 +799,7 @@ a,
 
 .chatbot-content2 {
   background-color: #f1f1f1;
-  color: var(--color-texto, #000000);
+  color: #000000;
   padding: 10px;
   margin: 5px;
   margin-top: 20px;
@@ -1498,7 +1516,7 @@ a,
 }
 
 .copy-button {
-  background-color: #fb8300;
+  background-color: #F9BE21;
   color: white;
   border: none;
   border-radius: 15px;
@@ -1509,7 +1527,7 @@ a,
 }
 
 .copy-button:hover {
-  background-color: #e64a19;
+  background-color: #e69b19;
 }
 /*Estilo del input donde va el url del logo*/
 .input-url {
@@ -1532,7 +1550,7 @@ a,
 .update-logo-button {
   border-radius: 20px;
   padding: 8px 25px;
-  background-color: #fb8300;
+  background-color: #F9BE21;
   color: white;
   border: none;
   cursor: pointer;
@@ -1543,7 +1561,7 @@ a,
 }
 
 .update-logo-button:hover {
-  background-color: #e64a19;
+  background-color: #e6ac19;
 }
 
 /*Modal plan*/
@@ -1619,16 +1637,16 @@ a,
 }
 
 .btn-primary {
-  background-color: #fb8300;
+  background-color: #F9BE21;
   width: 25%;
   color: white;
-  border-color: #fb8300;
+  border-color: #F9BE21;
 }
 .btn-continuar {
-  background-color: #fb8300;
+  background-color: #F9BE21;
   width: 25%;
   color: white;
-  border-color: #fb8300;
+  border-color: #F9BE21;
 }
 .btn-continuar:hover {
   background-color: #ec9e4a;
@@ -1669,6 +1687,14 @@ a,
 .check {
   margin-top: 10px;
 }
+
+/* Efecto blur para difuminar contenido */
+.blur {
+  filter: blur(5px);
+  pointer-events: none; /* Evita interacción con contenido mientras está activo */
+}
+
+
 
 /* Media Queries para responsividad */
 
