@@ -1,12 +1,6 @@
 <?php
 
-session_start();
-
-if (!isset($_SESSION['id_adm'])) {
-    session_destroy();
-    header("location: ./index.php?error=2");
-    exit;
-}
+include('modelo/obtenerDatos.php');
 
 ?>
 
@@ -26,7 +20,7 @@ if (!isset($_SESSION['id_adm'])) {
 <body>
 
     <div class="rectangulo-container">
-        <img src="img/newLogo.svg" width="70px" alt="Logo" class="img-logo-chiq">
+        <img src="img/Logo_cabeza.svg" width="70px" alt="Logo" class="img-logo-chiq">
     </div>
     <header>
         <div class="user-dropdown">
@@ -38,7 +32,7 @@ if (!isset($_SESSION['id_adm'])) {
                 <div class="d-flex align-items-center px-3 user-info">
                     <img src="img/user.png" width="40" alt="User Icon">
                     <div class="div-user">
-                        <strong>Karla Durán</strong><br>
+                        <strong><?php echo $_SESSION['nombre_adm'] . ' '. $_SESSION['apellidop_adm']; ?></strong><br>
                         <small><?php echo ($_SESSION['correo_adm']) ?></small>
                     </div>
                 </div>
@@ -51,7 +45,7 @@ if (!isset($_SESSION['id_adm'])) {
                         <a href="#">Desarrollado por Giintape Innovahue</a>
                         <span> soporte@giintapeinnovahueteam.onmicrosoft.com</span>
                     </div>
-                    <a href="cerrarSesion.php">Cerrar Sesión</a>
+                    <a class="a1" href="cerrarSesion.php">Cerrar Sesión</a>
                 </div>
             </div>
         </div>
@@ -78,7 +72,7 @@ if (!isset($_SESSION['id_adm'])) {
                             <img src="img/icons8-save-24.png" class="btn-icon" style="width: 15px;">
                         </button>
 
-                        <a href="menu.php" class="btnCerrar">
+                        <a href="menu.php" class="btnCerrar" id="btnCerrar">
                             <span class="btn-text">Salir</span>
                             <img src="img/icons8-close-26.png" class="btn-icon" style="width: 15px;">
                         </a>
@@ -111,27 +105,27 @@ if (!isset($_SESSION['id_adm'])) {
 
                     <div>
                         <label class="label-nombrechat">Nombre visible de tu ChatBot</label><br>
-                        <input type="text" name="inp_nombre" id="inp_nombre" placeholder="JobHelper"
-                            class="input-nombre" minlength="2" maxlength="10" required><br>
+                        <input type="text" name="inp_nombre" id="inp_nombre" placeholder="IXAH"
+                            class="input-nombre" minlength="2" maxlength="10" required  value="<?php echo htmlspecialchars($chatbot['inp_nombre'] ?? ''); ?>"><br>
 
                         <div class="container-colors">
                             <div class="nombre-colord">
                                 <label for="colorPrimario">Color Primario</label><br>
                                 <div class="color-selector">
-                                    <input type="color" id="colorPrimario" value="#e39842"
+                                    <input type="color" id="colorPrimario"  value="<?php echo htmlspecialchars($chatbot['colorPrimario'] ?? '#3ca6e5'); ?>"
                                         oninput="actualizarColores()">
                                     <div id="muestraColorPrimario" class="color-circle"></div><br>
                                 </div>
 
                                 <label for="colorAcento">Color de Acento</label><br>
                                 <div class="color-selector">
-                                    <input type="color" id="colorAcento" value="#383838" oninput="actualizarColores()">
+                                    <input type="color" id="colorAcento" value="<?php echo htmlspecialchars($chatbot['colorAcento'] ?? '#383838' ); ?>" oninput="actualizarColores()">
                                     <div id="muestraColorAcento" class="color-circle"></div><br>
                                 </div>
 
                                 <label for="colorUsuario">Respuesta Usuario</label><br>
                                 <div class="color-selector">
-                                    <input type="color" id="colorRespuestaUsuario" value="#219ebc"
+                                    <input type="color" id="colorRespuestaUsuario" value="<?php echo htmlspecialchars($chatbot['colorRespuestaUsuario'] ?? '#219ebc') ; ?>"
                                         oninput="actualizarColores()">
                                     <div id="muestraColorRespuestaUsuario" class="color-circle"></div><br>
                                 </div>
@@ -139,14 +133,14 @@ if (!isset($_SESSION['id_adm'])) {
                             <div class="nombre-colorc">
                                 <label for="colorSecundario">Color Secundario</label><br>
                                 <div class="color-selector">
-                                    <input type="color" id="colorSecundario" value="#b6b6b6"
+                                    <input type="color" id="colorSecundario" value="<?php echo htmlspecialchars($chatbot['colorSecundario'] ?? '#b6b6b6') ; ?>"
                                         oninput="actualizarColores()">
                                     <div id="muestraColorSecundario" class="color-circle"></div><br>
                                 </div>
 
                                 <label for="colorTexto">Color de Texto</label><br>
                                 <div class="color-selector">
-                                    <input type="color" id="colorTexto" value="#000000" oninput="actualizarColores()">
+                                    <input type="color" id="colorTexto" value="<?php echo htmlspecialchars($chatbot['colorTexto'] ?? '#000000' ) ; ?>" oninput="actualizarColores()">
                                     <div id="muestraColorTexto" class="color-circle"></div><br>
     
                                 </div>
@@ -160,7 +154,7 @@ if (!isset($_SESSION['id_adm'])) {
                             <div class="container-archivo">
                                 <label for="urlLogotipo">Ingresa la URL del Logotipo</label><br>
                                 <div class="select-archivo">
-                                    <input type="text" id="urlLogotipo" placeholder="https://logo" class="input-url">
+                                    <input type="text" id="urlLogotipo" placeholder="https://logo" class="input-url" value="<?php echo htmlspecialchars($chatbot['urlLogotipo'] ?? ''); ?>">
                                     <button type="button" onclick="previsualizarImagen()" class="update-logo-button">Actualizar logo</button>
                                 </div>
                             </div>
@@ -169,21 +163,33 @@ if (!isset($_SESSION['id_adm'])) {
                     <div class="chatbot-principal">
                         <div class="chatbot-container">
                             <div class="chatbot-header" id="chatbot-header">
-                                <img src="img/Logo_cabeza.svg" alt="Chatbot" class="chatbot-icon" id="chatbotIcon">
-                                <p class="txt-titulo-chat" id="txt-titulo-chat">JobHelper</p>
+                                <?php
+                                $logo = (!empty($chatbot['urlLogotipo'])) ? $chatbot['urlLogotipo'] : 'img/Logo_cabeza.svg';
+                                ?>
+                                <img src="<?php echo htmlspecialchars($logo); ?>" alt="Chatbot" class="chatbot-icon" id="chatbotIcon">
+                                <p class="txt-titulo-chat" id="txt-titulo-chat"><?php echo htmlspecialchars($chatbot['inp_nombre'] ?? 'IXAH' ) ;?></p>
                                 <div class="container1">
                                     <div class="chatbot-min" title="Minimizar" onclick="toggleChatbot()">
-                                        <img src="https://chatbot.giintapeinnovahue.com/img/line.png" />
+                                        <svg class="icono-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M 6 12 C 6 11.449219 6.449219 11 7 11 L 17 11 C 17.550781 11 18 11.449219 18 12 C 18 12.550781 17.550781 13 17 13 L 7 13 C 6.449219 13 6 12.550781 6 12 Z"/>
+                                    </svg>
+
                                     </div>
                                     <div class="chatbot-close" title="Cerrar" onclick="cerrar()">
-                                        <img src="https://chatbot.giintapeinnovahue.com/img/close.png" />
+                                         <svg class="icono-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="miter">
+                                            <path d="M 16 8 L 8 16 M 8 8 L 16 16"/>
+                                            </svg>
                                     </div>
                                 </div>
                             </div>
                             <div class="chatbot-content">
                                 <p class="txt-chatbot">
-                                    ¡Saludos! Soy JobHelper, tu guía virtual en el mundo laboral.
-                                    Mi misión es facilitarte el buscar la mejor opción.
+                                    <?php 
+                                    $saludo = !empty($chatbot['inp_saludo']) 
+                                        ? $chatbot['inp_saludo'] 
+                                        : '¡Hola! Soy IXAH, tu asistente virtual en el mundo laboral. ¿En qué te puedo ayudar hoy?';
+                                    echo htmlspecialchars($saludo);
+                                    ?>
                                 </p>
                                 <div class="chatbot-buttons">
                                     <button class="chatbot-button">Buscar vacantes por categoría</button>
@@ -207,10 +213,19 @@ if (!isset($_SESSION['id_adm'])) {
 
     <!-- jQuery y Bootstrap JavaScript -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+            <script>
+        const id_chatbot = <?php echo json_encode($id_chatbot); ?>;
+        if (id_chatbot) {
+            localStorage.setItem("id_chatbot", id_chatbot);
+        }
+        </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/estilo.js"></script>
     <script src="js/custom.js"></script>
+     <script src="js/guardar.js"></script>
     <script src="js/menuLateral.js" type="module"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </body>
 

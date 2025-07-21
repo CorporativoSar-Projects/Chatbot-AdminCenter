@@ -13,6 +13,22 @@ if (!isset($_SESSION['id_adm'])) {
   exit;
 }
 
+include 'modelo/conexion_bd.php'; // Asegúrate que este archivo contiene la conexión a la BD
+
+$id_adm = $_SESSION['id_adm'];
+$sql = "SELECT c.id_chatbot, c.inp_nombre, t.nombre_tipo_chatbot
+        FROM chatbot c
+        INNER JOIN tipo_chatbot t ON c.Tipo_Chatbot_idTipo_Chatbot = t.idTipo_Chatbot 
+        WHERE c.Administrador_id_adm = ?";
+$stmt = $conexion->prepare($sql);
+$stmt->bind_param("i", $id_adm);
+$stmt->execute();
+$result = $stmt->get_result();
+
+$chatbots = [];
+while ($row = $result->fetch_assoc()) {
+    $chatbots[] = $row;
+}
 ?>
 
 <!DOCTYPE html>
@@ -33,15 +49,16 @@ if (!isset($_SESSION['id_adm'])) {
 <body>
   <div class="rectangulo-container">
     <img
-      src="img/newLogo.svg"
+      src="img/Logo_cabeza.svg"
       width="70px"
       alt="Logo"
       class="img-logo-chiq" />
   </div>
+ 
   <header>
     <nav class="navbar">
       <ul class="filas">
-        <li><a href="menu.php" class="txt-home">Home</a></li>
+       <!-- <li><a href="menu.php" class="txt-home">Home</a></li>-->
         <!-- <li><a href="estilo.php">ChatBot para vacantes</a>
                     <ul>
                         <li><a href="#">Chatbot para pedidos</a></li>
@@ -64,7 +81,7 @@ if (!isset($_SESSION['id_adm'])) {
         <div class="d-flex align-items-center px-3 user-info">
           <img src="img/user.png" width="40" alt="User Icon" />
           <div class="div-user">
-            <strong>Karla Durán</strong><br />
+            <strong><?php echo $_SESSION['nombre_adm'] . ' '. $_SESSION['apellidop_adm']; ?></strong><br />
             <small><?php echo ($_SESSION['correo_adm']) ?></small>
           </div>
         </div>
@@ -79,18 +96,19 @@ if (!isset($_SESSION['id_adm'])) {
             <a href="#">Desarrollado por Giintape Innovahue</a>
             <span> soporte@giintapeinnovahueteam.onmicrosoft.com</span>
           </div>
+         
           <!-- Enlace que vincula al botón de cerrar sesión con su respectiva función -->
-          <a href="cerrarSesion.php">Cerrar Sesión</a>
+          <a class="a1" href="cerrarSesion.php">Cerrar Sesión</a>
         </div>
       </div>
-
     </div>
   </header>
 
   <main>
+
     <div class="container-prin">
       <div class="container-bienv">
-        <img src="img/icons8.png" width="70px" alt="Welcome Icon" class="img-Bien" ; />
+        
         <p class="txtBien">Bienvenido</p>
         <div class="container-btn-refresh">
           <button class="btn-refresh">
@@ -103,15 +121,16 @@ if (!isset($_SESSION['id_adm'])) {
         <div class="txt-disena-chat">
           <p>Configuración</p>
         </div>
-
+        <?php if (count($chatbots) > 0): ?>
+        <?php foreach ($chatbots as $chatbot): ?>
         <div class="container-chats">
           <div class="nombre-chat">
             <p class="txt-chat-edit" id="txt-chat-edit">
-              ChatBot para vacantes
+             <?php echo htmlspecialchars($chatbot['inp_nombre']); ?> - Tipo: <small><?php  echo htmlspecialchars ($chatbot['nombre_tipo_chatbot']); ?></small>
             </p>
           </div>
           <div class="container-btn-edit-chat">
-            <a href="estilo.php">
+            <a href="estilo.php?id_chatbot=<?php echo $chatbot['id_chatbot']; ?>">
               <button class="btn-edit-chat">
                 <img src="img/icons9.png" width="35" alt="Edit ChatBot" />
               </button>
@@ -119,21 +138,30 @@ if (!isset($_SESSION['id_adm'])) {
           </div>
         </div>
       </div>
+       <?php endforeach; ?>
+      <?php else: ?>
+        <p class="text-muted"></p>
+      <?php endif; ?>
 
       <div class="container-agregar">
-        <a class="btn-add-chat" href="plan.php">
+        <a class="btn-add-chat" href="estilo.php?nuevo=1" >
           <img src="img/add.png" width="60" alt="Add ChatBot" />
         </a>
       </div>
     </div>
+
+
   </main>
+
+
 
   <!-- jQuery y Bootstrap JavaScript -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="js/loginError.js" type="module"></script>
   <script src="js/menuLateral.js" type="module"></script>
-
+  <script src="js/navegacion.js"></script>
+   <script src="js/formulario.js"></script>
 </body>
 
 </html>

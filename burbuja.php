@@ -1,12 +1,9 @@
 <?php
 
-session_start();
+include ('modelo/obtenerDatos.php');
 
-if (!isset($_SESSION['id_adm'])) {
-    session_destroy();
-    header("location: ./index.php?error=2");
-    exit;
-}
+
+$id_chatbot = $_SESSION['id_chatbot'] ?? null;
 
 ?>
 
@@ -28,7 +25,7 @@ if (!isset($_SESSION['id_adm'])) {
 
     <div class="rectangulo-container">
 
-        <img src="img/newLogo.svg" width="70px" alt="Logo" class="img-logo-chiq">
+        <img src="img/Logo_cabeza.svg" width="70px" alt="Logo" class="img-logo-chiq">
     </div>
     <header>
         <!-- <nav class="navbar">
@@ -53,7 +50,7 @@ if (!isset($_SESSION['id_adm'])) {
                 <div class="d-flex align-items-center px-3 user-info">
                     <img src="img/user.png" width="40" alt="User Icon">
                     <div class="div-user">
-                        <strong>Karla Durán</strong><br>
+                        <strong><?php echo $_SESSION['nombre_adm'] . ' '. $_SESSION['apellidop_adm']; ?></strong><br>
                         <small><?php echo ($_SESSION['correo_adm']) ?></small>
                     </div>
                 </div>
@@ -68,7 +65,7 @@ if (!isset($_SESSION['id_adm'])) {
                         <span> soporte@giintapeinnovahueteam.onmicrosoft.com</span>
                     </div>
 
-                    <a href="cerrarSesion.php">Cerrar Sesión</a>
+                    <a class="a1" href="cerrarSesion.php">Cerrar Sesión</a>
                 </div>
             </div>
         </div>
@@ -96,7 +93,7 @@ if (!isset($_SESSION['id_adm'])) {
                             <span class="btn-text">Guardar</span>
                             <img src="img/icons8-save-24.png" class="btn-icon" style="width: 15px;">
                         </button>
-                        <a href="menu.php" class="btnCerrar">
+                        <a href="menu.php" class="btnCerrar" id="btnCerrar">
                             <span class="btn-text">Salir</span>
                             <img src="img/icons8-close-26.png" class="btn-icon" style="width: 15px;">
                         </a>
@@ -132,13 +129,13 @@ if (!isset($_SESSION['id_adm'])) {
                     <div>
                         <label class="label-nombrechat">Mensaje</label><br>
                         <input type="text" name="inp_burbuja" id="inp_burbuja" placeholder="¡Encuentra vacantes!"
-                            class="input-burbuja" minlength="2" maxlength="20" required><br>
+                            class="input-burbuja" minlength="2" maxlength="20" required  value="<?php echo htmlspecialchars($chatbot['inp_burbuja'] ?? '' ); ?>"><br>
 
                         <div class="container-colors">
                             <div class="nombre-colord">
                                 <label for="colorPrimarioBurbuja">Color Primario</label><br>
                                 <div div class="color-selector">
-                                    <input type="color" id="colorPrimarioBurbuja" value="#e39842"
+                                    <input type="color" id="colorPrimarioBurbuja" value="<?php echo htmlspecialchars($chatbot['colorPrimario'] ?? '#3ca6e5'); ?>"
                                         oninput="actualizarColores()">
                                     <div id="muestraColorPrimarioBurbuja" class="color-circle"></div><br>
 
@@ -147,7 +144,7 @@ if (!isset($_SESSION['id_adm'])) {
                             <div class="nombre-colorc">
                                 <label for="colorTextoBurbuja">Color de texto</label><br>
                                 <div class="color-selector">
-                                    <input type="color" id="colorTextoBurbuja" value="#000000"
+                                    <input type="color" id="colorTextoBurbuja" value="<?php echo htmlspecialchars($chatbot['colorTexto'] ?? '#000000' ) ; ?>"
                                         oninput="actualizarColores()">
                                     <div id="muestraColorTextoBurbuja" class="color-circle"></div><br>
                                 </div>
@@ -158,8 +155,11 @@ if (!isset($_SESSION['id_adm'])) {
 
                         <!-- Burbuja del chatbot -->
                         <div id="chatbot-toggle" class="chat-toggle">
-                            <span id="chatTextBurb" class="chat-text">¡Encuentra Vacantes!</span>
-                            <img id="chatBubbleIcon" src="img/Logo_cabeza.svg" alt="Chat" class="toggle-icon">
+                            <span id="chatTextBurb" class="chat-text"><?php echo !empty($chatbot['inp_burbuja']) ? htmlspecialchars($chatbot['inp_burbuja']) : '¡Encuentra Vacantes!'; ?></span>
+                            <?php
+                                $logo = (!empty($chatbot['urlLogotipo'])) ? $chatbot['urlLogotipo'] : 'img/Logo_cabeza.svg';
+                                ?>
+                            <img id="chatBubbleIcon" src="<?php echo htmlspecialchars($logo); ?>" alt="Chat" class="toggle-icon">
                         </div>
 
 
@@ -172,9 +172,16 @@ if (!isset($_SESSION['id_adm'])) {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/burbuja.js"></script>
+    <script>
+    const id_chatbot = <?php echo json_encode($id_chatbot); ?>;
+    if (id_chatbot) {
+        localStorage.setItem("id_chatbot", id_chatbot);
+    }
+    </script>
     <script src="js/custom.js"></script>
     <script src="js/menuLateral.js" type="module"></script>
-
+    <script src="js/guardar.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </body>
 

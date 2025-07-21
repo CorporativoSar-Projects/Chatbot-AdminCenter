@@ -9,7 +9,6 @@ html {
   height: 100%;
   box-sizing: border-box;
   font-family: "Montserrat", sans-serif;
-
   text-decoration: none;
   min-height: 100vh;
 }
@@ -24,9 +23,13 @@ No se ha podido modificar la altura del body */
 } */
 
 h1 {
-  color: #ffb703;
+  color: #002B45;
   font-size: 40px;
   font-weight: bold;
+}
+.titleRe{
+  text-align: center;
+ top: 5%;
 }
 
 .contIn {
@@ -74,7 +77,7 @@ h1 {
 .link-miembro {
   text-decoration: none;
   font-weight: 600;
-  background: linear-gradient(to right, #219ebc, #023047);
+  background: #023047;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   transition: transform 0.2s ease-in-out;
@@ -86,6 +89,9 @@ h1 {
   margin-bottom: 0px;
   align-self: flex-start; /* Lo alinea a la izquierda */
   margin-left: 0; /* Se asegura que esté pegado a la izquierda */
+}
+.link-miembro{
+  margin-top: 10px;
 }
 
 .link-restablecer:hover {
@@ -99,9 +105,8 @@ h1 {
 .link-miembro:hover {
   transform: scale(1.05);
 }
-.btnSesion,
-.btnRegistro {
-  background-color: #ffb703;
+.btnSesion {
+  background-color: #3CA6E5;
   color: #f3f3f3;
   padding: 10px 16px;
   margin: 10px 0;
@@ -132,13 +137,14 @@ button:hover {
 }
 
 .imgLogo {
-  position: absolute;
-  top: 50px;
-  right: 0px;
-  border-right: 0;
-  margin: 0 auto;
-  width: 40%;
-  object-fit: fill;
+    position: absolute;
+    top: 140px;
+    right: 145px;
+    width: 25%; /* Reducido de 40% a 25% */
+    max-width: 300px; /* Tamaño máximo en píxeles */
+    border-right: 0;
+    margin: 0 auto;
+    object-fit: contain;
 }
 
 /* Modal de alerta */
@@ -308,6 +314,146 @@ button:hover {
   height: 100%;
 }
 
+/*Estilo para formulario de resgistro */
+ .container-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* O min-height si prefieres */
+}
+
+.registro-container {
+  padding: 40px;
+  border-radius: 10px;
+  width: 90%;            /* Más ancho, adaptativo */
+  max-width: 500px;     /* Límite para pantallas grandes */
+  margin-left: 5%;      /* Alineado a la izquierda */
+  margin-right: auto;    
+}
+
+.registro-container h2 {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.registro-container p {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #999;
+}
+
+.progressbar {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  margin-bottom: 30px;
+}
+
+.progress-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  flex: 1;
+}
+
+.progress-step .icon {
+  width: 40px;
+  height: 40px;
+  background: #ccc;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.progress-step.active .icon {
+  background: #3CA6E5;
+}
+
+.progress-step .label {
+  font-size: 12px;
+  color: #999;
+}
+
+.progress-step.active .label {
+  color: #3CA6E5;
+}
+
+.progressbar::before {
+  content: "";
+  position: absolute;
+  top: 20px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #eee;
+  z-index: 0;
+}
+
+.form-step {
+  display: none;
+}
+
+.form-step.active {
+  display: block;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group input, .form-group textarea, .form-group select{
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  display: inline-block;
+  background-color: #f3f3f3;
+  box-sizing: border-box;
+  border-radius: 20px;
+  text-decoration: none;
+  outline: none;
+  transition: opacity 0.2s ease;
+  opacity: 1;
+}
+
+.btnRegistro,
+.btnNext {
+  background: #3CA6E5;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  float: right;
+}
+
+.btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.btnPrev {
+  float: left;
+  background: #ccc;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  border: none;
+}
+
+.buttons {
+  overflow: hidden;
+  margin-top: 20px;
+}
+
+
+
+
+
 /* Consulta para controlar los margins de los inputs de login y registro */
 @media (max-width: 1300px) and (min-width: 784px) {
   .contUs {
@@ -320,6 +466,27 @@ button:hover {
   .container-btn-registro {
     margin-top: 18px;
   }
+
+   .container-form{
+    width: 95%;
+    max-width: 500px;
+   }
+
+   .registro-container {
+    width: 85%;
+    max-width: 500px;
+    margin-left: 3%;
+    padding: 30px;
+  }
+
+  .progress-step .label {
+    font-size: 11px;
+  }
+
+  .form-group input, .form-group textarea {
+    font-size: 15px;
+  }
+ 
 }
 
 @media (max-width: 1100px) {
@@ -373,6 +540,8 @@ para que no se corte el texto */
   .txtpsw {
     font-size: 14px;
   }
+
+  
 }
 
 @media (max-width: 780px) {
@@ -383,13 +552,12 @@ para que no se corte el texto */
     align-items: center;
     background: linear-gradient(
       180deg,
-      rgb(255, 230, 167) 36%,
-      rgb(243, 187, 45) 100%
+      rgb(	142, 202, 230) 36%,
+      rgb(2, 48, 71) 100%
     );
   }
 
-  .login-container,
-  .registro-container {
+  .login-container {
     width: 80%;
     height: 65%;
     margin: auto;
@@ -449,10 +617,15 @@ para que no se corte el texto */
     width: 100%;
   }
   .link-registro,
-  .link-restablecer,
-  .link-miembro {
+  .link-restablecer{
     margin-left: auto;
     font-size: 14px;
+  }
+
+   .link-miembro {
+    margin-left: auto;
+    font-size: 14px;
+    margin-top: 13px;
   }
 
   .container-btn-sesion,
@@ -464,7 +637,7 @@ para que no se corte el texto */
   }
 
   .btnSesion {
-    width: 35%;
+    width: 50%;
     justify-content: center;
     align-items: center;
     text-align: center;
@@ -473,11 +646,8 @@ para que no se corte el texto */
   }
   .btnRegistro {
     width: 35%;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
     margin: auto;
-    margin-top: 40px;
+    margin-top: 1px;
   }
 
   .titleIn {
@@ -490,6 +660,39 @@ para que no se corte el texto */
   .txtGii {
     display: none;
   }
+
+  .container-form {
+    width: 100%;
+    padding: 40px;
+    
+  }
+
+  .registro-container {
+    width: 95%;
+    max-width: 700px; /* Aumenta el ancho en tabletas */
+    padding: 30px;
+     background-color: rgba(255, 255, 255, 0.322);
+    border-radius: 15px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    margin-top: 5%;
+  }
+
+  .progress-step .label {
+    font-size: 10px;
+  }
+
+  .form-group input, .form-group textarea {
+    font-size: 14px;
+  }
+
+  .buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .btnPrev, .btnNext {
+    float: none;
+  }
 }
 
 @media (max-width: 480px) {
@@ -500,15 +703,14 @@ para que no se corte el texto */
     align-items: center;
     background: linear-gradient(
       180deg,
-      rgb(255, 230, 167) 36%,
-      rgb(243, 187, 45) 100%
+      rgb(	142, 202, 230) 36%,
+      rgb(2, 48, 71) 100%
     );
   }
 
-  .login-container,
-  .registro-container {
+  .login-container {
     width: 80%;
-    height: 65%;
+    height: 70%;
     margin: auto;
     margin-top: 50%;
     background-color: rgba(255, 255, 255, 0.322);
@@ -563,7 +765,7 @@ para que no se corte el texto */
   .txtMail,
   .txtpsw {
     width: 100%;
-    background-color: #ffffffda;
+    background-color: #ffffff;
     font-size: 16px;
     box-shadow: 0 2px 4px 0 rgba(78, 77, 77, 0.2),
       0 3px 10px 0 rgba(80, 78, 78, 0.19);
@@ -592,11 +794,8 @@ para que no se corte el texto */
   }
 
   .btnRegistro {
-    width: 60%;
-    margin-top: 40px;
-    font-size: 13px;
-    justify-content: center;
-    align-items: center;
+    width: 45%;
+    margin-top: 1px;
     text-align: center;
   }
 
@@ -611,5 +810,43 @@ para que no se corte el texto */
         right: 1%;
         width: 100%; */
     display: none;
+  }
+
+  .registro-container {
+    width: 100%;
+    padding: 20px;
+    border-radius: 10px;
+  }
+
+  .progressbar {
+    gap: 10px;
+  }
+
+  .progress-step {
+
+    align-items: center;
+    gap: 10px;
+  }
+
+  .progressbar::before {
+    display: none;
+  }
+
+  .progress-step .icon {
+    width: 30px;
+    height: 30px;
+    font-size: 14px;
+  }
+
+  .progress-step .label {
+    display: none;
+  }
+
+  .form-group input, .form-group textarea {
+    font-size: 13px;
+  }
+
+  .btnPrev, .btnNext {
+    float: none;
   }
 }

@@ -1,13 +1,9 @@
 <?php
 
-session_start();
 
-if (!isset($_SESSION['id_adm'])) {
-    session_destroy();
-    header("location: ./index.php?error=2");
-    exit;
-}
+include('modelo/obtenerDatos.php');
 
+$id_chatbot = $_SESSION['id_chatbot']?? null;
 ?>
 
 <!DOCTYPE html>
@@ -25,7 +21,7 @@ if (!isset($_SESSION['id_adm'])) {
 
 <body>
     <div class="rectangulo-container">
-        <img src="img/newLogo.svg" width="70px" alt="Logo" class="img-logo-chiq">
+        <img src="img/Logo_cabeza.svg" width="70px" alt="Logo" class="img-logo-chiq">
     </div>
 
     <header>
@@ -38,7 +34,7 @@ if (!isset($_SESSION['id_adm'])) {
                 <div class="d-flex align-items-center px-3 user-info">
                     <img src="img/user.png" width="40" alt="User Icon">
                     <div class="div-user">
-                        <strong>Karla Durán</strong><br>
+                        <strong><?php echo $_SESSION['nombre_adm'] . ' '. $_SESSION['apellidop_adm']; ?></strong><br>
                         <small><?php echo ($_SESSION['correo_adm']) ?></small>
                     </div>
                 </div>
@@ -53,7 +49,7 @@ if (!isset($_SESSION['id_adm'])) {
                         <span> soporte@giintapeinnovahueteam.onmicrosoft.com</span>
                     </div>
 
-                    <a href="cerrarSesion.php">Cerrar Sesión</a>
+                    <a class="a1" href="cerrarSesion.php">Cerrar Sesión</a>
                 </div>
             </div>
         </div>
@@ -81,7 +77,7 @@ if (!isset($_SESSION['id_adm'])) {
                             <span class="btn-text">Guardar</span>
                             <img src="img/icons8-save-24.png" class="btn-icon" style="width: 15px;">
                         </button>
-                        <a href="menu.php" class="btnCerrar">
+                        <a href="menu.php" class="btnCerrar" id="btnCerrar">
                             <span class="btn-text">Salir</span>
                             <img src="img/icons8-close-26.png" class="btn-icon" style="width: 15px;">
                         </a>
@@ -118,8 +114,8 @@ if (!isset($_SESSION['id_adm'])) {
                     <div>
                         <label class="label-nombrechat">Mensaje inicial</label><br>
                         <textarea type="text" name="inp_saludo" id="inp_saludo"
-                            placeholder="¡Saludos! Soy JobHelper, tu guía virtual en el mundo laboral."
-                            class="input-saludo" minlength="2" maxlength="70" required></textarea> <br>
+                            placeholder=" ¡Hola! Soy IXAH, tu asistente virtual en el mundo laboral. ¿En qué te puedo ayudar hoy?"
+                            class="input-saludo" minlength="2" maxlength="180"><?php echo htmlspecialchars($chatbot['inp_saludo'] ?? ''); ?></textarea> <br>
 
                         <div class="container-conversacion">
                             <div class="asi-conversacion">
@@ -128,16 +124,16 @@ if (!isset($_SESSION['id_adm'])) {
                                 <ul id="listaTemas">
                                     <li class="tema-item">
                                         <input type="text" name="inp-conversa" class="inp-conversa" id="inp_conversa1"
-                                            value="Buscar vacantes por categoría" minlength="2" maxlength="33"
+                                            value="<?php echo htmlspecialchars(!empty($chatbot['inp_conversa1']) ? $chatbot['inp_conversa1'] : 'Buscar vacantes por categoría'); ?>" minlength="2" maxlength="33"
                                             readonly disabled>
                                     </li>
                                     <li class="tema-item">
                                         <input type="text" name="inp-conversa" class="inp-conversa" id="inp_conversa2"
-                                            value="Buscar vacantes por ubicación" minlength="2" maxlength="33" readonly disabled>
+                                            value="<?php echo htmlspecialchars(!empty($chatbot['inp_conversa2']) ? $chatbot['inp_conversa2'] : 'Buscar vacantes por ubicación'); ?>" minlength="2" maxlength="33" readonly disabled>
                                     </li>
                                     <li class="tema-item">
                                         <input type="text" name="inp-conversa" class="inp-conversa" id="inp_conversa3"
-                                            value="Seguimiento de mi postulación" minlength="2" maxlength="33" readonly disabled>
+                                            value="<?php echo htmlspecialchars(!empty($chatbot['inp_conversa3']) ? $chatbot['inp_conversa3'] : 'Seguimiento de mi postulación'); ?>" minlength="2" maxlength="33" readonly disabled>
                                     </li>
                                 </ul>
                                 <!-- Mensaje de notificación -->
@@ -151,21 +147,33 @@ if (!isset($_SESSION['id_adm'])) {
                     <div class="chatbot-principal">
                         <div class="chatbot-container">
                             <div class="chatbot-header" id="chatbot-header">
-                                <img src="img/Logo_cabeza.svg" alt="Chatbot" class="chatbot-icon" id="logoPreview">
-                                <p class="txt-titulo-chat" id="txt-titulo-chat">JobHelper</p>
+                                  <?php
+                                $logo = (!empty($chatbot['urlLogotipo'])) ? $chatbot['urlLogotipo'] : 'img/Logo_cabeza.svg';
+                                ?>
+                                <img src="<?php echo htmlspecialchars($logo); ?>" alt="Chatbot" class="chatbot-icon" id="logoPreview">
+                                <p class="txt-titulo-chat" id="txt-titulo-chat"><?php echo htmlspecialchars($chatbot['inp_nombre'] ?? 'IXAH');?></p>
                                 <div class="container1">
                                     <div class="chatbot-min" title="Minimizar" onclick="toggleChatbot()">
-                                        <img src="img/line.png" />
+                                         <svg class="icono-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M 6 12 C 6 11.449219 6.449219 11 7 11 L 17 11 C 17.550781 11 18 11.449219 18 12 C 18 12.550781 17.550781 13 17 13 L 7 13 C 6.449219 13 6 12.550781 6 12 Z"/>
+                                    </svg>
                                     </div>
                                     <div class="chatbot-close" title="Cerrar" onclick="cerrar()">
-                                        <img src="img/close.png" />
+                                        <svg class="icono-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="miter">
+                                            <path d="M 16 8 L 8 16 M 8 8 L 16 16"/>
+                                            </svg>
                                     </div>
                                 </div>
                             </div>
                             <div class="chatbot-content">
                                 <p class="txt-chatbot" id="txt-chatbot">
-                                    ¡Saludos! Soy JobHelper, tu guía virtual en el mundo laboral.
-                                    Mi misión es facilitarte el buscar la mejor opción.
+                                 <?php 
+                                    $saludo = !empty($chatbot['inp_saludo']) 
+                                        ? $chatbot['inp_saludo'] 
+                                        : ' ¡Hola! Soy IXAH, tu asistente virtual en el mundo laboral. ¿En qué te puedo ayudar hoy?';
+                                    echo htmlspecialchars($saludo);
+                                    ?>
+                                   
                                 </p>
                                 <div class="chatbot-buttons" id="chatbot-buttons">
                                     <!-- Botones del chatbot se agregarán aquí -->
@@ -189,8 +197,16 @@ if (!isset($_SESSION['id_adm'])) {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/pantallaIn.js"></script>
+     <script>
+    const id_chatbot = <?php echo json_encode($id_chatbot); ?>;
+    if (id_chatbot) {
+        localStorage.setItem("id_chatbot", id_chatbot);
+    }
+    </script>
     <script src="js/custom.js"></script>
+    <script src="js/guardar.js"></script>
     <script src="js/menuLateral.js" type="module"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
 </body>

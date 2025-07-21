@@ -1,13 +1,9 @@
 <?php
 
-session_start();
+include('modelo/obtenerDatos.php');
 
-if (!isset($_SESSION['id_adm'])) {
-    session_destroy();
-    header("location: ./index.php?error=2");
-    exit;
-}
 
+$id_chatbot = $_SESSION['id_chatbot'] ?? null;
 ?>
 
 <!DOCTYPE html>
@@ -29,7 +25,7 @@ if (!isset($_SESSION['id_adm'])) {
 
     <div class="rectangulo-container">
 
-        <img src="img/newLogo.svg" width="70px" alt="Logo" class="img-logo-chiq">
+        <img src="img/Logo_cabeza.svg" width="70px" alt="Logo" class="img-logo-chiq">
     </div>
     <header>
 
@@ -43,7 +39,7 @@ if (!isset($_SESSION['id_adm'])) {
                 <div class="d-flex align-items-center px-3 user-info">
                     <img src="img/user.png" width="40" alt="User Icon">
                     <div class="div-user">
-                        <strong>Karla Durán</strong><br>
+                        <strong><?php echo $_SESSION['nombre_adm'] . ' '. $_SESSION['apellidop_adm']; ?></strong><br>
                         <small><?php echo ($_SESSION['correo_adm']) ?></small>
                     </div>
                 </div>
@@ -58,7 +54,7 @@ if (!isset($_SESSION['id_adm'])) {
                         <span> soporte@giintapeinnovahueteam.onmicrosoft.com</span>
                     </div>
 
-                    <a href="cerrarSesion.php">Cerrar Sesión</a>
+                    <a class="a1" href="cerrarSesion.php">Cerrar Sesión</a>
                 </div>
             </div>
         </div>
@@ -86,7 +82,7 @@ if (!isset($_SESSION['id_adm'])) {
                             <span class="btn-text">Guardar</span>
                             <img src="img/icons8-save-24.png" class="btn-icon" style="width: 15px;">
                         </button>
-                        <a href="menu.php" class="btnCerrar">
+                        <a href="menu.php" class="btnCerrar" id="btnCerrar">
                             <span class="btn-text">Salir</span>
                             <img src="img/icons8-close-26.png" class="btn-icon" style="width: 15px;">
                         </a>
@@ -169,11 +165,24 @@ if (!isset($_SESSION['id_adm'])) {
 
 
     <!-- jQuery y Bootstrap JavaScript -->
+    <script>
+    // Pasamos los datos PHP a un objeto JS llamado datosChatbot
+    const datosChatbot = <?php echo json_encode($chatbot); ?>;
+    </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/creaConver.js"></script>
+
+     <script>
+    const id_chatbot = <?php echo json_encode($id_chatbot); ?>;
+    if (id_chatbot) {
+        localStorage.setItem("id_chatbot", id_chatbot);
+    }
+    </script>
     <script src="js/custom.js"></script>
+     <script src="js/guardar.js"></script>
     <script src="js/menuLateral.js" type="module"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </body>
 
