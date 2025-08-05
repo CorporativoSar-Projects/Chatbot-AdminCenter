@@ -3,7 +3,7 @@ session_start();
 require '../vendor/autoload.php';
 include 'conexion_bd.php';
 
-\Stripe\Stripe::setApiKey('sk_test_5...');//private key de stripe
+\Stripe\Stripe::setApiKey('STRIPE_SECRET_KEY');//private key de stripe
 
 $data = json_decode(file_get_contents('php://input'), true);
 

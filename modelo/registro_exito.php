@@ -16,7 +16,7 @@ require '../PHPMailer-master/src/SMTP.php';
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-\Stripe\Stripe::setApiKey('sk_test_51...');//private key de stripe
+\Stripe\Stripe::setApiKey('STRIPE_SECRET_KEY');//private key de stripe
 
 $session_id = $_GET['session_id'] ?? null;
 if (!$session_id) {

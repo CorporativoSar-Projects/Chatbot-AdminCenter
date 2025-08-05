@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-\Stripe\Stripe::setApiKey('sk_test_51Rq...');//private key de stripe
+\Stripe\Stripe::setApiKey('STRIPE_SECRET_KEY');//private key de stripe
 
 $payload = @file_get_contents('php://input');
 $sig_header = $_SERVER['HTTP_STRIPE_SIGNATURE'] ?? null;

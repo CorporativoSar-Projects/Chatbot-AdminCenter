@@ -1,4 +1,4 @@
-const stripe = Stripe('pk_test_51RqhSY75hyzhrDdqkV2cJlmpXq0J3QhY6kJ0cboXGyOnqy4yF0P1tUAJ9ermQOg3mLQ04kqO5Gm9T3LbimsWlPdc0091vrTNsU');//public key de stripe
+const stripe = Stripe('pk_test_...');//public key de stripe
 
 document.getElementById("btnRegistro").addEventListener("click", async (e) => {
   e.preventDefault();
