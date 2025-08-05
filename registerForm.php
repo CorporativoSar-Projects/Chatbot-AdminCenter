@@ -6,18 +6,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="css/bootstrap.min.css" />
   <link rel="stylesheet" href="css/styles.css" />
+
   <link
     href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap"
     rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" >
   
   <title>Registro de usuario</title>
-  <link rel="shortcut icon" href="img/logoginnatapechiquito.png" />
+  <link rel="shortcut icon" href="img/Logo_cabeza.svg" />
 </head>
 
 <body>
   <div class="container-logo">
-    <img src="img/LOGO_IXAH.svg" class="imgLogo" />
+    <div class="bloque-escritorio">
+    <img src="img/LOGO_IXAH.svg" class="imgLogo escritorio"/>
+      <p class="texto-escritorio">Conectando el mejor talento,<br>
+     con las mejores oportunidades</p>
+
+     </div>
+  <img src="img/logo_cabeza.svg" class="imgLogo movil" alt="Logo móvil">
   </div>
 
 
@@ -38,7 +45,12 @@
       <div class="icon"><i class="fas fa-user"></i></div>
       <div class="label">Administrador</div>
     </div>
+     <div class="progress-step" data-step="2">
+    <div class="icon"><i class="fas fa-credit-card"></i></div>
+    <div class="label">Pago</div>
   </div>
+  </div>
+ 
 
     <form id="multi-step-form" method="POST" action="modelo/login_registro_bd.php">
       <div class="form-step active">
@@ -132,9 +144,28 @@
         <input type="password" name="pass_adm"  id="password"
            placeholder="Contraseña" required>
       </div>
+      <div class="buttons">
+      <button type="button" class="btnPrev">Anterior</button>
+      <button type="button" class="btnNext">Siguiente</button>
+      </div>
+        </div>
+
+  <div class="form-step">
+  <div class="form-group">
+        <label for="tipo_suscripcion">Tipo de suscripción</label>
+        <select name="nombre_susc" id="tipo_suscripcion" required>
+          <option value="">Selecciona una opción</option>
+          <option value="free">Plan Free</option>
+          <option value="basico3m">Plan Básico - 3 meses</option>
+          <option value="basico6m">Plan Básico - 6 meses</option>
+          <option value="basicoAnual">Plan Básico - Anual</option>
+        </select>
+    </div>
+
+
           <div class="buttons">
             <button type="button" class="btnPrev" id="btnPrev">Anterior</button>
-            <button type="submit" name="Registro"  id="btnRegistro" class="btnRegistro"> Regístrate </button>
+            <button type="button" name="Registro"  id="btnRegistro" class="btnRegistro"> Regístrate y Paga </button>
           </div>
           <a href="index.php" id="link-miembro" class="link-miembro">¿Ya eres miembro? Inicia sesión</a>
         </div>
@@ -143,7 +174,8 @@
 
 
 <script src="js/steps.js"></script>
-
+<script src="https://js.stripe.com/v3/"></script>
+<script src="js/pago.js"></script>
 
   <!-- <p class="txtGii">GIINTAPE INNOVAHUE</p> -->
 </body>

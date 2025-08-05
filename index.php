@@ -22,7 +22,7 @@ if (isset($_SESSION['id_adm'])) {
     href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap"
     rel="stylesheet" />
   <title>Inicio de sesion</title>
-  <link rel="shortcut icon" href="img/Lo.png" />
+  <link rel="shortcut icon" href="img/Logo_cabeza.svg" />
 
 </head>
 <!-- Agregue una clase a este body para modificar la altura 

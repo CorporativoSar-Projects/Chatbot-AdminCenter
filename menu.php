@@ -13,7 +13,7 @@ if (!isset($_SESSION['id_adm'])) {
   exit;
 }
 
-include 'modelo/conexion_bd.php'; // Asegúrate que este archivo contiene la conexión a la BD
+include 'modelo/conexion_bd.php';
 
 $id_adm = $_SESSION['id_adm'];
 $sql = "SELECT c.id_chatbot, c.inp_nombre, t.nombre_tipo_chatbot
@@ -43,7 +43,7 @@ while ($row = $result->fetch_assoc()) {
     href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap"
     rel="stylesheet" />
   <title>Home</title>
-  <link rel="shortcut icon" href="logoPagina.png" />
+  <link rel="shortcut icon" href="img/Logo_cabeza.svg" />
 </head>
 
 <body>
@@ -97,14 +97,17 @@ while ($row = $result->fetch_assoc()) {
             <span> soporte@giintapeinnovahueteam.onmicrosoft.com</span>
           </div>
          
-          <!-- Enlace que vincula al botón de cerrar sesión con su respectiva función -->
+           <div class="user-info" >
+            <input class="form-check-input" type="checkbox" id="sftpCheckbox" />
+            <label class="form-check-label" for="sftpCheckbox">Integración SFTP</label>
+          </div>
           <a class="a1" href="cerrarSesion.php">Cerrar Sesión</a>
         </div>
       </div>
     </div>
   </header>
 
-  <main>
+  <main id="contenidoPrincipal">
 
     <div class="container-prin">
       <div class="container-bienv">
@@ -153,6 +156,27 @@ while ($row = $result->fetch_assoc()) {
 
   </main>
 
+<div class="modal" id="sftpModal">
+  <div class="modal-content">
+    <span class="cerrar-modal" id="cerrarIntegracion">&times;</span>
+    <h3>Configuración de Integración</h3>
+    <form id="formIntegracionSFTP">
+      <label>Servidor:</label>
+      <input type="text" name="servidor" required />
+
+      <label>Puerto:</label>
+      <input type="text" name="puerto" value="22" readonly style="background-color: #eee;" />
+
+      <label>Usuario:</label>
+      <input type="text" name="usuario" required />
+
+      <label>Contraseña:</label>
+      <input type="password" name="contrasena" required />
+
+      <button class="submit-button-form" type="submit">Guardar</button>
+    </form>
+  </div>
+</div>
 
 
   <!-- jQuery y Bootstrap JavaScript -->

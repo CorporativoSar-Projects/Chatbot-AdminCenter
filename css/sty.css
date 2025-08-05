@@ -1438,6 +1438,55 @@ a{
   animation-duration: 0.4s;
 }
 
+/* Modal  integracion */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+  background-color: white;
+  border-radius: 8px;
+  max-width: 500px;
+   height: 420px;
+  margin: 8% auto;
+  padding: 20px;
+  position: relative;
+}
+.modal-content input {
+    width: 90%;
+    padding: 10px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    text-align: center;
+    font-size: 16px;
+}
+.submit-button-form {
+  background: #ffb703;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background 0.3s;
+  font-size: 16px;
+  margin: 15px auto 0 auto; /* margen superior y auto en los lados */
+  text-align: center;
+  display: block; /* ← necesario para que funcione el margin auto */
+}
+
+.cerrar-modal {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
 /* Add Animation */
 @-webkit-keyframes animatetop {
   from {
@@ -2064,6 +2113,9 @@ a{
 
 
     } */
+     .modal-content {
+    width: 75%;
+  }
 }
 
 .btn-icon {
@@ -2157,6 +2209,21 @@ a{
   .container-prinF {
     height: 160vh;
   }
+
+    .modal-content {
+    width: 70%;
+    margin-top: 12%;
+  }
+
+  .modal-content input {
+    font-size: 15px;
+    padding: 9px;
+  }
+
+  .submit-button-form {
+    font-size: 15px;
+    padding: 10px 20px;
+  }
 }
 
 /* Consulta de medio para el menu lateral */
@@ -2183,6 +2250,10 @@ a{
 
   .msg-perso-chat2 {
     font-size: 14px;
+  }
+
+   .modal-content {
+    width: 90%;
   }
 }
 
@@ -2381,6 +2452,25 @@ a{
     margin-left: 10px;
   }
 
+    .modal-content {
+    width: 95%;
+    margin-top: 18%;
+    padding: 15px;
+  }
+
+  .modal-content input {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  .submit-button-form {
+    font-size: 14px;
+    padding: 10px 15px;
+  }
+
+  .cerrar-modal {
+    font-size: 22px;
+  }
 
   /* consulta espacio inferior ventana panatlla inicio */
 
