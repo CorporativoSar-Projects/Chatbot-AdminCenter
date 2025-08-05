@@ -1,26 +1,50 @@
 // Seleccionar el input y el contenedor del texto del chatbot
-const txtSaludo = document.querySelector('#inp-saludo');
+const txtSaludo = document.querySelector('#inp_saludo');
 const divCopiaSaludo = document.getElementById('txt-chatbot');
 
-txtSaludo.addEventListener('keyup', () => {
-    divCopiaSaludo.innerHTML = txtSaludo.value;
-});
+//txtSaludo.addEventListener('keyup', () => {
+   // divCopiaSaludo.innerHTML = txtSaludo.value;
+//});
 
 //  // Función para ajustar el contenido del saludo
-//  txtSaludo.addEventListener('keyup', () => {
-//     divCopiaSaludo.innerHTML = txtSaludo.value;
-//     // Guardar el saludo en el Local Storage
-//     localStorage.setItem('saludoChatbot', txtSaludo.value);
-// });
+ txtSaludo.addEventListener('keyup', () => {
+  divCopiaSaludo.innerHTML = txtSaludo.value;
+   // Guardar el saludo en el Local Storage
+ 
+   localStorage.setItem('saludoChatbot', txtSaludo.value); });
 
-// // Recuperar el saludo desde el Local Storage cuando la página se carga
-// document.addEventListener('DOMContentLoaded', () => {
-//     const saludoGuardado = localStorage.getItem('saludoChatbot');
-//     if (saludoGuardado) {
-//         txtSaludo.value = saludoGuardado;
-//         divCopiaSaludo.innerHTML = saludoGuardado;
-//     }
-// });
+// // Recuperar el saludo desde el Local Storage 
+document.addEventListener('DOMContentLoaded', () => {
+    const saludoGuardado = localStorage.getItem('saludoChatbot');
+    if (saludoGuardado) {
+         txtSaludo.value = saludoGuardado;
+         divCopiaSaludo.innerHTML = saludoGuardado;
+}
+    const colorTexto = localStorage.getItem('colorTexto') || '#000000';
+    const colorSecundario= localStorage.getItem('colorSecundario') || '#b6b6b6';
+    const colorAcento = localStorage.getItem('colorAcento') || '#383838';
+
+    const iconos = document.querySelectorAll('.chatbot-min svg, .chatbot-close svg');
+    iconos.forEach(svg => {
+        svg.style.color = colorTexto;
+    });
+    // Aplicar color al texto del chatbot
+
+    // Aplicar color a todos los botones del chatbot
+    const botonesChatbot = document.querySelectorAll('.chatbot-button');
+    botonesChatbot.forEach(boton => {
+        boton.style.backgroundColor = colorSecundario;
+        boton.style.color = colorTexto;
+
+        // Hover dinámico para efecto visual
+        boton.addEventListener('mouseenter', () => {
+            boton.style.backgroundColor = colorAcento;
+        });
+        boton.addEventListener('mouseleave', () => {
+            boton.style.backgroundColor = colorSecundario;
+        });
+    });
+ });
 
 
 
@@ -109,3 +133,53 @@ function eliminarTema(btn) {
         document.getElementById('errorMensaje').style.display = 'none';
     }
 }
+
+//Objeto con el que los datos se van a guardar
+document.addEventListener("DOMContentLoaded", function () {
+    const btnGuardar = document.getElementById("btnGuardarMensaje");
+
+    btnGuardar.addEventListener("click", function (event) {
+        event.preventDefault(); 
+
+        // Obtener id_chatbot desde localStorage
+        const id_chatbot = localStorage.getItem("id_chatbot");
+        if (!id_chatbot) {
+              Swal.fire({
+        icon: 'warning',
+        title: 'Atención',
+        text: 'Para generar el chatbot necesitas al menos guardar la configuración de estilo.',
+        confirmButtonText: 'Entendido',
+        showCloseButton: true,
+        confirmButtonColor: '#ffb703'
+
+  });
+  return;
+        }
+
+        //Objeto con el que los datos se van a guardar
+        const datosMensajeInicial = {
+            id_chatbot: parseInt(id_chatbot),
+            inp_saludo: document.getElementById('inp_saludo').value,
+            inp_conversa1: document.getElementById('inp_conversa1').value,
+            inp_conversa2: document.getElementById('inp_conversa2').value,
+            inp_conversa3: document.getElementById('inp_conversa3').value
+        };
+
+        // Envía los datos al archivo PHP mediante fetch
+        fetch('modelo/guardar_datos.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                seccion: 'mensaje_inicial', // Seccion donde se almacenaran los datos
+                datos: datosMensajeInicial 
+            })
+        })
+        .then(response => response.json())
+        .catch(err => {
+             console.error("Error al guardar en base de datos", err);
+            alert("Error de red o del servidor.");
+        });
+    });
+});
