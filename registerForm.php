@@ -51,7 +51,7 @@
   </div>
   </div>
  
-
+<!--<form id="multi-step-form" method="POST" action="modelo/login_registro_bd.php">-->
     <form id="multi-step-form" method="POST" action="modelo/login_registro_bd.php">
       <div class="form-step active">
        <div class="form-group">
@@ -165,7 +165,7 @@
 
           <div class="buttons">
             <button type="button" class="btnPrev" id="btnPrev">Anterior</button>
-            <button type="button" name="Registro"  id="btnRegistro" class="btnRegistro"> Regístrate y Paga </button>
+            <button type="button" name="Registro"  id="btnRegistro" class="btnRegistro">Regístrate y Paga</button>
           </div>
           <a href="index.php" id="link-miembro" class="link-miembro">¿Ya eres miembro? Inicia sesión</a>
         </div>
@@ -176,7 +176,6 @@
 <script src="js/steps.js"></script>
 <script src="https://js.stripe.com/v3/"></script>
 <script src="js/pago.js"></script>
-
   <!-- <p class="txtGii">GIINTAPE INNOVAHUE</p> -->
 </body>
 
