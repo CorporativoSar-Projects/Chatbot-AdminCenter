@@ -16,6 +16,34 @@ if (!isset($_SESSION['id_adm'])) {
 include 'modelo/conexion_bd.php';
 
 $id_adm = $_SESSION['id_adm'];
+
+// Obtener plan actual de la empresa asociada al administrador
+$sqlPlan = "SELECT s.nombre_susc, h.estado, h.fecha_contratacion
+            FROM historial h
+            INNER JOIN suscripcion s ON h.Suscripcion_id_susc = s.id_susc
+            INNER JOIN empresa e ON h.Empresa_id_emp = e.id_emp
+            WHERE e.id_emp = (SELECT empresa_id_emp FROM administrador WHERE id_adm = ?)
+              AND h.estado IN ('activo', 'pendiente_cancelacion')
+            ORDER BY h.fecha_contratacion DESC
+            LIMIT 1";
+
+$stmtPlan = $conexion->prepare($sqlPlan);
+$stmtPlan->bind_param("i", $id_adm);
+$stmtPlan->execute();
+$resultPlan = $stmtPlan->get_result();
+
+if ($rowPlan = $resultPlan->fetch_assoc()) {
+    $planUsuario = $rowPlan['nombre_susc'];
+    $estadoSuscripcion = strtolower($rowPlan['estado']);
+
+    // Normalizar estados
+    if ($estadoSuscripcion === 'cancelado') $estadoSuscripcion = 'canceled';
+    if ($estadoSuscripcion === 'pausado') $estadoSuscripcion = 'paused';
+} else {
+    $planUsuario = "Sin plan";
+    $estadoSuscripcion = "inactivo";
+}
+
 $sql = "SELECT c.id_chatbot, c.inp_nombre, t.nombre_tipo_chatbot
         FROM chatbot c
         INNER JOIN tipo_chatbot t ON c.Tipo_Chatbot_idTipo_Chatbot = t.idTipo_Chatbot 
@@ -97,9 +125,14 @@ while ($row = $result->fetch_assoc()) {
             <span> soporte@giintapeinnovahueteam.onmicrosoft.com</span>
           </div>
          
-           <div class="user-info" >
-            <input class="form-check-input" type="checkbox" id="sftpCheckbox" />
+           <div class="user-info">
+            <input class="form-check-input <?php echo ($planUsuario === 'free') ? 'grayed-checkbox' : ''; ?>" 
+                  type="checkbox" 
+                  id="sftpCheckbox" />
             <label class="form-check-label" for="sftpCheckbox">Integración SFTP</label>
+
+            <span><a href="https://billing.stripe.com/p/login/test_00wbIUdPqdvr04O7bObZe00">Actualizar Plan</a></span>
+
           </div>
           <a class="a1" href="cerrarSesion.php">Cerrar Sesión</a>
         </div>
@@ -178,6 +211,47 @@ while ($row = $result->fetch_assoc()) {
   </div>
 </div>
 
+<div class="modal fade" id="modalAvisoCancelacion" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-warning">
+        <h5 class="modal-title">Cancelación en Proceso</h5>
+      </div>
+      <div class="modal-body">
+        <p>Tu suscripción será cancelada al finalizar el periodo actual. Aún puedes usar el sistema hasta esa fecha.</p>
+      </div>
+      <div class="modal-footer1">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Entendido</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de Suscripción Cancelada/Pausada -->
+<div class="modal fade" id="modalSuspension" tabindex="-1" role="dialog" aria-labelledby="modalSuspensionLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalSuspensionLabel">Suscripción inactiva</h5>
+      </div>
+      <div class="modal-body">
+        <p>Tu suscripción ha sido cancelada o pausada. No puedes usar el sistema hasta contratar una nueva suscripción.</p>
+        <form id="nuevoPlanForm">
+          <div class="form-group">
+            <label for="planSelect">Selecciona un plan:</label>
+            <select id="planSelect" class="form-control" required>
+              <option value="">-- Elige un plan --</option>
+              <option value="basico3m">Mensual</option>
+              <option value="planAnual">Anual</option>
+            </select>
+          </div>
+          <button type="button" id="btnContratarPlan" class="btn btn-primary mt-2">Contratar Plan</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 
   <!-- jQuery y Bootstrap JavaScript -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -185,7 +259,17 @@ while ($row = $result->fetch_assoc()) {
   <script src="js/loginError.js" type="module"></script>
   <script src="js/menuLateral.js" type="module"></script>
   <script src="js/navegacion.js"></script>
-   <script src="js/formulario.js"></script>
+   <script src="js/formularioIntegracion.js"></script>
+   
+  
+   <script>
+  window.appData = {
+    nombrePlan: '<?php echo $planUsuario; ?>',
+    estadoSuscripcion: '<?php echo $estadoSuscripcion; ?>'
+  };
+</script>
+ <script src="js/reactivar_plan.js"></script>
+
 </body>
 
 </html>

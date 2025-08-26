@@ -3,7 +3,7 @@ session_start();
 require '../vendor/autoload.php';
 include 'conexion_bd.php';
 
-\Stripe\Stripe::setApiKey('STRIPE_SECRET_KEY');//private key de stripe
+\Stripe\Stripe::setApiKey('...');//private key de stripe
 
 $data = json_decode(file_get_contents('php://input'), true);
 
@@ -26,7 +26,9 @@ $precios = [
   "free" => "price_1RqjTz75hyzhrDdqakqdXpkP",
   "basico3m" => "price_1RqjUZ75hyzhrDdqjceGxM5G",
   "basico6m" => "price_1RqjV675hyzhrDdqyjT6Uvrk",
-  "basicoAnual" => "price_1RqjVZ75hyzhrDdqtNUjktOH"
+  "basicoAnual" => "price_1RqjVZ75hyzhrDdqtNUjktOH",
+  "prueba" => "price_1Rw9Nt75hyzhrDdqVfqMus5Y",
+  "prueba2" => "price_1RwB0575hyzhrDdq7YrOH1L8"
 ];
 
 $priceId = $precios[$data['nombre_susc']] ?? null;

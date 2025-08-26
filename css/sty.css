@@ -1421,7 +1421,7 @@ a{
 
 /* Modal Content */
 
-.modal-content {
+.modal-contentF {
   border-radius: 15px;
   position: relative;
   background-color: #fefefe;
@@ -1448,7 +1448,7 @@ a{
   background-color: rgba(0,0,0,0.4);
 }
 
-.modal-content {
+.modal-contentF {
   background-color: white;
   border-radius: 8px;
   max-width: 500px;
@@ -1544,6 +1544,22 @@ a{
   align-items: center;
   text-align: center;
   cursor: pointer;
+}
+
+.modal-footer1 {
+  display: flex;             /* habilita flexbox */
+  justify-content: center;   /* centra horizontalmente */
+  align-items: center;       /* centra verticalmente */
+  padding: 10px 16px;
+  color: #000;               /* texto legible */
+  border-radius: 0 0 15px 15px;
+  text-align: center;
+}
+
+.modal-footer1 .btn {
+  width: auto;               /* que no ocupe todo el ancho */
+  font-size: 0.9rem;         /* tamaño de fuente proporcional */
+  padding: 6px 20px;
 }
 
 .input-link {
@@ -1691,6 +1707,11 @@ a{
   color: white;
   border-color: #F9BE21;
 }
+.btn-primary:hover{
+ background-color: #eebe45;
+  border-color: #eebe45;
+}
+
 .btn-continuar {
   background-color: #F9BE21;
   width: 25%;
@@ -1705,6 +1726,13 @@ a{
 .btn-continuar:disabled {
   background-color: #f5b179;
   border-color: #f5b179;
+  color: white;
+}
+
+.btn-contratar {
+ /* background-color: #F9BE21;*/
+ background-color: #F9BE21;
+  width: 25%;
   color: white;
 }
 
@@ -1743,6 +1771,10 @@ a{
   pointer-events: none; /* Evita interacción con contenido mientras está activo */
 }
 
+.grayed-checkbox {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
 
 
 /* Media Queries para responsividad */
@@ -2113,7 +2145,7 @@ a{
 
 
     } */
-     .modal-content {
+     .modal-contentF {
     width: 75%;
   }
 }
@@ -2210,7 +2242,7 @@ a{
     height: 160vh;
   }
 
-    .modal-content {
+    .modal-contentF {
     width: 70%;
     margin-top: 12%;
   }
@@ -2252,7 +2284,7 @@ a{
     font-size: 14px;
   }
 
-   .modal-content {
+   .modal-contentF {
     width: 90%;
   }
 }
@@ -2452,7 +2484,7 @@ a{
     margin-left: 10px;
   }
 
-    .modal-content {
+    .modal-contentF {
     width: 95%;
     margin-top: 18%;
     padding: 15px;

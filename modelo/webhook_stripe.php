@@ -2,98 +2,157 @@
 require '../vendor/autoload.php';
 include 'conexion_bd.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'HEAD') {
-    http_response_code(200);
-    exit;
-}
-
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    http_response_code(405);
-    exit;
-}
-
-\Stripe\Stripe::setApiKey('STRIPE_SECRET_KEY');//private key de stripe
+\Stripe\Stripe::setApiKey('LLave secreta de stripe');
 
 $payload = @file_get_contents('php://input');
 $sig_header = $_SERVER['HTTP_STRIPE_SIGNATURE'] ?? null;
-
-if (!$sig_header) {
-    http_response_code(400);
-    exit('Missing Stripe signature');
-}
-
-$endpoint_secret = 'whsec_i0...';//webhook de stripe
+$endpoint_secret = ''; //codigo del webhook de stripe
 
 try {
-    $event = \Stripe\Webhook::constructEvent(
-        $payload, $sig_header, $endpoint_secret
-    );
-} catch(\UnexpectedValueException $e) {
-    http_response_code(400);
-    exit();
-} catch(\Stripe\Exception\SignatureVerificationException $e) {
+    $event = \Stripe\Webhook::constructEvent($payload, $sig_header, $endpoint_secret);
+} catch (\UnexpectedValueException | \Stripe\Exception\SignatureVerificationException $e) {
     http_response_code(400);
     exit();
 }
 
-switch ($event->type) {
-    case 'customer.subscription.updated':
-    case 'customer.subscription.created':
-    case 'customer.subscription.deleted':
-        $subscription = $event->data->object;
-
-        $stripe_subscription_id = $subscription->id;
-        $status = $subscription->status;
-        $new_price_id = $subscription->items->data[0]->price->id ?? null;
-        $fecha_actualizacion = date('Y-m-d H:i:s');
-
-        // Busca el id_susc en tabla suscripcion usando el price_id
-        $stmt_susc = $conexion->prepare("SELECT id_susc FROM suscripcion WHERE stripe_price_id = ?");
-        $stmt_susc->bind_param("s", $new_price_id);
-        $stmt_susc->execute();
-        $result_susc = $stmt_susc->get_result();
-        $id_susc = null;
-        if ($row = $result_susc->fetch_assoc()) {
-            $id_susc = $row['id_susc'];
-        }
-        $stmt_susc->close();
-
-        if (!$id_susc) {
-            // Si no existe el plan en la tabla suscripcion, aborta o maneja error
-            http_response_code(400);
-            exit("Plan no registrado en la base de datos");
-        }
-
-        // Obtener estado y plan actual guardados
-        $stmt_select = $conexion->prepare("SELECT plan_id, estado FROM historial WHERE stripe_subscription_id = ?");
-        $stmt_select->bind_param("s", $stripe_subscription_id);
-        $stmt_select->execute();
-        $stmt_select->bind_result($old_plan_id, $old_status);
-        $stmt_select->fetch();
-        $stmt_select->close();
-
-        $actualizar_plan = ($old_plan_id !== $new_price_id);
-        $actualizar_estado = ($old_status !== $status);
-
-        if ($actualizar_plan) {
-            // Si cambió el plan, actualizar plan, estado, fecha y Suscripcion_id_susc
-            $stmt_update = $conexion->prepare("UPDATE historial SET estado = ?, plan_id = ?, updated_at = ?, Suscripcion_id_susc = ? WHERE stripe_subscription_id = ?");
-            $stmt_update->bind_param("sssis", $status, $new_price_id, $fecha_actualizacion, $id_susc, $stripe_subscription_id);
-            $stmt_update->execute();
-            $stmt_update->close();
-        } elseif ($actualizar_estado) {
-            // Si solo cambió el estado, actualizar estado y fecha
-            $stmt_update = $conexion->prepare("UPDATE historial SET estado = ?, updated_at = ? WHERE stripe_subscription_id = ?");
-            $stmt_update->bind_param("sss", $status, $fecha_actualizacion, $stripe_subscription_id);
-            $stmt_update->execute();
-            $stmt_update->close();
-        }
-       
-        break;
-
-    default:
-       
-        break;
+// Solo manejar eventos de suscripción
+if (!in_array($event->type, ['customer.subscription.created','customer.subscription.updated','customer.subscription.deleted'])) {
+    http_response_code(200);
+    exit();
 }
+
+$subscription = $event->data->object;
+$stripe_subscription_id = $subscription->id;
+$customer_id = $subscription->customer;
+$status = $subscription->status;
+$new_price_id = $subscription->items->data[0]->price->id ?? null;
+$fecha_actualizacion = date('Y-m-d H:i:s');
+
+// Inicializar variables
+$id_emp = $subscription->metadata->Empresa_id_emp ?? null;
+$id_susc = $subscription->metadata->id_susc ?? null;
+$nombre_susc = null;
+$precio_susc = 0;
+
+// Si no hay metadata, obtener Empresa_id_emp de historial previo
+if (!$id_emp) {
+    $stmt = $conexion->prepare("
+        SELECT Empresa_id_emp 
+        FROM historial 
+        WHERE stripe_customer_id = ? 
+        ORDER BY fecha_contratacion DESC 
+        LIMIT 1
+    ");
+    $stmt->bind_param("s", $customer_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+    $stmt->close();
+    $id_emp = $row['Empresa_id_emp'] ?? null;
+}
+
+// Obtener datos del plan 
+if (!$id_susc && $new_price_id) {
+    $stmt = $conexion->prepare("SELECT id_susc, nombre_susc, precio_susc FROM suscripcion WHERE stripe_price_id = ?");
+    $stmt->bind_param("s", $new_price_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $plan = $result->fetch_assoc();
+    $stmt->close();
+
+    if ($plan) {
+        $id_susc = $plan['id_susc'];
+        $nombre_susc = $plan['nombre_susc'];
+        $precio_susc = $plan['precio_susc'];
+    }
+} elseif ($id_susc) {
+    $stmt = $conexion->prepare("SELECT nombre_susc, precio_susc FROM suscripcion WHERE id_susc = ?");
+    $stmt->bind_param("i", $id_susc);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $plan = $result->fetch_assoc();
+    $stmt->close();
+
+    if ($plan) {
+        $nombre_susc = $plan['nombre_susc'];
+        $precio_susc = $plan['precio_susc'];
+    }
+}
+
+// Manejo de cancelaciones
+if ($event->type === 'customer.subscription.deleted' || $status === 'canceled') {
+    if ($stripe_subscription_id) {
+        $observaciones = "Suscripción cancelada por el usuario o Stripe";
+        $estado = "cancelado";
+
+        $stmt = $conexion->prepare("
+            UPDATE historial
+            SET estado = ?, observaciones = ?
+            WHERE stripe_subscription_id = ? AND estado = 'activo'
+        ");
+        $stmt->bind_param("sss", $estado, $observaciones, $stripe_subscription_id);
+        $stmt->execute();
+        $stmt->close();
+    }
+
+// Manejo de nuevas suscripciones o actualizaciones
+} elseif ($event->type === 'customer.subscription.created') {
+    // Nueva suscripción
+    if ($id_emp && $id_susc) {
+        $stmt = $conexion->prepare("
+            UPDATE historial 
+            SET estado = 'inactivo' 
+            WHERE Empresa_id_emp = ? AND estado = 'activo'
+        ");
+        $stmt->bind_param("s", $id_emp);
+        $stmt->execute();
+        $stmt->close();
+
+        $observaciones = "Nueva suscripción creada";
+        $estado = "activo";
+
+        $stmt = $conexion->prepare("
+            INSERT INTO historial
+            (Empresa_id_emp, Suscripcion_id_susc, nombre_susc, stripe_subscription_id, stripe_customer_id, estado, precio_susc, fecha_contratacion, observaciones)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ");
+        $stmt->bind_param(
+            "sissssdss",
+            $id_emp,
+            $id_susc,
+            $nombre_susc,
+            $stripe_subscription_id,
+            $customer_id,
+            $estado,
+            $precio_susc,
+            $fecha_actualizacion,
+            $observaciones
+        );
+        $stmt->execute();
+        $stmt->close();
+    }
+
+} elseif ($event->type === 'customer.subscription.updated') {
+    // Actualización: solo modificar el registro actual
+    if ($stripe_subscription_id) {
+        if ($subscription->cancel_at_period_end) {
+            $estado = "pendiente_cancelacion";
+            $observaciones = "Cancelación programada al final del período";
+        } else {
+            $estado = "activo";
+            $observaciones = "Actualización de suscripción";
+        }
+
+        $stmt = $conexion->prepare("
+            UPDATE historial
+            SET estado = ?, Suscripcion_id_susc = ?, nombre_susc = ?, precio_susc = ?, observaciones = ?
+            WHERE stripe_subscription_id = ?
+        ");
+        $stmt->bind_param("sisdss", $estado, $id_susc, $nombre_susc, $precio_susc, $observaciones, $stripe_subscription_id);
+        $stmt->execute();
+        $stmt->close();
+    }
+}
+
 
 http_response_code(200);

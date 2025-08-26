@@ -1,6 +1,6 @@
 <?php
 require 'vendor/autoload.php';
-\Stripe\Stripe::setApiKey('STRIPE_SECRET_KEY');//private key de stripe
+\Stripe\Stripe::setApiKey('...');//private key de stripe
 
 if (isset($_GET['session_id'])) {
     $session = \Stripe\Checkout\Session::retrieve($_GET['session_id']);

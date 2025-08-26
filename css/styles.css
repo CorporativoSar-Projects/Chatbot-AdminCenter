@@ -464,6 +464,15 @@ button:hover {
   font-weight: 500;
 }
 
+.form-wrapper {
+  display: inline-flex;
+    justify-content: center;
+    height: 100vh;
+    padding-left: 5%;
+    flex-direction: column;
+    flex-wrap: nowrap;
+}
+
 
 /* Consulta para controlar los margins de los inputs de login y registro */
 @media (max-width: 1300px) and (min-width: 784px) {
