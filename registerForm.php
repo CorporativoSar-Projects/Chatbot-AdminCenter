@@ -156,11 +156,9 @@
         <select name="nombre_susc" id="tipo_suscripcion" required>
           <option value="">Selecciona una opción</option>
           <option value="free">Plan Free</option>
-          <option value="prueba2">Prueba semanal </option>
-          <option value="basico3m">Plan Básico - 3 meses</option>
-          <option value="basico6m">Plan Básico - 6 meses</option>
+          <option value="basicoMensual">Plan Básico - Mensual </option>
           <option value="basicoAnual">Plan Básico - Anual</option>
-          <option value="prueba">Prueba 1 dia</option>
+          <!--  <option value="prueba">prueba de un dia</option>-->
         </select>
     </div>
 

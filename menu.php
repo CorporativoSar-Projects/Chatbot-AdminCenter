@@ -2,61 +2,8 @@
 si no esta validado es redirigido a la página de inicio -->
 
 <!-- Las demás secciones cuentán con esta función con el fin de proteger la información de la empresa -->
-
 <?php
-
-session_start();
-
-if (!isset($_SESSION['id_adm'])) {
-  session_destroy();
-  header("location: ./index.php?error=2");
-  exit;
-}
-
-include 'modelo/conexion_bd.php';
-
-$id_adm = $_SESSION['id_adm'];
-
-// Obtener plan actual de la empresa asociada al administrador
-$sqlPlan = "SELECT s.nombre_susc, h.estado, h.fecha_contratacion
-            FROM historial h
-            INNER JOIN suscripcion s ON h.Suscripcion_id_susc = s.id_susc
-            INNER JOIN empresa e ON h.Empresa_id_emp = e.id_emp
-            WHERE e.id_emp = (SELECT empresa_id_emp FROM administrador WHERE id_adm = ?)
-              AND h.estado IN ('activo', 'pendiente_cancelacion')
-            ORDER BY h.fecha_contratacion DESC
-            LIMIT 1";
-
-$stmtPlan = $conexion->prepare($sqlPlan);
-$stmtPlan->bind_param("i", $id_adm);
-$stmtPlan->execute();
-$resultPlan = $stmtPlan->get_result();
-
-if ($rowPlan = $resultPlan->fetch_assoc()) {
-    $planUsuario = $rowPlan['nombre_susc'];
-    $estadoSuscripcion = strtolower($rowPlan['estado']);
-
-    // Normalizar estados
-    if ($estadoSuscripcion === 'cancelado') $estadoSuscripcion = 'canceled';
-    if ($estadoSuscripcion === 'pausado') $estadoSuscripcion = 'paused';
-} else {
-    $planUsuario = "Sin plan";
-    $estadoSuscripcion = "inactivo";
-}
-
-$sql = "SELECT c.id_chatbot, c.inp_nombre, t.nombre_tipo_chatbot
-        FROM chatbot c
-        INNER JOIN tipo_chatbot t ON c.Tipo_Chatbot_idTipo_Chatbot = t.idTipo_Chatbot 
-        WHERE c.Administrador_id_adm = ?";
-$stmt = $conexion->prepare($sql);
-$stmt->bind_param("i", $id_adm);
-$stmt->execute();
-$result = $stmt->get_result();
-
-$chatbots = [];
-while ($row = $result->fetch_assoc()) {
-    $chatbots[] = $row;
-}
+include 'modelo/consultas_menu.php';
 ?>
 
 <!DOCTYPE html>
@@ -72,6 +19,7 @@ while ($row = $result->fetch_assoc()) {
     rel="stylesheet" />
   <title>Home</title>
   <link rel="shortcut icon" href="img/Logo_cabeza.svg" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -126,12 +74,10 @@ while ($row = $result->fetch_assoc()) {
           </div>
          
            <div class="user-info">
-            <input class="form-check-input <?php echo ($planUsuario === 'free') ? 'grayed-checkbox' : ''; ?>" 
-                  type="checkbox" 
-                  id="sftpCheckbox" />
-            <label class="form-check-label" for="sftpCheckbox">Integración SFTP</label>
-
-            <span><a href="https://billing.stripe.com/p/login/test_00wbIUdPqdvr04O7bObZe00">Actualizar Plan</a></span>
+           <a href="#" id="sftpLink" data-toggle="modal" data-target="#sftpModal" style="text-decoration: none; color: inherit;">
+            Integración SFTP
+          </a>
+            <span><a href="https://billing.stripe.com/p/login/fZe3f33cggofeBy144">Actualizar Plan</a></span>
 
           </div>
           <a class="a1" href="cerrarSesion.php">Cerrar Sesión</a>
@@ -189,27 +135,54 @@ while ($row = $result->fetch_assoc()) {
 
   </main>
 
-<div class="modal" id="sftpModal">
-  <div class="modal-content">
-    <span class="cerrar-modal" id="cerrarIntegracion">&times;</span>
-    <h3>Configuración de Integración</h3>
-    <form id="formIntegracionSFTP">
-      <label>Servidor:</label>
-      <input type="text" name="servidor" required />
+<!-- Modal Integración SFTP -->
+<div class="modal fade" id="sftpModal" tabindex="-1" role="dialog" aria-labelledby="sftpModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
 
-      <label>Puerto:</label>
-      <input type="text" name="puerto" value="22" readonly style="background-color: #eee;" />
+      <!-- Header -->
+      <div class="modal-header">
+        <h5 class="modal-title" id="sftpModalLabel">Configuración de Integración</h5>
+        <span class="cerrar-modal" id="cerrarIntegracion" data-dismiss="modal">&times;</span>
+      </div>
 
-      <label>Usuario:</label>
-      <input type="text" name="usuario" required />
+      <!-- Body -->
+      <div class="modal-body">
 
-      <label>Contraseña:</label>
-      <input type="password" name="contrasena" required />
+        <form id="formIntegracionSFTP">
 
-      <button class="submit-button-form" type="submit">Guardar</button>
-    </form>
+          <div class="d-flex align-items-center mb-3">
+          <input class="form-check-input small-checkbox me-2" type="checkbox" id="sftpCheckbox" 
+                <?php echo ($sftpActivo == 1) ? 'checked' : ''; ?>>
+          <label for="sftpCheckbox" class="m-0">Activar integración SFTP</label>
+        </div>
+          <label>Servidor:</label>
+          <input type="text" class="form-control custom-input" name="servidor" required />
+
+          <label>Puerto:</label>
+          <input type="text" class="form-control custom-input" name="puerto" value="22" readonly />
+
+          <label>Usuario:</label>
+          <input type="text" class="form-control custom-input" name="usuario" required />
+
+           <label>Contraseña:</label>
+          <input type="password" class="form-control custom-input" name="contrasena" />
+
+
+           <label>Ruta de Destino:</label>
+          <input type="text" class="form-control custom-input" name="rutaDestino" required />
+        </form>
+      </div>
+
+      <!-- Footer -->
+      <div class="modal-footer1">
+        <button class="submit-button-form" type="submit" form="formIntegracionSFTP">Guardar</button>
+      </div>
+
+    </div>
   </div>
 </div>
+
 
 <div class="modal fade" id="modalAvisoCancelacion" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
@@ -262,11 +235,21 @@ while ($row = $result->fetch_assoc()) {
    <script src="js/formularioIntegracion.js"></script>
    
   
-   <script>
-  window.appData = {
+<script>
+window.appData = {
     nombrePlan: '<?php echo $planUsuario; ?>',
-    estadoSuscripcion: '<?php echo $estadoSuscripcion; ?>'
-  };
+    estadoSuscripcion: '<?php echo $estadoSuscripcion; ?>',
+    sftpActivo: <?php echo $sftpActivo; ?>,
+    sftpConfig: <?php
+        echo json_encode([
+            'servidor' => $sftpData['servidor'] ?? '',
+            'puerto' => $sftpData['puerto'] ?? '22',
+            'usuario' => $sftpData['usuario'] ?? '',
+            'contrasena' => '', 
+            'rutaDestino' => $sftpData['rutaDestino'] ?? ''
+        ]);
+    ?>
+};
 </script>
  <script src="js/reactivar_plan.js"></script>
 

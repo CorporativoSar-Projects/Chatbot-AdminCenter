@@ -23,12 +23,10 @@ $_SESSION['registro'] = $data;
 
 //plan a price_id de Stripe
 $precios = [
-  "free" => "price_1RqjTz75hyzhrDdqakqdXpkP",
-  "basico3m" => "price_1RqjUZ75hyzhrDdqjceGxM5G",
-  "basico6m" => "price_1RqjV675hyzhrDdqyjT6Uvrk",
-  "basicoAnual" => "price_1RqjVZ75hyzhrDdqtNUjktOH",
-  "prueba" => "price_1Rw9Nt75hyzhrDdqVfqMus5Y",
-  "prueba2" => "price_1RwB0575hyzhrDdq7YrOH1L8"
+  "free" => "price_1S2Pn5I0PxzL8sHBmNS3UlCq",
+  "basicoMensual" => "price_1S2Q1XI0PxzL8sHBjM4Xs5fp",
+  "basicoAnual" => "price_1S2bxZI0PxzL8sHBAm7bfbDR",
+  "prueba" => "price_1Rw9Nt75hyzhrDdqVfqMus5Y"
 ];
 
 $priceId = $precios[$data['nombre_susc']] ?? null;

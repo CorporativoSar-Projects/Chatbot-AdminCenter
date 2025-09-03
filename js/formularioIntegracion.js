@@ -1,76 +1,131 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const { estadoSuscripcion, nombrePlan } = window.appData || {};
+  const { estadoSuscripcion, nombrePlan, sftpActivo, sftpConfig } = window.appData || {};
 
-  const checkbox = document.getElementById("sftpCheckbox");
-  const modalSFTP = document.getElementById("sftpModal");
-  const cerrarSFTP = document.getElementById("cerrarIntegracion");
+  const sftpLink = document.getElementById("sftpLink");
+  const modalSFTP = $('#sftpModal'); 
   const contenido = document.getElementById("contenidoPrincipal");
-  const modalSuspension = document.getElementById('modalSuspension');
+  const modalSuspension = $('#modalSuspension');
+  const activarSFTP = document.getElementById("sftpCheckbox");
+  const formSFTP = document.getElementById("formIntegracionSFTP");
 
-  // Normalizamos valores
+  if (!activarSFTP) return;
+
   const planFree = typeof nombrePlan === 'string' && nombrePlan.trim().toLowerCase() === 'free';
   const suscripcionInactiva = estadoSuscripcion === 'paused' || estadoSuscripcion === 'canceled';
 
-  // Función para mostrar modal de suspensión
-  const mostrarModalSuspension = () => {
-    if (modalSuspension) modalSuspension.style.display = 'flex';
-  };
-
-  // BLOQUEAR checkbox si plan Free
-  if (checkbox) {
-    if (planFree || suscripcionInactiva) {
-      checkbox.disabled = true;
-      checkbox.checked = false;
-      checkbox.title = planFree
-        ? 'Esta función está disponible solo con un plan de pago.'
-        : 'Tu suscripción está pausada o cancelada.';
-
-      // Mostrar alerta/modal al intentar hacer clic
-      checkbox.addEventListener('mousedown', (e) => {
-        e.preventDefault();
-        if (planFree) alert('Esta función está disponible solo con un plan de pago.');
-        else if (suscripcionInactiva) mostrarModalSuspension();
-      });
-
-      // Mostrar modal de suspensión automáticamente si corresponde
-      if (suscripcionInactiva) mostrarModalSuspension();
-    } else {
-      // abrir modal SFTP
-      checkbox.addEventListener("change", () => {
-        if (checkbox.checked) {
-          modalSFTP.style.display = "block";
-          contenido.classList.add("blur");
-        } else {
-          modalSFTP.style.display = "none";
-          contenido.classList.remove("blur");
-        }
-      });
-    }
-  }
-
-  // Cerrar modal SFTP
-  if (cerrarSFTP) {
-    cerrarSFTP.addEventListener('click', () => {
-      modalSFTP.style.display = "none";
-      contenido.classList.remove("blur");
-      if (checkbox) checkbox.checked = false;
+  // Función para habilitar/deshabilitar inputs del formulario
+  function toggleInputs(disabled) {
+    if (!formSFTP) return;
+    const inputs = formSFTP.querySelectorAll("input, button[type=submit]");
+    inputs.forEach(input => {
+      if (input.id !== "sftpCheckbox") { // nunca deshabilitar el checkbox
+        input.disabled = disabled;
+      }
     });
   }
 
-  // Cerrar modal SFTP al hacer clic fuera
-  window.addEventListener("click", (e) => {
-    if (e.target === modalSFTP) {
-      modalSFTP.style.display = "none";
-      contenido.classList.remove("blur");
-      if (checkbox) checkbox.checked = false;
-    }
+  // Inicializar checkbox y bloquear inputs si está desactivado
+  activarSFTP.checked = sftpActivo === 1 && !planFree;
+  activarSFTP.disabled = planFree;
+  toggleInputs(!activarSFTP.checked);
+  window.appData.sftpActivo = sftpActivo;
+
+  // Abrir modal desde enlace
+  if (sftpLink) {
+    sftpLink.addEventListener('click', (e) => {
+      e.preventDefault();
+
+      if (planFree) {
+        alert('Esta función está disponible solo con un plan de pago.');
+        return;
+      }
+      if (suscripcionInactiva) {
+        modalSuspension.modal('show');
+        return;
+      }
+
+      modalSFTP.modal({ backdrop: 'static', keyboard: false }).modal('show');
+      contenido.classList.add("blur");
+
+      // Prellenar formulario si hay datos (aunque activo = 0)
+      if (formSFTP && sftpConfig) {
+        formSFTP.servidor.value = sftpConfig.servidor || '';
+        formSFTP.puerto.value = sftpConfig.puerto || '22';
+        formSFTP.usuario.value = sftpConfig.usuario || '';
+        formSFTP.contrasena.value = ''; // nunca mostrar hash
+        formSFTP.rutaDestino.value = sftpConfig.rutaDestino || '';
+      }
+      toggleInputs(!activarSFTP.checked);
+    });
+  }
+
+  // 🔹 Checkbox solo habilita/deshabilita inputs en pantalla
+  activarSFTP.addEventListener("change", () => {
+    toggleInputs(!activarSFTP.checked);
   });
 
-  // Cerrar modal de suspensión si agregas un botón de cierre
-  const cerrarModalSusp = document.getElementById('cerrarModalSuspension');
-  if (cerrarModalSusp) {
-    cerrarModalSusp.addEventListener('click', () => {
-      if (modalSuspension) modalSuspension.style.display = 'none';
+  // Quitar blur al cerrar modal
+  modalSFTP.on('hidden.bs.modal', () => {
+    contenido.classList.remove("blur");
+    toggleInputs(!activarSFTP.checked);
+  });
+
+  // Botón cerrar dentro del modal
+  const cerrarSFTP = document.getElementById("cerrarIntegracion");
+  if (cerrarSFTP) cerrarSFTP.addEventListener('click', () => modalSFTP.modal('hide'));
+
+  // Guardar formulario SFTP
+  if (formSFTP) {
+    formSFTP.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (planFree) {
+        alert('No se puede guardar SFTP en plan Free.');
+        return;
+      }
+
+      const formData = Object.fromEntries(new FormData(formSFTP).entries());
+      // ✅ tomar valor real del checkbox
+      formData.activo = activarSFTP.checked ? 1 : 0;
+
+      try {
+        const res = await fetch("modelo/sftp_guardar.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData)
+        });
+        const result = await res.json();
+
+        if (result.success) {
+          if (formData.activo === 1) {
+            Swal.fire({
+              icon: 'success',
+              title: 'Integración guardada',
+              text: 'La configuración de SFTP se ha guardado correctamente.',
+              confirmButtonColor: '#eca726'
+            });
+          } else {
+           Swal.fire({
+            icon: 'info',
+            title: 'Integración desactivada',
+            text: 'La integración con SFTP ha sido deshabilitada.',
+            confirmButtonColor: '#eca726'
+          });
+
+          }
+
+          modalSFTP.modal('hide');
+          window.appData.sftpActivo = formData.activo;
+          activarSFTP.checked = formData.activo === 1;
+          toggleInputs(!activarSFTP.checked);
+        } else {
+          alert(result.msg || "Error al guardar integración");
+          toggleInputs(!activarSFTP.checked);
+        }
+
+      } catch (err) {
+        alert("Error de conexión al guardar integración");
+        toggleInputs(!activarSFTP.checked);
+      }
     });
   }
 });

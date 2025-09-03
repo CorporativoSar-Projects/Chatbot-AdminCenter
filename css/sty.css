@@ -1776,6 +1776,14 @@ a{
   opacity: 0.5;
 }
 
+.small-checkbox {
+  width: 16px !important;   /* controla el ancho del cuadro */
+  height: 16px !important;  /* controla el alto del cuadro */
+  transform: none !important; /* evita deformarlo */
+  margin-right: 6px;        /* espacio entre checkbox y texto */
+  cursor: pointer;
+}
+
 
 /* Media Queries para responsividad */
 
