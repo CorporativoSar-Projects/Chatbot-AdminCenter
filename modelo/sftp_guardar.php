@@ -40,6 +40,8 @@ $stmtCheck->bind_param("i", $id_emp);
 $stmtCheck->execute();
 $resultCheck = $stmtCheck->get_result();
 
+$ok = false;
+
 if ($row = $resultCheck->fetch_assoc()) {
     // UPDATE registro existente
     if ($activo === 0) {
@@ -78,9 +80,8 @@ if ($row = $resultCheck->fetch_assoc()) {
 } else {
     // INSERT nuevo registro
     if ($activo === 0) {
-        // No hay registro y se quiere desactivar → no hay nada que hacer
-        echo json_encode(['success' => true]);
-        exit;
+       
+         $ok = true;
     }
 
     // Validar campos obligatorios para crear
@@ -102,7 +103,16 @@ if ($row = $resultCheck->fetch_assoc()) {
 }
 
 if ($ok) {
-    echo json_encode(['success' => true]);
+    // Generar JSON completo
+    ob_start();
+    include "generar_json.php";
+    $json_output = ob_get_clean();
+
+    echo json_encode([
+        'success' => true,
+        'msg' => 'Integración SFTP guardada',
+        'json' => json_decode($json_output, true)
+    ]);
 } else {
     echo json_encode(['success' => false, 'msg' => $conexion->error]);
 }

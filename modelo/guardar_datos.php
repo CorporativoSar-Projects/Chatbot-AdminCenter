@@ -2,31 +2,27 @@
 session_start();
 require_once 'conexion_bd.php';
 
-//Indica que se recibira la respuesta en formato JSON
+// Respuesta en formato JSON
 header('Content-Type: application/json');
 
 $input = json_decode(file_get_contents("php://input"), true);
 
-
-//Verifica que se hayan enviado los campos 
+// Validar que se enviaron campos
 if (!isset($input['seccion']) || !isset($input['datos'])) {
     echo json_encode(['success' => false, 'error' => 'Datos incompletos']);
     exit;
 }
 
-//Se recuperan los datos de las paginas 
 $seccion = $input['seccion'];
 $datos = $input['datos'];
 $id_adm = $_SESSION['id_adm'] ?? null;
 $id_tipo_chatbot = 1;
-
-//Se obtiene el id del chatbot 
 $id_chatbot = $datos['id_chatbot'] ?? null;
 
-
+// SECCIÓN ESTILO
 if ($seccion === 'estilo') {
     if (!$id_chatbot) {
-        // INSERTAR nuevo chatbot si no existe un id 
+        // INSERTAR nuevo chatbot
         $sql = "INSERT INTO chatbot (
             inp_nombre, colorPrimario, colorSecundario, colorTexto,
             colorAcento, colorRespuestaUsuario, urlLogotipo,
@@ -48,9 +44,19 @@ if ($seccion === 'estilo') {
         );
 
         if ($stmt->execute()) {
-            $nuevoID = $stmt->insert_id; //id creado 
-            $_SESSION['id_chatbot'] = $nuevoID; 
-            echo json_encode(['success' => true, 'id_chatbot' => $nuevoID]);
+            $id_chatbot = $stmt->insert_id;
+            $_SESSION['id_chatbot'] = $id_chatbot;
+
+            // Generar JSON
+            ob_start();
+            include "generar_json.php";
+            $json_output = ob_get_clean();
+
+            echo json_encode([
+                'success' => true,
+                'id_chatbot' => $id_chatbot,
+                'json' => json_decode($json_output, true)
+            ]);
         } else {
             echo json_encode(['success' => false, 'error' => $stmt->error]);
         }
@@ -59,7 +65,7 @@ if ($seccion === 'estilo') {
         $conexion->close();
         exit;
     } else {
-        // Actualizar estilo si ya existe id chatbot
+        // UPDATE estilos
         $sql = "UPDATE chatbot SET
             inp_nombre = ?, colorPrimario = ?, colorSecundario = ?, colorTexto = ?,
             colorAcento = ?, colorRespuestaUsuario = ?, urlLogotipo = ?
@@ -79,7 +85,17 @@ if ($seccion === 'estilo') {
         );
 
         if ($stmt->execute()) {
-            echo json_encode(['success' => true, 'message' => 'Estilo actualizado', 'id_chatbot' => $id_chatbot]);
+            //Generar JSON
+            ob_start();
+            include "generar_json.php";
+            $json_output = ob_get_clean();
+
+            echo json_encode([
+                'success' => true,
+                'message' => 'Estilo actualizado',
+                'id_chatbot' => $id_chatbot,
+                'json' => json_decode($json_output, true)
+            ]);
         } else {
             echo json_encode(['success' => false, 'error' => $stmt->error]);
         }
@@ -90,17 +106,12 @@ if ($seccion === 'estilo') {
     }
 }
 
-// Se valida el id, para las demás secciones
+// Validar ID para otras secciones
 if (!$id_chatbot) {
     echo json_encode(['success' => false, 'error' => 'Falta id_chatbot']);
     exit;
 }
 
-$campos = '';
-$valores = [];
-$tipos = '';
-
-//Se utilizo un switch para poder gestionar las multiples secciones 
 switch ($seccion) {
     case 'burbuja':
         $stmt = $conexion->prepare("UPDATE chatbot SET inp_burbuja = ? WHERE id_chatbot = ?");
@@ -141,13 +152,21 @@ switch ($seccion) {
         exit;
 }
 
+//  generar JSON
 if ($stmt->execute()) {
-    echo json_encode(['success' => true]);
+    ob_start();
+    include "generar_json.php";
+    $json_output = ob_get_clean();
+
+    echo json_encode([
+        'success' => true,
+        'message' => "Sección $seccion actualizada",
+        'json' => json_decode($json_output, true)
+    ]);
 } else {
     echo json_encode(['success' => false, 'error' => $stmt->error]);
 }
 
 $stmt->close();
+$conexion->close();
 ?>
-
-

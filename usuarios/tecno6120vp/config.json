@@ -1,0 +1,40 @@
+{
+    "id_emp": "tecno6120vp",
+    "estilos": {
+        "colorPrimario": "#91085f",
+        "colorSecundario": "#7762b2",
+        "colorTexto": "#fffafa",
+        "colorAcento": "#a034a8",
+        "colorRespuestaUsuario": "#67076e",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/8/8e/Telcel_logo.svg",
+        "nombreChatbot": "Prueba 2",
+        "burbuja": "Busca Empleo",
+        "saludo": " \"Hola ????, soy tu asistente virtual\""
+    },
+    "funcionamiento": {
+        "urlChatbot": "http://localhost/chatbot-giintape/",
+        "integracionActiva": false
+    },
+    "conversacion": [
+        {
+            "tema": "Buscar vacantes por categoría",
+            "mensaje": "Elige el puesto que quieres por la categoría",
+            "columna": "area",
+            "urlInforme": "http://localhost/Chatbot-AdminCenter/puestos.csv"
+        },
+        {
+            "tema": "Buscar vacantes por ubicación",
+            "mensaje": "Selecciona la ciudad del puesto",
+            "columna": "estado",
+            "urlInforme": "http://localhost/Chatbot-AdminCenter/puestos.csv"
+        },
+        {
+            "tema": "Seguimiento de mi postulación",
+            "mensaje": "Ponte al día con tus postulaciones",
+            "columna": "puesto",
+            "urlInforme": ""
+        }
+    ],
+    "despedida": "Gracias por visitarnos. ¡Hasta pronto!",
+    "vacantes": []
+}
