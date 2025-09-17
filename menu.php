@@ -2,33 +2,8 @@
 si no esta validado es redirigido a la página de inicio -->
 
 <!-- Las demás secciones cuentán con esta función con el fin de proteger la información de la empresa -->
-
 <?php
-
-session_start();
-
-if (!isset($_SESSION['id_adm'])) {
-  session_destroy();
-  header("location: ./index.php?error=2");
-  exit;
-}
-
-include 'modelo/conexion_bd.php'; // Asegúrate que este archivo contiene la conexión a la BD
-
-$id_adm = $_SESSION['id_adm'];
-$sql = "SELECT c.id_chatbot, c.inp_nombre, t.nombre_tipo_chatbot
-        FROM chatbot c
-        INNER JOIN tipo_chatbot t ON c.Tipo_Chatbot_idTipo_Chatbot = t.idTipo_Chatbot 
-        WHERE c.Administrador_id_adm = ?";
-$stmt = $conexion->prepare($sql);
-$stmt->bind_param("i", $id_adm);
-$stmt->execute();
-$result = $stmt->get_result();
-
-$chatbots = [];
-while ($row = $result->fetch_assoc()) {
-    $chatbots[] = $row;
-}
+include 'modelo/consultas_menu.php';
 ?>
 
 <!DOCTYPE html>
@@ -43,7 +18,8 @@ while ($row = $result->fetch_assoc()) {
     href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap"
     rel="stylesheet" />
   <title>Home</title>
-  <link rel="shortcut icon" href="logoPagina.png" />
+  <link rel="shortcut icon" href="img/Logo_cabeza.svg" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -97,14 +73,20 @@ while ($row = $result->fetch_assoc()) {
             <span> soporte@giintapeinnovahueteam.onmicrosoft.com</span>
           </div>
          
-          <!-- Enlace que vincula al botón de cerrar sesión con su respectiva función -->
+           <div class="user-info">
+           <a href="#" id="sftpLink" data-toggle="modal" data-target="#sftpModal" style="text-decoration: none; color: inherit;">
+            Integración SFTP
+          </a>
+            <span><a href="https://billing.stripe.com/p/login/fZe3f33cggofeBy144">Actualizar Plan</a></span>
+
+          </div>
           <a class="a1" href="cerrarSesion.php">Cerrar Sesión</a>
         </div>
       </div>
     </div>
   </header>
 
-  <main>
+  <main id="contenidoPrincipal">
 
     <div class="container-prin">
       <div class="container-bienv">
@@ -153,6 +135,95 @@ while ($row = $result->fetch_assoc()) {
 
   </main>
 
+<!-- Modal Integración SFTP -->
+<div class="modal fade" id="sftpModal" tabindex="-1" role="dialog" aria-labelledby="sftpModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+
+      <!-- Header -->
+      <div class="modal-header">
+        <h5 class="modal-title" id="sftpModalLabel">Configuración de Integración</h5>
+        <span class="cerrar-modal" id="cerrarIntegracion" data-dismiss="modal">&times;</span>
+      </div>
+
+      <!-- Body -->
+      <div class="modal-body">
+
+        <form id="formIntegracionSFTP">
+
+          <div class="d-flex align-items-center mb-3">
+          <input class="form-check-input small-checkbox me-2" type="checkbox" id="sftpCheckbox" 
+                <?php echo ($sftpActivo == 1) ? 'checked' : ''; ?>>
+          <label for="sftpCheckbox" class="m-0">Activar integración SFTP</label>
+        </div>
+          <label>Servidor:</label>
+          <input type="text" class="form-control custom-input" name="servidor" required />
+
+          <label>Puerto:</label>
+          <input type="text" class="form-control custom-input" name="puerto" value="22" readonly />
+
+          <label>Usuario:</label>
+          <input type="text" class="form-control custom-input" name="usuario" required />
+
+           <label>Contraseña:</label>
+          <input type="password" class="form-control custom-input" name="contrasena" />
+
+
+           <label>Ruta de Destino:</label>
+          <input type="text" class="form-control custom-input" name="rutaDestino" required />
+        </form>
+      </div>
+
+      <!-- Footer -->
+      <div class="modal-footer1">
+        <button class="submit-button-form" type="submit" form="formIntegracionSFTP">Guardar</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="modalAvisoCancelacion" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-warning">
+        <h5 class="modal-title">Cancelación en Proceso</h5>
+      </div>
+      <div class="modal-body">
+        <p>Tu suscripción será cancelada al finalizar el periodo actual. Aún puedes usar el sistema hasta esa fecha.</p>
+      </div>
+      <div class="modal-footer1">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Entendido</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de Suscripción Cancelada/Pausada -->
+<div class="modal fade" id="modalSuspension" tabindex="-1" role="dialog" aria-labelledby="modalSuspensionLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalSuspensionLabel">Suscripción inactiva</h5>
+      </div>
+      <div class="modal-body">
+        <p>Tu suscripción ha sido cancelada o pausada. No puedes usar el sistema hasta contratar una nueva suscripción.</p>
+        <form id="nuevoPlanForm">
+          <div class="form-group">
+            <label for="planSelect">Selecciona un plan:</label>
+            <select id="planSelect" class="form-control" required>
+              <option value="">-- Elige un plan --</option>
+              <option value="basico3m">Mensual</option>
+              <option value="planAnual">Anual</option>
+            </select>
+          </div>
+          <button type="button" id="btnContratarPlan" class="btn btn-primary mt-2">Contratar Plan</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 
 
   <!-- jQuery y Bootstrap JavaScript -->
@@ -161,7 +232,27 @@ while ($row = $result->fetch_assoc()) {
   <script src="js/loginError.js" type="module"></script>
   <script src="js/menuLateral.js" type="module"></script>
   <script src="js/navegacion.js"></script>
-   <script src="js/formulario.js"></script>
+   <script src="js/formularioIntegracion.js"></script>
+   
+  
+<script>
+window.appData = {
+    nombrePlan: '<?php echo $planUsuario; ?>',
+    estadoSuscripcion: '<?php echo $estadoSuscripcion; ?>',
+    sftpActivo: <?php echo $sftpActivo; ?>,
+    sftpConfig: <?php
+        echo json_encode([
+            'servidor' => $sftpData['servidor'] ?? '',
+            'puerto' => $sftpData['puerto'] ?? '22',
+            'usuario' => $sftpData['usuario'] ?? '',
+            'contrasena' => '', 
+            'rutaDestino' => $sftpData['rutaDestino'] ?? ''
+        ]);
+    ?>
+};
+</script>
+ <script src="js/reactivar_plan.js"></script>
+
 </body>
 
 </html>

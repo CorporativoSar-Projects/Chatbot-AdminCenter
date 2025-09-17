@@ -16,7 +16,7 @@ $id_chatbot = $_SESSION['id_chatbot']?? null;
     <link rel="stylesheet" href="css/sty.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <title>Pantalla Inicio</title>
-    <link rel="shortcut icon" href="logoPagina.png" />
+    <link rel="shortcut icon" href="img/Logo_cabeza.svg" />
 </head>
 
 <body>

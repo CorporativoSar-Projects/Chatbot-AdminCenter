@@ -18,7 +18,7 @@ $id_chatbot = $_SESSION['id_chatbot'] ?? null;
 
 
     <title>Conversacion</title>
-    <link rel="shortcut icon" href="logoPagina.png" />
+    <link rel="shortcut icon" href="img/Logo_cabeza.svg" />
 </head>
 
 <body>

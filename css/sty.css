@@ -1421,7 +1421,7 @@ a{
 
 /* Modal Content */
 
-.modal-content {
+.modal-contentF {
   border-radius: 15px;
   position: relative;
   background-color: #fefefe;
@@ -1436,6 +1436,55 @@ a{
   -webkit-animation-duration: 0.4s;
   animation-name: animatetop;
   animation-duration: 0.4s;
+}
+
+/* Modal  integracion */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0,0,0,0.4);
+}
+
+.modal-contentF {
+  background-color: white;
+  border-radius: 8px;
+  max-width: 500px;
+   height: 420px;
+  margin: 8% auto;
+  padding: 20px;
+  position: relative;
+}
+.modal-content input {
+    width: 90%;
+    padding: 10px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    text-align: center;
+    font-size: 16px;
+}
+.submit-button-form {
+  background: #ffb703;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background 0.3s;
+  font-size: 16px;
+  margin: 15px auto 0 auto; /* margen superior y auto en los lados */
+  text-align: center;
+  display: block; /* ← necesario para que funcione el margin auto */
+}
+
+.cerrar-modal {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  font-size: 24px;
+  cursor: pointer;
 }
 
 /* Add Animation */
@@ -1495,6 +1544,22 @@ a{
   align-items: center;
   text-align: center;
   cursor: pointer;
+}
+
+.modal-footer1 {
+  display: flex;             /* habilita flexbox */
+  justify-content: center;   /* centra horizontalmente */
+  align-items: center;       /* centra verticalmente */
+  padding: 10px 16px;
+  color: #000;               /* texto legible */
+  border-radius: 0 0 15px 15px;
+  text-align: center;
+}
+
+.modal-footer1 .btn {
+  width: auto;               /* que no ocupe todo el ancho */
+  font-size: 0.9rem;         /* tamaño de fuente proporcional */
+  padding: 6px 20px;
 }
 
 .input-link {
@@ -1642,6 +1707,11 @@ a{
   color: white;
   border-color: #F9BE21;
 }
+.btn-primary:hover{
+ background-color: #eebe45;
+  border-color: #eebe45;
+}
+
 .btn-continuar {
   background-color: #F9BE21;
   width: 25%;
@@ -1656,6 +1726,13 @@ a{
 .btn-continuar:disabled {
   background-color: #f5b179;
   border-color: #f5b179;
+  color: white;
+}
+
+.btn-contratar {
+ /* background-color: #F9BE21;*/
+ background-color: #F9BE21;
+  width: 25%;
   color: white;
 }
 
@@ -1694,6 +1771,34 @@ a{
   pointer-events: none; /* Evita interacción con contenido mientras está activo */
 }
 
+.grayed-checkbox {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.small-checkbox {
+  width: 16px !important;   /* controla el ancho del cuadro */
+  height: 16px !important;  /* controla el alto del cuadro */
+  transform: none !important; /* evita deformarlo */
+  margin-right: 6px;        /* espacio entre checkbox y texto */
+  cursor: pointer;
+}
+
+.btn-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  font-size: 18px;
+  box-shadow: 0px 2px 6px rgba(0,0,0,0.2);
+}
+
+.btn-icon i {
+  margin: 0; /* quitar espacios extra */
+}
 
 
 /* Media Queries para responsividad */
@@ -2064,6 +2169,9 @@ a{
 
 
     } */
+     .modal-contentF {
+    width: 75%;
+  }
 }
 
 .btn-icon {
@@ -2157,6 +2265,21 @@ a{
   .container-prinF {
     height: 160vh;
   }
+
+    .modal-contentF {
+    width: 70%;
+    margin-top: 12%;
+  }
+
+  .modal-content input {
+    font-size: 15px;
+    padding: 9px;
+  }
+
+  .submit-button-form {
+    font-size: 15px;
+    padding: 10px 20px;
+  }
 }
 
 /* Consulta de medio para el menu lateral */
@@ -2183,6 +2306,10 @@ a{
 
   .msg-perso-chat2 {
     font-size: 14px;
+  }
+
+   .modal-contentF {
+    width: 90%;
   }
 }
 
@@ -2381,6 +2508,25 @@ a{
     margin-left: 10px;
   }
 
+    .modal-contentF {
+    width: 95%;
+    margin-top: 18%;
+    padding: 15px;
+  }
+
+  .modal-content input {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  .submit-button-form {
+    font-size: 14px;
+    padding: 10px 15px;
+  }
+
+  .cerrar-modal {
+    font-size: 22px;
+  }
 
   /* consulta espacio inferior ventana panatlla inicio */
 

@@ -78,7 +78,7 @@ try {
 
     // Credenciales
     $mail->Username = "contacto@giintapeinnovahue.com";
-    $mail->Password = "$"; 
+    $mail->Password = "giintap35$"; 
 
     // Configuración del correo
     $mail->setFrom("contacto@giintapeinnovahue.com", "Soporte");

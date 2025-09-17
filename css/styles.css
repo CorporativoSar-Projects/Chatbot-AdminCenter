@@ -138,7 +138,7 @@ button:hover {
 
 .imgLogo {
     position: absolute;
-    top: 140px;
+    top: 70px;
     right: 145px;
     width: 25%; /* Reducido de 40% a 25% */
     max-width: 300px; /* Tamaño máximo en píxeles */
@@ -204,7 +204,7 @@ button:hover {
 }
 
 /* Contenedor del modal */
-.modal-content {
+.modal-content1 {
   background: white;
   width: 400px;
   border-radius: 10px;
@@ -450,8 +450,28 @@ button:hover {
   margin-top: 20px;
 }
 
+.movil {
+  display: none;
+}
 
+.texto-escritorio {
+  position: absolute;
+   bottom: 190px; /* Ajusta según el tamaño de tu texto */
+  left: 70%;
+  font-size: clamp(1rem, 1.5vw, 1.4rem);
+  color: #f3f3f3;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+}
 
+.form-wrapper {
+  display: inline-flex;
+    justify-content: center;
+    height: 100vh;
+    padding-left: 5%;
+    flex-direction: column;
+    flex-wrap: nowrap;
+}
 
 
 /* Consulta para controlar los margins de los inputs de login y registro */
@@ -486,7 +506,21 @@ button:hover {
   .form-group input, .form-group textarea {
     font-size: 15px;
   }
+    .imgLogo {
+      left: 67%;
+      top:18%;
+    }
  
+
+  .texto-escritorio {
+  position: absolute;
+   bottom: 250px; /* Ajusta según el tamaño de tu texto */
+  left: 70%;
+  font-size: clamp(1rem, 1.5vw, 1.4rem);
+  color: #f3f3f3;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+}
 }
 
 @media (max-width: 1100px) {
@@ -507,12 +541,25 @@ button:hover {
   .imgLogo {
     position: absolute;
     top: 50px;
-    right: 70px;
+    left: 63%;
     border-right: 0;
     margin: 0 auto;
     width: 35%;
     height: 65%;
   }
+
+  .movil {
+  display: none;
+}
+.texto-escritorio {
+  position: absolute;
+   bottom: 180px; /* Ajusta según el tamaño de tu texto */
+  left: 70%;
+  font-size: clamp(1rem, 1.5vw, 1.4rem);
+  color: #f3f3f3;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+}
 }
 
 /* Cambiar el tamaño de fuente de los inputs
@@ -524,6 +571,19 @@ para que no se corte el texto */
   .txtpsw {
     font-size: 16px;
   }
+  .movil {
+  display: none;
+}
+
+.texto-escritorio {
+  position: absolute;
+   bottom: 280px; /* Ajusta según el tamaño de tu texto */
+  left: 68%;
+  font-size: clamp(1rem, 1.5vw, 1.4rem);
+  color: #f3f3f3;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+}
 }
 
 @media (max-width: 958px) {
@@ -532,6 +592,23 @@ para que no se corte el texto */
   .txtpsw {
     font-size: 14px;
   }
+  .movil {
+  display: none;
+}
+
+.texto-escritorio {
+  position: absolute;
+   bottom: 280px; /* Ajusta según el tamaño de tu texto */
+  left: 63%;
+  font-size: clamp(1rem, 1.5vw, 1.4rem);
+  color: #f3f3f3;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+}
+
+ .imgLogo {
+  left: 60%;
+  }
 }
 
 @media (max-width: 826px) {
@@ -539,8 +616,27 @@ para que no se corte el texto */
   .txtMail,
   .txtpsw {
     font-size: 14px;
+    
   }
 
+ .movil {
+  display: none;
+}
+
+ .imgLogo {
+    left: 60%;
+  }
+   
+
+.texto-escritorio {
+  position: absolute;
+   bottom: 280px; /* Ajusta según el tamaño de tu texto */
+  left: 63%;
+  font-size: clamp(1rem, 1.5vw, 1.4rem);
+  color: #f3f3f3;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+}
   
 }
 
@@ -555,13 +651,15 @@ para que no se corte el texto */
       rgb(	142, 202, 230) 36%,
       rgb(2, 48, 71) 100%
     );
+
+    
   }
 
   .login-container {
     width: 80%;
     height: 65%;
     margin: auto;
-    margin-top: 30%;
+    margin-top: 25%;
     background-color: rgba(255, 255, 255, 0.322);
     border-radius: 15px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -589,13 +687,21 @@ para que no se corte el texto */
   }
 
   .imgLogo {
-    width: 100px;
-    height: 100px;
-    left: 10px;
+    width: 70px;
+    height: 70px;
+    left: 20px;
   }
 
   .vector .imgVect {
     display: none;
+  }
+
+    .escritorio {
+    display: none;
+  }
+
+  .movil {
+    display: block;
   }
 
   .txtUsu,
@@ -712,7 +818,7 @@ para que no se corte el texto */
     width: 80%;
     height: 70%;
     margin: auto;
-    margin-top: 50%;
+    margin-top: 40%;
     background-color: rgba(255, 255, 255, 0.322);
     border-radius: 15px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -740,9 +846,9 @@ para que no se corte el texto */
   }
 
   .imgLogo {
-    width: 100px;
-    height: 100px;
-    left: 10px;
+    width: 70px;
+    height: 70px;
+    left: 20px;
   }
 
   .titleIn {
@@ -759,6 +865,15 @@ para que no se corte el texto */
     justify-content: center;
     align-items: center;
     text-align: center;
+  }
+
+  .escritorio {
+    display: none;
+  }
+
+  .movil {
+    display: block;
+    left: 20%;
   }
 
   .txtUsu,
@@ -779,11 +894,6 @@ para que no se corte el texto */
     text-align: right;
   }
 
-  .imgLogo {
-    width: 100px;
-    height: 100px;
-    left: 10px;
-  }
 
   .titleIn {
     width: 100%;
