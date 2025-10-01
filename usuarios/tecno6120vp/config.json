@@ -13,26 +13,26 @@
     },
     "funcionamiento": {
         "urlChatbot": "http://localhost/chatbot-giintape/",
-        "integracionActiva": false
+        "integracionActiva": true
     },
     "conversacion": [
         {
             "tema": "Buscar vacantes por categoría",
             "mensaje": "Elige el puesto que quieres por la categoría",
-            "columna": "area",
+            "columna": "categoria",
             "urlInforme": "http://localhost/Chatbot-AdminCenter/puestos.csv"
         },
         {
             "tema": "Buscar vacantes por ubicación",
-            "mensaje": "Selecciona la ciudad del puesto",
-            "columna": "estado",
+            "mensaje": "Selecciona la ubicación del puesto",
+            "columna": "ubicación",
             "urlInforme": "http://localhost/Chatbot-AdminCenter/puestos.csv"
         },
         {
             "tema": "Seguimiento de mi postulación",
             "mensaje": "Ponte al día con tus postulaciones",
-            "columna": "puesto",
-            "urlInforme": ""
+            "columna": "correo electronico",
+            "urlInforme": "http://localhost/Chatbot-AdminCenter/candidatos.csv"
         }
     ],
     "despedida": "Gracias por visitarnos. ¡Hasta pronto!",

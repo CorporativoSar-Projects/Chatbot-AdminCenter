@@ -165,6 +165,7 @@ $snippet = '<!DOCTYPE html>
     <!-- El botón para buscar vacantes se muestra después de seleccionar una alcaldía -->
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://chatbot.giintapeinnovahue.com/script.js"></script>
 </body>
 </html>';

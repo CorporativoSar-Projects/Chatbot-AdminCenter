@@ -12,27 +12,27 @@
         "saludo": "¡Hola! Bienvenido, seré tu asistente virtual, para encontrar tu puesto ideal."
     },
     "funcionamiento": {
-        "urlChatbot": "https://www.facebook.com/",
-        "integracionActiva": false
+        "urlChatbot": "http://localhost/chatbot-giintape/",
+        "integracionActiva": true
     },
     "conversacion": [
         {
             "tema": "Buscar vacantes por categoría",
             "mensaje": "Busca por tu categoría ideal:",
-            "columna": "categoria ",
-            "urlInforme": "https://drive.google.com/file/d/14apE7-Y8_dXlfyfvEl-i1poo_rMmKmMn/view?usp=sharing"
+            "columna": "Area",
+            "urlInforme": "http://localhost/Chatbot-AdminCenter/puestos.csv"
         },
         {
             "tema": "Buscar vacantes por ubicación",
             "mensaje": "Escoge la ubicación ideal:",
-            "columna": "ubicación",
-            "urlInforme": "https://drive.google.com/file/d/14apE7-Y8_dXlfyfvEl-i1poo_rMmKmMn/view?usp=sharing"
+            "columna": "Estado",
+            "urlInforme": "http://localhost/Chatbot-AdminCenter/puestos.csv"
         },
         {
             "tema": "Seguimiento de mi postulación",
             "mensaje": "Mantente al día con tu postulacion:",
-            "columna": "puesto",
-            "urlInforme": "https://drive.google.com/file/d/1d4yqp4OW1dtahuxhaLdeZJxzXyTg1J87/view?usp=sharing"
+            "columna": "Correo",
+            "urlInforme": "http://localhost/Chatbot-AdminCenter/candidatos.csv"
         }
     ],
     "despedida": "Hasta luego!",
