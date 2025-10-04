@@ -3,6 +3,19 @@ session_start();
 header('Content-Type: application/json');
 include 'conexion_bd.php';
 
+// Clave secreta para encriptar/desencriptar
+define('SECRET_KEY', 'tu_clave_secreta_super_segura_32_bytes'); // 32 caracteres para AES-256
+define('SECRET_IV', '1234567890123456'); // 16 bytes para IV
+
+function encrypt($string) {
+    return openssl_encrypt($string, "AES-256-CBC", SECRET_KEY, 0, SECRET_IV);
+}
+
+function decrypt($string) {
+    return openssl_decrypt($string, "AES-256-CBC", SECRET_KEY, 0, SECRET_IV);
+}
+
+// Verificar sesión
 if (!isset($_SESSION['id_adm'])) {
     echo json_encode(['success' => false, 'msg' => 'Sesión inválida']);
     exit;
@@ -29,93 +42,89 @@ $data = json_decode(file_get_contents('php://input'), true);
 
 $activo = isset($data['activo']) ? (int)$data['activo'] : 0;
 $servidor = isset($data['servidor']) ? trim($data['servidor']) : null;
-$puerto = isset($data['puerto']) ? trim($data['puerto']) : '22';
+$puerto = isset($data['puerto']) ? (int)$data['puerto'] : 22;
 $usuario = isset($data['usuario']) ? trim($data['usuario']) : null;
 $contrasena = isset($data['contrasena']) ? trim($data['contrasena']) : null;
 $rutaDestino = isset($data['rutaDestino']) ? trim($data['rutaDestino']) : null;
 
-// Verificar si ya existe un registro para la empresa
+// --- Verificar si ya existe un registro para la empresa ---
 $stmtCheck = $conexion->prepare("SELECT id_sftp FROM integracion_sftp WHERE Empresa_id_emp = ?");
-$stmtCheck->bind_param("i", $id_emp);
+$stmtCheck->bind_param("s", $id_emp);
 $stmtCheck->execute();
 $resultCheck = $stmtCheck->get_result();
 
-$ok = false;
-
 if ($row = $resultCheck->fetch_assoc()) {
-    // UPDATE registro existente
+    // Registro existente: UPDATE
     if ($activo === 0) {
-        // Solo desactivar
         $stmtUpdate = $conexion->prepare("UPDATE integracion_sftp SET activo=0 WHERE Empresa_id_emp=?");
-        $stmtUpdate->bind_param("i", $id_emp);
+        $stmtUpdate->bind_param("s", $id_emp);
     } else {
-        // Validar campos obligatorios
         if (empty($servidor) || empty($usuario) || empty($rutaDestino)) {
             echo json_encode(['success' => false, 'msg' => 'Faltan campos obligatorios: servidor, usuario o ruta destino']);
             exit;
         }
 
-        $hashContrasena = $contrasena ? password_hash($contrasena, PASSWORD_DEFAULT) : null;
-
-        if ($hashContrasena) {
-            // Actualizar incluyendo contraseña
+        if ($contrasena) {
+            $encryptedPass = encrypt($contrasena);
             $stmtUpdate = $conexion->prepare("
                 UPDATE integracion_sftp 
                 SET servidor=?, puerto=?, usuario=?, contrasena=?, rutaDestino=?, activo=? 
                 WHERE Empresa_id_emp=?
             ");
-            $stmtUpdate->bind_param("sssssis", $servidor, $puerto, $usuario, $hashContrasena, $rutaDestino, $activo, $id_emp);
+            $stmtUpdate->bind_param("sssssis", $servidor, $puerto, $usuario, $encryptedPass, $rutaDestino, $activo, $id_emp);
         } else {
-            // Actualizar sin cambiar la contraseña
             $stmtUpdate = $conexion->prepare("
                 UPDATE integracion_sftp 
                 SET servidor=?, puerto=?, usuario=?, rutaDestino=?, activo=? 
                 WHERE Empresa_id_emp=?
             ");
-            $stmtUpdate->bind_param("ssssii", $servidor, $puerto, $usuario, $rutaDestino, $activo, $id_emp);
+            $stmtUpdate->bind_param("ssssis", $servidor, $puerto, $usuario, $rutaDestino, $activo, $id_emp);
         }
     }
 
     $ok = $stmtUpdate->execute();
-} else {
-    // INSERT nuevo registro
-    if ($activo === 0) {
-       
-         $ok = true;
+    if (!$ok) {
+        echo json_encode(['success' => false, 'msg' => 'Error al actualizar SFTP: '.$stmtUpdate->error]);
+        exit;
     }
 
-    // Validar campos obligatorios para crear
+} else {
+    // Registro nuevo: INSERT
+    if ($activo === 0) {
+        echo json_encode(['success' => false, 'msg' => 'No se puede crear un registro desactivado']);
+        exit;
+    }
+
     if (empty($servidor) || empty($usuario) || empty($contrasena) || empty($rutaDestino)) {
         echo json_encode(['success' => false, 'msg' => 'Faltan campos obligatorios para crear SFTP']);
         exit;
     }
 
-    $hashContrasena = password_hash($contrasena, PASSWORD_DEFAULT);
-
+    $encryptedPass = encrypt($contrasena);
     $stmtInsert = $conexion->prepare("
         INSERT INTO integracion_sftp (Empresa_id_emp, servidor, puerto, usuario, contrasena, rutaDestino, activo)
         VALUES (?, ?, ?, ?, ?, ?, ?)
     ");
-    $activoInsert = 1; 
-    $stmtInsert->bind_param("isssssi", $id_emp, $servidor, $puerto, $usuario, $hashContrasena, $rutaDestino, $activoInsert);
+    $activoInsert = 1;
+    $stmtInsert->bind_param("ssssssi", $id_emp, $servidor, $puerto, $usuario, $encryptedPass, $rutaDestino, $activoInsert);
 
     $ok = $stmtInsert->execute();
+    if (!$ok) {
+        echo json_encode(['success' => false, 'msg' => 'Error al crear SFTP: '.$stmtInsert->error]);
+        exit;
+    }
 }
 
-if ($ok) {
-    // Generar JSON completo
-    ob_start();
-    include "generar_json.php";
-    $json_output = ob_get_clean();
+// --- Generar JSON completo ---
+ob_start();
+include "generar_json.php";
+$json_output = ob_get_clean();
 
-    echo json_encode([
-        'success' => true,
-        'msg' => 'Integración SFTP guardada',
-        'json' => json_decode($json_output, true)
-    ]);
-} else {
-    echo json_encode(['success' => false, 'msg' => $conexion->error]);
-}
+echo json_encode([
+    'success' => true,
+    'msg' => 'Integración SFTP guardada',
+    'json' => json_decode($json_output, true)
+]);
 
 $conexion->close();
 ?>
