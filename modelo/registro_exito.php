@@ -178,7 +178,8 @@ try {
         $mail->Subject = "Registro exitoso - ID de tu empresa";
 
         $plantilla = file_get_contents(__DIR__ . '/envioId.php');
-        $plantilla = str_replace('{{LOGO_URL}}', 'https://i.postimg.cc/RhxH6X8C/LOGO-GI-05.png', $plantilla);
+        $plantilla = str_replace('{{LOGO_URL}}', 'https://ixah.giintapeinnovahue.com/images/LOGOTIPO_IXAH-02.png', $plantilla);
+        $plantilla = str_replace('{{LOGO_PIE_URL}}', 'https://giintapeinnovahue.com/images/logoGintapeCircle.png', $plantilla);
         $plantilla = str_replace('{{NOMBRE_EMPRESA}}', $reg['nombre_emp'], $plantilla);
         $plantilla = str_replace('{{NOMBRE_ADMIN}}', $reg['nombre_adm'], $plantilla);
         $plantilla = str_replace('{{ID_EMPRESA}}', $reg['id_emp'], $plantilla);

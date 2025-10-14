@@ -119,6 +119,12 @@ function previsualizarImagen() {
 document.getElementById("btnGuardarEstilo").addEventListener("click", function () {
     const id_chatbot = localStorage.getItem("id_chatbot") || null;
 
+     // Tomar primero la URL actual del input o el valor de localStorage o la imagen por defecto
+    const urlLogotipoInput = document.getElementById("urlLogotipo").value.trim();
+    const logoURL = urlLogotipoInput || localStorage.getItem("chatbotLogo") || "img/logochiquito.png";
+
+
+    localStorage.setItem("chatbotLogo", logoURL);
     //Objeto con el que los datos se van a guardar
     const data = {
         inp_nombre: document.getElementById("inp_nombre").value,
@@ -127,7 +133,7 @@ document.getElementById("btnGuardarEstilo").addEventListener("click", function (
         colorTexto: localStorage.getItem("colorTexto") || "",
         colorAcento: localStorage.getItem("colorAcento") || "",
         colorUsuario: localStorage.getItem("colorRespuestaUsuario") || "",
-        urlLogotipo: localStorage.getItem("chatbotLogo") || ""
+        urlLogotipo: logoURL
     };
 
     // Si ya existe un id_chatbot, se incluye para hacer actualización

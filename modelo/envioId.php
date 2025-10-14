@@ -43,10 +43,20 @@
               <p style="font-size: 13px; color: #777;">
                 Si tiene alguna pregunta o necesita asistencia, por favor no dude en contactar a nuestro equipo de Soporte .
               </p>
-              <p style="font-size: 13px; color: #777;">
-                Atentamente,<br>
-                <strong>Equipo de Soporte de GIINTAPE INNOVAHUE</strong>
-              </p>
+               <!-- PIE CON LOGO A LA DERECHA -->
+              <table width="100%" cellspacing="0" cellpadding="0" style="margin-top: 20px;">
+                <tr>
+                  <td style="font-size: 13px; color: #777; text-align: left;">
+                    <p style="margin: 0;">
+                      Atentamente,<br>
+                      <strong>Equipo de Soporte de GIINTAPE INNOVAHUE</strong>
+                    </p>
+                  </td>
+                  <td style="text-align: right; vertical-align: middle;">
+                    <img src="{{LOGO_PIE_URL}}" alt="Logo pequeño" style="max-width: 60px; vertical-align: middle; margin-left: 10px;" />
+                  </td>
+                </tr>
+              </table>
             </td>
           </tr>
         </table>

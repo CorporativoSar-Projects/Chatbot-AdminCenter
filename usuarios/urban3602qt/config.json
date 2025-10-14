@@ -1,15 +1,15 @@
 {
     "id_emp": "urban3602qt",
     "estilos": {
-        "colorPrimario": "#3a607e",
-        "colorSecundario": "#9ae4b3",
-        "colorTexto": "#2e1414",
-        "colorAcento": "#98d7b0",
-        "colorRespuestaUsuario": "#50e29e",
-        "logo": "",
-        "nombreChatbot": "Ejemplo",
-        "burbuja": "¡Encuentra Vacantes!",
-        "saludo": "¡Hola! Bienvenido, seré tu asistente virtual, para encontrar tu puesto ideal."
+        "colorPrimario": "#1e2be6",
+        "colorSecundario": "#403597",
+        "colorTexto": "#f5f0f0",
+        "colorAcento": "#4034e5",
+        "colorRespuestaUsuario": "#2140ba",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/6/61/Samsung_old_logo_before_year_2015.svg",
+        "nombreChatbot": "SamsungBot",
+        "burbuja": "¡Encuentra Puestos!",
+        "saludo": "¡Hola! Soy tu asistente virtual, te ayudaré con la búsqueda de vacantes."
     },
     "funcionamiento": {
         "urlChatbot": "http://localhost/chatbot-giintape/",
@@ -18,27 +18,27 @@
     "conversacion": [
         {
             "tema": "Buscar vacantes por categoría",
-            "mensaje": "Busca por tu categoría ideal:",
-            "columna": "Area",
+            "mensaje": "Elige la categoría que más te interese.",
+            "columna": "Categoría",
             "urlInforme": "http://localhost/Chatbot-AdminCenter/puestos.csv"
         },
         {
             "tema": "Buscar vacantes por ubicación",
-            "mensaje": "Escoge la ubicación ideal:",
-            "columna": "Estado",
+            "mensaje": "Selecciona la ubicación que más te interese.",
+            "columna": "Ubicación",
             "urlInforme": "http://localhost/Chatbot-AdminCenter/puestos.csv"
         },
         {
             "tema": "Seguimiento de mi postulación",
-            "mensaje": "Mantente al día con tu postulacion:",
-            "columna": "Correo",
+            "mensaje": "Mantente al día con las postulaciones que haz hecho.",
+            "columna": "Correo Electrónico",
             "urlInforme": "http://localhost/Chatbot-AdminCenter/candidatos.csv"
         }
     ],
-    "despedida": "Hasta luego!",
+    "despedida": "Te agradecemos haber usado a SamsungBot, esperamos verte pronto.",
     "vacantes": [
-        "https://drive.google.com/file/d/14apE7-Y8_dXlfyfvEl-i1poo_rMmKmMn/view?usp=sharing",
-        "https://drive.google.com/file/d/14apE7-Y8_dXlfyfvEl-i1poo_rMmKmMn/view?usp=sharing",
-        "https://drive.google.com/file/d/1d4yqp4OW1dtahuxhaLdeZJxzXyTg1J87/view?usp=sharing"
+        "http://localhost/Chatbot-AdminCenter/puestos.csv",
+        "http://localhost/Chatbot-AdminCenter/puestos.csv",
+        "http://localhost/Chatbot-AdminCenter/candidatos.csv"
     ]
 }

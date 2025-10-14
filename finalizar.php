@@ -173,6 +173,11 @@ include('modelo/obtenerDatos.php')
                                 <button type="submit" id="myBtn" class="btnGenerar" data-idadm="<?= $_SESSION['id_adm'] ?>" data-toggle="modal" data-target="#myModal">
                                     <span class="btn-text-Generar">Generar</span>
                                 </button>
+
+                                <!-- Nuevo botón a la derecha -->
+                                <button type="button" id="btnInteractivo" class="btnInteractivo" onclick="window.location.href='pagina_pruebas.php'">
+                                    <span class="btnInteractivo">Modo Interactivo</span>
+                                </button>
                             </div>
 
                         </div>

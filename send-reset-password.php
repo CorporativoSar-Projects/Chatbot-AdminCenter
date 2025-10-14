@@ -60,7 +60,8 @@ if (!$update->execute()) {
 }
 
 $plantilla_res = file_get_contents('restablecimiento.php'); // El archivo que tiene el HTML de plantilla
-
+$plantilla_res = str_replace('{{LOGO_URL}}', 'https://ixah.giintapeinnovahue.com/images/LOGOTIPO_IXAH-02.png', $plantilla_res);
+$plantilla_res= str_replace('{{LOGO_PIE_URL}}', 'https://giintapeinnovahue.com/images/logoGintapeCircle.png', $plantilla_res);
 $plantilla_res = str_replace('{{NOMBRE_ADMIN}}', htmlspecialchars($nombre_adm), $plantilla_res );
 $plantilla_res = str_replace('{{NUEVA_CONTRASENA}}', htmlspecialchars($newPassword), $plantilla_res );
 
@@ -78,7 +79,7 @@ try {
 
     // Credenciales
     $mail->Username = "contacto@giintapeinnovahue.com";
-    $mail->Password = "giintap35$"; 
+    $mail->Password = "$"; 
 
     // Configuración del correo
     $mail->setFrom("contacto@giintapeinnovahue.com", "Soporte");
