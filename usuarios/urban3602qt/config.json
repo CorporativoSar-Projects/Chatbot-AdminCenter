@@ -19,14 +19,14 @@
         {
             "tema": "Buscar vacantes por categoría",
             "mensaje": "Elige la categoría que más te interese.",
-            "columna": "Categoría",
-            "urlInforme": "http://localhost/Chatbot-AdminCenter/puestos.csv"
+            "columna": "Categoria",
+            "urlInforme": "https://chatbot.giintapeinnovahue.com/report_Job.csv"
         },
         {
             "tema": "Buscar vacantes por ubicación",
             "mensaje": "Selecciona la ubicación que más te interese.",
             "columna": "Ubicación",
-            "urlInforme": "http://localhost/Chatbot-AdminCenter/puestos.csv"
+            "urlInforme": "https://chatbot.giintapeinnovahue.com/report_Job.csv"
         },
         {
             "tema": "Seguimiento de mi postulación",

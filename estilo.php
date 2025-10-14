@@ -1,7 +1,28 @@
 <?php
-
 include('modelo/obtenerDatos.php');
+include 'modelo/conexion_bd.php';
 
+$id_adm = $_SESSION['id_adm'];
+$sql = "SELECT COUNT(*) AS total FROM chatbot WHERE Administrador_id_adm = ?";
+$stmt = $conexion->prepare($sql);
+$stmt->bind_param("i", $id_adm);
+$stmt->execute();
+$result = $stmt->get_result();
+$row = $result->fetch_assoc();
+
+if ($row['total'] >= 1 && isset($_GET['nuevo'])) {
+    echo "<script>
+      Swal.fire({
+        icon: 'info',
+        title: 'Límite alcanzado',
+        text: 'Solo puedes crear un chatbot por empresa.',
+        confirmButtonColor: '#3ca6e5'
+      }).then(() => {
+        window.location.href = 'menu.php';
+      });
+    </script>";
+    exit();
+}
 ?>
 
 <!DOCTYPE html>

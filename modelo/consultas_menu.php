@@ -64,6 +64,22 @@ $stmt->execute();
 $result = $stmt->get_result();
 
 $chatbots = [];
+
 while ($row = $result->fetch_assoc()) {
     $chatbots[] = $row;
 }
+
+
+// Contar cuántos chatbots tiene el admin
+
+$sqlCount = "SELECT COUNT(*) AS total_chatbots 
+             FROM chatbot 
+             WHERE Administrador_id_adm = ?";
+$stmtCount = $conexion->prepare($sqlCount);
+$stmtCount->bind_param("i", $id_adm);
+$stmtCount->execute();
+$resultCount = $stmtCount->get_result();
+$rowCount = $resultCount->fetch_assoc();
+
+$totalChatbots = (int)$rowCount['total_chatbots'];
+?>
