@@ -1,6 +1,7 @@
 <?php
 include('modelo/obtenerDatos.php');
 include 'modelo/conexion_bd.php';
+include 'modalIntegracion.php';
 
 $id_adm = $_SESSION['id_adm'];
 $sql = "SELECT COUNT(*) AS total FROM chatbot WHERE Administrador_id_adm = ?";
@@ -64,7 +65,7 @@ if ($row['total'] >= 1 && isset($_GET['nuevo'])) {
                     </div>
                     <div class="user-info">
                         <a href="#">Desarrollado por Giintape Innovahue</a>
-                        <span> soporte@giintapeinnovahueteam.onmicrosoft.com</span>
+                        <span> Ayuda</span>
                     </div>
                     <a class="a1" href="cerrarSesion.php">Cerrar Sesión</a>
                 </div>
@@ -244,6 +245,7 @@ if ($row['total'] >= 1 && isset($_GET['nuevo'])) {
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/estilo.js"></script>
     <script src="js/custom.js"></script>
+    <script src="js/formularioIntegracion.js"></script>
      <script src="js/guardar.js"></script>
     <script src="js/menuLateral.js" type="module"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

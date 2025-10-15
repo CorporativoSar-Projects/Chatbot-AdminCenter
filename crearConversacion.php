@@ -1,7 +1,7 @@
 <?php
 
 include('modelo/obtenerDatos.php');
-
+include 'modalIntegracion.php';
 
 $id_chatbot = $_SESSION['id_chatbot'] ?? null;
 ?>
@@ -51,7 +51,7 @@ $id_chatbot = $_SESSION['id_chatbot'] ?? null;
                     </div>
                     <div class="user-info">
                         <a href="#">Desarrollado por Giintape Innovahue</a>
-                        <span> soporte@giintapeinnovahueteam.onmicrosoft.com</span>
+                        <span> Ayuda</span>
                     </div>
 
                     <a class="a1" href="cerrarSesion.php">Cerrar Sesión</a>

@@ -148,11 +148,11 @@ try {
         $mail->Username = "contacto@giintapeinnovahue.com";
         $mail->Password = "$";
 
-        $mail->setFrom("contacto@giintapeinnovahue.com", "Soporte de GIINTAPE INNOVAHUE");
+        $mail->setFrom("contacto@giintapeinnovahue.com", "Soporte");
         $mail->addAddress($reg['correo_adm']);
 
         $mail->isHTML(true);
-        $mail->Subject = "Registro exitoso - Plan {$plan['nombre_susc']}";
+        $mail->Subject = "Registro exitoso";
 
         $plantilla = file_get_contents(__DIR__ . '/envioId.php');
         $plantilla = str_replace('{{LOGO_URL}}', 'https://ixah.giintapeinnovahue.com/images/LOGOTIPO_IXAH-02.png', $plantilla);

@@ -70,14 +70,15 @@ include 'modelo/consultas_menu.php';
           </div>
           <div class="user-info">
             <a href="#">Desarrollado por Giintape Innovahue</a>
-            <span> soporte@giintapeinnovahueteam.onmicrosoft.com</span>
+            <span>Ayuda</span>
           </div>
 
           <div class="user-info">
-            <a href="#" id="sftpLink" data-toggle="modal" data-target="#sftpModal" style="text-decoration: none; color: inherit;">
+            <a href="#" id="sftpLink" data-toggle="modal" data-target="#sftpModal" style="text-decoration: none; color: inherit; display: block; margin-bottom: 10px;">
               Integración SFTP
             </a>
-            <span><a href="https://billing.stripe.com/p/login/fZe3f33cggofeBy144">Actualizar Plan</a></span>
+
+            <a href="https://billing.stripe.com/p/login/fZe3f33cggofeBy144">Actualizar Plan</a>
 
           </div>
           <a class="a1" href="cerrarSesion.php">Cerrar Sesión</a>
@@ -153,7 +154,7 @@ include 'modelo/consultas_menu.php';
         </div>
 
         <!-- Body -->
-        <div class="modal-body">
+        <div class="modal-body" style="margin-left: 40px">
 
           <form id="formIntegracionSFTP">
 

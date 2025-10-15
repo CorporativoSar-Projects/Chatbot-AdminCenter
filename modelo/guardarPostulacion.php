@@ -160,7 +160,7 @@ if ($existe) {
 function borrarCVOneDrive($accessToken, $fileId)
 {
     if (!$fileId) return false;
-    $userPrincipalName = "jmoralesa@giintapeinnovahueteam.onmicrosoft.com";
+    $userPrincipalName = "holaixah@giintapeinnovahueteam.onmicrosoft.com";
     $urlDelete = "https://graph.microsoft.com/v1.0/users/$userPrincipalName/drive/items/$fileId";
     $ch = curl_init($urlDelete);
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
@@ -179,7 +179,7 @@ function subirACvOneDrive($tmpPath, $nombreArchivo, $cvAntiguoId = null)
     $client_id     = ""; //el ID de la aplicación (Application ID).
     $client_secret = ""; //Clave secreta que da one Drive
     $tenant_id     = ""; //el identificador del directorio
-    $userPrincipalName = "jmoralesa@giintapeinnovahueteam.onmicrosoft.com";
+    $userPrincipalName = "holaixah@giintapeinnovahueteam.onmicrosoft.com";
     $folderPath = "/Postulaciones";
 
     $urlToken = "https://login.microsoftonline.com/$tenant_id/oauth2/v2.0/token";
