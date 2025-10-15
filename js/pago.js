@@ -22,7 +22,6 @@ document.getElementById("btnRegistro").addEventListener("click", async (e) => {
       });
 
       const texto = await response.text();
-      alert(texto);
       if (texto.includes("exitoso")) {
         window.location.href = "index.php";
       }
