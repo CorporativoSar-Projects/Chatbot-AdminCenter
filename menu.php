@@ -78,7 +78,7 @@ include 'modelo/consultas_menu.php';
               Integración SFTP
             </a>
 
-            <a href="https://billing.stripe.com/p/login/fZe3f33cggofeBy144">Actualizar Plan</a>
+            <a href="https://billing.stripe.com/p/login/fZe3f33cggofeBy144" target="_blank">Actualizar Plan</a>
 
           </div>
           <a class="a1" href="cerrarSesion.php">Cerrar Sesión</a>

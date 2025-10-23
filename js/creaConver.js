@@ -1,3 +1,21 @@
+// --- Inicializar localStorage con datosChatbot al cargar la página ---
+document.addEventListener("DOMContentLoaded", function () {
+    const campos = [
+        "inp_mensaje_usuario", "inp_columna", "inp_url_informe",
+        "inp_mensaje_usuario2", "inp_columna2",
+        "inp_mensaje_usuario3", "inp_columna3", "inp_url_informe3"
+    ];
+
+    campos.forEach(campo => {
+        // Solo copia a localStorage si aún no existe
+        if (!localStorage.getItem(campo)) {
+            localStorage.setItem(campo, datosChatbot[campo] || "");
+        }
+    });
+});
+
+
+
 // Función para manejar el estado activo de los botones
 function handleButtonClick(event) {
   // Remover la clase 'active' de todos los botones
@@ -22,7 +40,7 @@ function impMenu1(event) {
                 class="input-columna-crear" required ><br>
 
             <label class="label-nombrechat">URL del informe</label><br>
-            <input type="url" name="inp_url_informe" id="inp_url_informe" placeholder="https://ejemplo.com"
+            <input type="url" name="inp_url_informe" id="inp_url_informe" placeholder="https://ejemplo.csv"
                     class="input-columna-crear"><br>
 
             

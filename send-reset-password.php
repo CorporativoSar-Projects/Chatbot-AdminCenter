@@ -79,7 +79,7 @@ try {
 
     // Credenciales
     $mail->Username = "contacto@giintapeinnovahue.com";
-    $mail->Password = "$"; 
+    $mail->Password = "giintape$2025"; 
 
     // Configuración del correo
     $mail->setFrom("contacto@giintapeinnovahue.com", "Soporte");

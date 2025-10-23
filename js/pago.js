@@ -7,9 +7,36 @@ document.getElementById("btnRegistro").addEventListener("click", async (e) => {
   const formData = new FormData(form);
   const data = Object.fromEntries(formData.entries());
 
-     // --- Verificar plan seleccionado ---
+  // --- Validar que todos los campos estén llenos ---
+  let camposVacios = false;
+
+  // Define aquí los campos opcionales
+  const camposOpcionales = ["url_cs_emp"]; // nombre del campo URL opcional
+
+  for (const [key, valor] of Object.entries(data)) {
+    if (typeof valor === "string" && valor.trim() === "") {
+      // Solo marcar error si NO es un campo opcional
+      if (!camposOpcionales.includes(key)) {
+        camposVacios = true;
+        break;
+      }
+    }
+  }
+
+  if (camposVacios) {
+    Swal.fire({
+      icon: "warning",
+      title: "Campos incompletos",
+      text: "Por favor, complete todos los campos antes de continuar.",
+      confirmButtonColor: "#3085d6",
+      confirmButtonText: "Entendido"
+    });
+    return;
+  }
+
+  // --- Verificar plan seleccionado ---
   const planSeleccionado = data.nombre_susc;
-  
+
   if (planSeleccionado === "free") {
     // --- Plan Free: enviar al backend directamente ---
     const formDataFinal = new FormData();
@@ -21,8 +48,18 @@ document.getElementById("btnRegistro").addEventListener("click", async (e) => {
         body: formDataFinal,
       });
 
-      const texto = await response.text();
-      if (texto.includes("exitoso")) {
+      const resultado = await response.json();
+
+      if (resultado.status === "error") {
+        Swal.fire({
+          icon: "warning",
+          title: "Error",
+          text: resultado.message,
+          confirmButtonColor: "#3085d6",
+          confirmButtonText: "Entendido"
+        });
+      } else {
+        // Registro exitoso
         window.location.href = "index.php";
       }
     } catch (error) {
@@ -47,9 +84,21 @@ document.getElementById("btnRegistro").addEventListener("click", async (e) => {
       // Redirigir directamente al link de pago
       window.location.href = resultado.linkPago_susc;
     } else {
-      alert("Error al obtener link de pago.");
+       Swal.fire({
+          icon: "warning",
+          title: "Error",
+          text: "Error al obtener link de pago.",
+          confirmButtonColor: "#3085d6",
+          confirmButtonText: "Entendido"
+        });
     }
   } catch (error) {
-    alert("Error en el flujo de pago: " + error.message);
+     Swal.fire({
+          icon: "warning",
+          title: "Error",
+          text: "Ocurrió un error en el flujo de pago. Inténtelo nuevamente.",
+          confirmButtonColor: "#3085d6",
+          confirmButtonText: "Entendido"
+        });
   }
 });

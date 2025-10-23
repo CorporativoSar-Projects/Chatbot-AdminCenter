@@ -63,7 +63,7 @@ $id_chatbot = $_SESSION['id_chatbot'] ?? null;
     <main>
         <div class="container-prin-Cr">
             <div class="container-bienv">
-                <p class="txt-nombre-chat">ChatBot para vacantes</p>
+                <p class="txt-nombre-chat">ChatBot</p>
                 <div class="container-btn-cerrar-guar">
 
                     <div class="btn-group">

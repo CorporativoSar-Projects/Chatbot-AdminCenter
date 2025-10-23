@@ -64,7 +64,20 @@ try {
     $stmt->store_result();
     if ($stmt->num_rows > 0) {
         $stmt->close();
-        exit("Empresa ya registrada.");
+        echo json_encode(["status" => "error", "message" => "La empresa ya está registrada."]);
+        exit;
+    }
+    $stmt->close();
+
+     // --- Verificar si el administrador ya existe ---
+    $stmt = $conexion->prepare("SELECT correo_adm FROM administrador WHERE correo_adm = ?");
+    $stmt->bind_param("s", $reg['correo_adm']);
+    $stmt->execute();
+    $stmt->store_result();
+    if ($stmt->num_rows > 0) {
+       $stmt->close();
+        echo json_encode(["status" => "error", "message" => "El correo del administrador ya está registrado."]);
+        exit;
     }
     $stmt->close();
 
@@ -169,8 +182,7 @@ try {
         $mail->Host = "smtp-mail.outlook.com";
         $mail->Port = 587;
         $mail->Username = "contacto@giintapeinnovahue.com";
-        $mail->Password = "$
- ";
+        $mail->Password = "$";
 
         $mail->setFrom("contacto@giintapeinnovahue.com", "Soporte");
         $mail->addAddress($reg['correo_adm']);

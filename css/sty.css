@@ -310,7 +310,7 @@ a{
 }
 
 .container-btn-cerrar-guar {
-  margin-left: 5%;
+  margin-left: 18%;
   display: flex;
   justify-content: flex-end;
   width: 70%;
@@ -2050,6 +2050,13 @@ a{
     text-align: center;
   }
 
+  .container-btn-cerrar-guar {
+  margin-left: 18%;
+  display: flex;
+  justify-content: flex-end;
+  width: 70%;
+}
+
   .btnSiguiente {
     background-color: #fb8300;
 
@@ -2105,8 +2112,7 @@ a{
   }
 
   .container-btn-cerrar-guar {
-    width: 100%;
-
+    width: 90%;
     margin: 0;
   }
 

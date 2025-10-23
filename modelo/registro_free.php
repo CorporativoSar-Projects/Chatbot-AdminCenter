@@ -1,6 +1,7 @@
 <?php
 ob_start();
 session_start();
+header('Content-Type: application/json; charset=utf-8');
 include 'conexion_bd.php';
 
 require '../PHPMailer-master/src/Exception.php';
@@ -37,16 +38,30 @@ try {
         $reg['id_emp'] = generarIdEmp($reg['nombre_emp']);
     }
 
-    // --- Verificar si la empresa ya existe ---
+     // --- Verificar si la empresa ya existe ---
     $stmt = $conexion->prepare("SELECT id_emp FROM empresa WHERE RFC_emp = ?");
     $stmt->bind_param("s", $reg['RFC_emp']);
     $stmt->execute();
     $stmt->store_result();
     if ($stmt->num_rows > 0) {
         $stmt->close();
-        exit("La empresa ya está registrada.");
+        echo json_encode(["status" => "error", "message" => "La empresa ya está registrada."]);
+        exit;
     }
     $stmt->close();
+
+    // --- Verificar si el correo del administrador ya existe ---
+    $stmt = $conexion->prepare("SELECT correo_adm FROM administrador WHERE correo_adm = ?");
+    $stmt->bind_param("s", $reg['correo_adm']);
+    $stmt->execute();
+    $stmt->store_result();
+    if ($stmt->num_rows > 0) {
+        $stmt->close();
+        echo json_encode(["status" => "error", "message" => "El correo del administrador ya está registrado."]);
+        exit;
+    }
+    $stmt->close();
+
 
     // --- Insertar empresa ---
     $stmt = $conexion->prepare("
@@ -170,9 +185,14 @@ try {
 
     // --- Finalizar registro ---
     unset($_SESSION['registro']);
-    echo "Registro exitoso. Acceso válido para el plan {$plan['nombre_susc']}.";
+    echo json_encode([
+    "status" => "success",
+    "message" => "Registro exitoso"
+]);
+exit;
 
 } catch (Exception $e) {
     exit("Error en el registro: " . $e->getMessage());
 }
 ?>
+

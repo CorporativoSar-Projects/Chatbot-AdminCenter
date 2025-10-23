@@ -36,7 +36,7 @@ if ($row['total'] >= 1 && isset($_GET['nuevo'])) {
     <link rel="stylesheet" href="css/sty.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <title>Estilo</title>
-    <link rel="shortcut icon" href="img/Logo_cabeza.svg" />
+    <link rel="shortcut icon" href="img/Logo_cabeza.svg"/>
 </head>
 
 <body>
@@ -76,7 +76,7 @@ if ($row['total'] >= 1 && isset($_GET['nuevo'])) {
     <main>
         <div class="container-prin">
             <div class="container-bienv">
-                <p class="txt-nombre-chat">ChatBot para vacantes</p>
+                <p class="txt-nombre-chat">ChatBot</p>
                 <div class="container-btn-cerrar-guar">
                     <div class="btn-group">
                         <a href="#" class="btnContinuar" id="btnRegresar">

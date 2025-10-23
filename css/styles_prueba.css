@@ -86,10 +86,6 @@
   justify-content: center;
 }
 
-.chatbot-min:hover {
-  background-color: #ffb703;
-}
-
 
 
 .chatbot-close:hover {
@@ -187,7 +183,7 @@
   right: 20px;
   bottom: 20px;
   cursor: pointer;
-  z-index: 1000; /* Asegúrate de que el botón esté sobre otros elementos */
+  z-index: 1000; 
 }
 
 .burbuja-parpadeante {
@@ -198,7 +194,7 @@
   width: 60px; /* O el tamaño que prefieras */
   height: 60px;
   border-radius: 50%; /* Esto hará que la imagen sea completamente redonda */
-  object-fit: cover;
+  overflow: hidden;
 }
 
 .chatbot-icon {
