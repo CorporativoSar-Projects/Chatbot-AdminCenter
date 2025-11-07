@@ -46,7 +46,7 @@ $id_chatbot = $_SESSION['id_chatbot']?? null;
                     </div>
                     <div class="user-info">
                         <a href="#">Desarrollado por Giintape Innovahue</a>
-                        <span> soporte@giintapeinnovahueteam.onmicrosoft.com</span>
+                        <span> Ayuda</span>
                     </div>
 
                     <a class="a1" href="cerrarSesion.php">Cerrar Sesión</a>
@@ -58,7 +58,7 @@ $id_chatbot = $_SESSION['id_chatbot']?? null;
     <main>
         <div class="container-prin-PI">
             <div class="container-bienv">
-                <p class="txt-nombre-chat">ChatBot para vacantes</p>
+                <p class="txt-nombre-chat">ChatBot</p>
                 <div class="container-btn-cerrar-guar">
 
                     <div class="btn-group">

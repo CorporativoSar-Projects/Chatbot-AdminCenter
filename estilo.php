@@ -1,7 +1,29 @@
 <?php
-
 include('modelo/obtenerDatos.php');
+include 'modelo/conexion_bd.php';
+include 'modalIntegracion.php';
 
+$id_adm = $_SESSION['id_adm'];
+$sql = "SELECT COUNT(*) AS total FROM chatbot WHERE Administrador_id_adm = ?";
+$stmt = $conexion->prepare($sql);
+$stmt->bind_param("i", $id_adm);
+$stmt->execute();
+$result = $stmt->get_result();
+$row = $result->fetch_assoc();
+
+if ($row['total'] >= 1 && isset($_GET['nuevo'])) {
+    echo "<script>
+      Swal.fire({
+        icon: 'info',
+        title: 'Límite alcanzado',
+        text: 'Solo puedes crear un chatbot por empresa.',
+        confirmButtonColor: '#3ca6e5'
+      }).then(() => {
+        window.location.href = 'menu.php';
+      });
+    </script>";
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -14,7 +36,7 @@ include('modelo/obtenerDatos.php');
     <link rel="stylesheet" href="css/sty.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <title>Estilo</title>
-    <link rel="shortcut icon" href="img/Logo_cabeza.svg" />
+    <link rel="shortcut icon" href="img/Logo_cabeza.svg"/>
 </head>
 
 <body>
@@ -43,7 +65,7 @@ include('modelo/obtenerDatos.php');
                     </div>
                     <div class="user-info">
                         <a href="#">Desarrollado por Giintape Innovahue</a>
-                        <span> soporte@giintapeinnovahueteam.onmicrosoft.com</span>
+                        <span> Ayuda</span>
                     </div>
                     <a class="a1" href="cerrarSesion.php">Cerrar Sesión</a>
                 </div>
@@ -54,7 +76,7 @@ include('modelo/obtenerDatos.php');
     <main>
         <div class="container-prin">
             <div class="container-bienv">
-                <p class="txt-nombre-chat">ChatBot para vacantes</p>
+                <p class="txt-nombre-chat">ChatBot</p>
                 <div class="container-btn-cerrar-guar">
                     <div class="btn-group">
                         <a href="#" class="btnContinuar" id="btnRegresar">
@@ -223,6 +245,7 @@ include('modelo/obtenerDatos.php');
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/estilo.js"></script>
     <script src="js/custom.js"></script>
+    <script src="js/formularioIntegracion.js"></script>
      <script src="js/guardar.js"></script>
     <script src="js/menuLateral.js" type="module"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

@@ -47,7 +47,7 @@ include('modelo/obtenerDatos.php')
                     </div>
                     <div class="user-info">
                         <a href="#">Desarrollado por Giintape Innovahue</a>
-                        <span> soporte@giintapeinnovahueteam.onmicrosoft.com</span>
+                        <span> Ayuda</span>
                     </div>
 
                     <a class="a1" href="cerrarSesion.php">Cerrar Sesión</a>
@@ -59,7 +59,7 @@ include('modelo/obtenerDatos.php')
     <main>
         <div class="container-prinF">
             <div class="container-bienv">
-                <p class="txt-nombre-chat">ChatBot para vacantes</p>
+                <p class="txt-nombre-chat">ChatBot</p>
                 <div class="container-btn-cerrar-guar">
                     <div class="btn-group">
                         <a href="#" class="btnContinuar" id="btnRegresar">
@@ -158,20 +158,41 @@ include('modelo/obtenerDatos.php')
                                 <button>Enviar</button>
                             </div>
                         </div>
+                        <?php
+                        // Obtener la URL actual del chatbot (si existe)
+                        $urlFuncionamiento = $chatbot['url_cs_emp'] ?? '';
+                        $esEditable = empty($urlFuncionamiento);
+                        ?>
+
                         <div class="link-func">
                             <div class="label-func">
                                 <label for="input">URL de funcionamiento</label>
                             </div>
+
                             <div class="container-input">
-                                <input type="text" id="input" class="txtfunc" name="url_cs_emp">
+                                <input
+                                    type="text"
+                                    id="input"
+                                    class="txtfunc"
+                                    name="url_cs_emp"
+                                    value="<?php echo htmlspecialchars($urlFuncionamiento); ?>"
+                                    <?php echo $esEditable ? '' : 'readonly disabled'; ?>
+                                    onfocus="if(this.hasAttribute('readonly')) this.blur();"
+                                    style="<?php echo $esEditable ? '' : 'pointer-events:none; user-select:none; background-color:#f8f9fa; cursor:not-allowed;'; ?>"
+                                    placeholder="<?php echo $esEditable ? 'Ejemplo: https://tusitio.com/chatbot' : ''; ?>">
+
                                 <button type="submit" class="btnGuardarurl" id="btnGuardarurl">
                                     <i class="fas fa-save"></i>
-                                    <span class="btn-text-Guardar"></span>
                                 </button>
                             </div>
                             <div class="generar-container">
                                 <button type="submit" id="myBtn" class="btnGenerar" data-idadm="<?= $_SESSION['id_adm'] ?>" data-toggle="modal" data-target="#myModal">
                                     <span class="btn-text-Generar">Generar</span>
+                                </button>
+
+                                <!-- Nuevo botón a la derecha -->
+                                <button type="button" id="btnInteractivo" class="btnInteractivo" onclick="window.location.href='pagina_pruebas.php'">
+                                    <span class="btnInteractivo">Modo Interactivo</span>
                                 </button>
                             </div>
 
@@ -233,6 +254,7 @@ include('modelo/obtenerDatos.php')
     <!-- jQuery y Bootstrap JavaScript -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="js/link.js"></script>
     <script src="js/custom.js"></script>
     <script src="js/menuLateral.js" type="module"></script>

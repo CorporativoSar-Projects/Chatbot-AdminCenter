@@ -310,7 +310,7 @@ a{
 }
 
 .container-btn-cerrar-guar {
-  margin-left: 5%;
+  margin-left: 18%;
   display: flex;
   justify-content: flex-end;
   width: 70%;
@@ -634,6 +634,11 @@ a{
 .generar-container {
   margin-left: 23%;
   margin-top: 5px;
+
+  display: flex;
+  justify-content: space-between; /* coloca uno a la izquierda y otro a la derecha */
+  align-items: center;
+  width: 55%; /* ajusta este ancho según tu diseño */
 }
 
 /* Botón */
@@ -645,13 +650,28 @@ a{
   border: none;
   cursor: pointer;
   white-space: nowrap;
+  margin-left: -37%;
   height: 37px;
-  margin-left: 35%;
+}
+
+/* Botón Modo Interactivo */
+.btnInteractivo {
+  border-radius: 20px;
+  padding: 4px 9px;
+  background-color: #3ca6e5;
+  color: white;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  height: 37px;
+  margin-right: 4%;
+  transition: background-color 0.3s;
 }
 
 .btnGenerar:hover {
   opacity: 0.8;
 }
+
 
 .btnGuardarurl {
   display: flex;
@@ -1897,7 +1917,7 @@ a{
   }
 
   .btnGenerar {
-    margin-left: 30%;
+    margin-left: -39%;
     margin-right: 0;
     width: auto;
     max-width: 200px;
@@ -2030,6 +2050,13 @@ a{
     text-align: center;
   }
 
+  .container-btn-cerrar-guar {
+  margin-left: 18%;
+  display: flex;
+  justify-content: flex-end;
+  width: 70%;
+}
+
   .btnSiguiente {
     background-color: #fb8300;
 
@@ -2085,8 +2112,7 @@ a{
   }
 
   .container-btn-cerrar-guar {
-    width: 100%;
-
+    width: 90%;
     margin: 0;
   }
 

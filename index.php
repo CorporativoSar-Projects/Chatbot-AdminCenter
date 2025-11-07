@@ -102,13 +102,13 @@ y no altere el comportamiento de las demás secciones -->
 
 
   <!--Formulario del modal para el restablecimiento de la contraseña-->
-  <div id="reset-password-form" class="modal" style="display: none">
-    <div class="modal-content">
-      <div class="modal-header">
+  <div id="reset-password-form" class="modal-rest" style="display: none">
+    <div class="modal-content-rest">
+      <div class="modal-header-rest">
         <span>Restablecer tu contraseña</span>
         <span class="close" id="close-modal">&times;</span>
       </div>
-      <div class="modal-body">
+      <div class="modal-body-rest">
         <p>
           Ingresa tu correo electrónico y te enviaremos una contraseña
           aleatoria para ingresar a su cuenta.
@@ -117,7 +117,7 @@ y no altere el comportamiento de las demás secciones -->
           <input
             type="email"
             id="email"
-            class="txtMail"
+            class="txtMail-rest"
             placeholder="Correo electrónico"
             required />
           <button type="submit" class="submit-button-form" id="submit-button">

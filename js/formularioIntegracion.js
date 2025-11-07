@@ -36,7 +36,19 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
 
       if (planFree) {
-        alert('Esta función está disponible solo con un plan de pago.');
+        Swal.fire({
+          title: 'Función restringida',
+          text: 'Esta función está disponible solo con un plan de pago.',
+          icon: 'warning',
+          confirmButtonText: 'Aceptar',
+          confirmButtonColor: '#F9BE21',
+            didOpen: () => {
+            const swalContainer = document.querySelector('.swal2-container');
+            if (swalContainer) {
+              swalContainer.style.zIndex = 20000; // más alto que Bootstrap modal
+            }
+          }
+        });
         return;
       }
       if (suscripcionInactiva) {
@@ -79,7 +91,21 @@ document.addEventListener('DOMContentLoaded', () => {
     formSFTP.addEventListener("submit", async (e) => {
       e.preventDefault();
       if (planFree) {
-        alert('No se puede guardar SFTP en plan Free.');
+         // Cerrar modal primero
+        modalSFTP.modal('hide');
+         Swal.fire({
+          title: 'Función restringida',
+          text: 'No se puede guardar SFTP en plan Free.',
+          icon: 'warning',
+          confirmButtonText: 'Aceptar',
+          confirmButtonColor: '#F9BE21',
+            didOpen: () => {
+            const swalContainer = document.querySelector('.swal2-container');
+            if (swalContainer) {
+              swalContainer.style.zIndex = 20000; // más alto que Bootstrap modal
+            }
+          }
+        });
         return;
       }
 

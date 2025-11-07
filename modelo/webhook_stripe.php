@@ -22,6 +22,7 @@ if (!in_array($event->type, ['customer.subscription.created','customer.subscript
 }
 
 $subscription = $event->data->object;
+
 $stripe_subscription_id = $subscription->id;
 $customer_id = $subscription->customer;
 $status = $subscription->status;

@@ -1,4 +1,4 @@
-  document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", () => {
   const input = document.getElementById("input");
   const btnGuardarUrl = document.getElementById("btnGuardarurl");
 
@@ -8,46 +8,56 @@
   document.documentElement.style.setProperty('--color-texto-boton', colorTexto);
 
   iconosSVG.forEach(svg => {
-    
-    svg.style.stroke = colorTexto;  
-    svg.style.fill = colorTexto;    
+
+    svg.style.stroke = colorTexto;
+    svg.style.fill = colorTexto;
   });
 
-      const botones = document.querySelectorAll('.chatbot-button');
-    botones.forEach(btn => {
-      btn.style.color = colorTexto;
-    });
+  const botones = document.querySelectorAll('.chatbot-button');
+  botones.forEach(btn => {
+    btn.style.color = colorTexto;
+  });
 
   // Si no se encuentra alguno, salimos para evitar errores
   if (!input || !btnGuardarUrl) return;
 
   // Verificar si ya hay URL registrada
   fetch("modelo/funcionamientoUrl.php?accion=verificar")
-    .then(res => res.json())
+   .then(res => res.json())
     .then(data => {
-      input.value = data.url || "";
+      if (data.success) {
+        input.value = data.url || "";
 
-      if (!data.editable) {
-        input.setAttribute("readonly", true);
-        btnGuardarUrl.disabled = true;
-        btnGuardarUrl.classList.add("disabled");
-      } else {
-        input.removeAttribute("readonly");
-        btnGuardarUrl.disabled = false;
-        btnGuardarUrl.classList.remove("disabled");
+        if (data.url && data.url !== "") {
+          // Ya tiene URL → bloquear edición
+          input.setAttribute("readonly", true);
+          btnGuardarUrl.disabled = true;
+          btnGuardarUrl.classList.add("disabled");
+          btnGuardarUrl.innerHTML = '<i class="fas fa-check"></i>';
+        } else {
+          // No tiene URL → permitir que la agregue
+          input.removeAttribute("readonly");
+          btnGuardarUrl.disabled = false;
+          btnGuardarUrl.classList.remove("disabled");
+        }
       }
     })
     .catch(error => {
       console.error("Error al verificar la URL:", error);
     });
 
-  // Guardar nueva URL al hacer clic
-  btnGuardarUrl.addEventListener("click", function (e) {
+    // --- Guardar nueva URL ---
+  btnGuardarUrl.addEventListener("click", (e) => {
     e.preventDefault();
     const url = input.value.trim();
 
     if (!url) {
-      alert("Por favor ingresa una URL.");
+      Swal.fire({
+        icon: 'warning',
+        title: 'Campo vacío',
+        text: 'Por favor ingresa una URL válida.',
+        confirmButtonColor: '#ffb703'
+      });
       return;
     }
 
@@ -59,18 +69,28 @@
       .then(res => res.json())
       .then(data => {
         if (data.success) {
-          alert("URL guardada correctamente.");
+          Swal.fire({
+            icon: 'success',
+            title: '¡Éxito!',
+            text: 'La URL se ha guardado correctamente',
+            confirmButtonColor: '#ffb703',
+            confirmButtonText: 'Aceptar'
+          });
           input.setAttribute("readonly", true);
           btnGuardarUrl.disabled = true;
           btnGuardarUrl.classList.add("disabled");
           btnGuardarUrl.innerHTML = '<i class="fas fa-check"></i>';
         } else {
-          alert("Error: " + data.message);
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: data.message,
+            confirmButtonColor: '#ffb703'
+          });
         }
       })
-      .catch(error => {
-        console.error("Error al guardar la URL:", error);
-      });
+      .catch(error => console.error("Error al guardar la URL:", error));
   });
 });
+
 

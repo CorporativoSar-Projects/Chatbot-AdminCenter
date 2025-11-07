@@ -60,6 +60,22 @@ h1 {
   opacity: 1;
 }
 
+.txtMail-rest {
+  width: 100%;
+  height: 40px;
+  padding: 12px 20px;
+  margin: 8px 0;
+  border: none;
+  display: inline-block;
+  background-color: #f3f3f3;
+  box-sizing: border-box;
+  border-radius: 20px;
+  text-decoration: none;
+  outline: none;
+  transition: opacity 0.2s ease;
+  opacity: 1;
+}
+
 /* Estilo del link ¿Olvidaste tu contraseña y del registro */
 .container-btn-sesion,
 .container-btn-registro {
@@ -159,17 +175,20 @@ button:hover {
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   text-align: center;
-  max-width: 300px;
+  max-width: 90%; /* ahora se adapta al tamaño de la pantalla */
   min-width: 200px;
   border-top: 5px solid #ffb703;
+  word-wrap: break-word; /* rompe palabras largas */
+  overflow-wrap: break-word; /* compatibilidad */
 }
 
-/* Mensaje de la alerta */
 .alert-message {
   font-size: 16px;
   color: #333;
   display: block;
   margin-bottom: 15px;
+  word-break: break-word; /* rompe correos largos */
+  overflow-wrap: break-word;
 }
 
 /* Botón de cierre */
@@ -189,7 +208,7 @@ button:hover {
 }
 
 /* Modal del login */
-.modal {
+.modal-rest{
   display: none;
   position: fixed;
   z-index: 1000;
@@ -213,6 +232,29 @@ button:hover {
   animation: fadeIn 0.3s ease-in-out;
 }
 
+.modal-content-rest {
+  background: white;
+  width: 400px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.submit-button-form {
+  background: #ffb703;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background 0.3s;
+  font-size: 16px;
+  margin: 15px auto 0 auto; /* margen superior y auto en los lados */
+  text-align: center;
+  display: block; /* ← necesario para que funcione el margin auto */
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -225,7 +267,7 @@ button:hover {
 }
 
 /* Encabezado del modal */
-.modal-header {
+.modal-header-rest{
   background: #e0e0e0;
   padding: 15px;
   font-size: 18px;
@@ -247,7 +289,7 @@ button:hover {
 }
 
 /* Cuerpo del modal */
-.modal-body {
+.modal-body-rest {
   padding: 20px;
   text-align: center;
 }
