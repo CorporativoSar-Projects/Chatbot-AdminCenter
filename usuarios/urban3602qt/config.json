@@ -1,41 +1,42 @@
 {
     "id_emp": "urban3602qt",
     "estilos": {
-        "colorPrimario": "#1e2be6",
-        "colorSecundario": "#403597",
-        "colorTexto": "#f5f0f0",
-        "colorAcento": "#4034e5",
-        "colorRespuestaUsuario": "#2140ba",
+        "colorPrimario": "#3532c3",
+        "colorSecundario": "#3843d6",
+        "colorTexto": "#ffffff",
+        "colorAcento": "#2b389c",
+        "colorRespuestaUsuario": "#3c58c8",
         "logo": "https://upload.wikimedia.org/wikipedia/commons/6/61/Samsung_old_logo_before_year_2015.svg",
         "nombreChatbot": "SamsungBot",
         "burbuja": "¡Encuentra Puestos!",
-        "saludo": "¡Hola! Soy tu asistente virtual, te ayudaré con la búsqueda de vacantes."
+        "saludo": "¡Hola! Soy tu asistente virtual  te ayudaré a encontrar tu vacante ideal."
     },
     "funcionamiento": {
         "urlChatbot": "http://localhost/chatbot-giintape/",
+        "tipoIntegracion": "sftp",
         "integracionActiva": true
     },
     "conversacion": [
         {
             "tema": "Buscar vacantes por categoría",
-            "mensaje": "Elige la categoría que más te interese.",
-            "columna": "Categoria",
-            "urlInforme": "https://chatbot.giintapeinnovahue.com/report_Job.csv"
+            "mensaje": "Busca tu vacante ideal por categoria",
+            "columna": "category_ix",
+            "urlInforme": "http://localhost/Chatbot-AdminCenter/puestos.csv"
         },
         {
             "tema": "Buscar vacantes por ubicación",
-            "mensaje": "Selecciona la ubicación que más te interese.",
-            "columna": "Ubicación",
-            "urlInforme": "https://chatbot.giintapeinnovahue.com/report_Job.csv"
+            "mensaje": "Busca una vacante por ubicación",
+            "columna": "location_ix",
+            "urlInforme": "http://localhost/Chatbot-AdminCenter/puestos.csv"
         },
         {
             "tema": "Seguimiento de mi postulación",
-            "mensaje": "Mantente al día con las postulaciones que haz hecho.",
-            "columna": "Correo Electrónico",
+            "mensaje": "Mantente al día con tus postulaciones",
+            "columna": "email_ix",
             "urlInforme": "http://localhost/Chatbot-AdminCenter/candidatos.csv"
         }
     ],
-    "despedida": "Te agradecemos haber usado a SamsungBot, esperamos verte pronto.",
+    "despedida": "Gracias por usar, SamsungBot esperamos verte pronto.\r\n",
     "vacantes": [
         "http://localhost/Chatbot-AdminCenter/puestos.csv",
         "http://localhost/Chatbot-AdminCenter/puestos.csv",

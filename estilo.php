@@ -1,6 +1,7 @@
 <?php
 include('modelo/obtenerDatos.php');
 include 'modelo/conexion_bd.php';
+include 'modelo/consultas_menu.php';
 include 'modalIntegracion.php';
 
 $id_adm = $_SESSION['id_adm'];
@@ -36,7 +37,7 @@ if ($row['total'] >= 1 && isset($_GET['nuevo'])) {
     <link rel="stylesheet" href="css/sty.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <title>Estilo</title>
-    <link rel="shortcut icon" href="img/Logo_cabeza.svg"/>
+    <link rel="shortcut icon" href="img/Logo_cabeza.svg" />
 </head>
 
 <body>
@@ -45,35 +46,10 @@ if ($row['total'] >= 1 && isset($_GET['nuevo'])) {
         <img src="img/Logo_cabeza.svg" width="70px" alt="Logo" class="img-logo-chiq">
     </div>
     <header>
-        <div class="user-dropdown">
-            <div class="cont-btn-user" id="close-btn-user">
-                <button class="btn-user" id="user-btn"><img src="img/user.png" width="30" alt="User Icon"></button>
-            </div>
-            <!--  Menu lateral -->
-            <div class="dropdown-content" id="dropdown-content">
-                <div class="d-flex align-items-center px-3 user-info">
-                    <img src="img/user.png" width="40" alt="User Icon">
-                    <div class="div-user">
-                        <strong><?php echo $_SESSION['nombre_adm'] . ' '. $_SESSION['apellidop_adm']; ?></strong><br>
-                        <small><?php echo ($_SESSION['correo_adm']) ?></small>
-                    </div>
-                </div>
-                <div class="dropdown-links">
-                    <div class="user-info">
-                        <a href="#">Chatbot IXAH</a>
-                        <span>Versión 1.0.0</span>
-                    </div>
-                    <div class="user-info">
-                        <a href="#">Desarrollado por Giintape Innovahue</a>
-                        <span> Ayuda</span>
-                    </div>
-                    <a class="a1" href="cerrarSesion.php">Cerrar Sesión</a>
-                </div>
-            </div>
-        </div>
+         <?php include 'DatosMenu.php'; ?>
     </header>
 
-    <main>
+    <main  id="contenidoPrincipal">
         <div class="container-prin">
             <div class="container-bienv">
                 <p class="txt-nombre-chat">ChatBot</p>
@@ -85,11 +61,11 @@ if ($row['total'] >= 1 && isset($_GET['nuevo'])) {
                         </a>
                         <a href="#" class="btnContinuar" id="btnContinuar">
                             <span class="btn-text">Continuar</span>
-                            <img src="img/flecha-c.png" class="btn-icon" style="width: 15px;">
+                            <img src="img/flecha-c.png" class="btn-icon" style="width: 17px;">
                         </a>
                     </div>
                     <div class="btn-group">
-                        <button type="submit" id="btnGuardarEstilo" class="btnGuardarS">
+                        <button type="submit" id="btnGuardarEstilo" class="btnGuardarS" onclick="guardarChatbotCompleto()">
                             <span class="btn-text">Guardar</span>
                             <img src="img/icons8-save-24.png" class="btn-icon" style="width: 15px;">
                         </button>
@@ -128,26 +104,26 @@ if ($row['total'] >= 1 && isset($_GET['nuevo'])) {
                     <div>
                         <label class="label-nombrechat">Nombre visible de tu ChatBot</label><br>
                         <input type="text" name="inp_nombre" id="inp_nombre" placeholder="IXAH"
-                            class="input-nombre" minlength="2" maxlength="10" required  value="<?php echo htmlspecialchars($chatbot['inp_nombre'] ?? ''); ?>"><br>
+                            class="input-nombre" minlength="2" maxlength="10" required value="<?php echo htmlspecialchars($chatbot['inp_nombre'] ?? ''); ?>"><br>
 
                         <div class="container-colors">
                             <div class="nombre-colord">
                                 <label for="colorPrimario">Color Primario</label><br>
                                 <div class="color-selector">
-                                    <input type="color" id="colorPrimario"  value="<?php echo htmlspecialchars($chatbot['colorPrimario'] ?? '#3ca6e5'); ?>"
+                                    <input type="color" id="colorPrimario" value="<?php echo htmlspecialchars($chatbot['colorPrimario'] ?? '#3ca6e5'); ?>"
                                         oninput="actualizarColores()">
                                     <div id="muestraColorPrimario" class="color-circle"></div><br>
                                 </div>
 
                                 <label for="colorAcento">Color de Acento</label><br>
                                 <div class="color-selector">
-                                    <input type="color" id="colorAcento" value="<?php echo htmlspecialchars($chatbot['colorAcento'] ?? '#383838' ); ?>" oninput="actualizarColores()">
+                                    <input type="color" id="colorAcento" value="<?php echo htmlspecialchars($chatbot['colorAcento'] ?? '#383838'); ?>" oninput="actualizarColores()">
                                     <div id="muestraColorAcento" class="color-circle"></div><br>
                                 </div>
 
                                 <label for="colorUsuario">Respuesta Usuario</label><br>
                                 <div class="color-selector">
-                                    <input type="color" id="colorRespuestaUsuario" value="<?php echo htmlspecialchars($chatbot['colorRespuestaUsuario'] ?? '#219ebc') ; ?>"
+                                    <input type="color" id="colorRespuestaUsuario" value="<?php echo htmlspecialchars($chatbot['colorRespuestaUsuario'] ?? '#219ebc'); ?>"
                                         oninput="actualizarColores()">
                                     <div id="muestraColorRespuestaUsuario" class="color-circle"></div><br>
                                 </div>
@@ -155,28 +131,28 @@ if ($row['total'] >= 1 && isset($_GET['nuevo'])) {
                             <div class="nombre-colorc">
                                 <label for="colorSecundario">Color Secundario</label><br>
                                 <div class="color-selector">
-                                    <input type="color" id="colorSecundario" value="<?php echo htmlspecialchars($chatbot['colorSecundario'] ?? '#b6b6b6') ; ?>"
+                                    <input type="color" id="colorSecundario" value="<?php echo htmlspecialchars($chatbot['colorSecundario'] ?? '#b6b6b6'); ?>"
                                         oninput="actualizarColores()">
                                     <div id="muestraColorSecundario" class="color-circle"></div><br>
                                 </div>
 
                                 <label for="colorTexto">Color de Texto</label><br>
                                 <div class="color-selector">
-                                    <input type="color" id="colorTexto" value="<?php echo htmlspecialchars($chatbot['colorTexto'] ?? '#000000' ) ; ?>" oninput="actualizarColores()">
+                                    <input type="color" id="colorTexto" value="<?php echo htmlspecialchars($chatbot['colorTexto'] ?? '#000000'); ?>" oninput="actualizarColores()">
                                     <div id="muestraColorTexto" class="color-circle"></div><br>
-    
+
                                 </div>
-                                
+
                             </div>
-                        
-                                
-                        
+
+
+
 
                             <!-- Contenedor para cargar la imagen con icono adjunto -->
                             <div class="container-archivo">
                                 <label for="urlLogotipo">Ingresa la URL del Logotipo</label><br>
                                 <div class="select-archivo">
-                                    <input type="text" id="urlLogotipo" placeholder="https://logo" class="input-url" value="<?php echo htmlspecialchars($chatbot['urlLogotipo'] ?? ''); ?>">
+                                    <input type="text" id="urlLogotipo" placeholder="https://tusitio.com/logo.png (.png, .jpg, .svg)" class="input-url" value="<?php echo htmlspecialchars($chatbot['urlLogotipo'] ?? ''); ?>">
                                     <button type="button" onclick="previsualizarImagen()" class="update-logo-button">Actualizar logo</button>
                                 </div>
                             </div>
@@ -189,26 +165,26 @@ if ($row['total'] >= 1 && isset($_GET['nuevo'])) {
                                 $logo = (!empty($chatbot['urlLogotipo'])) ? $chatbot['urlLogotipo'] : 'img/Logo_cabeza.svg';
                                 ?>
                                 <img src="<?php echo htmlspecialchars($logo); ?>" alt="Chatbot" class="chatbot-icon" id="chatbotIcon">
-                                <p class="txt-titulo-chat" id="txt-titulo-chat"><?php echo htmlspecialchars($chatbot['inp_nombre'] ?? 'IXAH' ) ;?></p>
+                                <p class="txt-titulo-chat" id="txt-titulo-chat"><?php echo htmlspecialchars($chatbot['inp_nombre'] ?? 'IXAH'); ?></p>
                                 <div class="container1">
                                     <div class="chatbot-min" title="Minimizar" onclick="toggleChatbot()">
                                         <svg class="icono-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                                        <path d="M 6 12 C 6 11.449219 6.449219 11 7 11 L 17 11 C 17.550781 11 18 11.449219 18 12 C 18 12.550781 17.550781 13 17 13 L 7 13 C 6.449219 13 6 12.550781 6 12 Z"/>
-                                    </svg>
+                                            <path d="M 6 12 C 6 11.449219 6.449219 11 7 11 L 17 11 C 17.550781 11 18 11.449219 18 12 C 18 12.550781 17.550781 13 17 13 L 7 13 C 6.449219 13 6 12.550781 6 12 Z" />
+                                        </svg>
 
                                     </div>
                                     <div class="chatbot-close" title="Cerrar" onclick="cerrar()">
-                                         <svg class="icono-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="miter">
-                                            <path d="M 16 8 L 8 16 M 8 8 L 16 16"/>
-                                            </svg>
+                                        <svg class="icono-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="miter">
+                                            <path d="M 16 8 L 8 16 M 8 8 L 16 16" />
+                                        </svg>
                                     </div>
                                 </div>
                             </div>
                             <div class="chatbot-content">
                                 <p class="txt-chatbot">
-                                    <?php 
-                                    $saludo = !empty($chatbot['inp_saludo']) 
-                                        ? $chatbot['inp_saludo'] 
+                                    <?php
+                                    $saludo = !empty($chatbot['inp_saludo'])
+                                        ? $chatbot['inp_saludo']
                                         : '¡Hola! Soy IXAH, tu asistente virtual en el mundo laboral. ¿En qué te puedo ayudar hoy?';
                                     echo htmlspecialchars($saludo);
                                     ?>
@@ -221,7 +197,7 @@ if ($row['total'] >= 1 && isset($_GET['nuevo'])) {
                             </div>
 
                             <div class="user-message2">
-                                    <p>vurzolakku@gufum.com</p>
+                                <p>vurzolakku@gufum.com</p>
                             </div>
                             <div id="user-input-container" class="user-input-container">
                                 <input type="text" id="user-input" placeholder="Escribe aquí tu respuesta...">
@@ -235,18 +211,38 @@ if ($row['total'] >= 1 && isset($_GET['nuevo'])) {
 
     <!-- jQuery y Bootstrap JavaScript -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    
-            <script>
-        const id_chatbot = <?php echo json_encode($id_chatbot); ?>;
+
+    <script>
+        const id_chatbot = <?php echo isset($id_chatbot) ? $id_chatbot : 'null'; ?>;
         if (id_chatbot) {
             localStorage.setItem("id_chatbot", id_chatbot);
         }
-        </script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/estilo.js"></script>
     <script src="js/custom.js"></script>
     <script src="js/formularioIntegracion.js"></script>
-     <script src="js/guardar.js"></script>
+
+
+  <script>
+    window.appData = {
+      nombrePlan: '<?php echo $planUsuario; ?>',
+      estadoSuscripcion: '<?php echo $estadoSuscripcion; ?>',
+      sftpActivo: <?php echo $sftpActivo; ?>,
+      sftpConfig: <?php
+                  echo json_encode([
+                    'servidor' => $sftpData['servidor'] ?? '',
+                    'puerto' => $sftpData['puerto'] ?? '22',
+                    'usuario' => $sftpData['usuario'] ?? '',
+                    'contrasena' => '',
+                    'rutaDestino' => $sftpData['rutaDestino'] ?? '',
+                    'url_estandar' =>  $sftpData['url_estandar'] ?? ''
+                  ]);
+                  ?>
+    };
+  </script>
+    <script src="js/guardadoGeneral.js"></script>
+    <script src="js/guardar.js"></script>
     <script src="js/menuLateral.js" type="module"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 

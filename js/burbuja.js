@@ -66,7 +66,7 @@ const divCopiaBurb = document.getElementById('chatTextBurb');
 
 txtBurbuja.addEventListener('keyup', () => {
     divCopiaBurb.innerHTML = txtBurbuja.value;
-    localStorage.setItem('nombreBurbuja', txtBurbuja.value);
+    localStorage.setItem('inp_burbuja', txtBurbuja.value);
 });
 
 //codigo que llama el logo desde el localStorage
@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 //DOM 
-document.addEventListener("DOMContentLoaded", function () {
+/*document.addEventListener("DOMContentLoaded", function () {
     const btnGuardar = document.getElementById("btnGuardarBurbuja");
 
     btnGuardar.addEventListener("click", function (event) {
@@ -137,4 +137,4 @@ document.addEventListener("DOMContentLoaded", function () {
             alert("Error de red o del servidor.");
         })
     });
-});
+});*/

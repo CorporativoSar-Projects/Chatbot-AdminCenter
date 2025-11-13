@@ -162,7 +162,9 @@ function cargarCSV(url, columnaClave, esSeguimiento = false) {
     skipEmptyLines: true,
     complete: function (results) {
       // Guardar los datos por columna
-      csvDataPorColumna[columnaClave] = results.data;
+      csvDataPorColumna[columnaClave] = esSeguimiento
+        ? results.data  // cargar todo
+        : results.data.filter(item => item['Estado de publicación'] === 'Publicado');
 
       // Si no es seguimiento, mostrar select
       if (!esSeguimiento) {
@@ -196,23 +198,29 @@ function mostrarSelect(columnaClave, mensajeUsuario, selectId, textoDefault) {
   select.id = selectId;
   select.style.marginTop = "10px";
 
-
+    // Mapa de columnas internas → nombres amigables
+  const nombresColumnas = {
+    "category_ix": "Categoría",
+    "reqId_ix": "ID de vacante",
+    "location_ix": "Ubicación",
+    // agrega más columnas aquí según tu CSV
+  };
 
   select.onchange = function () {
     const valorSeleccionado = this.value;
 
     const div = document.createElement("div");
-    div.className = "user-message2";
+    div.className = "user-message";
     div.innerHTML = `${mensajeUsuario} ${valorSeleccionado}...`;
 
-    if (windowConfig) {
-      div.style.backgroundColor = windowConfig.colorRespuestaUsuario;
-      div.style.color = windowConfig.colorTexto;
-      div.style.borderRadius = "12px";
-      div.style.padding = "8px 12px";
-      div.style.maxWidth = "80%";
-      div.style.margin = "5px 0";
-    }
+    //if (windowConfig) {
+      //div.style.backgroundColor = windowConfig.colorRespuestaUsuario;
+      //div.style.color = windowConfig.colorTexto;
+      //div.style.borderRadius = "12px";
+      //div.style.padding = "8px 12px";
+      //div.style.maxWidth = "80%";
+      //div.style.margin = "5px 0";
+    //}
 
     contenedor.appendChild(div);
     div.scrollIntoView({ behavior: "smooth" });
@@ -234,8 +242,9 @@ function mostrarSelect(columnaClave, mensajeUsuario, selectId, textoDefault) {
           if (emp.hasOwnProperty(key) && emp[key]) {
             if (key.toLowerCase() === "link") {
               link = emp[key]; // Guardar el link para mostrar al final
-            } else {
-              mensaje += `<p><strong>${key}:</strong> ${emp[key]}</p>`;
+            } else if (nombresColumnas[key]) {//antes estaba else
+              //mensaje += `<p><strong>${key}:</strong> ${emp[key]}</p>`;
+              mensaje += `<p><strong>${nombresColumnas[key]}:</strong> ${emp[key]}</p>`;
             }
           }
         }
@@ -244,7 +253,7 @@ function mostrarSelect(columnaClave, mensajeUsuario, selectId, textoDefault) {
         if (link) {
           if (windowConfig.sftp_activo) {
             mensaje += `
-            <button class="btn btn-primary" onclick="abrirModalPostulacion('${emp['ID de requisición de personal']}')">
+            <button class="btn btn-primary" onclick="abrirModalPostulacion('${emp['reqId_ix']}')">
                 Postúlate
             </button>
         `;
@@ -683,6 +692,7 @@ function manejarFlujoSeguimiento(userInput) {
   if (estadoConversacion !== "preguntaUsuario") return;
 
   const columnaClave = window.temaSeguimiento.columna;
+
   const csvData = csvDataPorColumna[columnaClave] || [];
 
   const resultados = csvData.filter(item => {
@@ -693,13 +703,28 @@ function manejarFlujoSeguimiento(userInput) {
   if (resultados.length > 0) {
     agregarMensajeChatbot("Postulaciones encontradas:");
 
+    // Definir aquí las columnas que quieres mostrar
+    const columnasMostrar = {
+      candStatus_ix: "Estatus de postulación",
+      title_ix: "Vacante postulada",
+      name_ix: "Nombre",
+      lastName_ix: "Apellido",
+      email_ix: "Correo Electrónico"
+    };
+
     resultados.forEach(item => {
       let html = "<div class='resultado-csv'>";
 
-      // Mostrar solo columnas "reales"
-      Object.keys(item).forEach(col => {
-        if (col && !col.startsWith("_")) { // Ignorar columnas automáticas de PapaParse
-          html += `<p><strong>${col}:</strong> ${item[col] || '-'}</p>`;
+      // Mostrar solo columnas
+      //Object.keys(item).forEach(col => {
+      //if (col && !col.startsWith("_")) { // Ignorar columnas automáticas de PapaParse
+      //html += `<p><strong>${col}:</strong> ${item[col] || '-'}</p>`;
+      //}
+      //});
+      // Mostrar solo las columnas que definiste arriba
+      Object.keys(columnasMostrar).forEach(col => {
+        if (item[col] !== undefined && item[col] !== "") {
+          html += `<p><strong>${columnasMostrar[col]}:</strong> ${item[col]}</p>`;
         }
       });
 

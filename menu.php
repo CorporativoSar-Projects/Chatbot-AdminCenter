@@ -4,6 +4,7 @@ si no esta validado es redirigido a la página de inicio -->
 <!-- Las demás secciones cuentán con esta función con el fin de proteger la información de la empresa -->
 <?php
 include 'modelo/consultas_menu.php';
+include 'modalIntegracion.php'
 ?>
 
 <!DOCTYPE html>
@@ -45,46 +46,8 @@ include 'modelo/consultas_menu.php';
                 </li> -->
       </ul>
     </nav>
+    <?php include 'DatosMenu.php'; ?>
 
-    <div class="user-dropdown">
-      <div class="cont-btn-user" id="close-btn-user">
-        <button class="btn-user" id="user-btn">
-          <img src="img/user.png" width="30" alt="User Icon" />
-        </button>
-      </div>
-      <!-- Menu lateral -->
-      <div class="dropdown-content" id="dropdown-content">
-        <div class="d-flex align-items-center px-3 user-info">
-          <img src="img/user.png" width="40" alt="User Icon" />
-          <div class="div-user">
-            <strong><?php echo $_SESSION['nombre_adm'] . ' ' . $_SESSION['apellidop_adm']; ?></strong><br />
-            <small><?php echo ($_SESSION['correo_adm']) ?></small>
-          </div>
-        </div>
-        <!-- Nuevas leyendas -->
-        <!--         Nombre del chatbot (IXAH), versión 1.0.0, "Desarrollado por Giintape Innovahue" Y correo, soporte@giintapeinnovahueteam.onmicrosoft.com -->
-        <div class="dropdown-links">
-          <div class="user-info">
-            <a href="#">Chatbot IXAH</a>
-            <span>Versión 1.0.0</span>
-          </div>
-          <div class="user-info">
-            <a href="#">Desarrollado por Giintape Innovahue</a>
-            <span>Ayuda</span>
-          </div>
-
-          <div class="user-info">
-            <a href="#" id="sftpLink" data-toggle="modal" data-target="#sftpModal" style="text-decoration: none; color: inherit; display: block; margin-bottom: 10px;">
-              Integración SFTP
-            </a>
-
-            <a href="https://billing.stripe.com/p/login/fZe3f33cggofeBy144" target="_blank">Actualizar Plan</a>
-
-          </div>
-          <a class="a1" href="cerrarSesion.php">Cerrar Sesión</a>
-        </div>
-      </div>
-    </div>
   </header>
 
   <main id="contenidoPrincipal">
@@ -142,25 +105,25 @@ include 'modelo/consultas_menu.php';
 
   </main>
 
-  <!-- Modal Integración SFTP -->
+  <!-- Modal Integración SFTP 
   <div class="modal fade" id="sftpModal" tabindex="-1" role="dialog" aria-labelledby="sftpModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
 
-        <!-- Header -->
+       Header 
         <div class="modal-header">
           <h5 class="modal-title" id="sftpModalLabel">Configuración de Integración</h5>
           <span class="cerrar-modal" id="cerrarIntegracion" data-dismiss="modal">&times;</span>
         </div>
 
-        <!-- Body -->
+        Body
         <div class="modal-body" style="margin-left: 40px">
 
           <form id="formIntegracionSFTP">
 
             <div class="d-flex align-items-center mb-3">
               <input class="form-check-input small-checkbox me-2" type="checkbox" id="sftpCheckbox"
-                <?php echo ($sftpActivo == 1) ? 'checked' : ''; ?>>
+                >
               <label for="sftpCheckbox" class="m-0">Activar integración SFTP</label>
             </div>
             <label>Servidor:</label>
@@ -181,14 +144,14 @@ include 'modelo/consultas_menu.php';
           </form>
         </div>
 
-        <!-- Footer -->
+       Footer 
         <div class="modal-footer1">
           <button class="submit-button-form" type="submit" form="formIntegracionSFTP">Guardar</button>
         </div>
 
       </div>
     </div>
-  </div>
+  </div>-->
 
 
   <div class="modal fade" id="modalAvisoCancelacion" tabindex="-1" role="dialog">
@@ -238,7 +201,6 @@ include 'modelo/consultas_menu.php';
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="js/loginError.js" type="module"></script>
   <script src="js/menuLateral.js" type="module"></script>
-  <script src="js/navegacion.js"></script>
   <script src="js/formularioIntegracion.js"></script>
 
 
@@ -253,7 +215,8 @@ include 'modelo/consultas_menu.php';
                     'puerto' => $sftpData['puerto'] ?? '22',
                     'usuario' => $sftpData['usuario'] ?? '',
                     'contrasena' => '',
-                    'rutaDestino' => $sftpData['rutaDestino'] ?? ''
+                    'rutaDestino' => $sftpData['rutaDestino'] ?? '',
+                    'url_estandar' =>  $sftpData['url_estandar'] ?? ''
                   ]);
                   ?>
     };

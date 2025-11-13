@@ -5,7 +5,36 @@ include 'conexion_bd.php';
 
 \Stripe\Stripe::setApiKey('...');//private key de stripe
 
-$data = json_decode(file_get_contents('php://input'), true);
+// --- Leer datos enviados desde JS ---
+$inputJSON = file_get_contents('php://input');
+$data = json_decode($inputJSON, true);
+
+// --- Validar datos básicos ---
+if (!$data || !isset($data['nombre_emp'], $data['correo_adm'], $data['nombre_susc'])) {
+    echo json_encode(["error" => "Datos de registro incompletos."]);
+    exit;
+}
+
+// --- Validar reCAPTCHA ---
+if (!isset($data['g-recaptcha-response']) || empty($data['g-recaptcha-response'])) {
+    echo json_encode(["error" => "Por favor completa el reCAPTCHA."]);
+    exit;
+}
+
+$captcha = $data['g-recaptcha-response'];
+$secretKey = "TU_SECRET_KEY_RECAPTCHA"; // Reemplaza con tu secret key
+
+$response = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret={$secretKey}&response={$captcha}");
+$responseKeys = json_decode($response, true);
+
+if(intval($responseKeys["success"]) !== 1) {
+    echo json_encode([
+        "error" => "Error en reCAPTCHA, inténtalo de nuevo.",
+        "detalles" => $responseKeys // para depuración
+    ]);
+    exit;
+}
+
 
 // Generar token y ID de empresa
 $token = bin2hex(random_bytes(16));

@@ -1,12 +1,8 @@
-ID de requisición de personal,Categoría,Titulo,link,Ubicación
-101,Operaciones,INGENIERO OPERADOR CNC,https://empresa.com/jobs/823,Ozumba
-102,Recursos Humanos,JEFATURA SR DE ADMINISTRACION DE RH,https://empresa.com/jobs/800,Corporativo
-103,Finanzas/Contabilidad,GERENCIA DE COMPRAS,https://empresa.com/jobs/843,Corporativo
-201,Recursos Humanos,COORDINACION DE ATRACCION DE TALENTO,https://empresa.com/jobs/804,Ozumba
-203,Recursos Humanos,COORDINACION DE ATRACCION DE TALENTO,https://empresa.com/jobs/805,Ozumba
-205,Recursos Humanos,ANALISTA DE CAPACITACION,https://empresa.com/jobs/700,Ozumba
-301,Tecnología,ANALISTA DE DESARROLLO,https://empresa.com/jobs/805,CDMX
-302,Tecnología,DESARROLLADOR FRONTEND,https://empresa.com/jobs/810,CDMX
-307,Tecnología,ADMINISTRADOR DE SISTEMAS,https://empresa.com/jobs/811,Guadalajara
-308,Marketing,COORDINADOR DE MARKETING,https://empresa.com/jobs/812,Monterrey
-401,Administración,ASISTENTE ADMINISTRATIVO,https://empresa.com/jobs/813,CDMX
+reqId_ix,title_ix,Título externo,category_ix,Estado de requisición de personal,País,location_ix,Estado de publicación,ID de publicación,link
+1025,INGENIERO OPERADOR CNC,INGENIERO OPERADOR CNC,Operaciones,Aprobado,MX,Ozumba,Publicado,823,https://envasesempt1.valhalla19.stage.jobs2web.com/job/Ozumba-de-Alzate-INGENIERO-OPERADOR-CNC-Carr/74365769/
+962,JEFATURA SR DE ADMINISTRACION DE RH,JEFATURA SR DE ADMINISTRACION DE RH,Recursos Humanos,Aprobado,MX,Corporativo,No Publicado,800,
+1041,GERENCIA DE COMPRAS,GERENCIA DE COMPRAS,Finanzas/Contabilidad,Aprobado,MX,Corporativo,Publicado,843,https://envasesempt1.valhalla19.stage.jobs2web.com/job/Mexico-City-GERENCIA-DE-COMPRAS-Boul/74372069/
+1004,COORDINACIÓN DE ATRACCIÓN DE TALENTO,COORDINACIÓN DE ATRACCIÓN DE TALENTO,Recursos Humanos,Aprobado,MX,Ozumba,Publicado,804,https://envasesempt1.valhalla19.stage.jobs2web.com/job/Ozumba-de-Alzate-COORDINACION-DE-ATRACCION-DE-TALENTO-Carr/74358169/
+1004,COORDINACIÓN DE ATRACCIÓN DE TALENTO,COORDINACIÓN DE ATRACCIÓN DE TALENTO,Recursos Humanos,Aprobado,MX,Ozumba,Publicado,805,https://envasesempt1.valhalla19.stage.jobs2web.com/job/Ozumba-de-Alzate-COORDINACION-DE-ATRACCION-DE-TALENTO-Carr/74358169/
+880,ANALISTA DE CAPACITACIÓN,ANALISTA DE CAPACITACIÓN,Recursos Humanos,Aprobado,MX,Ozumba,Publicado,700,https://envasesempt1.valhalla19.stage.jobs2web.com/job/Ozumba-de-Alzate-ANALISTA-DE-CAPACITACION-Carr/74183869/
+

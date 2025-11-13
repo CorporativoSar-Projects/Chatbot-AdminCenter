@@ -1,9 +1,17 @@
 // Seleccionar el input y el contenedor del texto del chatbot
 const txtDespedida = document.querySelector('#inp_despedida');
 const divCopiaDesp= document.getElementById('txt-chatbot-Desp');
+const contador = document.getElementById('contadorCaracteres');
 
 // Cargar valor desde localStorage si existe
 const despedidaGuardada = localStorage.getItem('inp_despedida');
+
+// Función para actualizar el contador
+function actualizarContador() {
+    const max = txtDespedida.getAttribute('maxlength');
+    contador.textContent = `${txtDespedida.value.length} / ${max}`;
+}
+
 
 if (despedidaGuardada) {
   txtDespedida.value = despedidaGuardada;
@@ -18,13 +26,16 @@ txtDespedida.addEventListener('keyup', () => {
     const chatbotContent = document.querySelector('.chatbot-content');
     chatbotContent.style.width = '300px';
     chatbotContent.style.height = '300px';
+     actualizarContador();
     
 });
 
 txtDespedida.addEventListener('input', () => {
   localStorage.setItem('inp_despedida', txtDespedida.value);
-});
 
+});
+// Actualizar el contador desde el contenido actual del textarea
+    actualizarContador();
 document.addEventListener('DOMContentLoaded', () => {
   const colorTexto = localStorage.getItem('colorTexto') || '#000000';
   
@@ -39,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-document.getElementById("btnGuardarDespedida").addEventListener("click", function () {
+/*document.getElementById("btnGuardarDespedida").addEventListener("click", function () {
     // Validar que haya un id_chatbot guardado
     const id_chatbot = localStorage.getItem("id_chatbot");
     if (!id_chatbot) {
@@ -75,4 +86,4 @@ document.getElementById("btnGuardarDespedida").addEventListener("click", functio
       console.error("Error al guardar en base de datos", err);
       alert("Error de red o del servidor.");
     });
-});
+});*/

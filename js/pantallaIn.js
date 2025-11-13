@@ -1,25 +1,37 @@
 // Seleccionar el input y el contenedor del texto del chatbot
 const txtSaludo = document.querySelector('#inp_saludo');
 const divCopiaSaludo = document.getElementById('txt-chatbot');
+const contador = document.getElementById('contadorCaracteres');
 
 //txtSaludo.addEventListener('keyup', () => {
    // divCopiaSaludo.innerHTML = txtSaludo.value;
 //});
+// Función para actualizar el contador
+function actualizarContador() {
+    const max = txtSaludo.getAttribute('maxlength');
+    contador.textContent = `${txtSaludo.value.length} / ${max}`;
+}
 
 //  // Función para ajustar el contenido del saludo
  txtSaludo.addEventListener('keyup', () => {
   divCopiaSaludo.innerHTML = txtSaludo.value;
    // Guardar el saludo en el Local Storage
  
-   localStorage.setItem('saludoChatbot', txtSaludo.value); });
+   localStorage.setItem('inp_saludo', txtSaludo.value); 
+    actualizarContador();
+});
 
 // // Recuperar el saludo desde el Local Storage 
 document.addEventListener('DOMContentLoaded', () => {
-    const saludoGuardado = localStorage.getItem('saludoChatbot');
+    const saludoGuardado = localStorage.getItem('inp_saludo');
     if (saludoGuardado) {
          txtSaludo.value = saludoGuardado;
          divCopiaSaludo.innerHTML = saludoGuardado;
 }
+
+ // Actualizar el contador desde el contenido actual del textarea
+    actualizarContador();
+    
     const colorTexto = localStorage.getItem('colorTexto') || '#000000';
     const colorSecundario= localStorage.getItem('colorSecundario') || '#b6b6b6';
     const colorAcento = localStorage.getItem('colorAcento') || '#383838';
@@ -135,7 +147,7 @@ function eliminarTema(btn) {
 }
 
 //Objeto con el que los datos se van a guardar
-document.addEventListener("DOMContentLoaded", function () {
+/*document.addEventListener("DOMContentLoaded", function () {
     const btnGuardar = document.getElementById("btnGuardarMensaje");
 
     btnGuardar.addEventListener("click", function (event) {
@@ -182,4 +194,4 @@ document.addEventListener("DOMContentLoaded", function () {
             alert("Error de red o del servidor.");
         });
     });
-});
+});*/
