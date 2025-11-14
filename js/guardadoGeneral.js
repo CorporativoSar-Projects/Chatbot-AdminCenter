@@ -44,7 +44,6 @@ function guardarChatbotCompleto() {
     } else if (logoPrevio) {
         logoURL = logoPrevio;
     } else {
-        logoURL = "img/logochiquito.png";
     }
 
     // Guardar la URL del logo en localStorage

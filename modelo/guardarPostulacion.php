@@ -177,7 +177,7 @@ function borrarCVOneDrive($accessToken, $fileId)
 // --- FUNCION PARA SUBIR CV A ONEDRIVE ---
 function subirACvOneDrive($tmpPath, $nombreArchivo, $cvAntiguoId = null)
 {
-    $client_id     = ""; //el ID de la aplicación (Application ID).
+   $client_id     = ""; //el ID de la aplicación (Application ID).
     $client_secret = ""; //Clave secreta que da one Drive
     $tenant_id     = ""; //el identificador del directorio
     $userPrincipalName = "holaixah@giintapeinnovahueteam.onmicrosoft.com";

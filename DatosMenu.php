@@ -31,7 +31,7 @@ include 'modelo/consultas_menu.php';
 
           <div class="user-info">
             <a href="modalIntegracion.php" id="sftpLink" data-toggle="modal" data-target="#sftpModal" style="text-decoration: none; color: inherit; display: block; margin-bottom: 10px;">
-              Integración SFTP
+              Integraciones
             </a>
 
             <a href="https://billing.stripe.com/p/login/fZe3f33cggofeBy144" target="_blank">Actualizar Plan</a>
