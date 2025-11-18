@@ -15,7 +15,7 @@ header('Content-Type: application/json');
 session_start();
 
 // --- CONTROL DE EXPIRACIÓN DE SESIÓN (30 minutos) ---
-if (isset($_SESSION['token_validado']) && isset($_SESSION['token_expira'])) {
+if (isset($_SESSION['token_expira'])) {
     if (time() > $_SESSION['token_expira']) {
         // Sesión expirada → destruir
         session_unset();
@@ -42,7 +42,7 @@ $apellidom   = trim($_POST['apellidom_candidate'] ?? '');
 $telefono    = trim($_POST['tel_candidate'] ?? '');
 $id_emp      = $_POST['id_emp'] ?? null;
 $id_vacante  = $_POST['idRequisicion'] ?? null;
-$nombre_vacante = trim($_POST['nombreVacante'] ?? '');
+$linkVacante = trim($_POST['linkVacante'] ?? '');
 $tokenIngresado = trim($input['token'] ?? $_POST['token'] ?? '');
 
 
@@ -78,8 +78,6 @@ if ($existe) {
     // Candidato existente
     $cvAntiguo = $cvAntiguoDb;
     $cvAntiguoId = $cvAntiguoIdDb;
-    $primerIngreso = empty($tokenBD); // Si no tiene token, es su primera interacción
-
 
 
     if (!$correoVerificado || $_SESSION['correo_candidate'] !== $correo) {
@@ -125,6 +123,7 @@ if ($existe) {
                     "mensaje" => "Se ha enviado un token de verificación a tu correo"
                 ]);
                 exit;
+
             } catch (Exception $e) {
                 echo json_encode(["error" => "No se pudo enviar el token: " . $mail->ErrorInfo]);
                 exit;
@@ -177,7 +176,7 @@ function borrarCVOneDrive($accessToken, $fileId)
 // --- FUNCION PARA SUBIR CV A ONEDRIVE ---
 function subirACvOneDrive($tmpPath, $nombreArchivo, $cvAntiguoId = null)
 {
-   $client_id     = ""; //el ID de la aplicación (Application ID).
+    $client_id     = ""; //el ID de la aplicación (Application ID).
     $client_secret = ""; //Clave secreta que da one Drive
     $tenant_id     = ""; //el identificador del directorio
     $userPrincipalName = "holaixah@giintapeinnovahueteam.onmicrosoft.com";
@@ -345,8 +344,8 @@ if ($id_emp && $id_vacante) {
         exit;
     }
 
-    $stmtPost = $conexion->prepare("INSERT INTO postulaciones (Candidato_id_candidate, Empresa_id_emp, id_vacante, nombre_vacante) VALUES (?,?,?,?)");
-    $stmtPost->bind_param("isss", $id_candidate, $id_emp, $id_vacante, $nombre_vacante);
+    $stmtPost = $conexion->prepare("INSERT INTO postulaciones (Candidato_id_candidate, Empresa_id_emp, id_vacante, link_vacante) VALUES (?,?,?,?)");
+    $stmtPost->bind_param("isss", $id_candidate, $id_emp, $id_vacante, $linkVacante);
     $stmtPost->execute();
     $stmtPost->close();
 
@@ -388,23 +387,12 @@ if ($id_emp && $id_vacante) {
     $tmp = fopen('php://memory', 'r+');
     fwrite($tmp, $csvContent);
     rewind($tmp);
-    // Leemos encabezado
-    $header = fgetcsv($tmp);
-    if ($header === false) {
-        fclose($tmp);
-        echo json_encode(["error" => "CSV vacío o corrupto"]);
-        exit;
-    }
-
-    // Procesamos cada fila
+    fgetcsv($tmp); // encabezado
     while (($data = fgetcsv($tmp)) !== false) {
-        $key   = isset($data[0]) ? trim($data[0]) : '';
-        $value = isset($data[2]) ? trim($data[2]) : '';
-        if ($key !== '') {
-            $vacantesMap[$key] = $value;
-        }
+        $vacantesMap[trim($data[0])] = trim($data[2]);
     }
     fclose($tmp);
+
     // --- OBTENER RUTA DESTINO PARA CSV ---
     $stmtRuta = $conexion->prepare("SELECT rutaDestino, servidor, puerto, usuario, contrasena FROM integracion_sftp WHERE Empresa_id_emp=? AND activo=1");
     $stmtRuta->bind_param("s", $id_emp);
@@ -431,12 +419,12 @@ if ($id_emp && $id_vacante) {
 
     // --- CREAR CSV ---
     $fp = fopen($csvFile, 'w');
-    fputcsv($fp, ["Nombre", "ApellidoP", "ApellidoM", "Correo", "Teléfono", "CV_Link", "Vacante", "Nombre Vacante"]);
+    fputcsv($fp, ["Nombre", "ApellidoP", "ApellidoM", "Correo", "Teléfono", "CV_Link", "Vacante", "Link_Vacante"]);
 
     $stmtCSV = $conexion->prepare("
         SELECT c.nombre_candidate, c.apellidop_candidate, c.apellidom_candidate,
                c.correo_candidate, c.tel_candidate, c.CV_candidate,
-               p.id_vacante, p.nombre_vacante
+               p.id_vacante, p.link_vacante
         FROM postulaciones p
         INNER JOIN candidato c ON p.Candidato_id_candidate=c.id_candidate
         WHERE p.Empresa_id_emp=?
@@ -452,9 +440,8 @@ if ($id_emp && $id_vacante) {
             $row['correo_candidate'],
             $row['tel_candidate'],
             $row['CV_candidate'],
-            //$vacantesMap[$row['id_vacante']] ?? $row['id_vacante'],
-            $row['id_vacante'],
-            $row['nombre_vacante']
+            $vacantesMap[$row['id_vacante']] ?? $row['id_vacante'],
+            $row['link_vacante']
         ]);
     }
     fclose($fp);
@@ -487,11 +474,11 @@ if ($id_emp && $id_vacante) {
     $csvInterno = __DIR__ . "/../interno/postulaciones_internas.csv";
     $fp2 = fopen($csvInterno, 'w');
     fputcsv($fp2, ["Nombre", "ApellidoP", "ApellidoM", "Correo", "Teléfono", "CV_Link", "Vacante", "Link_Vacante", "Empresa"]);
-    $stmtInterno = $conexion->prepare("SELECT c.nombre_candidate, c.apellidop_candidate, c.apellidom_candidate, c.correo_candidate, c.tel_candidate, c.CV_candidate, p.id_vacante, p.nombre_vacante, p.Empresa_id_emp FROM postulaciones p INNER JOIN candidato c ON p.Candidato_id_candidate=c.id_candidate");
+    $stmtInterno = $conexion->prepare("SELECT c.nombre_candidate, c.apellidop_candidate, c.apellidom_candidate, c.correo_candidate, c.tel_candidate, c.CV_candidate, p.id_vacante, p.link_vacante, p.Empresa_id_emp FROM postulaciones p INNER JOIN candidato c ON p.Candidato_id_candidate=c.id_candidate");
     $stmtInterno->execute();
     $resInterno = $stmtInterno->get_result();
     while ($row = $resInterno->fetch_assoc()) {
-        //$nombreVacante = $vacantesMap[$row['id_vacante']] ?? $row['id_vacante'];
+        $nombreVacante = $vacantesMap[$row['id_vacante']] ?? $row['id_vacante'];
         fputcsv($fp2, [
             $row['nombre_candidate'],
             $row['apellidop_candidate'],
@@ -499,8 +486,8 @@ if ($id_emp && $id_vacante) {
             $row['correo_candidate'],
             $row['tel_candidate'],
             $row['CV_candidate'],
-            $row['id_vacante'],
-            $row['nombre_vacante'],
+            $nombreVacante,
+            $row['link_vacante'],
             $row['Empresa_id_emp']
         ]);
     }
@@ -510,6 +497,7 @@ if ($id_emp && $id_vacante) {
     $cvLinkFinal = $nuevoCV ?: $cvAntiguoDb ?: null;
 
     echo json_encode([
+
         "mensaje" => "Postulación enviada correctamente",
         "nombre_candidate" => $nombre,
         "apellidop_candidate" => $apellidop,

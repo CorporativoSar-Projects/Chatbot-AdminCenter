@@ -1,45 +1,40 @@
 {
     "id_emp": "urban3602qt",
     "estilos": {
-        "colorPrimario": "#3532c3",
-        "colorSecundario": "#3843d6",
-        "colorTexto": "#ffffff",
-        "colorAcento": "#2b389c",
-        "colorRespuestaUsuario": "#3c58c8",
-        "logo": "https://upload.wikimedia.org/wikipedia/commons/6/61/Samsung_old_logo_before_year_2015.svg",
-        "nombreChatbot": "SamsungBot",
-        "burbuja": "¡Encuentra Puestos!",
-        "saludo": "¡Hola! Soy tu asistente virtual  te ayudaré a encontrar tu vacante ideal."
+        "colorPrimario": "#0081cc",
+        "colorSecundario": "#b6b6b6",
+        "colorTexto": "#0d0c0c",
+        "colorAcento": "#12bdca",
+        "colorRespuestaUsuario": "#0dc4f2",
+        "logo": "https://d1yjjnpx0p53s8.cloudfront.net/styles/logo-thumbnail/s3/102025/rcs_la_forestoise_2.png?MCNaGkYz4dNtDOy0VELMnykib.tncqCl&itok=-lGt20Ax",
+        "nombreChatbot": "IXAH",
+        "burbuja": "¡Encuentra vacantes!",
+        "saludo": "¡Hola! Soy IXAH, tu asistente virtual en el mundo laboral. ¿En qué te puedo ayudar hoy?"
     },
     "funcionamiento": {
-        "urlChatbot": "http://localhost/chatbot-giintape/",
-        "tipoIntegracion": "sftp",
+        "urlChatbot": "https://www.facebook.com/",
         "integracionActiva": true
     },
     "conversacion": [
         {
             "tema": "Buscar vacantes por categoría",
-            "mensaje": "Busca tu vacante ideal por categoria",
-            "columna": "category_ix",
-            "urlInforme": "http://localhost/Chatbot-AdminCenter/puestos.csv"
+            "mensaje": "",
+            "columna": "",
+            "urlInforme": ""
         },
         {
             "tema": "Buscar vacantes por ubicación",
-            "mensaje": "Busca una vacante por ubicación",
-            "columna": "location_ix",
-            "urlInforme": "http://localhost/Chatbot-AdminCenter/puestos.csv"
+            "mensaje": "",
+            "columna": "",
+            "urlInforme": ""
         },
         {
             "tema": "Seguimiento de mi postulación",
-            "mensaje": "Mantente al día con tus postulaciones",
-            "columna": "email_ix",
-            "urlInforme": "http://localhost/Chatbot-AdminCenter/candidatos.csv"
+            "mensaje": "",
+            "columna": "",
+            "urlInforme": ""
         }
     ],
-    "despedida": "Gracias por usar, SamsungBot esperamos verte pronto.\r\n",
-    "vacantes": [
-        "http://localhost/Chatbot-AdminCenter/puestos.csv",
-        "http://localhost/Chatbot-AdminCenter/puestos.csv",
-        "http://localhost/Chatbot-AdminCenter/candidatos.csv"
-    ]
+    "despedida": "",
+    "vacantes": []
 }

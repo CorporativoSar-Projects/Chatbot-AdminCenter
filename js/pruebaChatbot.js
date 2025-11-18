@@ -1,4 +1,5 @@
 const urlConfig = `http://localhost/Chatbot-AdminCenter/modelo/getConfig.php`;
+// const urlConfig = `http://localhost/Chatbot-AdminCenter-JessicaMoralesAguilar/modelo/getConfig.php`;
 let windowConfig = {};
 let chatbotMinimizado = false;
 let flujoConversacion = "";
@@ -130,11 +131,12 @@ function aplicarColorBotonesSVG(color) {
   });
 }
 
-
 // -------------------- MANEJAR TEMAS --------------------
+
 function manejarTema(conver) {
   if (temaEnCurso) return;
-   // Deshabilitar todos los botones mientras se procesa este tema
+
+  // Deshabilita botones mientras se procesa
   const botones = document.querySelectorAll("#mensaje-inicial button");
   botones.forEach(btn => btn.disabled = true);
 
@@ -143,11 +145,17 @@ function manejarTema(conver) {
   temaEnCurso = true;
   agregarMensajeChatbot(conver.mensaje || "Selecciona una opción:");
 
-  if (conver.urlInforme && conver.columna) {
-    const esSeguimiento = conver.tema.toLowerCase().includes("seguimiento");
-    if (esSeguimiento) {
-      seguimientoPostulacion(); // Mostrar input
-    } else {
+  const esSeguimiento = conver.tema.toLowerCase().includes("seguimiento");
+
+  if (esSeguimiento) {
+    // Activa el flujo correcto de seguimiento
+    flujoConversacion = "seguimiento";
+    activarCajaSeguimiento();
+    seguimientoPostulacion();
+  } else {
+    flujoConversacion = "ia";
+    activarCajaIA();
+    if (conver.urlInforme && conver.columna) {
       cargarCSV(conver.urlInforme, conver.columna, false);
     }
   }
@@ -162,9 +170,7 @@ function cargarCSV(url, columnaClave, esSeguimiento = false) {
     skipEmptyLines: true,
     complete: function (results) {
       // Guardar los datos por columna
-      csvDataPorColumna[columnaClave] = esSeguimiento
-        ? results.data  // cargar todo
-        : results.data.filter(item => item['Estado de publicación'] === 'Publicado');
+      csvDataPorColumna[columnaClave] = results.data;
 
       // Si no es seguimiento, mostrar select
       if (!esSeguimiento) {
@@ -198,29 +204,22 @@ function mostrarSelect(columnaClave, mensajeUsuario, selectId, textoDefault) {
   select.id = selectId;
   select.style.marginTop = "10px";
 
-    // Mapa de columnas internas → nombres amigables
-  const nombresColumnas = {
-    "category_ix": "Categoría",
-    "reqId_ix": "ID de vacante",
-    "location_ix": "Ubicación",
-    // agrega más columnas aquí según tu CSV
-  };
 
   select.onchange = function () {
     const valorSeleccionado = this.value;
 
     const div = document.createElement("div");
-    div.className = "user-message";
+    div.className = "user-message2";
     div.innerHTML = `${mensajeUsuario} ${valorSeleccionado}...`;
 
-    //if (windowConfig) {
-      //div.style.backgroundColor = windowConfig.colorRespuestaUsuario;
-      //div.style.color = windowConfig.colorTexto;
-      //div.style.borderRadius = "12px";
-      //div.style.padding = "8px 12px";
-      //div.style.maxWidth = "80%";
-      //div.style.margin = "5px 0";
-    //}
+    if (windowConfig) {
+      div.style.backgroundColor = windowConfig.colorRespuestaUsuario;
+      div.style.color = windowConfig.colorTexto;
+      div.style.borderRadius = "12px";
+      div.style.padding = "8px 12px";
+      div.style.maxWidth = "80%";
+      div.style.margin = "5px 0";
+    }
 
     contenedor.appendChild(div);
     div.scrollIntoView({ behavior: "smooth" });
@@ -242,9 +241,8 @@ function mostrarSelect(columnaClave, mensajeUsuario, selectId, textoDefault) {
           if (emp.hasOwnProperty(key) && emp[key]) {
             if (key.toLowerCase() === "link") {
               link = emp[key]; // Guardar el link para mostrar al final
-            } else if (nombresColumnas[key]) {//antes estaba else
-              //mensaje += `<p><strong>${key}:</strong> ${emp[key]}</p>`;
-              mensaje += `<p><strong>${nombresColumnas[key]}:</strong> ${emp[key]}</p>`;
+            } else {
+              mensaje += `<p><strong>${key}:</strong> ${emp[key]}</p>`;
             }
           }
         }
@@ -253,7 +251,7 @@ function mostrarSelect(columnaClave, mensajeUsuario, selectId, textoDefault) {
         if (link) {
           if (windowConfig.sftp_activo) {
             mensaje += `
-            <button class="btn btn-primary" onclick="abrirModalPostulacion('${emp['reqId_ix']}')">
+            <button class="btn btn-primary" onclick="abrirModalPostulacion('${emp['ID de requisición de personal']}')">
                 Postúlate
             </button>
         `;
@@ -313,9 +311,8 @@ function mostrarEmpleos(categoria, columnaClave) {
     div.appendChild(link);
     contenedor.appendChild(div);
   });
-
-  confirmacionAyuda();
 }
+
 // FUNCIONES DEL CHATBOT
 function toggleChatbot() {
   const chatbotContainer = document.getElementById("chatbot-container");
@@ -336,11 +333,11 @@ function toggleChatbot() {
   }
 }
 
-function cerrar() {
+function cerrar(){
+  activarCajaIA();
   const chatbotBody = document.querySelector(".chatbot-body");
-  chatbotBody.innerHTML = ""; // Limpia el contenido
+  chatbotBody.innerHTML = "";
 
-  // Crear mensaje inicial basado en la configuración
   const mensajeInicial = document.createElement("div");
   mensajeInicial.id = "mensaje-inicial";
   mensajeInicial.className = "chatbot-message";
@@ -352,7 +349,6 @@ function cerrar() {
   const botonesContainer = document.createElement("div");
   botonesContainer.className = "chatbot-button-container";
 
-  // Cargar los botones desde la configuración JSON
   if (windowConfig.conversacion) {
     windowConfig.conversacion.forEach(conver => {
       const btn = document.createElement("button");
@@ -364,23 +360,61 @@ function cerrar() {
 
   mensajeInicial.appendChild(botonesContainer);
   chatbotBody.appendChild(mensajeInicial);
-
   aplicarEstilosBotones(mensajeInicial);
 
-  // Ocultar input de seguimiento
-  const inputContainer = document.getElementById("user-input-container");
-  if (inputContainer) {
-    inputContainer.style.display = "none";
-    const userInput = document.getElementById("user-input");
-    if (userInput) userInput.value = "";
-  }
+  // Restaurar inputs
+  const aiInputContainer = document.getElementById("ai-chat-container");
+  const userInputContainer = document.getElementById("user-input-container");
 
-  // Resetear estado
+  if (aiInputContainer) aiInputContainer.style.display = "flex";
+  if (userInputContainer) userInputContainer.style.display = "none";
+
+  const userInput = document.getElementById("user-input");
+  if (userInput) userInput.value = "";
+
   temaEnCurso = false;
   chatbotMinimizado = false;
-
   toggleChatbot();
 }
+
+function manejarFlujoSeguimiento(userInput) {
+  if (estadoConversacion !== "preguntaUsuario") return;
+
+  const columnaClave = window.temaSeguimiento.columna;
+  const csvData = csvDataPorColumna[columnaClave] || [];
+
+  const resultados = csvData.filter(item => {
+    const valor = item[columnaClave] || "";
+    return valor.toString().trim().toLowerCase() === userInput.toLowerCase().trim();
+  });
+
+  if (resultados.length > 0) {
+    agregarMensajeChatbot("Postulaciones encontradas:");
+    resultados.forEach(item => {
+      let html = "<div class='resultado-csv'>";
+      Object.keys(item).forEach(col => {
+        if (col && !col.startsWith("_")) {
+          html += `<p><strong>${col}:</strong> ${item[col] || '-'}</p>`;
+        }
+      });
+      html += "</div>";
+      agregarMensajeChatbot(html);
+    });
+  } else {
+    agregarMensajeChatbot("No se encontraron coincidencias con tu información.");
+  }
+
+  setTimeout(confirmacionAyuda, 1000);
+
+  // Cambiar visibilidad de inputs
+  const userInputContainer = document.getElementById("user-input-container");
+  const aiInputContainer = document.getElementById("ai-chat-container");
+  if (userInputContainer) userInputContainer.style.display = "none";
+  if (aiInputContainer) aiInputContainer.style.display = "flex";
+
+  estadoConversacion = "finalizado";
+}
+
 
 // -------------------- INICIALIZACIÓN --------------------
 document.addEventListener("DOMContentLoaded", async () => {
@@ -591,6 +625,7 @@ function abrirModalPostulacion(idRequisicion) {
 
 // -------------------- SEGUIMIENTO DE POSTULACIONES --------------------
 function seguimientoPostulacion() {
+  activarCajaSeguimiento();
   flujoConversacion = "seguimiento";
   window.temaSeguimiento = windowConfig.conversacion.find(c => c.tema.toLowerCase().includes("seguimiento"));
 
@@ -673,17 +708,25 @@ function aplicarEstilosModal() {
 
 // -------------------- ENVIAR RESPUESTA --------------------
 function enviarRespuesta() {
-  const userInputField = document.getElementById("user-input");
-  const userInput = userInputField.value.trim();
-  if (userInput === "") return;
+  const input = document.getElementById("user-input");
+  const texto = input.value.trim();
 
-  agregarMensajeUsuario(userInput);
+  if (!texto) return; // Evita mensajes vacíos
 
+  // Mostrar el mensaje del usuario
+  agregarMensajeUsuario(texto);
+
+  // Limpiar el campo de texto
+  input.value = "";
+
+  // Si el flujo activo es de seguimiento, manejar la búsqueda directamente
   if (flujoConversacion === "seguimiento") {
-    manejarFlujoSeguimiento(userInput);
+    manejarFlujoSeguimiento(texto);
+    return;
   }
 
-  userInputField.value = "";
+  // Si no hay flujo activo, mostrar un aviso local (sin API)
+  agregarMensajeChatbot(" No hay sesión.");
 }
 
 
@@ -692,42 +735,22 @@ function manejarFlujoSeguimiento(userInput) {
   if (estadoConversacion !== "preguntaUsuario") return;
 
   const columnaClave = window.temaSeguimiento.columna;
-
   const csvData = csvDataPorColumna[columnaClave] || [];
 
   const resultados = csvData.filter(item => {
-    const valor = item[columnaClave] || "";
-    return valor.toString().trim().toLowerCase() === userInput.toLowerCase().trim();
+    const valor = (item[columnaClave] || "").trim().toLowerCase();
+    return valor === userInput.trim().toLowerCase();
   });
 
   if (resultados.length > 0) {
-    agregarMensajeChatbot("Postulaciones encontradas:");
-
-    // Definir aquí las columnas que quieres mostrar
-    const columnasMostrar = {
-      candStatus_ix: "Estatus de postulación",
-      title_ix: "Vacante postulada",
-      name_ix: "Nombre",
-      lastName_ix: "Apellido",
-      email_ix: "Correo Electrónico"
-    };
-
+    agregarMensajeChatbot("🔎 Postulaciones encontradas:");
     resultados.forEach(item => {
       let html = "<div class='resultado-csv'>";
-
-      // Mostrar solo columnas
-      //Object.keys(item).forEach(col => {
-      //if (col && !col.startsWith("_")) { // Ignorar columnas automáticas de PapaParse
-      //html += `<p><strong>${col}:</strong> ${item[col] || '-'}</p>`;
-      //}
-      //});
-      // Mostrar solo las columnas que definiste arriba
-      Object.keys(columnasMostrar).forEach(col => {
-        if (item[col] !== undefined && item[col] !== "") {
-          html += `<p><strong>${columnasMostrar[col]}:</strong> ${item[col]}</p>`;
+      Object.keys(item).forEach(col => {
+        if (col && !col.startsWith("_")) {
+          html += `<p><strong>${col}:</strong> ${item[col] || '-'}</p>`;
         }
       });
-
       html += "</div>";
       agregarMensajeChatbot(html);
     });
@@ -735,12 +758,13 @@ function manejarFlujoSeguimiento(userInput) {
     agregarMensajeChatbot("No se encontraron coincidencias con tu información.");
   }
 
-  // Ocultar input
-  const inputContainer = document.getElementById("user-input-container");
-  if (inputContainer) inputContainer.style.display = "none";
+  setTimeout(() => {confirmacionAyuda();}, 1000);
 
-  confirmacionAyuda();
+  // Volver a modo IA solo después de terminar
+  flujoConversacion = "ia";
   estadoConversacion = "finalizado";
+
+  activarCajaIA();
 }
 
 // -------------------- VALIDAR EMAIL --------------------
@@ -752,29 +776,54 @@ function validateEmail(email) {
 
 // CONFIRMACIÓN FINAL
 function confirmacionAyuda() {
-  const htmlBotones = `
-          <div class="chatbot-message-buttons" style="margin-top: 20px;">
-              <button class="btnSi" style="margin-right: 5px; border-radius: 15px; padding: 4px 12px;">Sí</button>
-              <button class="btnNo" style="border-radius: 15px; padding: 4px 10px;"  >No</button>
-          </div>`;
-  agregarMensajeChatbot("¿Puedo ayudarte con algo más? " + htmlBotones);
-  //const inputContainer = document.getElementById("user-input-container");
-  //if (inputContainer) inputContainer.style.display = "none";
+  const contenedor = document.querySelector(".chatbot-body");
 
-  setTimeout(() => {
-    const contenedor = document.querySelector(".chatbot-body");
-    const botones = contenedor.querySelectorAll(".chatbot-message-buttons");
-    const ultimo = botones[botones.length - 1];
+  // Crear contenedor de mensaje manualmente
+  const divMensaje = document.createElement("div");
+  divMensaje.className = "chatbot-message";
+  divMensaje.innerHTML = "<p>¿Puedo ayudarte con algo más?</p>";
 
-    ultimo.querySelector(".btnSi").addEventListener("click", () => {
-      funcionSi();
-      bloquearBotones(ultimo);
-    });
-    ultimo.querySelector(".btnNo").addEventListener("click", () => {
-      funcionNo();
-      bloquearBotones(ultimo);
-    });
-  }, 0);
+  // Crear contenedor de botones
+  const botonesDiv = document.createElement("div");
+  botonesDiv.className = "chatbot-message-buttons";
+  botonesDiv.style.marginTop = "20px";
+
+  // Botón "Sí"
+  const btnSi = document.createElement("button");
+  btnSi.textContent = "Sí";
+  btnSi.className = "btnSi";
+  btnSi.style.marginRight = "5px";
+  btnSi.style.borderRadius = "15px";
+  btnSi.style.padding = "4px 12px";
+
+  // Botón "No"
+  const btnNo = document.createElement("button");
+  btnNo.textContent = "No";
+  btnNo.className = "btnNo";
+  btnNo.style.borderRadius = "15px";
+  btnNo.style.padding = "4px 10px";
+
+  // Agregar botones al div
+  botonesDiv.appendChild(btnSi);
+  botonesDiv.appendChild(btnNo);
+
+  // Agregar botones al mensaje
+  divMensaje.appendChild(botonesDiv);
+
+  // Insertar mensaje en el chat
+  contenedor.appendChild(divMensaje);
+  divMensaje.scrollIntoView({ behavior: "smooth" });
+
+  // Listeners de botones
+  btnSi.addEventListener("click", () => {
+    funcionSi();
+    bloquearBotones(botonesDiv);
+  });
+
+  btnNo.addEventListener("click", () => {
+    funcionNo();
+    bloquearBotones(botonesDiv);
+  });
 }
 
 function bloquearBotones(ultimo) {
@@ -871,3 +920,164 @@ function funcionNo() {
   setTimeout(cerrar, 3500);
 }
 
+// MODIFICACIÓN extra: Función para mostrar confirmación después del chat IA
+function mostrarConfirmacionAyudaIA() {
+  const contenedor = document.querySelector(".chatbot-body");
+
+  // Crear contenedor de mensaje manualmente
+  const divMensaje = document.createElement("div");
+  divMensaje.className = "chatbot-message";
+  divMensaje.innerHTML = "<p>¿Puedo ayudarte con algo más?</p>";
+
+  // Crear contenedor de botones
+  const botonesDiv = document.createElement("div");
+  botonesDiv.className = "chatbot-message-buttons";
+  botonesDiv.style.marginTop = "20px";
+
+  // Botón "Sí"
+  const btnSi = document.createElement("button");
+  btnSi.textContent = "Sí";
+  btnSi.className = "btnSi";
+  btnSi.style.marginRight = "5px";
+  btnSi.style.borderRadius = "15px";
+  btnSi.style.padding = "4px 12px";
+
+  // Botón "No"
+  const btnNo = document.createElement("button");
+  btnNo.textContent = "No";
+  btnNo.className = "btnNo";
+  btnNo.style.borderRadius = "15px";
+  btnNo.style.padding = "4px 10px";
+
+  // Agregar botones al div
+  botonesDiv.appendChild(btnSi);
+  botonesDiv.appendChild(btnNo);
+
+  // Agregar botones al mensaje
+  divMensaje.appendChild(botonesDiv);
+
+  // Insertar mensaje en el chat
+  contenedor.appendChild(divMensaje);
+  divMensaje.scrollIntoView({ behavior: "smooth" });
+
+  // Aplicar estilos a los botones
+  aplicarEstilosBotones(divMensaje);
+
+  // Listeners de botones
+  btnSi.addEventListener("click", () => {
+    funcionSi();
+    bloquearBotones(botonesDiv);
+  });
+
+  btnNo.addEventListener("click", () => {
+    funcionNo();
+    bloquearBotones(botonesDiv);
+  });
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  const aiInput = document.getElementById("ai-input");
+  const aiSendBtn = document.getElementById("ai-send-btn");
+  const chatBox = document.getElementById("chatBox");
+  const sessionContainer = document.getElementById("chatbot-container");
+
+  // Solo aplica para el chat IA
+  if (aiSendBtn && aiInput) {
+    aiSendBtn.addEventListener("click", async () => {
+      let sessionId = sessionContainer?.dataset?.sessionId;
+
+      // Crear nueva sesión si no existe
+      if (!sessionId) {
+        try {
+          const res = await fetch("http://localhost:8000/api/start/", { method: "GET" });
+          if (!res.ok) throw new Error(await res.text());
+
+          const finalUrl = res.url;
+          const match = finalUrl.match(/\/chat\/(\d+)\//);
+          if (match) {
+            sessionId = match[1];
+            sessionContainer.dataset.sessionId = sessionId;
+          } else {
+            console.error("No se pudo obtener sessionId de la redirección.");
+            return;
+          }
+        } catch (error) {
+          console.error("Error creando sesión de chat:", error);
+          return;
+        }
+      }
+
+      const userMessage = aiInput.value.trim();
+      if (!userMessage) return;
+
+      // Mostrar mensaje del usuario
+      const userBubble = document.createElement("div");
+      userBubble.classList.add("chatbot-message", "user-message");
+      userBubble.innerHTML = `<p>${userMessage}</p>`;
+      chatBox.appendChild(userBubble);
+      chatBox.scrollTop = chatBox.scrollHeight;
+      aiInput.value = "";
+
+      // Enviar mensaje a la API de IA
+      try {
+        const response = await fetch(`http://localhost:8000/api/chat/${sessionId}/send/`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: userMessage }),
+        });
+
+        if (!response.ok) {
+          const errorText = await response.text();
+          console.error("Error en respuesta:", errorText);
+          return;
+        }
+
+        const data = await response.json();
+
+        // Mostrar respuesta del bot IA
+        const botBubble = document.createElement("div");
+        botBubble.classList.add("chatbot-message");
+        botBubble.innerHTML = `<p>${data.reply}</p>`;
+        chatBox.appendChild(botBubble);
+        chatBox.scrollTop = chatBox.scrollHeight;
+
+        // MOSTRAR CONFIRMACIÓN DESPUÉS DE LA RESPUESTA DE IA
+        setTimeout(mostrarConfirmacionAyudaIA, 500);
+
+      } catch (error) {
+        console.error("Error al consultar la IA:", error);
+      }
+    });
+  }
+
+  // El chat normal se maneja con su propio botón y función:
+  // <button onclick="enviarRespuesta()">Enviar</button>
+  // No se toca ni se intercepta aquí.
+});
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  const aiChat = document.getElementById("ai-chat-container");
+  const userChat = document.getElementById("user-input-container");
+
+  // Al iniciar, solo la IA visible
+  aiChat.style.display = "flex";
+  userChat.style.display = "none";
+});
+
+// --- Cuando se selecciona el tema de seguimiento ---
+function activarCajaSeguimiento() {
+  const aiChat = document.getElementById("ai-chat-container");
+  const userChat = document.getElementById("user-input-container");
+  aiChat.style.display = "none";
+  userChat.style.display = "flex";
+}
+
+// --- Cuando se vuelve al chat normal o se cierra ---
+function activarCajaIA() {
+  const aiChat = document.getElementById("ai-chat-container");
+  const userChat = document.getElementById("user-input-container");
+  aiChat.style.display = "flex";
+  userChat.style.display = "none";
+}

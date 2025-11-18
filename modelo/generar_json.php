@@ -31,32 +31,11 @@ $stmtUrl->execute();
 $resUrl = $stmtUrl->get_result();
 $url_cs_emp = $resUrl->num_rows ? $resUrl->fetch_assoc()['url_cs_emp'] : "";
 
-$stmtSftp = $conexion->prepare("SELECT tipo_integracion, activo, url_estandar FROM integracion_sftp WHERE Empresa_id_emp=?");
+$stmtSftp = $conexion->prepare("SELECT activo FROM integracion_sftp WHERE Empresa_id_emp=?");
 $stmtSftp->bind_param("s", $id_emp);
 $stmtSftp->execute();
 $resSftp = $stmtSftp->get_result();
-$tipo_integracion = 'estandar';
-$activo = 0;
-
-
-
-if ($resSftp->num_rows) {
-    $rowSftp = $resSftp->fetch_assoc();
-    $tipo_integracion = $rowSftp['tipo_integracion'];
-    $activo = (int)$rowSftp['activo'];
-}
-
-// Si la integración activa es estándar, buscamos su URL específica
-$url_estandar = null;
-if ($tipo_integracion === 'estandar' && $activo) {
-    $stmtUrlEst = $conexion->prepare("SELECT url_estandar FROM integracion_sftp WHERE Empresa_id_emp=?");
-    $stmtUrlEst->bind_param("s", $id_emp);
-    $stmtUrlEst->execute();
-    $resUrlEst = $stmtUrlEst->get_result();
-    if ($resUrlEst->num_rows) {
-        $url_estandar = $resUrlEst->fetch_assoc()['url_estandar'];
-    }
-}
+$activo = $resSftp->num_rows ? (int)$resSftp->fetch_assoc()['activo'] : 0;
 
 
 $urlInforme1 = $cb['inp_url_informe'] ?? null;
@@ -76,7 +55,6 @@ $config = [
     ],
     "funcionamiento"=>[
         "urlChatbot"=>$url_cs_emp,
-        "tipoIntegracion"=>$tipo_integracion,
         "integracionActiva"=>(bool)$activo
     ],
    "conversacion" => [
@@ -102,13 +80,6 @@ $config = [
     "despedida"=>$cb['inp_despedida'],
     "vacantes"=>[]
 ];
-
-// 🔹 Agregar solo los datos de la integración activa
-if ($tipo_integracion === 'estandar' && $activo && !empty($url_estandar)) {
-    $config['funcionamiento']['urlSitioCarreras'] = $url_estandar;
-}
-
-
 
 // Llenar vacantes con los links de las conversaciones
 foreach ($config['conversacion'] as $conver) {
@@ -213,6 +184,5 @@ echo json_encode([
     "success" => true,
     "jsonPath" => $jsonPath,
     "contenido" => file_get_contents($jsonPath),
-    "snippet" => $snippet,
-    "url_estandar" => $url_estandar ?? null
+    "snippet" => $snippet
 ]);

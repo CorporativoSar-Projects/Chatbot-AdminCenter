@@ -162,10 +162,6 @@
         </select>
     </div>
 
-     <!-- reCAPTCHA -->
-  <div class="form-group">
-    <div class="g-recaptcha" data-sitekey="6Lcv0fwrAAAAAH92a-JuO3cmDsMOoSebu9amnXXf"></div>
-  </div>
 
           <div class="buttons">
             <button type="button" class="btnPrev" id="btnPrev">Anterior</button>
@@ -178,7 +174,6 @@
 
 
 <script src="js/steps.js"></script>
-<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <script src="https://js.stripe.com/v3/"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="js/pago.js"></script>

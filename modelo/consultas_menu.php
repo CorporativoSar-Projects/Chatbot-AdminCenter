@@ -1,8 +1,6 @@
 <?php
 // consultas_menu.php
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+session_start();
 
 if (!isset($_SESSION['id_adm'])) {
     session_destroy();

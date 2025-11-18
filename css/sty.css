@@ -185,21 +185,6 @@ header .navbar ul li ul li a:hover {
   text-decoration: none;
   font-size: 14px;
 }
-.swal2-container {
-  z-index: 20000 !important;
-}
-  
-
-
-#contadorCaracteres {
-    position: absolute;
-    bottom: 5px;
-    right: 60%;
-    font-size: 12px;
-    color: gray;
-}
-
-
 a{
 /*padding: 10px 15px;*/
  
@@ -683,11 +668,6 @@ a{
   transition: background-color 0.3s;
 }
 
-.btnInteractivo:hover {
-  background-color: rgb(13, 87, 166);
-  opacity: 0.8;
-}
-
 .btnGenerar:hover {
   opacity: 0.8;
 }
@@ -728,49 +708,7 @@ a{
 .txt-chatbot {
   font-size: 15px;
   word-wrap: break-word;
-  color: #000;
 }
-
-
-
-#txt-chatbot-Desp {
-  max-width: 90%;
-  word-wrap: break-word;
-  white-space: normal;
-  line-height: 1.4;
-  margin-bottom: 10px;
-  text-align: left;
-  font-size: 14px;           /* ajusta texto para pantallas pequeñas */
-}
-
-.chatbot-content1 {
-  display: flex;
-  flex-direction: column;
-  background-color: #f1f1f1;
-  color: black;
-  padding: 10px;
-  margin: 5px 0 0 20px;
-  margin-top: 20px;
-  width: 300px;
-  min-height: 270px;
-  text-align: left;
-  align-self: flex-start;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
-              rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
-  border-radius: 15px;
-  overflow-wrap: break-word;
-  overflow: visible; /* <- permite crecer con texto o imagen */
-}
-
-.chatbot-content1 img {
-  max-width: 80px; /* tamaño fijo, evita que se haga enorme */
-  height: auto;
-  border-radius: 10px;
-  object-fit: contain;
-  display: block;
-  margin: 10px auto 0; /* separada del texto y centrada */
-}
-
 
 .chatbot-container {
   display: flex;
@@ -1711,8 +1649,6 @@ a{
   background-color: #e6ac19;
 }
 
-
-
 /*Modal plan*/
 #planModalUnique {
   padding-top: 10px;
@@ -1869,14 +1805,15 @@ a{
 }
 
 .btn-icon {
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0;
   font-size: 18px;
+  box-shadow: 0px 2px 6px rgba(0,0,0,0.2);
 }
 
 .btn-icon i {
@@ -1946,11 +1883,6 @@ a{
   .container-prinF {
     height: 150vh;
   }
-
-    #contadorCaracteres {
-        font-size: 11px;
-        right: 105px;
-    }
 
   .chatbot-container2 {
     margin-left: 90%;
@@ -2206,6 +2138,7 @@ a{
   .btnContinuar,
   .btnRegresar {
     font-size: 10px;
+
     width: 22%;
   }
 
@@ -2324,12 +2257,6 @@ a{
     padding: 12px;
   }
 
-
-   #contadorCaracteres {
-        font-size: 11px;
-        right: 8px;
-    }
-
   /*Adaptacion para la burbuja*/
 
   .chat-toggle {
@@ -2396,11 +2323,6 @@ a{
   .dropdown-links span {
     font-size: 9.6px;
   }
-
-     #contadorCaracteres {
-        font-size: 10px;
-        right: 74px;
-    }
 }
 
 @media (max-width: 662px) {
@@ -2494,11 +2416,6 @@ a{
     padding: 8px;
   }
 
-   #contadorCaracteres {
-        font-size: 10px;
-        right: 40px;
-    }
-
   /* Propiedades para que la ventana modal del chatbot
 
   aparezca en pantallas más pequeñas en la 
@@ -2556,7 +2473,9 @@ a{
 
   .btn-groupSalir {
     display: flex;
+
     width: 90px;
+
     align-items: center;
   }
 
@@ -2565,7 +2484,8 @@ a{
   .btnContinuar,
   .btnRegresar {
     width: 10%;
-    padding: 7px;
+    font-size: 14px;
+    padding: 10px;
     margin: 5px 3px;
     height: auto;
     display: flex;
@@ -2785,27 +2705,8 @@ del texto de mensaje de despedida */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
 
-  
-
   .chatbot-content,
   .chatbot-content2 {
-    background-color: #f1f1f1;
-    color: var(--color-texto, #000000);
-    padding: 10px;
-    margin: 5px;
-    margin-top: 20px;
-    margin-left: 20px;
-    width: 250px;
-    height: 270px;
-    text-align: left;
-    align-self: flex-start;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
-      rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
-    border-radius: 15px;
-    overflow-wrap: break-word;
-  }
-
-   .chatbot-content1 {
     background-color: #f1f1f1;
     color: var(--color-texto, #000000);
     padding: 10px;
@@ -2828,7 +2729,6 @@ del texto de mensaje de despedida */
     gap: 10px;
     margin-top: 15px;
   }
-
 
   .chatbot-button2 {
     background-color: var(--color-secundario, #b6b6b6);
@@ -2953,13 +2853,11 @@ del texto de mensaje de despedida */
 
   /* Contenedor del input */
 
-  .container-input{
+  .container-input {
     display: flex;
     flex-direction: column;
     align-items: stretch;
   }
-
-
 
   /* Input */
 
@@ -2976,22 +2874,11 @@ del texto de mensaje de despedida */
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 10px 20px;
+    margin: 10px -50px;
     width: 90%;
   }
 
-  .btnGenerar {
-    width: 100%;
-    max-width: 300px;
-    font-size: 14px;
-    padding: 10px 20px;
-    margin-bottom: 10px;
-    display: flex;
-     margin-right: 25%;
-    justify-content: center;
-    align-items: center;
-  }
-
+  .btnGenerar,
   .btnGuardarurl {
     width: 100%;
     max-width: 300px;
@@ -3004,16 +2891,8 @@ del texto de mensaje de despedida */
     align-items: center;
   }
 
-  .btnInteractivo {
-      width: 100%;
-    max-width: 300px;
-    font-size: 14px;
-    padding: 10px 20px;
-    margin-bottom: 10px;
-    border-radius: 999px; /* para que sea muy redondo */
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  .btnGuardarurl i {
+    margin-bottom: 5px;
   }
 
   /*Estilo para input del logo */

@@ -71,47 +71,6 @@ function actualizarColores() {
     localStorage.setItem('colorRespuestaUsuario', colors['--color-respuesta-usuario']);
 }
 
-// Función que comprueba si la imagen realmente carga
-function verificarImagen(url) {
-    return new Promise((resolve, reject) => {
-        const img = new Image();
-        img.onload = () => resolve(true);
-        img.onerror = () => reject(false);
-        img.src = url;
-    });
-}
-
-// ---------- PREVISUALIZAR IMAGEN ----------
-function previsualizarImagen() {
-    const urlInput = document.getElementById('urlLogotipo');
-    const chatbotIcon = document.getElementById('chatbotIcon');
-    const logoURL = urlInput.value.trim();
-
-    if (logoURL !== '') {
-        verificarImagen(logoURL)
-            .then(() => {
-                chatbotIcon.src = logoURL;
-                localStorage.setItem('chatbotLogo', logoURL);
-            })
-            .catch(() => {
-                chatbotIcon.removeAttribute('src');
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error al cargar el logotipo',
-                    text: 'No se pudo cargar la imagen desde la URL proporcionada. Verifica el enlace.',
-                    confirmButtonColor: '#ffb703'
-                });
-            });
-    } else {
-        chatbotIcon.removeAttribute('src');
-        Swal.fire({
-            icon: 'warning',
-            title: 'Sin logotipo',
-            text: 'Por favor, ingresa una URL para el logotipo.',
-            confirmButtonColor: '#ffb703'
-        });
-    }
-}
 
 const txtNombreChat = document.querySelector('#inp_nombre');
 const divCopiaNombre = document.getElementById('txt-titulo-chat');
@@ -139,6 +98,23 @@ txtNombreChat.addEventListener('keyup', () => {
     localStorage.setItem('inp_nombre', nombre);
 });
 
+// Función para previsualizar la imagen desde url
+function previsualizarImagen() {
+    const urlInput = document.getElementById('urlLogotipo');
+    const chatbotIcon = document.getElementById('chatbotIcon');
+    
+        if (urlInput.value.trim() !== '') {
+            const logoURL = urlInput.value;
+    
+            // Guardar la URL en localStorage
+            localStorage.setItem('chatbotLogo', logoURL);
+    
+            // Cambiar el logo en la página actual
+            chatbotIcon.src = logoURL;
+        } else {
+            chatbotIcon.src = 'img/logochiquito.png'; // Imagen por defecto
+        }
+}
     
 document.getElementById("btnGuardarEstilo").addEventListener("click", function () {
     const id_chatbot = localStorage.getItem("id_chatbot") || null;
@@ -165,9 +141,7 @@ document.getElementById("btnGuardarEstilo").addEventListener("click", function (
         data.id_chatbot = parseInt(id_chatbot);
     }
 
-
-    
-    /*fetch("modelo/guardar_datos.php", {
+    fetch("modelo/guardar_datos.php", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -197,6 +171,6 @@ document.getElementById("btnGuardarEstilo").addEventListener("click", function (
 .catch(err => {
      console.error("Error al guardar en base de datos", err);
         alert("Error de red o del servidor.");
-});*/
+});
     
 });

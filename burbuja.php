@@ -1,8 +1,7 @@
 <?php
 
-include('modelo/obtenerDatos.php');
-include 'modelo/consultas_menu.php';
-include 'modalIntegracion.php';
+include ('modelo/obtenerDatos.php');
+
 
 $id_chatbot = $_SESSION['id_chatbot'] ?? null;
 
@@ -42,10 +41,37 @@ $id_chatbot = $_SESSION['id_chatbot'] ?? null;
             </ul>
         </nav> -->
 
-        <?php include 'DatosMenu.php'; ?>
+        <div class="user-dropdown">
+            <div class="cont-btn-user" id="close-btn-user">
+                <button class="btn-user" id="user-btn"><img src="img/user.png" width="30" alt="User Icon"></button>
+            </div>
+            <div class="dropdown-content" id="dropdown-content">
+
+                <div class="d-flex align-items-center px-3 user-info">
+                    <img src="img/user.png" width="40" alt="User Icon">
+                    <div class="div-user">
+                        <strong><?php echo $_SESSION['nombre_adm'] . ' '. $_SESSION['apellidop_adm']; ?></strong><br>
+                        <small><?php echo ($_SESSION['correo_adm']) ?></small>
+                    </div>
+                </div>
+
+                <div class="dropdown-links">
+                    <div class="user-info">
+                        <a href="#">Chatbot IXAH</a>
+                        <span>Versión 1.0.0</span>
+                    </div>
+                    <div class="user-info">
+                        <a href="#">Desarrollado por Giintape Innovahue</a>
+                        <span> Ayuda</span>
+                    </div>
+
+                    <a class="a1" href="cerrarSesion.php">Cerrar Sesión</a>
+                </div>
+            </div>
+        </div>
     </header>
 
-    <main id="contenidoPrincipal">
+    <main>
         <div class="container-prinBur">
             <div class="container-bienv">
                 <p class="txt-nombre-chat">ChatBot</p>
@@ -59,11 +85,11 @@ $id_chatbot = $_SESSION['id_chatbot'] ?? null;
 
                         <a href="#" class="btnContinuar" id="btnContinuar">
                             <span class="btn-text">Continuar</span>
-                            <img src="img/flecha-c.png" class="btn-icon" style="width: 17px;">
+                            <img src="img/flecha-c.png" class="btn-icon" style="width: 15px;">
                         </a>
                     </div>
                     <div class="btn-group">
-                        <button type="submit" id="btnGuardarBurbuja" class="btnGuardarS" onclick="guardarChatbotCompleto()">
+                        <button type="submit" id="btnGuardarBurbuja" class="btnGuardarS">
                             <span class="btn-text">Guardar</span>
                             <img src="img/icons8-save-24.png" class="btn-icon" style="width: 15px;">
                         </button>
@@ -103,7 +129,7 @@ $id_chatbot = $_SESSION['id_chatbot'] ?? null;
                     <div>
                         <label class="label-nombrechat">Mensaje</label><br>
                         <input type="text" name="inp_burbuja" id="inp_burbuja" placeholder="¡Encuentra vacantes!"
-                            class="input-burbuja" minlength="2" maxlength="20" required value="<?php echo htmlspecialchars($chatbot['inp_burbuja'] ?? ''); ?>"><br>
+                            class="input-burbuja" minlength="2" maxlength="20" required  value="<?php echo htmlspecialchars($chatbot['inp_burbuja'] ?? '' ); ?>"><br>
 
                         <div class="container-colors">
                             <div class="nombre-colord">
@@ -118,7 +144,7 @@ $id_chatbot = $_SESSION['id_chatbot'] ?? null;
                             <div class="nombre-colorc">
                                 <label for="colorTextoBurbuja">Color de texto</label><br>
                                 <div class="color-selector">
-                                    <input type="color" id="colorTextoBurbuja" value="<?php echo htmlspecialchars($chatbot['colorTexto'] ?? '#000000'); ?>"
+                                    <input type="color" id="colorTextoBurbuja" value="<?php echo htmlspecialchars($chatbot['colorTexto'] ?? '#000000' ) ; ?>"
                                         oninput="actualizarColores()">
                                     <div id="muestraColorTextoBurbuja" class="color-circle"></div><br>
                                 </div>
@@ -131,8 +157,8 @@ $id_chatbot = $_SESSION['id_chatbot'] ?? null;
                         <div id="chatbot-toggle" class="chat-toggle">
                             <span id="chatTextBurb" class="chat-text"><?php echo !empty($chatbot['inp_burbuja']) ? htmlspecialchars($chatbot['inp_burbuja']) : '¡Encuentra Vacantes!'; ?></span>
                             <?php
-                            $logo = (!empty($chatbot['urlLogotipo'])) ? $chatbot['urlLogotipo'] : 'img/Logo_cabeza.svg';
-                            ?>
+                                $logo = (!empty($chatbot['urlLogotipo'])) ? $chatbot['urlLogotipo'] : 'img/Logo_cabeza.svg';
+                                ?>
                             <img id="chatBubbleIcon" src="<?php echo htmlspecialchars($logo); ?>" alt="Chat" class="toggle-icon">
                         </div>
 
@@ -147,33 +173,14 @@ $id_chatbot = $_SESSION['id_chatbot'] ?? null;
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/burbuja.js"></script>
     <script>
-        const id_chatbot = <?php echo json_encode($id_chatbot); ?>;
-        if (id_chatbot) {
-            localStorage.setItem("id_chatbot", id_chatbot);
-        }
+    const id_chatbot = <?php echo json_encode($id_chatbot); ?>;
+    if (id_chatbot) {
+        localStorage.setItem("id_chatbot", id_chatbot);
+    }
     </script>
     <script src="js/custom.js"></script>
     <script src="js/menuLateral.js" type="module"></script>
     <script src="js/guardar.js"></script>
-    <script src="js/formularioIntegracion.js"></script>
-    <script>
-        window.appData = {
-            nombrePlan: '<?php echo $planUsuario; ?>',
-            estadoSuscripcion: '<?php echo $estadoSuscripcion; ?>',
-            sftpActivo: <?php echo $sftpActivo; ?>,
-            sftpConfig: <?php
-                        echo json_encode([
-                            'servidor' => $sftpData['servidor'] ?? '',
-                            'puerto' => $sftpData['puerto'] ?? '22',
-                            'usuario' => $sftpData['usuario'] ?? '',
-                            'contrasena' => '',
-                            'rutaDestino' => $sftpData['rutaDestino'] ?? '',
-                            'url_estandar' =>  $sftpData['url_estandar'] ?? ''
-                        ]);
-                        ?>
-        };
-    </script>
-    <script src="js/guardadoGeneral.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </body>

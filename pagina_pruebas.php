@@ -48,20 +48,29 @@ if (!isset($_SESSION['id_adm'])) {
       </div>
     </div>
 
-    <div class="chatbot-body" id="chatBox">
-         <div id="mensaje-inicial" class="chatbot-message">
-    <p></p>
-    <div class="chatbot-button-container"></div>
+    <div id="chatbot-container" data-session-id="1">
+  <div class="chatbot-body" id="chatBox">
+    <div id="mensaje-inicial" class="chatbot-message">
+      <p></p>
+      <div class="chatbot-button-container"></div>
+    </div>
+    <!-- Aquí se inyectan mensajes dinámicamente -->
   </div>
-      <!-- Aquí se inyectan mensajes dinámicamente -->
+
+    <!-- Chat normal -->
+    <div id="user-input-container" class="user-input-container" style="display:none;">
+    <input type="text" id="user-input" placeholder="Escribe aquí tu respuesta...">
+    <button onclick="enviarRespuesta()">Enviar</button>
     </div>
 
-    <!-- Caja de texto y botón para enviar respuestas -->
-    <div id="user-input-container" class="user-input-container" style="display:none;">
-      <input type="text" id="user-input" placeholder="Escribe aquí tu respuesta...">
-      <button onclick="enviarRespuesta()">Enviar</button>
+    <!-- Chat IA -->
+    <div id="ai-chat-container" class="user-input-container" style="display:none;">
+        <input type="text" id="ai-input" placeholder="Pregúntame algo...">
+        <button id="ai-send-btn" onclick="enviarPreguntaIA()">Enviar</button>
     </div>
-  </div>
+    
+</div>
+
 
   <!-- IDs dinámicos desde la sesión PHP -->
   <input type="hidden" id="idEmp" value="<?php echo $_SESSION['id_emp']; ?>">
@@ -81,6 +90,8 @@ if (!isset($_SESSION['id_adm'])) {
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <script src="js/pruebaChatbot.js"></script>
+  <script src="js/IA/iniciarChat.js"></script>
+
 </body>
 
 </html>

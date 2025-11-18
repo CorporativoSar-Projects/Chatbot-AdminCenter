@@ -1,8 +1,7 @@
 <?php
 
 include ('modelo/obtenerDatos.php');
-include 'modelo/consultas_menu.php';
-include 'modalIntegracion.php';
+
 
 $id_chatbot = $_SESSION['id_chatbot'] ?? null;
 
@@ -29,10 +28,37 @@ $id_chatbot = $_SESSION['id_chatbot'] ?? null;
     </div>
 
     <header>
-  <?php include 'DatosMenu.php'; ?>
+        <div class="user-dropdown">
+            <div class="cont-btn-user" id="close-btn-user">
+                <button class="btn-user" id="user-btn"><img src="img/user.png" width="30" alt="User Icon"></button>
+            </div>
+            <!-- Menu lateral -->
+            <div class="dropdown-content" id="dropdown-content">
+                <div class="d-flex align-items-center px-3 user-info">
+                    <img src="img/user.png" width="40" alt="User Icon">
+                    <div class="div-user">
+                        <strong><?php echo $_SESSION['nombre_adm'] . ' '. $_SESSION['apellidop_adm']; ?></strong><br>
+                        <small><?php echo ($_SESSION['correo_adm']) ?></small>
+                    </div>
+                </div>
+
+                <div class="dropdown-links">
+                    <div class="user-info">
+                        <a href="#">Chatbot IXAH</a>
+                        <span>Versión 1.0.0</span>
+                    </div>
+                    <div class="user-info">
+                        <a href="#">Desarrollado por Giintape Innovahue</a>
+                        <span> Ayuda</span>
+                    </div>
+
+                    <a class="a1" href="cerrarSesion.php">Cerrar Sesión</a>
+                </div>
+            </div>
+        </div>
     </header>
 
-    <main id="contenidoPrincipal">
+    <main>
         <div class="container-prin-Desp">
             <div class="container-bienv">
                 <p class="txt-nombre-chat">ChatBot</p>
@@ -50,7 +76,7 @@ $id_chatbot = $_SESSION['id_chatbot'] ?? null;
                         </a>
                     </div>
                     <div class="btn-group">
-                        <button type="submit" id="btnGuardarDespedida" class="btnGuardarS" onclick="guardarChatbotCompleto()">
+                        <button type="submit" id="btnGuardarDespedida" class="btnGuardarS">
                             <span class="btn-text">Guardar</span>
                             <img src="img/icons8-save-24.png" class="btn-icon" style="width: 15px;">
                         </button>
@@ -86,14 +112,11 @@ $id_chatbot = $_SESSION['id_chatbot'] ?? null;
                         </div>
                     </div>
 
-                    <div style="position: relative; width: 100%;">
+                    <div>
                         <textarea id="inp_despedida"
                             placeholder="Gracias por usarme, me dio mucho gusto poder ayudarte... ¡Hasta la próxima!"
                             class="input-despedida" required maxlength="280"><?php echo htmlspecialchars($chatbot['inp_despedida'] ?? ''); ?></textarea><br>
-                     <span id="contadorCaracteres" >
-                                0 / 180
-                            </span>
-                     </div>
+                    </div>
 
                     <div class="chatbot-principal">
                         <div class="chatbot-container">
@@ -116,7 +139,7 @@ $id_chatbot = $_SESSION['id_chatbot'] ?? null;
                                     </div>
                                 </div>
                             </div>
-                            <div class="chatbot-content1">
+                            <div class="chatbot-content">
                                 <p class="txt-chatbot" id="txt-chatbot-Desp">
 
                                      <?php 
@@ -129,7 +152,7 @@ $id_chatbot = $_SESSION['id_chatbot'] ?? null;
                                 <?php
                                 $logodes = (!empty($chatbot['urlLogotipo'])) ? $chatbot['urlLogotipo'] : 'img/Logo_principal.svg';
                                 ?>
-                                <img src="<?php echo htmlspecialchars($logodes); ?>" alt=""  />
+                                <img src="<?php echo htmlspecialchars($logodes); ?>" alt="" style="margin: 0 auto; display: block; width: 100px; height: auto; max-width: 100%; overflow: hidden;" />
 
                             </div>
                             <div id="user-input-container" class="user-input-container">
@@ -157,26 +180,7 @@ $id_chatbot = $_SESSION['id_chatbot'] ?? null;
     }
     </script>
     <script src="js/custom.js"></script>
-    <script src="js/guardar.js"></script>
-       <script src="js/formularioIntegracion.js"></script>
-    <script>
-        window.appData = {
-            nombrePlan: '<?php echo $planUsuario; ?>',
-            estadoSuscripcion: '<?php echo $estadoSuscripcion; ?>',
-            sftpActivo: <?php echo $sftpActivo; ?>,
-            sftpConfig: <?php
-                        echo json_encode([
-                            'servidor' => $sftpData['servidor'] ?? '',
-                            'puerto' => $sftpData['puerto'] ?? '22',
-                            'usuario' => $sftpData['usuario'] ?? '',
-                            'contrasena' => '',
-                            'rutaDestino' => $sftpData['rutaDestino'] ?? '',
-                            'url_estandar' =>  $sftpData['url_estandar'] ?? ''
-                        ]);
-                        ?>
-        };
-    </script>
-      <script src="js/guardadoGeneral.js"></script>
+     <script src="js/guardar.js"></script>
     <script src="js/menuLateral.js" type="module"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
