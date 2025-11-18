@@ -36,6 +36,9 @@ class ChatErrorLog(models.Model):
 
 class TokenUsage(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    session = models.ForeignKey(ChatSession, null=True, blank=True, on_delete=models.SET_NULL)
+    # PARA USUARIOS ANÓNIMOS
+    anon_id = models.CharField(max_length=100, null=True, blank=True)
     month = models.DateField(default=timezone.now)
     input_tokens = models.PositiveIntegerField(default=0)
     output_tokens = models.PositiveIntegerField(default=0)

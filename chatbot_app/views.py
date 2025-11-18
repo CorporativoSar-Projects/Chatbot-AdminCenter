@@ -374,41 +374,25 @@ def token_usage_detail(request, user_id):
 
 
 def get_or_create_token_record(request):
-    """
-    Retorna el registro de tokens basado en el usuario o sesión anónima.
-    """
     now = timezone.now().date()
     month_start = now.replace(day=1)
 
-    # Si el usuario está autenticado, usar usuario, sino sesión
     user = request.user if request.user.is_authenticated else None
-    session_key = request.session.session_key if hasattr(request, 'session') else None
+    session_key = request.session.session_key
 
     if user:
         token_record, created = TokenUsage.objects.get_or_create(
             user=user,
-            month=month_start,
-            defaults={
-                'input_tokens': 0,
-                'output_tokens': 0,
-                'memory_tokens': 0,
-                'notified_limit': False
-            }
+            month=month_start
         )
+
     else:
-        # Para usuarios anónimos, usar una combinación de session_key o IP
-        session_id = session_key or f"anon_{request.META.get('REMOTE_ADDR', 'unknown')}"
+        # Nuevo: usar anon_id para anónimos
+        anon_id = session_key or f"anon_{request.META.get('REMOTE_ADDR', 'unknown')}"
 
         token_record, created = TokenUsage.objects.get_or_create(
-            user=None,
-            session_id=session_id,
-            month=month_start,
-            defaults={
-                'input_tokens': 0,
-                'output_tokens': 0,
-                'memory_tokens': 0,
-                'notified_limit': False
-            }
+            anon_id=anon_id,
+            month=month_start
         )
 
     return token_record
