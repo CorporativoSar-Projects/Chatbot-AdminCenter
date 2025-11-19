@@ -113,6 +113,26 @@ function previsualizarImagen() {
     }
 }
 
+// 🔄 Cambio en tiempo real del logo al escribir la URL
+document.getElementById("urlLogotipo").addEventListener("input", function () {
+    const url = this.value.trim();
+    const chatbotIcon = document.getElementById("chatbotIcon");
+
+    if (url === "") {
+        chatbotIcon.removeAttribute("src");
+        return;
+    }
+
+    verificarImagen(url)
+        .then(() => {
+            chatbotIcon.src = url;
+            localStorage.setItem("chatbotLogo", url);
+        })
+        .catch(() => {
+            chatbotIcon.removeAttribute("src");
+        });
+});
+
 const txtNombreChat = document.querySelector('#inp_nombre');
 const divCopiaNombre = document.getElementById('txt-titulo-chat');
 
@@ -145,10 +165,15 @@ document.getElementById("btnGuardarEstilo").addEventListener("click", function (
 
      // Tomar primero la URL actual del input o el valor de localStorage o la imagen por defecto
     const urlLogotipoInput = document.getElementById("urlLogotipo").value.trim();
-    const logoURL = urlLogotipoInput || localStorage.getItem("chatbotLogo") || "img/logochiquito.png";
+    const logoPrevio = localStorage.getItem("chatbotLogo") || "";
+    const logoURL = urlLogotipoInput !== "" ? urlLogotipoInput : logoPrevio;
 
+   // Solo guardar si el usuario escribió una nueva URL
+        if (urlLogotipoInput !== "") {
+            logoURL = urlLogotipoInput;
+            localStorage.setItem("chatbotLogo", logoURL);
+        }
 
-    localStorage.setItem("chatbotLogo", logoURL);
     //Objeto con el que los datos se van a guardar
     const data = {
         inp_nombre: document.getElementById("inp_nombre").value,

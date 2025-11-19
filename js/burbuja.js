@@ -72,8 +72,7 @@ txtBurbuja.addEventListener('keyup', () => {
 //codigo que llama el logo desde el localStorage
 document.addEventListener('DOMContentLoaded', function () {
     const bubbleIcon = document.getElementById('chatBubbleIcon');
-    const nombreBurbuja = localStorage.getItem('nombreBurbuja');
-
+   
     // Revisar si hay un logo guardado en localStorage
     const savedLogo = localStorage.getItem('chatbotLogo');
 
@@ -81,9 +80,11 @@ document.addEventListener('DOMContentLoaded', function () {
         bubbleIcon.src = savedLogo; // Aplicar el logo guardado
     }
 
-     if (nombreBurbuja) {
-        document.getElementById('inp_burbuja').value = nombreBurbuja;
-        document.getElementById('chatTextBurb').innerHTML = nombreBurbuja;
+     const savedBurbuja = localStorage.getItem('inp_burbuja');
+
+    if (savedBurbuja) {
+        document.getElementById('inp_burbuja').value = savedBurbuja;
+        document.getElementById('chatTextBurb').innerHTML = savedBurbuja;
     }
 
     // Al recargar la página, eliminar la URL guardada

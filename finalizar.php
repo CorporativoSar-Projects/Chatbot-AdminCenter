@@ -2,7 +2,6 @@
 
 include('modelo/obtenerDatos.php');
 include 'modelo/consultas_menu.php';
-include 'modalIntegracion.php';
 ?>
 
 <!DOCTYPE html>
@@ -23,11 +22,13 @@ include 'modalIntegracion.php';
 <body>
 
     <div class="rectangulo-container">
-        <img src="img/Logo_cabeza.svg" width="70px" alt="Logo" class="img-logo-chiq">
+        <a href="menu.php">
+            <img src="img/Logo_cabeza.svg" width="70px" alt="Logo" class="img-logo-chiq">
+        </a>
     </div>
     <header>
 
- <?php include 'DatosMenu.php'; ?>
+        <?php include 'DatosMenu.php'; ?>
     </header>
 
     <main id="contenidoPrincipal">
@@ -159,74 +160,75 @@ include 'modalIntegracion.php';
                                     <i class="fas fa-save"></i>
                                 </button>
 
-                                </div>
+                            </div>
                             <div class="generar-container">
                                 <button type="submit" id="myBtn" class="btnGenerar" data-idadm="<?= $_SESSION['id_adm'] ?>" data-toggle="modal" data-target="#myModal">
                                     <span class="btn-text-Generar">Generar</span>
                                 </button>
 
                                 <!-- Nuevo botón a la derecha -->
-                                <button type="button" id="btnInteractivo" class="btnInteractivo" onclick="window.open('pagina_pruebas.php', '_blank')" >
-                                    <span >Modo Interactivo</span>
+                                <button type="button" id="btnInteractivo" class="btnInteractivo" onclick="window.open('pagina_pruebas.php', '_blank')">
+                                    <span>Modo Interactivo</span>
                                 </button>
                             </div>
-                            </div>
-
-
                         </div>
 
+
                     </div>
+
                 </div>
-
-
-                <!-- Modal -->
-                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="linkModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-xl" role="document">
-                        <div class="modal-content">
-
-                            <!-- Header -->
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="linkModalLabel">¡Copia el código HTML de tu ChatBot!</h5>
-
-                                <div class="d-flex align-items-center" style="margin-left: 25px; cursor: pointer;" id="copyWrapper">
-                                    <i class="fas fa-copy" id="copySnippetBtn" style="font-size: 1.5rem;" title="Copiar Código"></i>
-                                    <span style="margin-left: 6px; font-weight: 500;">Copiar</span>
-                                </div>
-
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-
-                            </div>
-
-
-                            <div class="modal-body">
-
-                                <p><strong>Instrucciones:</strong> Copia y pega este código en tu sitio web <code>&lt;/body&gt;</code>.</p>
-                                <pre><code id="snippetCode"></code></pre>
-                                <div id="alertContainer"></div>
-
-
-
-                            </div>
-
-
-                            <!-- Footer -->
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                <!--- <button type="button" class="btn btn-success" onclick="copySnippet()">Copiar Código</button>--->
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-
             </div>
+
+
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="linkModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl" role="document">
+                    <div class="modal-content">
+
+                        <!-- Header -->
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="linkModalLabel">¡Copia el código HTML de tu ChatBot!</h5>
+
+                            <div class="d-flex align-items-center" style="margin-left: 25px; cursor: pointer;" id="copyWrapper">
+                                <i class="fas fa-copy" id="copySnippetBtn" style="font-size: 1.5rem;" title="Copiar Código"></i>
+                                <span style="margin-left: 6px; font-weight: 500;">Copiar</span>
+                            </div>
+
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+
+                        </div>
+
+
+                        <div class="modal-body">
+
+                            <p><strong>Instrucciones:</strong> Copia y pega este código en tu sitio web <code>&lt;/body&gt;</code>.</p>
+                            <pre><code id="snippetCode"></code></pre>
+                            <div id="alertContainer"></div>
+
+
+
+                        </div>
+
+
+                        <!-- Footer -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            <!--- <button type="button" class="btn btn-success" onclick="copySnippet()">Copiar Código</button>--->
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
 
 
     </main>
 
-
+    <!--Modal de integración -->
+    <?php include 'modalIntegracion.php'; ?>
 
     <!-- jQuery y Bootstrap JavaScript -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -254,7 +256,7 @@ include 'modalIntegracion.php';
                         ?>
         };
     </script>
-     <script src="js/guardadoGeneral.js"></script>
+    <script src="js/guardadoGeneral.js"></script>
     <script src="js/urlFuncionamiento.js"></script>
 
 </body>

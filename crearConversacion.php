@@ -2,7 +2,6 @@
 
 include('modelo/obtenerDatos.php');
 include 'modelo/consultas_menu.php';
-include 'modalIntegracion.php';
 
 $id_chatbot = $_SESSION['id_chatbot'] ?? null;
 ?>
@@ -25,8 +24,9 @@ $id_chatbot = $_SESSION['id_chatbot'] ?? null;
 <body>
 
     <div class="rectangulo-container">
-
-        <img src="img/Logo_cabeza.svg" width="70px" alt="Logo" class="img-logo-chiq">
+        <a href="menu.php">
+            <img src="img/Logo_cabeza.svg" width="70px" alt="Logo" class="img-logo-chiq">
+        </a>
     </div>
     <header>
 
@@ -34,7 +34,7 @@ $id_chatbot = $_SESSION['id_chatbot'] ?? null;
         <?php include 'DatosMenu.php'; ?>
     </header>
 
-    <main  id="contenidoPrincipal">
+    <main id="contenidoPrincipal">
         <div class="container-prin-Cr">
             <div class="container-bienv">
                 <p class="txt-nombre-chat">ChatBot</p>
@@ -136,22 +136,23 @@ $id_chatbot = $_SESSION['id_chatbot'] ?? null;
 
     </main>
 
-
+    <!--Modal de integración -->
+    <?php include 'modalIntegracion.php'; ?>
 
     <!-- jQuery y Bootstrap JavaScript -->
     <script>
-    // Pasamos los datos PHP a un objeto JS llamado datosChatbot
-    const datosChatbot = <?php echo json_encode($chatbot); ?>;
+        // Pasamos los datos PHP a un objeto JS llamado datosChatbot
+        const datosChatbot = <?php echo json_encode($chatbot); ?>;
     </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/creaConver.js"></script>
 
-     <script>
-    const id_chatbot = <?php echo json_encode($id_chatbot); ?>;
-    if (id_chatbot) {
-        localStorage.setItem("id_chatbot", id_chatbot);
-    }
+    <script>
+        const id_chatbot = <?php echo json_encode($id_chatbot); ?>;
+        if (id_chatbot) {
+            localStorage.setItem("id_chatbot", id_chatbot);
+        }
     </script>
     <script src="js/custom.js"></script>
     <script src="js/guardar.js"></script>
@@ -168,7 +169,7 @@ $id_chatbot = $_SESSION['id_chatbot'] ?? null;
                             'usuario' => $sftpData['usuario'] ?? '',
                             'contrasena' => '',
                             'rutaDestino' => $sftpData['rutaDestino'] ?? '',
-                    'url_estandar' =>  $sftpData['url_estandar'] ?? ''
+                            'url_estandar' =>  $sftpData['url_estandar'] ?? ''
                         ]);
                         ?>
         };
@@ -176,7 +177,7 @@ $id_chatbot = $_SESSION['id_chatbot'] ?? null;
     <script src="js/guardadoGeneral.js"></script>
     <script src="js/menuLateral.js" type="module"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
+
 </body>
 
 </html>

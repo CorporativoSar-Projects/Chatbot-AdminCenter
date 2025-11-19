@@ -134,7 +134,7 @@ function aplicarColorBotonesSVG(color) {
 // -------------------- MANEJAR TEMAS --------------------
 function manejarTema(conver) {
   if (temaEnCurso) return;
-   // Deshabilitar todos los botones mientras se procesa este tema
+  // Deshabilitar todos los botones mientras se procesa este tema
   const botones = document.querySelectorAll("#mensaje-inicial button");
   botones.forEach(btn => btn.disabled = true);
 
@@ -198,10 +198,11 @@ function mostrarSelect(columnaClave, mensajeUsuario, selectId, textoDefault) {
   select.id = selectId;
   select.style.marginTop = "10px";
 
-    // Mapa de columnas internas → nombres amigables
+  // Mapa de columnas internas → nombres amigables
   const nombresColumnas = {
+    //"reqId_ix": "ID de vacante",
+    "title_ix": "Nombre de la vacante",
     "category_ix": "Categoría",
-    "reqId_ix": "ID de vacante",
     "location_ix": "Ubicación",
     // agrega más columnas aquí según tu CSV
   };
@@ -214,12 +215,12 @@ function mostrarSelect(columnaClave, mensajeUsuario, selectId, textoDefault) {
     div.innerHTML = `${mensajeUsuario} ${valorSeleccionado}...`;
 
     //if (windowConfig) {
-      //div.style.backgroundColor = windowConfig.colorRespuestaUsuario;
-      //div.style.color = windowConfig.colorTexto;
-      //div.style.borderRadius = "12px";
-      //div.style.padding = "8px 12px";
-      //div.style.maxWidth = "80%";
-      //div.style.margin = "5px 0";
+    //div.style.backgroundColor = windowConfig.colorRespuestaUsuario;
+    //div.style.color = windowConfig.colorTexto;
+    //div.style.borderRadius = "12px";
+    //div.style.padding = "8px 12px";
+    //div.style.maxWidth = "80%";
+    //div.style.margin = "5px 0";
     //}
 
     contenedor.appendChild(div);
@@ -251,14 +252,46 @@ function mostrarSelect(columnaClave, mensajeUsuario, selectId, textoDefault) {
 
         // Mostrar el link al final si existe
         if (link) {
-          if (windowConfig.sftp_activo) {
-            mensaje += `
-            <button class="btn btn-primary" onclick="abrirModalPostulacion('${emp['reqId_ix']}')">
-                Postúlate
-            </button>
-        `;
+          const tipoIntegracion = windowConfig.tipo_integracion || "estandar";
+          const integracionActiva = windowConfig.integracion_activa === true;
+          const baseUrl = windowConfig.url_estandar || "";
+          if (integracionActiva) {
+
+            //  INTEGRACIÓN SFTP
+            if (tipoIntegracion === "sftp") {
+
+              mensaje += `
+              <button class="btn btn-primary"
+                  onclick="abrirModalPostulacion('${emp['reqId_ix']}', '${emp['title_ix']}')">
+                  Postúlate
+              </button>
+          `;
+            }
+
+            // INTEGRACIÓN ESTÁNDAR (URL)
+            else if (tipoIntegracion === "estandar") {
+
+              const reqId = emp["reqId_ix"] || "";
+
+              // Si hay URL de carreras definida
+              const urlFinal = (baseUrl && reqId)
+                ? `${baseUrl}${reqId}`
+                : link;
+
+              mensaje += `
+              <p><a href="${urlFinal}" target="_blank">
+                  Postúlate
+              </a></p>
+          `;
+            }
+
           } else {
-            mensaje += `<p><a href="${link}" target="_blank">Postúlate</a></p>`;
+            // Sin integración activa → usa el link del CSV
+            mensaje += `
+          <p><a class="btn btn-primary" href="${link}" target="_blank">
+              Postúlate
+          </a></p>
+      `;
           }
         }
         mensaje += "</div>";
@@ -784,8 +817,8 @@ function bloquearBotones(ultimo) {
 
 function funcionSi() {
   temaEnCurso = false;
-   mensajeSeguimientoMostrado = false;
-   
+  mensajeSeguimientoMostrado = false;
+
   // Crear contenedor como elemento HTML
   const contenidoInicial = document.createElement("div");
   contenidoInicial.className = "chatbot-message";
@@ -812,25 +845,25 @@ function funcionSi() {
 
       if (btn.textContent.includes("categoría")) {
         mostrarPreguntaPerfil();
-      } 
+      }
       else if (btn.textContent.includes("ubicación")) {
         iniciarBusquedaPorUbicacion();
-      } 
+      }
       else if (btn.textContent.includes("Seguimiento")) {
         // Buscar tema de seguimiento en el JSON
         const temaSeguimiento = windowConfig.conversacion.find(c => c.tema.toLowerCase().includes("seguimiento"));
-        
+
         // Siempre mostrar el mensaje del JSON
         if (temaSeguimiento && temaSeguimiento.mensaje) {
           agregarMensajeChatbot(temaSeguimiento.mensaje);
         }
 
-      
 
-      // Ejecutar la acción según el texto del botón
-      if (btn.textContent.includes("categoría")) mostrarPreguntaPerfil();
-      else if (btn.textContent.includes("ubicación")) iniciarBusquedaPorUbicacion();
-      else if (btn.textContent.includes("Seguimiento")) seguimientoPostulacion();
+
+        // Ejecutar la acción según el texto del botón
+        if (btn.textContent.includes("categoría")) mostrarPreguntaPerfil();
+        else if (btn.textContent.includes("ubicación")) iniciarBusquedaPorUbicacion();
+        else if (btn.textContent.includes("Seguimiento")) seguimientoPostulacion();
       }
     });
   });
@@ -858,7 +891,7 @@ function funcionNo() {
   const logo = document.createElement("img");
   logo.src = windowConfig.urlLogotipo || "";
   logo.alt = "Logo Chatbot";
-  logo.style.width = "60px"; 
+  logo.style.width = "60px";
   logo.style.height = "60px";
 
   mensajeDespedida.appendChild(texto);

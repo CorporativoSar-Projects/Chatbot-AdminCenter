@@ -2,7 +2,6 @@
 include('modelo/obtenerDatos.php');
 include 'modelo/conexion_bd.php';
 include 'modelo/consultas_menu.php';
-include 'modalIntegracion.php';
 
 $id_adm = $_SESSION['id_adm'];
 $sql = "SELECT COUNT(*) AS total FROM chatbot WHERE Administrador_id_adm = ?";
@@ -43,7 +42,9 @@ if ($row['total'] >= 1 && isset($_GET['nuevo'])) {
 <body>
 
     <div class="rectangulo-container">
+        <a href="menu.php">
         <img src="img/Logo_cabeza.svg" width="70px" alt="Logo" class="img-logo-chiq">
+        </a>
     </div>
     <header>
          <?php include 'DatosMenu.php'; ?>
@@ -208,6 +209,8 @@ if ($row['total'] >= 1 && isset($_GET['nuevo'])) {
                 </div>
             </div>
     </main>
+<!--Modal de integración -->
+    <?php include 'modalIntegracion.php'; ?>
 
     <!-- jQuery y Bootstrap JavaScript -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

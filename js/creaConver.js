@@ -166,8 +166,7 @@ function impMenu3(event) {
                 class="input-columna-crear" required><br>
       
             <label class="label-nombrechat">URL del informe</label><br>
-            <input type="url" name="inp_url_informe3" id="inp_url_informe3" placeholder="https://tusitio.com/candidatos.csv">
-                    class="input-columna-crear"><br>
+            <input type="url" name="inp_url_informe3" id="inp_url_informe3" placeholder="https://tusitio.com/candidatos.csv" class="input-columna-crear"><br>
                      
         </div>
     `;

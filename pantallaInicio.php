@@ -3,7 +3,6 @@
 
 include('modelo/obtenerDatos.php');
 include 'modelo/consultas_menu.php';
-include 'modalIntegracion.php';
 
 $id_chatbot = $_SESSION['id_chatbot'] ?? null;
 ?>
@@ -23,7 +22,9 @@ $id_chatbot = $_SESSION['id_chatbot'] ?? null;
 
 <body>
     <div class="rectangulo-container">
+        <a href="menu.php">
         <img src="img/Logo_cabeza.svg" width="70px" alt="Logo" class="img-logo-chiq">
+        </a>
     </div>
 
     <header>
@@ -174,6 +175,8 @@ $id_chatbot = $_SESSION['id_chatbot'] ?? null;
         </div>
     </main>
 
+    <!--Modal de integración -->
+    <?php include 'modalIntegracion.php'; ?>
 
 
     <!-- jQuery y Bootstrap JavaScript -->
