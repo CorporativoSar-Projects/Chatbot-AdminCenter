@@ -200,8 +200,13 @@ function manejarConfirmacion(respuesta) {
 
 // Función para mostrar las opciones principales
 function mostrarOpcionesPrincipales() {
+    // document.getElementById('manual-description-container').style.display = 'none';
+    document.getElementById('analysis-input-container').style.display = 'none';
+    toggleSelectionButtons(false);
+    toggleImproveButtons(false);
+
     const opcionesHTML = `
-        <div class="chat-message bot-message">
+        <div class="special-buttons">
             <p>¡Perfecto! ¿En qué más puedo ayudarte?</p>
             <div class="special-buttons">
                 <button class="special-btn" onclick="mostrarAnalisisCandidato()">
@@ -209,6 +214,9 @@ function mostrarOpcionesPrincipales() {
                 </button>
                 <button class="special-btn" onclick="mejorarDescripcionPuesto()">
                     ✏️ Mejorar descripciones de puestos
+                </button>
+                <button class="special-btn" onclick="mostrarInputManualDescripcion()">
+                        ✏️ Mejorar descripción manual
                 </button>
             </div>
         </div>
@@ -335,7 +343,7 @@ async function iniciarMejoraDescripcionPuesto(candidato) {
             throw new Error(data.error);
         }
         // Mostrar la respuesta real de la IA
-        // mostrarDescripcionMejoradaReal(candidato, data.descripcion_mejorada);
+        mostrarDescripcionMejoradaReal(candidato, data.descripcion_mejorada);
         
     } catch (error) {
         console.error('Error al conectar con la API:', error);
@@ -559,6 +567,9 @@ async function enviarDescripcionParaMejora() {
                 ${data.descripcion_mejorada.replace(/\n/g, '<br>')}
             </div>
         `, 'bot-message');
+        setTimeout(() => {
+            mostrarConfirmacionAyuda();
+        }, 500);
 
     } catch (error) {
         console.error('Error al conectar con la API:', error);
@@ -569,7 +580,7 @@ async function enviarDescripcionParaMejora() {
         setTimeout(() => {
             mostrarDescripcionMejorada(candidato);
         }, 1000);*/
-         setTimeout(() => {
+        setTimeout(() => {
             mostrarConfirmacionAyuda();
         }, 500);
     }
@@ -581,8 +592,15 @@ function mostrarInputManualDescripcion() {
     toggleSelectionButtons(false);
     toggleImproveButtons(false);
 
-    // Mostrar el contenedor de entrada manual
-    document.getElementById('manual-description-container').style.display = 'block';
-
-    addMessage('✏️ Ingresa la descripción del puesto que deseas mejorar:', 'bot-message');
+    // Agregar el textarea y el botón **dentro del chat** cada vez
+    const html = `
+        
+            <p>✏️ Ingresa la descripción del puesto que deseas mejorar:</p>
+            <textarea id="descripcion-puesto-input" class="analysis-input" rows="4" placeholder="Escribe aquí la descripción del puesto que deseas mejorar..."></textarea>
+            <button class="analysis-btn" onclick="enviarDescripcionParaMejora()">
+                ✏️ Optimizar descripción con IA
+            </button>
+        
+    `;
+    addHTMLMessage(html, 'bot-message');
 }

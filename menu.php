@@ -80,6 +80,12 @@ include 'modelo/consultas_menu.php';
             <a href="candidatos.php">Candidatos</a>
           </div>
           <div class="user-info">
+            <a href="informesSSFF.php">Informes SSFF</a>
+          </div>
+          <div class="user-info">
+            <a href="crear_perfil_manual.php">Informe Manual</a>
+          </div>
+          <div class="user-info">
             <a href="log_errores.php">Errores de los ChatBots</a>
           </div>
           <div class="user-info">

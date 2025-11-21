@@ -1,40 +1,45 @@
 {
     "id_emp": "urban3602qt",
     "estilos": {
-        "colorPrimario": "#0081cc",
-        "colorSecundario": "#b6b6b6",
-        "colorTexto": "#0d0c0c",
-        "colorAcento": "#12bdca",
-        "colorRespuestaUsuario": "#0dc4f2",
-        "logo": "https://d1yjjnpx0p53s8.cloudfront.net/styles/logo-thumbnail/s3/102025/rcs_la_forestoise_2.png?MCNaGkYz4dNtDOy0VELMnykib.tncqCl&itok=-lGt20Ax",
-        "nombreChatbot": "IXAH",
+        "colorPrimario": "#144fad",
+        "colorSecundario": "#2152a1",
+        "colorTexto": "#ffffff",
+        "colorAcento": "#4774bd",
+        "colorRespuestaUsuario": "#2140ba",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/e/e8/0062%EB%A1%9C%EA%B3%A0.jpg",
+        "nombreChatbot": "Samsung",
         "burbuja": "¡Encuentra vacantes!",
-        "saludo": "¡Hola! Soy IXAH, tu asistente virtual en el mundo laboral. ¿En qué te puedo ayudar hoy?"
+        "saludo": "¡Hola! seré tu asistente virtual, te ayudaré a encontrar tu puesto ideal."
     },
     "funcionamiento": {
-        "urlChatbot": "https://www.facebook.com/",
+        "urlChatbot": "http://localhost/chatbot-giintape/",
+        "tipoIntegracion": "sftp",
         "integracionActiva": true
     },
     "conversacion": [
         {
             "tema": "Buscar vacantes por categoría",
-            "mensaje": "",
-            "columna": "",
-            "urlInforme": ""
+            "mensaje": "Busca puestos por categoría",
+            "columna": "category_ix",
+            "urlInforme": "https://chatbot.giintapeinnovahue.com/report_Job.csv"
         },
         {
             "tema": "Buscar vacantes por ubicación",
-            "mensaje": "",
-            "columna": "",
-            "urlInforme": ""
+            "mensaje": "Busca puestos por ubicación",
+            "columna": "location_ix",
+            "urlInforme": "https://chatbot.giintapeinnovahue.com/report_Job.csv"
         },
         {
             "tema": "Seguimiento de mi postulación",
-            "mensaje": "",
-            "columna": "",
-            "urlInforme": ""
+            "mensaje": "Mantente al día con tus postulaciones",
+            "columna": "email_ix",
+            "urlInforme": "https://chatbot.giintapeinnovahue.com/report_Candidate_status_test.csv "
         }
     ],
-    "despedida": "",
-    "vacantes": []
+    "despedida": "Gracias por usarme, hasta pronto",
+    "vacantes": [
+        "https://chatbot.giintapeinnovahue.com/report_Job.csv",
+        "https://chatbot.giintapeinnovahue.com/report_Job.csv",
+        "https://chatbot.giintapeinnovahue.com/report_Candidate_status_test.csv "
+    ]
 }

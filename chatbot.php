@@ -1,5 +1,5 @@
 <?php
-include 'modelo/consultas_menu.php';
+/*include 'modelo/consultas_menu.php';
 
 // Si la sesión no está iniciada, entonces iníciala
 if (session_status() == PHP_SESSION_NONE) {
@@ -82,7 +82,76 @@ if (empty($candidatos)) {
             'estado' => 'Contratado'
         ]
     ];
+}*/
+
+include 'modelo/consultas_menu.php';
+
+// Si la sesión no está iniciada, entonces iníciala
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
 }
+
+if (!isset($_SESSION['id_adm'])) {
+    header("location: ./index.php?error=2");
+    exit;
+}
+
+// Conexión a la base de datos MySQL
+$host = "127.0.0.1";
+$user = "root";
+$pass = "";
+$dbname = "ixah";
+
+$mysqli = new mysqli($host, $user, $pass, $dbname);
+if ($mysqli->connect_errno) {
+    die("Error al conectar a la base de datos: " . $mysqli->connect_error);
+}
+
+// Consulta todos los candidatos
+$query = "SELECT id_candidate, nombre_candidate, apellidop_candidate, correo_candidate, tel_candidate, CV_candidate, CV_id_onedrive FROM candidato";
+$result = $mysqli->query($query);
+
+$candidatos = [];
+
+if ($result && $result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $candidatos[] = $row;
+    }
+}
+/*
+'id_candidate' => $row['id_candidate'],
+            'nombre_candidate' => $row['nombre_candidate'],
+            'apellidop_candidate' => $row['apellidop_candidate'],
+            'correo_candidate' => $row['correo_candidate'],
+            'tel_candidate' => $row['tel_candidate'] ?? 'No especificado',
+            'puesto' => 'Sin especificar',  // Opcional, puedes mapearlo si hay campo
+            'estado' => 'Pendiente'         // Opcional, puedes mapearlo si hay campo
+*/
+
+// Si falla la carga, puedes usar los datos de ejemplo como fallback
+if (empty($candidatos)) {
+    $candidatos = [
+        [
+            'id_candidate' => 1,
+            'nombre_candidate' => 'ANA ANGELICA',
+            'apellidop_candidate' => 'SOTO',
+            'correo_candidate' => 'jdo@eeeisa.com.mx',
+            'tel_candidate' => 'No especificado',
+            'puesto' => 'GERENCIA DE VENTAS',
+            'estado' => 'Examen médico'
+        ],
+        [
+            'id_candidate' => 2,
+            'nombre_candidate' => 'Luis Mauro',
+            'apellidop_candidate' => 'Petro',
+            'correo_candidate' => 'luiscarlos.vocacional5@gmail.com',
+            'tel_candidate' => 'No especificado',
+            'puesto' => 'GERENCIA DE VENTAS',
+            'estado' => 'Contratado'
+        ]
+    ];
+}
+$mysqli->close();
 ?>
 
 <!DOCTYPE html>
@@ -474,6 +543,9 @@ if (empty($candidatos)) {
                     <div class="user-info">
                         <a href="menu.php">Home</a>
                     </div>
+                    <div class="user-info">
+                        <a href="panel_admin_ia.php">Panel de Configuración</a>
+                    </div>
                     <!--<div class="user-info">
                         <a href="vacantes.php">Vacantes</a>
                     </div>-->
@@ -514,8 +586,8 @@ if (empty($candidatos)) {
                             <th>Nombre</th>
                             <!--<th>Email</th>-->
                             <th>Teléfono</th>
-                            <th>Puesto</th>
-                            <th>Estado</th>
+                            <th>CV</th>
+                            <!--<th>Estado</th>-->
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -534,17 +606,23 @@ if (empty($candidatos)) {
                                         </span>
                                     </td>
                                     <td><?php echo htmlspecialchars($candidato['tel_candidate']); ?></td>
+                                    <!--
                                     <td>
                                         <span class="badge badge-primary">
-                                            <?php echo isset($candidato['puesto']) ? htmlspecialchars($candidato['puesto']) : 'Sin especificar'; ?>
+                                            <?php /*echo isset($candidato['puesto']) ? htmlspecialchars($candidato['puesto']) : 'Sin especificar'; */?>
                                         </span>
                                     </td>
                                     <td>
-                                        <span class="badge badge-<?php
+                                        <span class="badge badge-<?php /*
                                                                     echo isset($candidato['estado']) && $candidato['estado'] === 'Contratado' ? 'success' : 'warning';
-                                                                    ?>">
-                                            <?php echo isset($candidato['estado']) ? htmlspecialchars($candidato['estado']) : 'Pendiente'; ?>
+                                                                    */?>">
+                                            <?php /* echo isset($candidato['estado']) ? htmlspecialchars($candidato['estado']) : 'Pendiente'; */?>
                                         </span>
+                                    </td>-->
+                                    <td>
+                                        <a href="<?php echo htmlspecialchars($candidato['CV_candidate']); ?>" target="_blank" class="btn btn-sm btn-info">
+                                            📄 Ver CV
+                                        </a>
                                     </td>
                                     <td>
                                         <!--<a href="#" class="btn btn-view" onclick="verDetalle(<?php echo $candidato['id_candidate']; ?>)">
@@ -589,19 +667,18 @@ if (empty($candidatos)) {
                 <!-- Mensaje de bienvenida -->
                 <div class="chat-message bot-message">
                     ¡Hola! Soy tu asistente de IA. ¿En qué puedo ayudarte hoy?
-                </div>
-
-                <!-- Botones especializados -->
-                <div class="special-buttons">
-                    <button class="special-btn" onclick="mostrarAnalisisCandidato()">
-                        🔍 Análisis de candidatos
-                    </button>
-                    <button class="special-btn" onclick="mejorarDescripcionPuesto()">
-                        ✏️ Mejorar descripciones de puestos
-                    </button>
-                    <button class="special-btn" onclick="mostrarInputManualDescripcion()">
-                        ✏️ Mejorar descripción manual
-                    </button>
+                    <!-- Botones especializados -->
+                    <div class="special-buttons">
+                        <button class="special-btn" onclick="mostrarAnalisisCandidato()">
+                            🔍 Análisis de candidatos
+                        </button>
+                        <button class="special-btn" onclick="mejorarDescripcionPuesto()">
+                            ✏️ Mejorar descripciones de puestos
+                        </button>
+                        <button class="special-btn" onclick="mostrarInputManualDescripcion()">
+                            ✏️ Mejorar descripción manual
+                        </button>
+                    </div>
                 </div>
                 <div id="manual-description-container" class="analysis-input-container">
                     <textarea id="descripcion-puesto-input" class="analysis-input" rows="4" placeholder="Escribe aquí la descripción del puesto que deseas mejorar..."></textarea>
