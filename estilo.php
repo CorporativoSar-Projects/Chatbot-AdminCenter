@@ -103,10 +103,15 @@ if ($row['total'] >= 1 && isset($_GET['nuevo'])) {
                     </div>
 
                     <div>
+                        <div style="position: relative; width: 100%;">
                         <label class="label-nombrechat">Nombre visible de tu ChatBot</label><br>
                         <input type="text" name="inp_nombre" id="inp_nombre" placeholder="IXAH"
-                            class="input-nombre" minlength="2" maxlength="10" required value="<?php echo htmlspecialchars($chatbot['inp_nombre'] ?? ''); ?>"><br>
-
+                            class="input-nombre" minlength="2" maxlength="10" required value="<?php echo htmlspecialchars($chatbot['inp_nombre'] ?? ''); ?>">
+                            <br>
+                            <span id="contadorSty"  class="contador" >
+                                0 / 10
+                            </span>
+                        </div>
                         <div class="container-colors">
                             <div class="nombre-colord">
                                 <label for="colorPrimario">Color Primario</label><br>

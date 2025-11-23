@@ -102,9 +102,15 @@ $id_chatbot = $_SESSION['id_chatbot'] ?? null;
                     </div>
 
                     <div>
+
+                    <div style="position: relative; width: 100%;">
                         <label class="label-nombrechat">Mensaje</label><br>
                         <input type="text" name="inp_burbuja" id="inp_burbuja" placeholder="¡Encuentra vacantes!"
                             class="input-burbuja" minlength="2" maxlength="20" required value="<?php echo htmlspecialchars($chatbot['inp_burbuja'] ?? ''); ?>"><br>
+                            <span id="contadorBurbu" class="contador"  >
+                                0 / 20
+                            </span>
+                        </div>
 
                         <div class="container-colors">
                             <div class="nombre-colord">

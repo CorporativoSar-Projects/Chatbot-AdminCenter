@@ -4,53 +4,47 @@ const userMenu = document.getElementById("dropdown-content");
 // Inicialmente oculto
 userMenu.style.display = "none";
 
-let hideTimeout;
-
 // Detectar dispositivo
 const isMobileOrTablet = window.matchMedia("(max-width: 1110px)").matches;
 
-// --- VERSIÓN ESCRITORIO (hover) ---
-if (!isMobileOrTablet) {
-  userButton.addEventListener("mouseenter", () => {
-    clearTimeout(hideTimeout);
-    userMenu.style.display = "block";
-  });
+// -----------------------------------------------
+// FUNCIÓN: Solo permitir clic EXACTO en el botón real
+// -----------------------------------------------
+function clickIsValid(e) {
+  return (
+    e.target === userButton ||      // clic directo al botón
+    e.target.tagName === "IMG"      // clic directo en la imagen dentro del botón
+  );
+}
 
-  userMenu.addEventListener("mouseenter", () => {
-    clearTimeout(hideTimeout);
-  });
+// --- LÓGICA GENERAL PARA TODOS (PC + MÓVIL) ---
+userButton.addEventListener("click", (e) => {
+  // SOLO abrir si el clic es válido
+  if (!clickIsValid(e)) return;
 
-  userButton.addEventListener("mouseleave", scheduleHide);
-  userMenu.addEventListener("mouseleave", scheduleHide);
+  e.stopPropagation();
 
-  function scheduleHide() {
-    hideTimeout = setTimeout(() => {
-      if (!userButton.matches(":hover") && !userMenu.matches(":hover")) {
-        userMenu.style.display = "none";
-      }
-    }, 150);
+  const isVisible = userMenu.style.display === "block";
+  userMenu.style.display = isVisible ? "none" : "block";
+});
+
+// Ocultar al hacer clic fuera del menú
+document.addEventListener("click", (e) => {
+  if (!userButton.contains(e.target) && !userMenu.contains(e.target)) {
+    userMenu.style.display = "none";
   }
-}
+});
 
-// --- VERSIÓN MÓVIL / TABLET (click + scroll) ---
-if (isMobileOrTablet) {
-  userButton.addEventListener("click", (e) => {
-    e.stopPropagation();
-    const isVisible = userMenu.style.display === "block";
-    userMenu.style.display = isVisible ? "none" : "block";
-  });
+// Ocultar al hacer scroll
+window.addEventListener("scroll", () => {
+  if (userMenu.style.display === "block") {
+    userMenu.style.display = "none";
+  }
+});
 
-  // Ocultar al hacer scroll (cuando se sube o baja el contenido)
-  window.addEventListener("scroll", () => {
-    if (userMenu.style.display === "block") {
-      userMenu.style.display = "none";
-    }
-  });
-
-  // Ocultar al tocar o hacer clic fuera del menú
-  document.addEventListener("click", (e) => {
-    if (!userButton.contains(e.target) && !userMenu.contains(e.target)) {
-      userMenu.style.display = "none";
-    }
-  });
-}
+// Ocultar si se usa RePag / AvPag
+document.addEventListener("keydown", (e) => {
+  if (e.key === "PageUp" || e.key === "PageDown") {
+    userMenu.style.display = "none";
+  }
+});

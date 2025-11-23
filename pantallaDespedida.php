@@ -84,16 +84,17 @@ $id_chatbot = $_SESSION['id_chatbot'] ?? null;
                         <img src="img/icono-dia.png" class="img-icono-dia">
                         <div class="container-despedida">
                             <p class="txt-crea-conv">Mensaje de despedida</p>
-                            <!-- <p>Muéstrales a tus clientes que el chat está aquí para ayudarte.</p> -->
+                            <p>Muéstrales a tus clientes que el chat está aquí para ayudarte.</p>
                         </div>
                     </div>
 
                     <div style="position: relative; width: 100%;">
+                        <label class="label-nombrechat">Mensaje de despedida </label><br>
                         <textarea id="inp_despedida"
                             placeholder="Gracias por usarme, me dio mucho gusto poder ayudarte... ¡Hasta la próxima!"
                             class="input-despedida" required maxlength="280"><?php echo htmlspecialchars($chatbot['inp_despedida'] ?? ''); ?></textarea><br>
                      <span id="contadorCaracteres" >
-                                0 / 180
+                                0 / 280
                             </span>
                      </div>
 

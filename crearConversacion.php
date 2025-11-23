@@ -86,7 +86,7 @@ $id_chatbot = $_SESSION['id_chatbot'] ?? null;
                         <img src="img/paint.png" class="img-paint">
                         <div class="container-pers3">
                             <p class="txt-crea-conv">Crea la conversación</p>
-                            <!-- <p>Muéstrales a tus clientes que el chat está aquí para ayudarte.</p> -->
+                            <p>Muéstrales a tus clientes que el chat está aquí para ayudarte.</p>
                         </div>
                     </div>
 

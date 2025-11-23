@@ -7,11 +7,13 @@ include 'conexion_bd.php';
 define('SECRET_KEY', 'tu_clave_secreta_super_segura_32_bytes'); // 32 caracteres para AES-256
 define('SECRET_IV', '1234567890123456'); // 16 bytes para IV
 
-function encrypt($string) {
+function encrypt($string)
+{
     return openssl_encrypt($string, "AES-256-CBC", SECRET_KEY, 0, SECRET_IV);
 }
 
-function decrypt($string) {
+function decrypt($string)
+{
     return openssl_decrypt($string, "AES-256-CBC", SECRET_KEY, 0, SECRET_IV);
 }
 
@@ -102,7 +104,6 @@ if ($row = $resultCheck->fetch_assoc()) {
                 ");
                 $stmtUpdate->bind_param("ssssis", $servidor, $puerto, $usuario, $rutaDestino, $activo, $id_emp);
             }
-
         } elseif ($tipo === 'estandar') {
             // Validación Estándar
             if (empty($url_estandar)) {
@@ -125,10 +126,9 @@ if ($row = $resultCheck->fetch_assoc()) {
 
     $ok = $stmtUpdate->execute();
     if (!$ok) {
-        echo json_encode(['success' => false, 'msg' => 'Error al actualizar integración: '.$stmtUpdate->error]);
+        echo json_encode(['success' => false, 'msg' => 'Error al actualizar integración: ' . $stmtUpdate->error]);
         exit;
     }
-
 } else {
     // --- Registro nuevo: INSERT ---
     if ($activo === 0) {
@@ -148,7 +148,6 @@ if ($row = $resultCheck->fetch_assoc()) {
             VALUES (?, 'sftp', ?, ?, ?, ?, ?, ?)
         ");
         $stmtInsert->bind_param("ssssssi", $id_emp, $servidor, $puerto, $usuario, $encryptedPass, $rutaDestino, $activo);
-
     } else {
         if (empty($url_estandar)) {
             echo json_encode(['success' => false, 'msg' => 'Debe proporcionar la URL para crear la integración estándar']);
@@ -164,7 +163,7 @@ if ($row = $resultCheck->fetch_assoc()) {
 
     $ok = $stmtInsert->execute();
     if (!$ok) {
-        echo json_encode(['success' => false, 'msg' => 'Error al crear integración: '.$stmtInsert->error]);
+        echo json_encode(['success' => false, 'msg' => 'Error al crear integración: ' . $stmtInsert->error]);
         exit;
     }
 }
@@ -175,11 +174,16 @@ ob_start();
 include "generar_json.php";
 $json_output = ob_get_clean();
 
+
+
+
 echo json_encode([
     'success' => true,
     'msg' => 'Integración guardada correctamente',
-    'json' => json_decode($json_output, true)
+    'json' => json_decode($json_output, true),
+    'url_estandar' => $url_estandar ?? null,
+    'tipo_integracion' => $tipo,
+    'activo' => $activo
 ]);
 
 $conexion->close();
-?>

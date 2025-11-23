@@ -71,6 +71,22 @@ function actualizarColores() {
     localStorage.setItem('colorRespuestaUsuario', colors['--color-respuesta-usuario']);
 }
 
+// ==========================
+// FUNCIÓN PARA NORMALIZAR LA URL DEL LOGO
+// ==========================
+function normalizarURLImagen(url) {
+    if (!url) return "";
+
+    url = url.trim();
+
+    // Si NO empieza con http:// o https:// se agrega https://
+    if (!/^https?:\/\//i.test(url)) {
+        url = "https://" + url;
+    }
+
+    return url;
+}
+
 // Función que comprueba si la imagen realmente carga
 function verificarImagen(url) {
     return new Promise((resolve, reject) => {
@@ -81,11 +97,19 @@ function verificarImagen(url) {
     });
 }
 
+const contador = document.getElementById('contadorSty');
+ 
+// Función para actualizar el contador
+function actualizarContador() {
+    const max = txtNombreChat.getAttribute('maxlength');
+    contador.textContent = `${txtNombreChat.value.length} / ${max}`;
+}
+
 // ---------- PREVISUALIZAR IMAGEN ----------
 function previsualizarImagen() {
     const urlInput = document.getElementById('urlLogotipo');
     const chatbotIcon = document.getElementById('chatbotIcon');
-    const logoURL = urlInput.value.trim();
+    let logoURL = normalizarURLImagen(urlInput.value.trim());
 
     if (logoURL !== '') {
         verificarImagen(logoURL)
@@ -113,24 +137,34 @@ function previsualizarImagen() {
     }
 }
 
-// 🔄 Cambio en tiempo real del logo al escribir la URL
+// Cambio en tiempo real del logo al escribir la URL
 document.getElementById("urlLogotipo").addEventListener("input", function () {
-    const url = this.value.trim();
+    const rawURL = this.value.trim();
     const chatbotIcon = document.getElementById("chatbotIcon");
 
-    if (url === "") {
+      if (rawURL === "") {
         chatbotIcon.removeAttribute("src");
         return;
     }
 
-    verificarImagen(url)
+   // Normalizar solo para previsualizar, NO sobreescribe el input
+    const urlNormalizada = normalizarURLImagen(rawURL);
+
+
+    verificarImagen(urlNormalizada)
         .then(() => {
-            chatbotIcon.src = url;
-            localStorage.setItem("chatbotLogo", url);
+            chatbotIcon.src = urlNormalizada;
+            localStorage.setItem("chatbotLogo", urlNormalizada);
         })
         .catch(() => {
             chatbotIcon.removeAttribute("src");
         });
+});
+
+// Normalizar cuando el usuario termina de escribir
+document.getElementById("urlLogotipo").addEventListener("blur", function () {
+    if (this.value.trim() === "") return;
+    this.value = normalizarURLImagen(this.value.trim());
 });
 
 const txtNombreChat = document.querySelector('#inp_nombre');
@@ -141,7 +175,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (nombreGuardado) {
         txtNombreChat.value = nombreGuardado;
         divCopiaNombre.innerHTML = nombreGuardado;
-    }
+   }
+    actualizarContador();
+
     const logoURL = localStorage.getItem('chatbotLogo');
     if (logoURL) {
         const urlInput = document.getElementById('urlLogotipo');
@@ -157,6 +193,7 @@ txtNombreChat.addEventListener('keyup', () => {
     const nombre = txtNombreChat.value;
     divCopiaNombre.innerHTML = nombre;
     localStorage.setItem('inp_nombre', nombre);
+    actualizarContador();
 });
 
     

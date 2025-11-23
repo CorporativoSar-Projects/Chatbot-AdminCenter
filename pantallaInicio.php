@@ -90,6 +90,7 @@ $id_chatbot = $_SESSION['id_chatbot'] ?? null;
 
                     <div>
                         <div style="position: relative; width: 45%;">
+                            <label class="label-nombrechat">Mensaje de saludo</label><br>
                             <textarea name="inp_saludo" id="inp_saludo"
                                 placeholder=" ¡Hola! Soy IXAH, tu asistente virtual en el mundo laboral. ¿En qué te puedo ayudar hoy?"
                                 class="input-saludo" minlength="2" maxlength="180"

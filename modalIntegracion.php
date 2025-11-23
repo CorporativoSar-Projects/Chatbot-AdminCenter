@@ -34,7 +34,7 @@ include 'modelo/consultas_menu.php';
           </div>
 
           <label>URL del sitio de carreras:</label>
-          <input type="url" class="form-control custom-input" name="url_estandar" placeholder="https://tusitio.com/carreras" required />
+          <input type="text" class="form-control custom-input" name="url_estandar" placeholder="https://tusitio.com/carreras" required />
 
           <input type="hidden" name="tipo_integracion" id="tipoIntegracionHidden" value="estandar">
         </form>

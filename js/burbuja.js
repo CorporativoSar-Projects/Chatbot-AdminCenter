@@ -63,10 +63,18 @@ function actualizarColores() {
 
 const txtBurbuja = document.querySelector('#inp_burbuja');
 const divCopiaBurb = document.getElementById('chatTextBurb');
+const contador = document.getElementById('contadorBurbu');
+ 
+// Función para actualizar el contador
+function actualizarContador() {
+    const max = txtBurbuja.getAttribute('maxlength');
+    contador.textContent = `${txtBurbuja.value.length} / ${max}`;
+}
 
 txtBurbuja.addEventListener('keyup', () => {
     divCopiaBurb.innerHTML = txtBurbuja.value;
     localStorage.setItem('inp_burbuja', txtBurbuja.value);
+    actualizarContador();
 });
 
 //codigo que llama el logo desde el localStorage
@@ -85,6 +93,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (savedBurbuja) {
         document.getElementById('inp_burbuja').value = savedBurbuja;
         document.getElementById('chatTextBurb').innerHTML = savedBurbuja;
+        actualizarContador();
     }
 
     // Al recargar la página, eliminar la URL guardada

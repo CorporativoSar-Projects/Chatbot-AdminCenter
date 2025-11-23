@@ -16,26 +16,27 @@ function actualizarContador() {
 if (despedidaGuardada) {
   txtDespedida.value = despedidaGuardada;
   divCopiaDesp.innerHTML = despedidaGuardada;
+  actualizarContador();
 }
 
 // Función para ajustar el contenido del saludo
 txtDespedida.addEventListener('keyup', () => {
     divCopiaDesp.innerHTML = txtDespedida.value;
-    
-    // Aplicar el mismo tamaño fijo a .chatbot-content
+
     const chatbotContent = document.querySelector('.chatbot-content');
-    chatbotContent.style.width = '300px';
-    chatbotContent.style.height = '300px';
-     actualizarContador();
-    
+    if (chatbotContent) {
+        chatbotContent.style.width = '300px';
+        chatbotContent.style.height = '300px';
+    }
+
+    actualizarContador();
 });
 
 txtDespedida.addEventListener('input', () => {
   localStorage.setItem('inp_despedida', txtDespedida.value);
-
 });
-// Actualizar el contador desde el contenido actual del textarea
-    actualizarContador();
+
+
 document.addEventListener('DOMContentLoaded', () => {
   const colorTexto = localStorage.getItem('colorTexto') || '#000000';
   
