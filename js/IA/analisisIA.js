@@ -43,6 +43,7 @@ function toggleImproveButtons(show) {
 // DEMAS FUNCIONES //
 
 // Función para seleccionar candidato desde la tabla
+/*
 function seleccionarParaAnalisis(id) {
   const candidato = candidatosData.find((c) => c.id_candidate == id);
   if (candidato) {
@@ -58,7 +59,133 @@ function seleccionarParaAnalisis(id) {
     // Iniciar función de análisis
     iniciarAnalisisCandidato(candidato);
   }
+}*/
+
+
+// Modifica la función seleccionarParaAnalisis
+function seleccionarParaAnalisis(id) {
+  const candidato = candidatosData.find((c) => c.id_candidate == id);
+  if (candidato) {
+    // Ocultar todos los botones de selección
+    toggleSelectionButtons(false);
+
+    // Mostrar mensaje en el chat
+    addMessage(
+      `Seleccioné a ${candidato.nombre_candidate} ${candidato.apellidop_candidate} para análisis y recomendación de vacantes`,
+      "user-message"
+    );
+
+    // Iniciar función de análisis CON RECOMENDACIÓN DE VACANTES
+    iniciarAnalisisYRecomendacion(candidato);
+  }
 }
+
+// Nueva función para análisis + recomendación
+async function iniciarAnalisisYRecomendacion(candidato) {
+  console.log("Candidato seleccionado para análisis y recomendación:", candidato);
+
+  // Mostrar análisis básico
+  const analysisHTML = `
+        <div class="candidate-analysis">
+            <h5>🔍 Análisis de ${candidato.nombre_candidate} ${candidato.apellidop_candidate}</h5>
+            <div class="analysis-field">
+                <strong>📧 Email:</strong> ${candidato.correo_candidate}
+            </div>
+            <div class="analysis-field">
+                <strong>💼 Puesto aplicado:</strong> ${candidato.puesto || "No especificado"}
+            </div>
+            <div class="analysis-field">
+                <strong>🔄 Proceso:</strong> Analizando CV y buscando vacantes recomendadas...
+            </div>
+        </div>
+    `;
+
+  addHTMLMessage(analysisHTML, "bot-message");
+
+  try {
+    // 1. Primero obtener el texto del CV
+    const cvResponse = await fetch(`${API_BASE}/obtener_texto_cv/${candidato.id_candidate}/`);
+    const cvData = await cvResponse.json();
+    
+    if (!cvData.cv_texto || cvData.cv_texto.startsWith("ERROR:")) {
+      throw new Error("No se pudo obtener un texto válido del CV");
+    }
+
+    // 2. Llamar a la función de recomendación de vacantes
+    const recomendacionResponse = await fetch(`${API_BASE}/recomendar-vacantes/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        cv_texto: cvData.cv_texto
+      })
+    });
+
+    if (!recomendacionResponse.ok) {
+      const errorData = await recomendacionResponse.json().catch(() => ({}));
+      const msg = errorData.error || `HTTP ${recomendacionResponse.status}`;
+      throw new Error(msg);
+    }
+
+    const recomendacionData = await recomendacionResponse.json();
+
+    if (recomendacionData.error) {
+      throw new Error(recomendacionData.error);
+    }
+
+    // 3. Mostrar resultados de recomendación
+    mostrarRecomendacionesVacantes(candidato, recomendacionData.recomendaciones);
+
+  } catch (error) {
+    console.error('Error en análisis y recomendación:', error);
+    
+    const errorHTML = `
+      <div class="chat-message bot-message">
+        <div style="color: #dc3545; font-weight: bold;">❌ Error en el análisis</div>
+        <p>No se pudo completar la recomendación de vacantes: ${error.message}</p>
+      </div>
+    `;
+    addHTMLMessage(errorHTML, 'bot-message');
+    
+    setTimeout(() => {
+      mostrarConfirmacionAyuda();
+    }, 1000);
+  }
+}
+
+// Función para mostrar recomendaciones
+function mostrarRecomendacionesVacantes(candidato, recomendaciones) {
+  const resultadoHTML = `
+        <div class="candidate-analysis" style="border-left: 4px solid #17a2b8;">
+            <h5>🎯 Vacantes Recomendadas para ${candidato.nombre_candidate}</h5>
+            <div class="analysis-field">
+                <strong>🤖 Análisis IA:</strong>
+                <div style="background: #e8f4fd; padding: 15px; border-radius: 10px; margin-top: 10px; white-space: pre-wrap; font-size: 14px; line-height: 1.5;">
+                    ${recomendaciones}
+                </div>
+            </div>
+        </div>
+        
+        <div class="special-buttons" style="margin-top: 15px;">
+            <button class="special-btn" onclick="procesarSAPSSFF()" 
+                    style="background: linear-gradient(135deg, #17a2b8 0%, #20c997 100%);">
+                📊 Ver Todas las Vacantes SAP
+            </button>
+            <button class="special-btn" onclick="activarComparacionCV()" 
+                    style="background: linear-gradient(135deg, #6f42c1 0%, #e83e8c 100%);">
+                🔍 Comparar con Vacante Específica
+            </button>
+        </div>
+    `;
+
+  addHTMLMessage(resultadoHTML, "bot-message");
+
+  setTimeout(() => {
+    mostrarConfirmacionAyuda();
+  }, 1000);
+}
+
 
 // Función que se ejecuta cuando se selecciona un candidato
 function iniciarAnalisisCandidato(candidato) {

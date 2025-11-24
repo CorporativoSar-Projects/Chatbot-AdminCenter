@@ -34,6 +34,7 @@ import pdfplumber
 import pandas as pd
 from django.http import JsonResponse
 from chatbot_app.models import Candidato, ComparacionCVPuesto
+from datetime import datetime
 
 # client = OpenAI()
 load_dotenv()
@@ -1471,4 +1472,132 @@ def extraer_puesto_desde_cv(cv_url):
     except Exception as e:
         print(f"Error extrayendo puesto del CV: {e}")
         return "No especificado"
+
+## FUNCION FINAL, RECOMENDAR VACANTES SEGUN CV
+
+
+@require_tokens
+def recomendar_vacantes_desde_cv(cv_texto: str):
+    """
+    Analiza un CV y devuelve todas las vacantes donde el candidato podría encajar.
+    """
+
+    # 1. Leer puestos.csv
+    df = pd.read_csv("puestos.csv", encoding="utf-8")
+
+    # Convertir descripciones HTML → texto limpio
+    lista_puestos = []
+    for _, row in df.iterrows():
+        html = row.get("jobDesc_ix", "")
+        soup = BeautifulSoup(html, "html.parser")
+        descripcion_limpia = soup.get_text(separator=" ", strip=True)
+        lista_puestos.append({
+            "req_id": row.get("reqId_ix"),
+            "puesto": row.get("puesto_ix"),
+            "descripcion": descripcion_limpia[:1200]  # limitar tamaño
+        })
+
+    # 2. Construcción del prompt para IA
+    prompt = f"""
+    Analiza este CV y devuelve todas las vacantes de la lista donde el candidato podría encajar.
+    Para cada vacante, indica el motivo principal basado en experiencia o habilidades.
+
+    CV: {cv_texto}
+
+    Vacantes: {lista_puestos}
+    """
+
+    variables = {
+        "cv_texto": cv_texto,
+        "lista_puestos": lista_puestos
+    }
+
+    # 3. Llamada a IA
+    resultado = ejecutar_llamada_ia("recomendar_vacantes", variables, prompt_override=prompt)
+
+    return {
+        "prompt_usado": resultado.get("prompt", prompt),
+        "modelo": resultado["modelo"],
+        "respuesta": resultado["response"].choices[0].message.content,
+        "tokens": resultado["response"].usage
+    }
+
+
+@csrf_exempt
+def recomendar_vacantes_view(request):
+    if request.method != "POST":
+        return JsonResponse({"error": "Método inválido"}, status=405)
+
+    try:
+        data = json.loads(request.body)
+        cv_texto = data.get("cv_texto", "").strip()
+
+        if not cv_texto or cv_texto.startswith("ERROR:"):
+            return JsonResponse({"error": "CV inválido o no se pudo extraer"}, status=400)
+
+        # Aquí llamas a tu función que recomienda vacantes
+        resultado = recomendar_vacantes_desde_cv(cv_texto)
+
+        # Guardas tokens (opcional si usas seguimiento de uso)
+        registrar_token_usage(
+            tokens_input=resultado["tokens"]["prompt_tokens"],
+            tokens_output=resultado["tokens"]["completion_tokens"],
+            funcion="recomendar_vacantes",
+            modelo=resultado["modelo"],
+            prompt=resultado["prompt_usado"]
+        )
+
+        return JsonResponse({
+            "status": "ok",
+            "recomendaciones": resultado["respuesta"]
+        })
+
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)
+
+
+def registrar_token_usage(tokens_input: int, tokens_output: int, funcion: str, modelo: str, prompt: str):
+    """
+    Registra el uso de tokens de una función de IA en la base de datos.
+
+    Args:
+        tokens_input (int): Tokens consumidos en el prompt.
+        tokens_output (int): Tokens consumidos en la respuesta.
+        funcion (str): Nombre de la función llamada.
+        modelo (str): Modelo de IA utilizado.
+        prompt (str): Prompt enviado al modelo.
+    """
+    TokenUsage.objects.create(
+        tokens_input=tokens_input,
+        tokens_output=tokens_output,
+        funcion=funcion,
+        modelo=modelo,
+        prompt=prompt,
+        fecha=datetime.now()
+    )
+
+
+@csrf_exempt
+def obtener_texto_cv(request, candidato_id):
+    """
+    Obtiene el texto del CV de un candidato
+    """
+    try:
+        candidato = Candidato.objects.get(id_candidate=candidato_id)
+
+        if not candidato.CV_candidate:
+            return JsonResponse({"error": "El candidato no tiene CV"}, status=400)
+
+        cv_texto = descargar_texto_cv(candidato.CV_candidate)
+
+        return JsonResponse({
+            "cv_texto": cv_texto,
+            "candidato_id": candidato_id
+        })
+
+    except Candidato.DoesNotExist:
+        return JsonResponse({"error": "Candidato no existe"}, status=404)
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)
+
 

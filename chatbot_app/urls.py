@@ -46,4 +46,7 @@ urlpatterns = [
     # EXTRAER PUESTO DESDE CV
     path('api/extraer_puesto_candidato/<int:candidato_id>/', views.extraer_puesto_candidato, name='extraer_puesto_candidato'),
     path('api/comparar_manual/<int:candidato_id>/', views.comparar_candidato_manual_view, name='comparativa_manual'),
+    # RECOMENDAR VACANTE
+    path('api/recomendar-vacantes/', views.recomendar_vacantes_view, name='recomendar_vacantes'),
+    path('api/obtener_texto_cv/<int:candidato_id>/', views.obtener_texto_cv, name='obtener_texto_cv'),
 ]

@@ -126,6 +126,42 @@ window.publicarRevision = async function(id){
 const configForm = document.getElementById('configForm');
 const configMessage = document.getElementById('configMessage');
 
+// PARA EVITAR EL ERROR -- PARCHE
+if (configForm) {
+  configForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const formData = new FormData(configForm);
+    const configData = {
+      max_tokens: parseInt(formData.get('max_tokens')),
+      temperature: parseFloat(formData.get('temperature')),
+      top_p: parseFloat(formData.get('top_p')),
+      frequency_penalty: parseFloat(formData.get('frequency_penalty')),
+      presence_penalty: parseFloat(formData.get('presence_penalty'))
+    };
+
+    try {
+      const res = await apiFetch('config/update/', {
+        method: 'POST',
+        body: JSON.stringify(configData)
+      });
+      
+      if(res.status === 'ok') {
+        configMessage.textContent = 'Configuración guardada correctamente';
+        configMessage.className = 'alert alert-success';
+        setTimeout(() => {
+          configMessage.textContent = '';
+          configMessage.className = '';
+        }, 3000);
+      } else {
+        throw new Error(res.error || 'Error al guardar configuración');
+      }
+    } catch (error) {
+      configMessage.textContent = error.message;
+      configMessage.className = 'alert alert-danger';
+    }
+  });
+}
+
 configForm.addEventListener('submit', async (e) => {
   e.preventDefault();
   const formData = new FormData(configForm);
