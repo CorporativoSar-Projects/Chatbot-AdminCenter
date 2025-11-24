@@ -29,36 +29,349 @@ function leerCSVDesdeURL($url)
   return $datos;
 }
 
-// Función para contar candidatos que coinciden con el título de la vacante
+// Función para contar candidatos que coinciden con el título de la vacante (USANDO EL MISMO FILTRO QUE candidatos.php)
 function contarCandidatosPorVacante($candidatos, $tituloVacante)
 {
   $contador = 0;
-  $tituloLimpio = trim(strtolower($tituloVacante));
+
+  if (empty($tituloVacante)) {
+    return 0;
+  }
+
+  // Normalizar una sola vez
+  $tituloBusqueda = normaliza($tituloVacante);
 
   foreach ($candidatos as $candidato) {
-    $tituloCandidato = trim(strtolower($candidato['Titulo'] ?? ''));
 
-    // Buscar coincidencias exactas o parciales en el título
-    if (!empty($tituloCandidato)) {
-      // Coincidencia exacta
-      if ($tituloCandidato === $tituloLimpio) {
-        $contador++;
-      }
-      // Coincidencia parcial (una contiene a la otra)
-      else if (
-        strpos($tituloCandidato, $tituloLimpio) !== false ||
-        strpos($tituloLimpio, $tituloCandidato) !== false
-      ) {
-        $contador++;
-      }
-      // Coincidencia por similitud (para títulos similares pero no idénticos)
-      else if (similar_text($tituloLimpio, $tituloCandidato) > 10) {
-        $contador++;
-      }
+    $tituloCandidatoRaw = $candidato['Titulo'] ?? '';
+    $tituloCandidato = normaliza($tituloCandidatoRaw);
+
+    if (empty($tituloCandidato)) {
+      continue;
+    }
+
+    // 1. Coincidencia exacta o parcial real
+    if (
+      strpos($tituloCandidato, $tituloBusqueda) !== false ||
+      strpos($tituloBusqueda, $tituloCandidato) !== false ||
+      similar_text($tituloBusqueda, $tituloCandidato) > 10
+    ) {
+      $contador++;
+    }
+
+    // 2. Coincidencia por categoría
+    else if (coincidenPorCategoria($tituloBusqueda, $tituloCandidato)) {
+      $contador++;
     }
   }
 
   return $contador;
+}
+
+function normaliza($texto)
+{
+  $texto = mb_strtolower($texto, 'UTF-8');
+  $texto = str_replace(
+    ['á', 'é', 'í', 'ó', 'ú', 'ñ'],
+    ['a', 'e', 'i', 'o', 'u', 'n'],
+    $texto
+  );
+  return $texto;
+}
+
+function coincidenPorCategoria($tituloVacante, $tituloCandidato)
+{
+  $tituloVacante = normaliza($tituloVacante);
+  $tituloCandidato = normaliza($tituloCandidato);
+  $categorias = [
+
+    // --- ÁREA ADMINISTRATIVA / OFICINA ---
+    'administrativo' => [
+      'vacantes' => [
+        'consultor administrativo',
+        'auxiliar administrativo',
+        'asistente administrativo',
+        'dictaminador administrativo',
+        'mesa de control',
+        'responsable de turno',
+        'control documental',
+        'bóveda digital'
+      ],
+      'candidatos' => [
+        'asistente',
+        'auxiliar',
+        'oficinista',
+        'secretaria',
+        'coordinacion',
+        'administración',
+        'remisionista'
+      ]
+    ],
+
+    // --- ÁREA TÉCNICA / OPERATIVA / PLANTA ---
+    'tecnico' => [
+      'vacantes' => [
+        'consultor técnico',
+        'analista técnico',
+        'especialista técnico',
+        'operador',
+        'operador tum',
+        'visitador',
+        'valuador',
+        'flebotomista',
+        'mecánico',
+        'montacarguista',
+        'ayudante general',
+        'ingeniero operador cnc'
+      ],
+      'candidatos' => [
+        'ingeniero',
+        'técnico',
+        'mecánico',
+        'operador',
+        'calidad',
+        'mantenimiento',
+        'montacarguista',
+        'seguridad industrial',
+        'almacén',
+        'logística',
+        'ayudante general',
+        'planta'
+      ]
+    ],
+
+    // --- VENTAS / COMERCIAL ---
+    'ventas' => [
+      'vacantes' => [
+        'promotor',
+        'asesor',
+        'consultor comercial',
+        'ejecutivo',
+        'representante',
+        'gerente comercial',
+        'especialista comercial',
+        'desarrollo canal masivo'
+      ],
+      'candidatos' => [
+        'ventas',
+        'comercial',
+        'promotor',
+        'vendedor',
+        'marketing',
+        'cuenta',
+        'agentes'
+      ]
+    ],
+
+    // --- SALUD / SERVICIOS MÉDICOS ---
+    'salud' => [
+      'vacantes' => [
+        'médico',
+        'médico general',
+        'médico dictaminador',
+        'médico contacto',
+        'médico especialista',
+        'flebotomista',
+        'auxiliar de farmacia',
+        'supervisor médico',
+        'gestión médica'
+      ],
+      'candidatos' => [
+        'médico',
+        'enfermero',
+        'farmacia',
+        'salud',
+        'clínico'
+      ]
+    ],
+
+    // --- RECURSOS HUMANOS ---
+    'rh' => [
+      'vacantes' => [
+        'analista reclutamiento',
+        'especialista desarrollo',
+        'capacitacion',
+        'atracción de talento',
+        'analista capacitación'
+      ],
+      'candidatos' => [
+        'recursos humanos',
+        'rh',
+        'reclutamiento',
+        'capacitacion',
+        'talento',
+        'compensaciones',
+        'nominas'
+      ]
+    ],
+
+    // --- TECNOLOGÍA / SISTEMAS / TI ---
+    'ti' => [
+      'vacantes' => [
+        'líder análisis de requerimientos',
+        'soporte a proyectos',
+        'arquitectura aplicativa',
+        'incidentes de si',
+        'qa negocio',
+        'middle office',
+        'infraestructura',
+        'inteligencia y analíticos'
+      ],
+      'candidatos' => [
+        'sistemas',
+        'ti',
+        'software',
+        'programador',
+        'desarrollador',
+        'infraestructura',
+        'datos',
+        'it'
+      ]
+    ],
+
+    // --- FINANZAS / TESORERÍA / CONTABILIDAD ---
+    'finanzas' => [
+      'vacantes' => [
+        'tesorería',
+        'contable',
+        'ingresos y egresos',
+        'control de cálculo y pago',
+        'análisis de crédito',
+        'transformación tesorería',
+        'pagos'
+      ],
+      'candidatos' => [
+        'finanzas',
+        'contabilidad',
+        'tesoreria',
+        'crédito',
+        'presupuesto'
+      ]
+    ],
+
+    // --- SUSCRIPCIÓN / SEGUROS ---
+    'suscripcion' => [
+      'vacantes' => [
+        'suscriptor',
+        'suscripción',
+        'suscriptor jr',
+        'suscriptor intermedio',
+        'reaseguro',
+        'normatividad técnica',
+        'oferta de valor',
+        'suscripción estratégica'
+      ],
+      'candidatos' => [
+        'seguros',
+        'suscripción',
+        'reaseguro',
+        'actuario',
+        'vida',
+        'autos'
+      ]
+    ],
+
+    // --- SINIESTROS / REPARACIÓN / AUTOS ---
+    'siniestros_autos' => [
+      'vacantes' => [
+        'visitador de centros',
+        'ajustes',
+        'siniestros',
+        'centros de reparación',
+        'asesor de servicio automóvil',
+        'valuador',
+        'supervisor ajustes'
+      ],
+      'candidatos' => [
+        'automotriz',
+        'taller',
+        'autos',
+        'ajustes',
+        'siniestros',
+        'valuador'
+      ]
+    ],
+
+    // --- ANÁLISIS / DATOS / INTELIGENCIA ---
+    'analiticos' => [
+      'vacantes' => [
+        'analista indicadores',
+        'análisis de información',
+        'estadística',
+        'inteligencia de mercado',
+        'competitividad',
+        'indicadores'
+      ],
+      'candidatos' => [
+        'analista',
+        'datos',
+        'estadística',
+        'analítica',
+        'reportes'
+      ]
+    ],
+
+    // --- OPERACIONES GENERALES ---
+    'operaciones' => [
+      'vacantes' => [
+        'servicio a clientes',
+        'representante centro de contacto',
+        'operación',
+        'bóveda digital',
+        'aplicación de primas'
+      ],
+      'candidatos' => [
+        'operaciones',
+        'servicio',
+        'contacto',
+        'call center',
+        'cliente'
+      ]
+    ],
+
+    // CATEGORÍAS ESPECIALES MUY RECURRENTES
+    'gmm' => [
+      'vacantes' => [
+        'migración de condiciones gmm colectivo',
+        'programas gmm',
+        'prevención gmm'
+      ],
+      'candidatos' => [
+        'gmm',
+        'gastos médicos'
+      ]
+    ]
+
+  ];
+
+  foreach ($categorias as $categoria => $palabras) {
+    $enVacante = false;
+    $enCandidato = false;
+
+    // palabras exactas en vacante
+    foreach ($palabras['vacantes'] as $palabra) {
+      $palabra = normaliza($palabra);
+      if (strpos($tituloVacante, $palabra) !== false) {
+        $enVacante = true;
+        break;
+      }
+    }
+
+    // palabras exactas en candidato
+    foreach ($palabras['candidatos'] as $palabra) {
+      $palabra = normaliza($palabra);
+      if (strpos($tituloCandidato, $palabra) !== false) {
+        $enCandidato = true;
+        break;
+      }
+    }
+
+    if ($enVacante && $enCandidato) {
+      return true;
+    }
+  }
+
+  return false;
 }
 
 // Obtener las vacantes del CSV
@@ -331,15 +644,15 @@ if (empty($vacantes)) {
       .main-content {
         padding: 0 20px;
       }
-      
+
       .page-header {
         padding: 20px 25px;
       }
-      
+
       .page-header h2 {
         font-size: 24px;
       }
-      
+
       .stats-info {
         font-size: 13px;
       }
@@ -359,7 +672,7 @@ if (empty($vacantes)) {
       .page-header h2 {
         font-size: 22px;
       }
-      
+
       .stats-info {
         font-size: 12px;
         padding: 8px 12px;
@@ -368,47 +681,50 @@ if (empty($vacantes)) {
       .table-container {
         border-radius: 10px;
       }
-      
+
       .dataTables_wrapper {
         padding: 15px;
       }
-      
+
       .actions-container {
         flex-direction: column;
         align-items: flex-start;
         gap: 5px;
       }
-      
-      .btn-candidates, .btn-link {
+
+      .btn-candidates,
+      .btn-link {
         font-size: 12px;
         padding: 6px 12px;
       }
-      
-      .badge-count, .badge-count-zero {
+
+      .badge-count,
+      .badge-count-zero {
         width: 20px;
         height: 20px;
         font-size: 10px;
       }
-      
+
       .requisicion-id {
         font-size: 12px;
         padding: 3px 8px;
       }
-      
-      .categoria-badge, .ubicacion-badge {
+
+      .categoria-badge,
+      .ubicacion-badge {
         font-size: 11px;
         padding: 3px 8px;
       }
-      
+
       .puesto-title {
         font-size: 13px;
       }
-      
+
       .table thead th {
         padding: 10px 15px;
         font-size: 13px;
       }
-      
+
       .table tbody td {
         padding: 10px 15px;
       }
@@ -419,66 +735,68 @@ if (empty($vacantes)) {
         margin-top: 70px;
         padding: 0 10px;
       }
-      
+
       .page-header {
         padding: 15px;
         border-radius: 10px;
       }
-      
+
       .page-header h2 {
         font-size: 20px;
       }
-      
+
       .stats-info {
         display: flex;
         flex-direction: column;
         gap: 5px;
       }
-      
+
       .dataTables_wrapper {
         padding: 10px;
       }
-      
-      .dataTables_filter, .dataTables_length {
+
+      .dataTables_filter,
+      .dataTables_length {
         margin-bottom: 10px;
       }
-      
+
       .dataTables_filter input {
         width: 100% !important;
         margin-left: 0;
         margin-top: 5px;
       }
-      
+
       .dt-buttons {
         text-align: center;
         margin-bottom: 10px;
       }
-      
+
       .dt-buttons .btn {
         width: 100%;
         margin-bottom: 5px;
         margin-right: 0;
       }
-      
+
       .table-responsive {
         border: none;
       }
-      
+
       .table thead th {
         font-size: 12px;
         padding: 8px 10px;
       }
-      
+
       .table tbody td {
         font-size: 12px;
         padding: 8px 10px;
       }
-      
+
       .actions-container {
         gap: 3px;
       }
-      
-      .btn-candidates, .btn-link {
+
+      .btn-candidates,
+      .btn-link {
         font-size: 11px;
         padding: 5px 10px;
       }
@@ -488,23 +806,24 @@ if (empty($vacantes)) {
       .main-content {
         margin-top: 60px;
       }
-      
+
       .page-header h2 {
         font-size: 18px;
       }
-      
+
       .stats-info {
         font-size: 11px;
       }
-      
+
       .requisicion-id {
         font-size: 11px;
       }
-      
-      .categoria-badge, .ubicacion-badge {
+
+      .categoria-badge,
+      .ubicacion-badge {
         font-size: 10px;
       }
-      
+
       .puesto-title {
         font-size: 12px;
       }
@@ -514,7 +833,7 @@ if (empty($vacantes)) {
     .dtr-data {
       padding-left: 10px !important;
     }
-    
+
     .dtr-title {
       font-weight: 600;
       min-width: 100px;
@@ -611,39 +930,47 @@ if (empty($vacantes)) {
           <tbody>
             <?php if (!empty($vacantes)): ?>
               <?php foreach ($vacantes as $vacante):
+                // Mapear las nuevas columnas a las antiguas
+                $idRequisicion = $vacante['reqId_ix'] ?? $vacante['ID de requisición de personal'] ?? '';
+                $titulo = $vacante['title_ix'] ?? $vacante['Titulo'] ?? '';
+                $categoria = $vacante['category_ix'] ?? $vacante['Categoría'] ?? '';
+                $ubicacion = $vacante['location_ix'] ?? $vacante['Ubicación'] ?? '';
+                $link = $vacante['link'] ?? '#'; // En el nuevo formato no hay link, puedes dejarlo vacío o crear uno dinámico
+
                 // Calcular número REAL de candidatos que coinciden con esta vacante
-                $candidateCount = contarCandidatosPorVacante($candidatos, $vacante['Titulo']);
+                $candidateCount = contarCandidatosPorVacante($candidatos, $titulo);
                 $badgeClass = $candidateCount > 0 ? 'badge-count' : 'badge-count-zero';
               ?>
                 <tr>
                   <td>
-                    <span class="requisicion-id">#<?php echo htmlspecialchars($vacante['ID de requisición de personal']); ?></span>
+                    <span class="requisicion-id">#<?php echo htmlspecialchars($idRequisicion); ?></span>
                   </td>
                   <td>
-                    <div class="puesto-title"><?php echo htmlspecialchars($vacante['Titulo']); ?></div>
+                    <div class="puesto-title"><?php echo htmlspecialchars($titulo); ?></div>
                   </td>
                   <td>
-                    <span class="categoria-badge"><?php echo htmlspecialchars($vacante['Categoría']); ?></span>
+                    <span class="categoria-badge"><?php echo htmlspecialchars($categoria); ?></span>
                   </td>
                   <td>
-                    <span class="ubicacion-badge">📍 <?php echo htmlspecialchars($vacante['Ubicación']); ?></span>
+                    <span class="ubicacion-badge">📍 <?php echo htmlspecialchars($ubicacion); ?></span>
                   </td>
                   <td>
                     <div class="actions-container">
-                      <?php if (!empty($vacante['link'])): ?>
-                        <a href="<?php echo htmlspecialchars($vacante['link']); ?>" target="_blank" class="btn-link">
+                      <?php if (!empty($link) && $link != '#'): ?>
+                        <a href="<?php echo htmlspecialchars($link); ?>" target="_blank" class="btn-link">
                           🔗 Ver Vacante
                         </a>
                       <?php endif; ?>
 
+                      <!-- SIEMPRE mostrar el botón, pero si no hay candidatos mostrar 0 -->
                       <?php if ($candidateCount > 0): ?>
                         <!-- Si HAY candidatos, enlace normal -->
-                        <a href="candidatos.php?id_requisicion=<?php echo urlencode($vacante['ID de requisición de personal']); ?>&titulo=<?php echo urlencode($vacante['Titulo']); ?>" class="btn btn-candidates">
+                        <a href="candidatos.php?id_requisicion=<?php echo urlencode($idRequisicion); ?>&titulo=<?php echo urlencode($titulo); ?>" class="btn btn-candidates">
                           👥 Candidatos <span class="<?php echo $badgeClass; ?>"><?php echo $candidateCount; ?></span>
                         </a>
                       <?php else: ?>
-                        <!-- Si NO HAY candidatos, botón deshabilitado -->
-                        <span class="btn btn-candidates" style="opacity: 0.6; cursor: not-allowed;">
+                        <!-- Si NO HAY candidatos, mostrar 0 pero SIN redirección -->
+                        <span class="btn btn-candidates" style="opacity: 0.6; cursor: default;">
                           👥 Candidatos <span class="<?php echo $badgeClass; ?>">0</span>
                         </span>
                       <?php endif; ?>

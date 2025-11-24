@@ -36,4 +36,9 @@ urlpatterns = [
     path('perfiles/crear/', views.crear_perfil_manual, name='crear_perfil_manual'),
     path('perfiles/listar/', views.lista_perfiles, name='lista_perfiles'),
     path("perfil/<int:id>/", views.ver_perfil, name="ver_perfil"),
+    # COMPARADOR
+    # path("comparar-cv/", views.comparar_cv_view, name="comparar_cv"),
+    path("api/comparar/<int:candidato_id>/<int:req_id>/", views.comparar_candidato_view, name="comparar_candidato"),
+    # MEJORAR PUESTO DESDE INFORME SAP SSFF
+    path("api/mejorar-puesto/<str:req_id>/", views.mejorar_puesto_view, name="mejorar_puesto"),
 ]

@@ -1,10 +1,11 @@
+from io import BytesIO
+
 import json
 import os
 import traceback
 import requests
 from bs4 import BeautifulSoup
 import csv
-
 from django.http import JsonResponse, Http404
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -27,9 +28,13 @@ from rest_framework import status
 
 from chatbot_app.models import ChatMessage, ChatSession, ChatErrorLog, TokenUsage
 from .serializers import PuestoSAPSerializer
+import pdfplumber
+import pandas as pd
+from django.http import JsonResponse
+from chatbot_app.models import Candidato, ComparacionCVPuesto
 
+# client = OpenAI()
 load_dotenv()
-
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
@@ -58,7 +63,7 @@ def ejecutar_llamada_ia(funcion, variables: dict = {}):
 AUTHORIZED_URLS = [
     "https://giintapeinnovahue.com/",
     "https://giintapeinnovahue.com/about.html"
-    #"https://www.facebook.com/innsolcorporation",
+    # "https://www.facebook.com/innsolcorporation",
 ]
 
 
@@ -103,14 +108,34 @@ def call_openai_with_context(user_message):
         )
     }
 
-    response = client.chat.completions.create(
-        model="gpt-5-nano",
-        messages=[
-            system_message,
-            {"role": "user", "content": user_message}
-        ]
-    )
-    return response
+    try:
+        # Llamada segura a OpenAI
+        response = client.chat.completions.create(
+            model="gpt-5-nano",
+            messages=[
+                system_message,
+                {"role": "user", "content": user_message}
+            ]
+        )
+
+        # Validación por si OpenAI no devuelve algo usable
+        if not response or not response.choices:
+            raise ValueError("La API no regresó una respuesta válida.")
+
+        return response
+
+    except Exception as e:
+        # Guardar log del error
+        ChatErrorLog.objects.create(
+            user=None,              # O asigna request.user si lo usas dentro de un view
+            session_id=None,        # O asigna la sesión actual si la tienes
+            user_message=user_message,
+            error_code=500,
+            error_text=str(e)
+        )
+
+        # Re-lanzar para que el view maneje el error si es necesario
+        raise e
 
 
 # Decorador para requerir tokens
@@ -122,6 +147,7 @@ def require_tokens(func):
                 'error': 'Se alcanzó el límite mensual de tokens. Espera al siguiente ciclo.'
             }, status=403)
         return func(request, token_record=token_record, *args, **kwargs)
+
     return wrapper
 
 
@@ -148,8 +174,10 @@ def send_message(request, token_record):
 
         bot_response = response.choices[0].message.content
 
-        # Guardar mensaje
+        session = ChatSession.objects.filter(user=request.user).last()
+
         ChatMessage.objects.create(
+            session=session,
             user_message=user_message,
             bot_response=bot_response
         )
@@ -247,6 +275,8 @@ def send_message_ajax(request, session_id, token_record):
             return JsonResponse({'error': 'No se recibió mensaje'}, status=400)
 
         session = get_object_or_404(ChatSession, id=session_id)
+        token_record.session = session
+        token_record.save(update_fields=['session'])
 
         # Llamada a OpenAI
         '''
@@ -258,6 +288,8 @@ def send_message_ajax(request, session_id, token_record):
         response = call_openai_with_context(user_message)
 
         bot_response = response.choices[0].message.content
+
+        session = ChatSession.objects.filter(user=request.user).last()
 
         chat_message = ChatMessage.objects.create(
             session=session,
@@ -678,7 +710,8 @@ def revisions_list_view(request):
             'version': r.version,
             'modelo_usado': r.modelo_usado,
             'creado_en': r.creado_en.strftime("%Y-%m-%d %H:%M:%S") if r.creado_en else None,
-            'texto_mejorado': (r.texto_mejorado[:400] + '...') if r.texto_mejorado and len(r.texto_mejorado) > 400 else (r.texto_mejorado or '')
+            'texto_mejorado': (r.texto_mejorado[:400] + '...') if r.texto_mejorado and len(
+                r.texto_mejorado) > 400 else (r.texto_mejorado or '')
         })
     return JsonResponse({'data': data})
 
@@ -799,7 +832,6 @@ def importar_puestos_desde_urls(request):
 
 ARCHIVOS_DIR = os.path.join(settings.BASE_DIR, 'archivos_sap')
 os.makedirs(ARCHIVOS_DIR, exist_ok=True)
-
 
 '''
 @api_view(['POST'])
@@ -938,3 +970,272 @@ def ver_perfil(request, id):
         }
 
     return JsonResponse(data, safe=False)
+
+
+# COMPARACION DE CV´S
+
+'''
+def descargar_texto_cv(url_pdf: str) -> str:
+    r = requests.get(url_pdf)
+    path = "/tmp/cv.pdf"
+    with open(path, "wb") as f:
+        f.write(r.content)
+
+    with pdfplumber.open(path) as pdf:
+        return "\n".join(page.extract_text() or "" for page in pdf.pages)
+
+'''
+
+import requests
+import pdfplumber
+from io import BytesIO
+
+
+def descargar_texto_cv(url_pdf: str) -> str:
+    print("=== [LOG] Intentando descargar PDF ===")
+    print("[LOG] URL ORIGINAL:", url_pdf)
+
+    # 1) Primer intento (quizá funciona)
+    r = requests.get(url_pdf, timeout=15)
+
+    # Si SharePoint devuelve HTML en vez de PDF, forzamos el download
+    if "pdf" not in r.headers.get("Content-Type", "").lower():
+        print("[WARN] SharePoint devolvió HTML, forzando descarga real del PDF...")
+
+        # Forzar link directo
+        if "?download=1" not in url_pdf:
+            if "?" in url_pdf:
+                url_pdf = url_pdf + "&download=1"
+            else:
+                url_pdf = url_pdf + "?download=1"
+
+        print("[LOG] URL FORZADA:", url_pdf)
+
+        r = requests.get(url_pdf, timeout=15)
+
+    # Si aún no es PDF → NO sirve
+    if "pdf" not in r.headers.get("Content-Type", "").lower():
+        print("[ERROR] SharePoint sigue sin devolver PDF. Content-Type:", r.headers.get("Content-Type"))
+        return "ERROR: NO_ES_PDF"
+
+    print("[LOG] PDF DESCARGADO CORRECTAMENTE")
+
+    # 2) Extraer texto del PDF
+    try:
+        pdf_bytes = BytesIO(r.content)
+        with pdfplumber.open(pdf_bytes) as pdf:
+            texto = "\n".join((p.extract_text() or "") for p in pdf.pages)
+        print("[LOG] Texto extraído correctamente")
+        return texto.strip()
+    except Exception as e:
+        print("[ERROR] NO_SE_PUDO_LEER_PDF:", e)
+        return "ERROR: NO_SE_PUDO_LEER_PDF"
+
+
+def cargar_puesto(req_id: str) -> str:
+    df = pd.read_csv("puestos.csv", encoding="utf-8")
+
+    fila = df[df["reqId_ix"].astype(str) == str(req_id)]
+
+    if fila.empty:
+        raise ValueError("Puesto no encontrado en CSV")
+
+    texto = fila["jobDesc_ix"].iloc[0]
+
+    if pd.isna(texto):
+        raise ValueError("La descripción del puesto está vacía (NaN en CSV)")
+
+    return str(texto)
+
+
+def comparar_cv_con_puesto(candidato, req_id: str):
+    # 1. Obtener URL del CV
+    cv_url = candidato.CV_candidate
+    if not cv_url:
+        raise ValueError("El candidato no tiene CV en campo CV_candidate")
+
+    # 2. Extraer texto del CV
+    cv_texto = descargar_texto_cv(cv_url)
+
+    # 3. Cargar descripción del puesto
+    puesto_texto = cargar_puesto(req_id)
+
+    # 4. Llamar a OpenAI
+    prompt = f"""
+Analiza el CV y compáralo con el puesto.
+
+### CV
+{cv_texto}
+
+### PUESTO
+{puesto_texto}
+
+### RESPUESTA
+Incluye JSON con:
+- compatibilidad (0-100)
+- fortalezas
+- debilidades
+- resumen
+"""
+
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[{"role": "user", "content": prompt}]
+    )
+
+    resultado_texto = response.choices[0].message.content
+
+    # Podríamos intentar extraer el número automáticamente, por ahora manual:
+    score = 0
+    for s in range(100, -1, -1):
+        if str(s) in resultado_texto:
+            score = s
+            break
+
+    # 5. Guardar en BD
+    registro = ComparacionCVPuesto.objects.create(
+        candidato=candidato,
+        id_puesto=req_id,
+        resultado=resultado_texto,
+        score=score
+    )
+
+    return registro
+
+
+def comparar_candidato_view(request, candidato_id, req_id):
+    print("=== [LOG] Iniciando comparar_candidato_view ===")
+    print(f"[LOG] candidato_id recibido: {candidato_id}")
+    print(f"[LOG] req_id recibido: {req_id}")
+
+    try:
+        # 1. Obtener candidato
+        print("[LOG] Buscando candidato...")
+        candidato = Candidato.objects.get(id_candidate=candidato_id)
+        print("[LOG] Candidato encontrado correctamente")
+        print(f"[LOG] Datos del candidato: {candidato.nombre_candidate} {candidato.apellidop_candidate}")
+
+        # 2. Cargar la descripción del puesto DESDE CSV
+        print("[LOG] Cargando puesto desde CSV...")
+        try:
+            texto_req = cargar_puesto(req_id)
+            print("[LOG] Puesto cargado correctamente")
+            print("[LOG] Texto del puesto:\n", texto_req[:300], "...")
+        except Exception as e:
+            print("[ERROR] No se pudo cargar el puesto desde CSV:", e)
+            return JsonResponse({"error": "Puesto no encontrado en CSV"}, status=404)
+
+        # 3. Armar texto del candidato (solo para logs, no para IA)
+        texto_candidato = f"""
+        Nombre: {candidato.nombre_candidate} {candidato.apellidop_candidate} {candidato.apellidom_candidate}
+        Correo: {candidato.correo_candidate}
+        Tel: {candidato.tel_candidate}
+        CV: {candidato.CV_candidate}
+        """
+        print("[LOG] Texto armado del candidato:")
+        print(texto_candidato)
+
+        # 4. Enviar a IA usando tu función REAL
+        print("[LOG] Enviando a IA para comparación...")
+        resultado = comparar_cv_con_puesto(candidato, req_id)
+        print("[LOG] Respuesta de la IA recibida:")
+        print(resultado)
+
+        print("[LOG] Todo OK, regresando JSON")
+
+        return JsonResponse({
+            "ok": True,
+            "req_id": req_id,
+            "candidato_id": candidato_id,
+            "resultado_id": resultado.id,
+            "score": resultado.score,
+        })
+
+    except Candidato.DoesNotExist:
+        print("[ERROR] Candidato no existe")
+        return JsonResponse({"error": "Candidato no existe"}, status=404)
+
+    except Exception as e:
+        print("[ERROR] Excepción inesperada:")
+        import traceback
+        traceback.print_exc()
+        print(f"[ERROR] {str(e)}")
+        return JsonResponse({"error": str(e)}, status=500)
+
+
+# Mejorar puesto de archivo PUESTO.CSV
+
+
+def mejorar_puesto_y_guardar(req_id: str) -> str:
+    import pandas as pd
+    from django.utils import timezone
+    from .models import Puesto
+
+    # Convertir a entero para que coincida con el CSV
+    try:
+        req_int = int(req_id)
+    except:
+        raise ValueError("req_id inválido")
+
+    # 1. Leer CSV
+    df = pd.read_csv("puestos.csv", encoding="utf-8")
+
+    # Asegurar que la columna es numérica
+    df["reqId_ix"] = pd.to_numeric(df["reqId_ix"], errors="coerce")
+
+    fila = df[df["reqId_ix"].astype(str) == str(req_id)]
+
+    if fila.empty:
+        raise ValueError(f"Puesto {req_id} NO está en el CSV")
+
+    descripcion_original = fila["jobDesc_ix"].iloc[0]
+
+    # 2. Llamar a la IA
+    prompt = (
+        "Mejora profesionalmente la siguiente descripción sin inventar funciones nuevas:\n\n"
+        f"{descripcion_original}"
+    )
+
+    response = client.chat.completions.create(
+        model="gpt-5-nano",
+        messages=[
+            {"role": "system", "content": "Eres experto en redacción corporativa."},
+            {"role": "user", "content": prompt}
+        ]
+    )
+
+    # descripcion_mejorada = response.choices[0].message["content"]
+    descripcion_mejorada = response.choices[0].message.content
+
+    # 3. Guardar en BD
+    puesto, _ = Puesto.objects.update_or_create(
+        req_id=req_int,
+        defaults={
+            "descripcion_original": descripcion_original,
+            "descripcion_mejorada": descripcion_mejorada,
+            "fecha_mejora": timezone.now()
+        }
+    )
+
+    return descripcion_mejorada
+
+# SELECCION WEB
+
+'''
+def mejorar_puesto_view(request, req_id):
+    aplicar = request.GET.get("mejorar", "1") == "1"
+    resultado = mejorar_descripcion_puesto_2(req_id, aplicar_mejora=aplicar)
+    return JsonResponse(resultado, safe=False)
+'''
+
+
+def mejorar_puesto_view(request, req_id):
+    try:
+        nueva_desc = mejorar_puesto_y_guardar(req_id)
+        return JsonResponse({"descripcion_mejorada": nueva_desc})
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)
+
+
+
+

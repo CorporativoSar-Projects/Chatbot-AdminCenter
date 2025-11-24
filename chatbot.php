@@ -503,6 +503,23 @@ $mysqli->close();
             transform: translateY(-2px) !important;
             box-shadow: 0 3px 10px rgba(255, 107, 53, 0.3) !important;
         }
+
+        .btn-compare-candidate {
+            background: #17a2b8 !important;
+            color: white !important;
+            border: none !important;
+            border-radius: 25px !important;
+            padding: 6px 15px !important;
+            font-size: 12px !important;
+            font-weight: 600 !important;
+            transition: all 0.3s ease !important;
+            margin-top: 5px !important;
+        }
+
+        .btn-compare-candidate:hover {
+            transform: translateY(-2px) !important;
+            box-shadow: 0 3px 10px rgba(23, 162, 184, 0.3) !important;
+        }
     </style>
 </head>
 
@@ -609,14 +626,14 @@ $mysqli->close();
                                     <!--
                                     <td>
                                         <span class="badge badge-primary">
-                                            <?php /*echo isset($candidato['puesto']) ? htmlspecialchars($candidato['puesto']) : 'Sin especificar'; */?>
+                                            <?php /*echo isset($candidato['puesto']) ? htmlspecialchars($candidato['puesto']) : 'Sin especificar'; */ ?>
                                         </span>
                                     </td>
                                     <td>
                                         <span class="badge badge-<?php /*
                                                                     echo isset($candidato['estado']) && $candidato['estado'] === 'Contratado' ? 'success' : 'warning';
-                                                                    */?>">
-                                            <?php /* echo isset($candidato['estado']) ? htmlspecialchars($candidato['estado']) : 'Pendiente'; */?>
+                                                                    */ ?>">
+                                            <?php /* echo isset($candidato['estado']) ? htmlspecialchars($candidato['estado']) : 'Pendiente'; */ ?>
                                         </span>
                                     </td>-->
                                     <td>
@@ -637,6 +654,11 @@ $mysqli->close();
                                             onclick="seleccionarParaMejoraPuesto(<?php echo $candidato['id_candidate']; ?>)"
                                             style="display: none; margin-top: 5px; background: #ff6b35; color: white; border: none; border-radius: 25px; padding: 6px 15px; font-size: 12px;">
                                             ✏️ Mejorar Descripción
+                                        </button>
+                                        <button class="btn btn-compare-candidate"
+                                            onclick="compararCVConSAP(<?php echo $candidato['id_candidate']; ?>)"
+                                            style="display: none; margin-top: 5px; background: #17a2b8; color: white; border: none; border-radius: 25px; padding: 6px 15px; font-size: 12px;">
+                                            🔍 Comparar CV con SAP
                                         </button>
                                     </td>
                                 </tr>
@@ -677,6 +699,12 @@ $mysqli->close();
                         </button>
                         <button class="special-btn" onclick="mostrarInputManualDescripcion()">
                             ✏️ Mejorar descripción manual
+                        </button>
+                        <button class="special-btn" onclick="procesarSAPSSFF()">
+                            📊 Procesar SAP SSFF
+                        </button>
+                        <button class="special-btn" onclick="activarComparacionCV()">
+                            🔍 Comparar CV con SAP
                         </button>
                     </div>
                 </div>

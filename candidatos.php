@@ -11,22 +11,23 @@ $id_requisicion = $_GET['id_requisicion'] ?? 0;
 $titulo_vacante = $_GET['titulo'] ?? '';
 
 // Función para leer CSV desde URL
-function leerCSVDesdeURL($url) {
-    $datos = [];
-    
-    if (($handle = fopen($url, 'r')) !== FALSE) {
-        $encabezados = fgetcsv($handle, 1000, ',');
-        
-        while (($fila = fgetcsv($handle, 1000, ',')) !== FALSE) {
-            if (count($fila) === count($encabezados)) {
-                $dato = array_combine($encabezados, $fila);
-                $datos[] = $dato;
-            }
-        }
-        fclose($handle);
+function leerCSVDesdeURL($url)
+{
+  $datos = [];
+
+  if (($handle = fopen($url, 'r')) !== FALSE) {
+    $encabezados = fgetcsv($handle, 1000, ',');
+
+    while (($fila = fgetcsv($handle, 1000, ',')) !== FALSE) {
+      if (count($fila) === count($encabezados)) {
+        $dato = array_combine($encabezados, $fila);
+        $datos[] = $dato;
+      }
     }
-    
-    return $datos;
+    fclose($handle);
+  }
+
+  return $datos;
 }
 
 // Obtener datos de ambos CSV
@@ -35,93 +36,424 @@ $todos_candidatos = leerCSVDesdeURL($csv_candidatos_url);
 
 // Si no hay candidatos, inicializar array vacío
 if (empty($todos_candidatos)) {
-    $todos_candidatos = [];
+  $todos_candidatos = [];
 }
 
 // Filtrar candidatos que coincidan con la vacante
 $candidatos_filtrados = [];
 
 if (!empty($titulo_vacante)) {
-    $tituloBusqueda = trim(strtolower($titulo_vacante));
-    
-    foreach ($todos_candidatos as $candidato) {
-        $tituloCandidato = trim(strtolower($candidato['Titulo'] ?? ''));
-        
-        // Buscar coincidencias en el título
-        if (!empty($tituloCandidato) && 
-            (strpos($tituloCandidato, $tituloBusqueda) !== false || 
-             strpos($tituloBusqueda, $tituloCandidato) !== false ||
-             similar_text($tituloBusqueda, $tituloCandidato) > 5)) {
-            $candidatos_filtrados[] = $candidato;
-        }
+
+  // Normalizar una sola vez
+  $tituloBusqueda = normaliza($titulo_vacante);
+
+  foreach ($todos_candidatos as $candidato) {
+
+    $tituloCandidatoRaw = $candidato['Titulo'] ?? '';
+    $tituloCandidato = normaliza($tituloCandidatoRaw);
+
+    if (empty($tituloCandidato)) {
+      continue;
     }
+
+    $coincide = false;
+
+    // 1. Coincidencia exacta o parcial REAL
+    if (
+      strpos($tituloCandidato, $tituloBusqueda) !== false ||
+      strpos($tituloBusqueda, $tituloCandidato) !== false ||
+      similar_text($tituloBusqueda, $tituloCandidato) > 10
+    ) {
+      $coincide = true;
+    }
+
+    // 2. Coincidencia por categoría
+    else if (coincidenPorCategoria($tituloBusqueda, $tituloCandidato)) {
+      $coincide = true;
+    }
+
+    if ($coincide) {
+      $candidatos_filtrados[] = $candidato;
+    }
+  }
+
 } else {
-    // Si no hay título, mostrar todos los candidatos
-    $candidatos_filtrados = $todos_candidatos;
+  // Si no hay título, mostrar todos
+  $candidatos_filtrados = $todos_candidatos;
+}
+
+function normaliza($texto)
+{
+  $texto = mb_strtolower($texto, 'UTF-8');
+  $texto = str_replace(
+    ['á', 'é', 'í', 'ó', 'ú', 'ñ'],
+    ['a', 'e', 'i', 'o', 'u', 'n'],
+    $texto
+  );
+  return $texto;
+}
+
+function coincidenPorCategoria($tituloVacante, $tituloCandidato)
+{
+  $tituloVacante = normaliza($tituloVacante);
+  $tituloCandidato = normaliza($tituloCandidato);
+  $categorias = [
+
+    // --- ÁREA ADMINISTRATIVA / OFICINA ---
+    'administrativo' => [
+      'vacantes' => [
+        'consultor administrativo',
+        'auxiliar administrativo',
+        'asistente administrativo',
+        'dictaminador administrativo',
+        'mesa de control',
+        'responsable de turno',
+        'control documental',
+        'bóveda digital'
+      ],
+      'candidatos' => [
+        'asistente',
+        'auxiliar',
+        'oficinista',
+        'secretaria',
+        'coordinacion',
+        'administración',
+        'remisionista'
+      ]
+    ],
+
+    // --- ÁREA TÉCNICA / OPERATIVA / PLANTA ---
+    'tecnico' => [
+      'vacantes' => [
+        'consultor técnico',
+        'analista técnico',
+        'especialista técnico',
+        'operador',
+        'operador tum',
+        'visitador',
+        'valuador',
+        'flebotomista',
+        'mecánico',
+        'montacarguista',
+        'ayudante general',
+        'ingeniero operador cnc'
+      ],
+      'candidatos' => [
+        'ingeniero',
+        'técnico',
+        'mecánico',
+        'operador',
+        'calidad',
+        'mantenimiento',
+        'montacarguista',
+        'seguridad industrial',
+        'almacén',
+        'logística',
+        'ayudante general',
+        'planta'
+      ]
+    ],
+
+    // --- VENTAS / COMERCIAL ---
+    'ventas' => [
+      'vacantes' => [
+        'promotor',
+        'asesor',
+        'consultor comercial',
+        'ejecutivo',
+        'representante',
+        'gerente comercial',
+        'especialista comercial',
+        'desarrollo canal masivo'
+      ],
+      'candidatos' => [
+        'ventas',
+        'comercial',
+        'promotor',
+        'vendedor',
+        'marketing',
+        'cuenta',
+        'agentes'
+      ]
+    ],
+
+    // --- SALUD / SERVICIOS MÉDICOS ---
+    'salud' => [
+      'vacantes' => [
+        'médico',
+        'médico general',
+        'médico dictaminador',
+        'médico contacto',
+        'médico especialista',
+        'flebotomista',
+        'auxiliar de farmacia',
+        'supervisor médico',
+        'gestión médica'
+      ],
+      'candidatos' => [
+        'médico',
+        'enfermero',
+        'farmacia',
+        'salud',
+        'clínico'
+      ]
+    ],
+
+    // --- RECURSOS HUMANOS ---
+    'rh' => [
+      'vacantes' => [
+        'analista reclutamiento',
+        'especialista desarrollo',
+        'capacitacion',
+        'atracción de talento',
+        'analista capacitación'
+      ],
+      'candidatos' => [
+        'recursos humanos',
+        'rh',
+        'reclutamiento',
+        'capacitacion',
+        'talento',
+        'compensaciones',
+        'nominas'
+      ]
+    ],
+
+    // --- TECNOLOGÍA / SISTEMAS / TI ---
+    'ti' => [
+      'vacantes' => [
+        'líder análisis de requerimientos',
+        'soporte a proyectos',
+        'arquitectura aplicativa',
+        'incidentes de si',
+        'qa negocio',
+        'middle office',
+        'infraestructura',
+        'inteligencia y analíticos'
+      ],
+      'candidatos' => [
+        'sistemas',
+        'ti',
+        'software',
+        'programador',
+        'desarrollador',
+        'infraestructura',
+        'datos',
+        'it'
+      ]
+    ],
+
+    // --- FINANZAS / TESORERÍA / CONTABILIDAD ---
+    'finanzas' => [
+      'vacantes' => [
+        'tesorería',
+        'contable',
+        'ingresos y egresos',
+        'control de cálculo y pago',
+        'análisis de crédito',
+        'transformación tesorería',
+        'pagos'
+      ],
+      'candidatos' => [
+        'finanzas',
+        'contabilidad',
+        'tesoreria',
+        'crédito',
+        'presupuesto'
+      ]
+    ],
+
+    // --- SUSCRIPCIÓN / SEGUROS ---
+    'suscripcion' => [
+      'vacantes' => [
+        'suscriptor',
+        'suscripción',
+        'suscriptor jr',
+        'suscriptor intermedio',
+        'reaseguro',
+        'normatividad técnica',
+        'oferta de valor',
+        'suscripción estratégica'
+      ],
+      'candidatos' => [
+        'seguros',
+        'suscripción',
+        'reaseguro',
+        'actuario',
+        'vida',
+        'autos'
+      ]
+    ],
+
+    // --- SINIESTROS / REPARACIÓN / AUTOS ---
+    'siniestros_autos' => [
+      'vacantes' => [
+        'visitador de centros',
+        'ajustes',
+        'siniestros',
+        'centros de reparación',
+        'asesor de servicio automóvil',
+        'valuador',
+        'supervisor ajustes'
+      ],
+      'candidatos' => [
+        'automotriz',
+        'taller',
+        'autos',
+        'ajustes',
+        'siniestros',
+        'valuador'
+      ]
+    ],
+
+    // --- ANÁLISIS / DATOS / INTELIGENCIA ---
+    'analiticos' => [
+      'vacantes' => [
+        'analista indicadores',
+        'análisis de información',
+        'estadística',
+        'inteligencia de mercado',
+        'competitividad',
+        'indicadores'
+      ],
+      'candidatos' => [
+        'analista',
+        'datos',
+        'estadística',
+        'analítica',
+        'reportes'
+      ]
+    ],
+
+    // --- OPERACIONES GENERALES ---
+    'operaciones' => [
+      'vacantes' => [
+        'servicio a clientes',
+        'representante centro de contacto',
+        'operación',
+        'bóveda digital',
+        'aplicación de primas'
+      ],
+      'candidatos' => [
+        'operaciones',
+        'servicio',
+        'contacto',
+        'call center',
+        'cliente'
+      ]
+    ],
+
+    // CATEGORÍAS ESPECIALES MUY RECURRENTES
+    'gmm' => [
+      'vacantes' => [
+        'migración de condiciones gmm colectivo',
+        'programas gmm',
+        'prevención gmm'
+      ],
+      'candidatos' => [
+        'gmm',
+        'gastos médicos'
+      ]
+    ]
+
+  ];
+
+  foreach ($categorias as $categoria => $palabras) {
+    $enVacante = false;
+    $enCandidato = false;
+
+    // palabras exactas en vacante
+    foreach ($palabras['vacantes'] as $palabra) {
+      $palabra = normaliza($palabra);
+      if (strpos($tituloVacante, $palabra) !== false) {
+        $enVacante = true;
+        break;
+      }
+    }
+
+    // palabras exactas en candidato
+    foreach ($palabras['candidatos'] as $palabra) {
+      $palabra = normaliza($palabra);
+      if (strpos($tituloCandidato, $palabra) !== false) {
+        $enCandidato = true;
+        break;
+      }
+    }
+
+    if ($enVacante && $enCandidato) {
+      return true;
+    }
+  }
+
+  return false;
 }
 
 // Función para determinar criterio basado en el estado
-function determinarCriterio($candidato) {
-    $estado = $candidato['Estado'] ?? '';
-    
-    switch (strtolower($estado)) {
-        case 'contratado':
-        case 'listo para contratar':
-            return 'Viable';
-        case 'examen médico':
-        case 'entrega de documentos':
-        case 'carta oferta':
-        case 'evaluaciones psicométricas':
-        case 'entrevista reclutador':
-        case 'prueba toxicológica':
-            return 'Parcialmente viable';
-        case 'requisition closed':
-        case 'hired on other requisition':
-        case 'descalificado por examen médico':
-        case 'default':
-            return 'No viable';
-        default:
-            return 'En evaluación';
-    }
+function determinarCriterio($candidato)
+{
+  $estado = $candidato['Estado'] ?? '';
+
+  switch (strtolower($estado)) {
+    case 'contratado':
+    case 'listo para contratar':
+      return 'Viable';
+    case 'examen médico':
+    case 'entrega de documentos':
+    case 'carta oferta':
+    case 'evaluaciones psicométricas':
+    case 'entrevista reclutador':
+    case 'prueba toxicológica':
+      return 'Parcialmente viable';
+    case 'requisition closed':
+    case 'hired on other requisition':
+    case 'descalificado por examen médico':
+    case 'default':
+      return 'No viable';
+    default:
+      return 'En evaluación';
+  }
 }
 
 // Función para determinar estatus basado en el estado
-function determinarEstatus($candidato) {
-    $estado = $candidato['Estado'] ?? '';
-    
-    switch (strtolower($estado)) {
-        case 'contratado':
-        case 'listo para contratar':
-            return 'Aceptado';
-        case 'examen médico':
-        case 'entrega de documentos':
-        case 'carta oferta':
-        case 'evaluaciones psicométricas':
-        case 'entrevista reclutador':
-        case 'prueba toxicológica':
-            return 'En revisión';
-        case 'requisition closed':
-        case 'hired on other requisition':
-        case 'descalificado por examen médico':
-            return 'Rechazado';
-        default:
-            return 'Pendiente';
-    }
+function determinarEstatus($candidato)
+{
+  $estado = $candidato['Estado'] ?? '';
+
+  switch (strtolower($estado)) {
+    case 'contratado':
+    case 'listo para contratar':
+      return 'Aceptado';
+    case 'examen médico':
+    case 'entrega de documentos':
+    case 'carta oferta':
+    case 'evaluaciones psicométricas':
+    case 'entrevista reclutador':
+    case 'prueba toxicológica':
+      return 'En revisión';
+    case 'requisition closed':
+    case 'hired on other requisition':
+    case 'descalificado por examen médico':
+      return 'Rechazado';
+    default:
+      return 'Pendiente';
+  }
 }
 
 // Función para obtener enlace de CV (simulada - ajusta según tu estructura real)
-function obtenerEnlaceCV($candidato) {
-    // Aquí puedes implementar la lógica para obtener el enlace real del CV
-    // Por ahora devolvemos un enlace simulado
-    if (!empty($candidato['Nombre']) && !empty($candidato['Apellido'])) {
-        return "#"; // Reemplaza con la lógica real para obtener el CV
-    }
-    return null;
+function obtenerEnlaceCV($candidato)
+{
+  // Aquí puedes implementar la lógica para obtener el enlace real del CV
+  // Por ahora devolvemos un enlace simulado
+  if (!empty($candidato['Nombre']) && !empty($candidato['Apellido'])) {
+    return "#"; // Reemplaza con la lógica real para obtener el CV
+  }
+  return null;
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -132,14 +464,14 @@ function obtenerEnlaceCV($candidato) {
   <link href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.bootstrap4.min.css" rel="stylesheet">
   <title>Candidatos - <?php echo htmlspecialchars($titulo_vacante ?: 'Todos los candidatos'); ?></title>
   <link rel="shortcut icon" href="img/Logo_cabeza.svg" />
-  
+
   <style>
     /* Mantén todos los estilos CSS anteriores igual */
     .main-content {
       margin-top: 100px;
       padding: 0 40px;
     }
-    
+
     .page-header {
       background: #002B45;
       color: white;
@@ -148,13 +480,13 @@ function obtenerEnlaceCV($candidato) {
       margin-bottom: 30px;
       box-shadow: 0 8px 25px rgba(0, 43, 69, 0.15);
     }
-    
+
     .page-header h2 {
       margin: 0;
       font-weight: 700;
       font-size: 28px;
     }
-    
+
     .table-container {
       background: white;
       border-radius: 15px;
@@ -162,7 +494,7 @@ function obtenerEnlaceCV($candidato) {
       overflow: hidden;
       margin-bottom: 30px;
     }
-    
+
     .table thead th {
       background: #002B45;
       color: white;
@@ -171,33 +503,33 @@ function obtenerEnlaceCV($candidato) {
       font-weight: 600;
       font-size: 14px;
     }
-    
+
     .table tbody tr {
       transition: all 0.3s ease;
     }
-    
+
     .table tbody tr:hover {
       transform: translateY(-1px);
       box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
     }
-    
+
     .table tbody td {
       padding: 15px 20px;
       border-color: #e9ecef;
       vertical-align: middle;
     }
 
-    .viable { 
+    .viable {
       background: #d4edda !important;
       border-left: 4px solid #28a745;
     }
-    
-    .parcial { 
+
+    .parcial {
       background: #fff3cd !important;
       border-left: 4px solid #ffc107;
     }
-    
-    .no-viable { 
+
+    .no-viable {
       background: #f8d7da !important;
       border-left: 4px solid #dc3545;
     }
@@ -216,7 +548,7 @@ function obtenerEnlaceCV($candidato) {
       align-items: center;
       gap: 5px;
     }
-    
+
     .btn-back {
       background: #6c757d;
       color: white;
@@ -249,17 +581,17 @@ function obtenerEnlaceCV($candidato) {
       font-size: 12px;
       text-transform: uppercase;
     }
-    
+
     .status-accepted {
       background: #28a745;
       color: white;
     }
-    
+
     .status-review {
       background: #ffc107;
       color: white;
     }
-    
+
     .status-rejected {
       background: #dc3545;
       color: white;
@@ -272,19 +604,19 @@ function obtenerEnlaceCV($candidato) {
       font-size: 12px;
       color: white;
     }
-    
+
     .criteria-viable {
       background: #28a745;
     }
-    
+
     .criteria-parcial {
       background: #ffc107;
     }
-    
+
     .criteria-no-viable {
       background: #dc3545;
     }
-    
+
     .criteria-evaluacion {
       background: #17a2b8;
     }
@@ -299,9 +631,10 @@ function obtenerEnlaceCV($candidato) {
     /* Mantén el resto de los estilos igual */
   </style>
 </head>
+
 <body>
 
-<!-- Logo y Navbar -->
+  <!-- Logo y Navbar -->
   <div class="rectangulo-container">
     <img src="img/Logo_cabeza.svg" width="70px" alt="Logo" class="img-logo-chiq" />
   </div>
@@ -350,268 +683,269 @@ function obtenerEnlaceCV($candidato) {
   </header>
 
 
-<main class="main-content">
-  <!-- Header de la página -->
-  <div class="page-header">
-    <h2>
+  <main class="main-content">
+    <!-- Header de la página -->
+    <div class="page-header">
+      <h2>
         <?php if (!empty($titulo_vacante)): ?>
-            👥 Candidatos para: <?php echo htmlspecialchars($titulo_vacante); ?>
+          👥 Candidatos para: <?php echo htmlspecialchars($titulo_vacante); ?>
         <?php else: ?>
-            👥 Todos los Candidatos
+          👥 Todos los Candidatos
         <?php endif; ?>
-    </h2>
-    <?php if (!empty($titulo_vacante)): ?>
-        <p class="mb-0">Requisición #<?php echo str_pad($id_requisicion, 3, '0', STR_PAD_LEFT); ?> | 
-        <?php echo count($candidatos_filtrados); ?> candidato(s) encontrado(s)</p>
-    <?php else: ?>
+      </h2>
+      <?php if (!empty($titulo_vacante)): ?>
+        <p class="mb-0">Requisición #<?php echo str_pad($id_requisicion, 3, '0', STR_PAD_LEFT); ?> |
+          <?php echo count($candidatos_filtrados); ?> candidato(s) encontrado(s)</p>
+      <?php else: ?>
         <p class="mb-0"><?php echo count($candidatos_filtrados); ?> candidato(s) en total</p>
-    <?php endif; ?>
-  </div>
+      <?php endif; ?>
+    </div>
 
-  <!-- Contenedor de la tabla -->
-  <div class="table-container">
-    <table id="tablaCandidatos" class="table table-striped table-bordered">
-      <thead>
-        <tr>
-          <th>Nombre Completo</th>
-          <th>Contacto</th>
-          <th>Puesto Solicitado</th>
-          <th>Estado</th>
-          <th>Criterio</th>
-          <th>Estatus</th>
-        </tr>
-      </thead>
-      <tbody>
-        <?php if (!empty($candidatos_filtrados)): ?>
-            <?php foreach($candidatos_filtrados as $c): 
-                $criterio = determinarCriterio($c);
-                $estatus = determinarEstatus($c);
-                
+    <!-- Contenedor de la tabla -->
+    <div class="table-container">
+      <table id="tablaCandidatos" class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>Nombre Completo</th>
+            <th>Contacto</th>
+            <th>Puesto Solicitado</th>
+            <th>Estado</th>
+            <th>Criterio</th>
+            <th>Estatus</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php if (!empty($candidatos_filtrados)): ?>
+            <?php foreach ($candidatos_filtrados as $c):
+              $criterio = determinarCriterio($c);
+              $estatus = determinarEstatus($c);
+
+              $class = '';
+              $criteria_class = '';
+              $status_class = '';
+
+              if ($criterio == 'Viable') {
+                $class = 'viable';
+                $criteria_class = 'criteria-viable';
+              } elseif ($criterio == 'Parcialmente viable') {
+                $class = 'parcial';
+                $criteria_class = 'criteria-parcial';
+              } elseif ($criterio == 'No viable') {
+                $class = 'no-viable';
+                $criteria_class = 'criteria-no-viable';
+              } else {
                 $class = '';
-                $criteria_class = '';
-                $status_class = '';
-                
-                if($criterio == 'Viable') {
-                    $class = 'viable';
-                    $criteria_class = 'criteria-viable';
-                } elseif($criterio == 'Parcialmente viable') {
-                    $class = 'parcial';
-                    $criteria_class = 'criteria-parcial';
-                } elseif($criterio == 'No viable') {
-                    $class = 'no-viable';
-                    $criteria_class = 'criteria-no-viable';
-                } else {
-                    $class = '';
-                    $criteria_class = 'criteria-evaluacion';
-                }
-                
-                if($estatus == 'Aceptado') $status_class = 'status-accepted';
-                elseif($estatus == 'En revisión') $status_class = 'status-review';
-                elseif($estatus == 'Rechazado') $status_class = 'status-rejected';
-                else $status_class = 'status-review';
-                
-                $nombreCompleto = trim($c['Nombre'] . ' ' . ($c['Apellido'] ?? ''));
+                $criteria_class = 'criteria-evaluacion';
+              }
+
+              if ($estatus == 'Aceptado') $status_class = 'status-accepted';
+              elseif ($estatus == 'En revisión') $status_class = 'status-review';
+              elseif ($estatus == 'Rechazado') $status_class = 'status-rejected';
+              else $status_class = 'status-review';
+
+              $nombreCompleto = trim($c['Nombre'] . ' ' . ($c['Apellido'] ?? ''));
             ?>
-            <tr class="<?php echo $class; ?>">
-              <td>
-                <a href="#" class="candidate-link detalle-candidato" 
-                   data-nombre="<?php echo htmlspecialchars($c['Nombre'] ?? ''); ?>" 
-                   data-ap="<?php echo htmlspecialchars($c['Apellido'] ?? ''); ?>" 
-                   data-email="<?php echo htmlspecialchars($c['Correo Electrónico'] ?? ''); ?>"
-                   data-titulo="<?php echo htmlspecialchars($c['Titulo'] ?? ''); ?>"
-                   data-estado="<?php echo htmlspecialchars($c['Estado'] ?? ''); ?>"
-                   data-criterio="<?php echo $criterio; ?>" 
-                   data-estatus="<?php echo $estatus; ?>">
-                   <?php echo htmlspecialchars($nombreCompleto ?: 'Sin nombre'); ?>
-                </a>
-                <?php if (!empty($c['Correo Electrónico'])): ?>
-                <span class="email-text">📧 <?php echo htmlspecialchars($c['Correo Electrónico']); ?></span>
-                <?php endif; ?>
-              </td>
-              <td>
-                <?php if (!empty($c['Correo Electrónico'])): ?>
-                📧 <?php echo htmlspecialchars($c['Correo Electrónico']); ?>
-                <?php else: ?>
-                <span class="text-muted">Sin contacto</span>
-                <?php endif; ?>
-              </td>
-              <td>
-                <?php echo htmlspecialchars($c['Titulo'] ?? 'Sin puesto especificado'); ?>
-              </td>
-              <td>
-                <?php echo htmlspecialchars($c['Estado'] ?? 'Sin estado'); ?>
-              </td>
-              <td>
-                <span class="criteria-badge <?php echo $criteria_class; ?>">
-                  <?php echo $criterio; ?>
-                </span>
-              </td>
-              <td>
-                <span class="status-badge <?php echo $status_class; ?>">
-                  <?php echo $estatus; ?>
-                </span>
-              </td>
-            </tr>
-            <?php endforeach; ?>
-        <?php else: ?>
-            <tr>
-                <td colspan="6" class="text-center py-4">
-                    <div class="text-muted">
-                        <h5>No se encontraron candidatos</h5>
-                        <p><?php echo empty($titulo_vacante) ? 'No hay candidatos registrados.' : 'No hay candidatos que coincidan con esta vacante.'; ?></p>
-                    </div>
+              <tr class="<?php echo $class; ?>">
+                <td>
+                  <a href="#" class="candidate-link detalle-candidato"
+                    data-nombre="<?php echo htmlspecialchars($c['Nombre'] ?? ''); ?>"
+                    data-ap="<?php echo htmlspecialchars($c['Apellido'] ?? ''); ?>"
+                    data-email="<?php echo htmlspecialchars($c['Correo Electrónico'] ?? ''); ?>"
+                    data-titulo="<?php echo htmlspecialchars($c['Titulo'] ?? ''); ?>"
+                    data-estado="<?php echo htmlspecialchars($c['Estado'] ?? ''); ?>"
+                    data-criterio="<?php echo $criterio; ?>"
+                    data-estatus="<?php echo $estatus; ?>">
+                    <?php echo htmlspecialchars($nombreCompleto ?: 'Sin nombre'); ?>
+                  </a>
+                  <?php if (!empty($c['Correo Electrónico'])): ?>
+                    <span class="email-text">📧 <?php echo htmlspecialchars($c['Correo Electrónico']); ?></span>
+                  <?php endif; ?>
                 </td>
+                <td>
+                  <?php if (!empty($c['Correo Electrónico'])): ?>
+                    📧 <?php echo htmlspecialchars($c['Correo Electrónico']); ?>
+                  <?php else: ?>
+                    <span class="text-muted">Sin contacto</span>
+                  <?php endif; ?>
+                </td>
+                <td>
+                  <?php echo htmlspecialchars($c['Titulo'] ?? 'Sin puesto especificado'); ?>
+                </td>
+                <td>
+                  <?php echo htmlspecialchars($c['Estado'] ?? 'Sin estado'); ?>
+                </td>
+                <td>
+                  <span class="criteria-badge <?php echo $criteria_class; ?>">
+                    <?php echo $criterio; ?>
+                  </span>
+                </td>
+                <td>
+                  <span class="status-badge <?php echo $status_class; ?>">
+                    <?php echo $estatus; ?>
+                  </span>
+                </td>
+              </tr>
+            <?php endforeach; ?>
+          <?php else: ?>
+            <tr>
+              <td colspan="6" class="text-center py-4">
+                <div class="text-muted">
+                  <h5>No se encontraron candidatos</h5>
+                  <p><?php echo empty($titulo_vacante) ? 'No hay candidatos registrados.' : 'No hay candidatos que coincidan con esta vacante.'; ?></p>
+                </div>
+              </td>
             </tr>
-        <?php endif; ?>
-      </tbody>
-    </table>
-  </div>
+          <?php endif; ?>
+        </tbody>
+      </table>
+    </div>
 
-  <a href="vacantes.php" class="btn-back">
-    ← Volver a Vacantes
-  </a>
-</main>
+    <a href="vacantes.php" class="btn-back">
+      ← Volver a Vacantes
+    </a>
+  </main>
 
-<!-- Modal detalle candidato (actualizado) -->
-<div class="modal fade" id="modalDetalleCandidato" tabindex="-1" role="dialog">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="modalNombre"></h5>
-        <button type="button" class="close custom-close" data-dismiss="modal" aria-label="Cerrar">
-          <span aria-hidden="true" class="custom-close-icon">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="row mb-4">
-          <div class="col-md-6">
-            <p><strong>📧 Email:</strong> <span id="modalEmail"></span></p>
-            <p><strong>💼 Puesto Solicitado:</strong> <span id="modalTitulo"></span></p>
-            <p><strong>📋 Estado Actual:</strong> <span id="modalEstado"></span></p>
+  <!-- Modal detalle candidato (actualizado) -->
+  <div class="modal fade" id="modalDetalleCandidato" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalNombre"></h5>
+          <button type="button" class="close custom-close" data-dismiss="modal" aria-label="Cerrar">
+            <span aria-hidden="true" class="custom-close-icon">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row mb-4">
+            <div class="col-md-6">
+              <p><strong>📧 Email:</strong> <span id="modalEmail"></span></p>
+              <p><strong>💼 Puesto Solicitado:</strong> <span id="modalTitulo"></span></p>
+              <p><strong>📋 Estado Actual:</strong> <span id="modalEstado"></span></p>
+            </div>
+            <div class="col-md-6">
+              <p><strong>🎯 Criterio:</strong> <span id="modalCriterio" class="criteria-badge"></span></p>
+              <p><strong>📊 Estatus:</strong> <span id="modalEstatus" class="status-badge"></span></p>
+            </div>
           </div>
-          <div class="col-md-6">
-            <p><strong>🎯 Criterio:</strong> <span id="modalCriterio" class="criteria-badge"></span></p>
-            <p><strong>📊 Estatus:</strong> <span id="modalEstatus" class="status-badge"></span></p>
+
+          <hr>
+
+          <div class="row">
+            <div class="col-md-6">
+              <h6>Vacantes Recomendadas</h6>
+              <div class="evaluation-item">
+                <strong>Desarrollador PHP Senior</strong><br>
+                <small>95% de compatibilidad</small>
+              </div>
+              <div class="evaluation-item">
+                <strong>Analista QA</strong><br>
+                <small>87% de compatibilidad</small>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <h6>🤖 Evaluaciones de IA</h6>
+              <div class="evaluation-item">
+                <strong>💻 Habilidades técnicas</strong><br>
+                <span class="text-success">Excelente</span> (9.2/10)
+              </div>
+              <div class="evaluation-item">
+                <strong>💬 Comunicación</strong><br>
+                <span class="text-warning">Buena</span> (7.8/10)
+              </div>
+            </div>
           </div>
         </div>
-        
-        <hr>
-        
-        <div class="row">
-          <div class="col-md-6">
-            <h6>Vacantes Recomendadas</h6>
-            <div class="evaluation-item">
-              <strong>Desarrollador PHP Senior</strong><br>
-              <small>95% de compatibilidad</small>
-            </div>
-            <div class="evaluation-item">
-              <strong>Analista QA</strong><br>
-              <small>87% de compatibilidad</small>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <h6>🤖 Evaluaciones de IA</h6>
-            <div class="evaluation-item">
-              <strong>💻 Habilidades técnicas</strong><br>
-              <span class="text-success">Excelente</span> (9.2/10)
-            </div>
-            <div class="evaluation-item">
-              <strong>💬 Comunicación</strong><br>
-              <span class="text-warning">Buena</span> (7.8/10)
-            </div>
-          </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
         </div>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
       </div>
     </div>
   </div>
-</div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.bootstrap4.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.bootstrap4.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
 
-<script>
-$(document).ready(function() {
-  $('#tablaCandidatos').DataTable({
-    paging: true,
-    pageLength: 10,
-    lengthChange: true,
-    searching: true,
-    ordering: true,
-    order: [[0, 'asc']],
-    responsive: true,
-    language: {
-      "search": "Buscar:",
-      "lengthMenu": "Mostrar _MENU_ registros por página",
-      "zeroRecords": "No se encontraron registros",
-      "info": "Mostrando página _PAGE_ de _PAGES_",
-      "infoEmpty": "No hay registros disponibles",
-      "infoFiltered": "(filtrado de _MAX_ registros totales)",
-      "paginate": {
-        "first": "Primera",
-        "last": "Última",
-        "next": "Siguiente",
-        "previous": "Anterior"
+  <script>
+    $(document).ready(function() {
+      $('#tablaCandidatos').DataTable({
+        paging: true,
+        pageLength: 10,
+        lengthChange: true,
+        searching: true,
+        ordering: true,
+        order: [
+          [0, 'asc']
+        ],
+        responsive: true,
+        language: {
+          "search": "Buscar:",
+          "lengthMenu": "Mostrar _MENU_ registros por página",
+          "zeroRecords": "No se encontraron registros",
+          "info": "Mostrando página _PAGE_ de _PAGES_",
+          "infoEmpty": "No hay registros disponibles",
+          "infoFiltered": "(filtrado de _MAX_ registros totales)",
+          "paginate": {
+            "first": "Primera",
+            "last": "Última",
+            "next": "Siguiente",
+            "previous": "Anterior"
+          }
+        },
+        dom: '<"row"<"col-sm-12 col-md-6"B><"col-sm-12 col-md-6"f>>' +
+          '<"row"<"col-sm-12"tr>>' +
+          '<"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
+        buttons: [{
+          extend: 'excelHtml5',
+          text: 'Exportar a Excel',
+          className: 'btn btn-excel',
+          title: 'Candidatos_<?php echo $id_requisicion ? "Requisicion_" . $id_requisicion : "Todos"; ?>'
+        }]
+      });
+
+      // Abrir modal al hacer clic en el nombre
+      $('.detalle-candidato').on('click', function(e) {
+        e.preventDefault();
+
+        const nombre = $(this).data('nombre');
+        const ap = $(this).data('ap');
+        const email = $(this).data('email');
+        const titulo = $(this).data('titulo');
+        const estado = $(this).data('estado');
+        const criterio = $(this).data('criterio');
+        const estatus = $(this).data('estatus');
+
+        $('#modalNombre').text(nombre + ' ' + ap);
+        $('#modalEmail').text(email);
+        $('#modalTitulo').text(titulo);
+        $('#modalEstado').text(estado);
+        $('#modalCriterio').text(criterio).addClass(getCriteriaClass(criterio));
+        $('#modalEstatus').text(estatus).addClass(getStatusClass(estatus));
+
+        $('#modalDetalleCandidato').modal('show');
+      });
+
+      function getCriteriaClass(criterio) {
+        if (criterio === 'Viable') return 'criteria-viable';
+        if (criterio === 'Parcialmente viable') return 'criteria-parcial';
+        if (criterio === 'No viable') return 'criteria-no-viable';
+        return 'criteria-evaluacion';
       }
-    },
-    dom: '<"row"<"col-sm-12 col-md-6"B><"col-sm-12 col-md-6"f>>' +
-         '<"row"<"col-sm-12"tr>>' +
-         '<"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
-    buttons: [
-      {
-        extend: 'excelHtml5',
-        text: 'Exportar a Excel',
-        className: 'btn btn-excel',
-        title: 'Candidatos_<?php echo $id_requisicion ? "Requisicion_" . $id_requisicion : "Todos"; ?>'
+
+      function getStatusClass(estatus) {
+        if (estatus === 'Aceptado') return 'status-accepted';
+        if (estatus === 'En revisión') return 'status-review';
+        if (estatus === 'Rechazado') return 'status-rejected';
+        return 'status-review';
       }
-    ]
-  });
-
-  // Abrir modal al hacer clic en el nombre
-  $('.detalle-candidato').on('click', function(e){
-    e.preventDefault();
-    
-    const nombre = $(this).data('nombre');
-    const ap = $(this).data('ap');
-    const email = $(this).data('email');
-    const titulo = $(this).data('titulo');
-    const estado = $(this).data('estado');
-    const criterio = $(this).data('criterio');
-    const estatus = $(this).data('estatus');
-    
-    $('#modalNombre').text(nombre + ' ' + ap);
-    $('#modalEmail').text(email);
-    $('#modalTitulo').text(titulo);
-    $('#modalEstado').text(estado);
-    $('#modalCriterio').text(criterio).addClass(getCriteriaClass(criterio));
-    $('#modalEstatus').text(estatus).addClass(getStatusClass(estatus));
-    
-    $('#modalDetalleCandidato').modal('show');
-  });
-
-  function getCriteriaClass(criterio) {
-    if (criterio === 'Viable') return 'criteria-viable';
-    if (criterio === 'Parcialmente viable') return 'criteria-parcial';
-    if (criterio === 'No viable') return 'criteria-no-viable';
-    return 'criteria-evaluacion';
-  }
-
-  function getStatusClass(estatus) {
-    if (estatus === 'Aceptado') return 'status-accepted';
-    if (estatus === 'En revisión') return 'status-review';
-    if (estatus === 'Rechazado') return 'status-rejected';
-    return 'status-review';
-  }
-});
-</script>
+    });
+  </script>
 
 </body>
+
 </html>

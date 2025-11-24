@@ -281,3 +281,40 @@ class InformeSAP(models.Model):
     def __str__(self):
         return f"{self.nombre} ({self.url})"
 
+
+class Candidato(models.Model):
+    id_candidate = models.AutoField(primary_key=True)
+    correo_candidate = models.CharField(max_length=50)
+    nombre_candidate = models.CharField(max_length=45)
+    apellidop_candidate = models.CharField(max_length=50)
+    apellidom_candidate = models.CharField(max_length=50)
+    tel_candidate = models.CharField(max_length=20)
+    CV_candidate = models.CharField(max_length=255)
+    CV_id_onedrive = models.CharField(max_length=100)
+    token_verificacion = models.CharField(max_length=10, null=True, blank=True)
+    token_expira = models.DateTimeField(null=True, blank=True)
+    token_validado = models.BooleanField(default=False)
+
+    class Meta:
+        db_table = "candidato"
+        managed = False  # No tocar la tabla, solo leer/escribir
+
+
+class ComparacionCVPuesto(models.Model):
+    candidato = models.ForeignKey(Candidato, on_delete=models.CASCADE, related_name="comparaciones")
+    id_puesto = models.CharField(max_length=255)
+    resultado = models.TextField()
+    score = models.IntegerField()
+    fecha = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.candidato.nombre_candidate} vs {self.id_puesto} -> {self.score}%"
+
+
+class Puesto(models.Model):
+    req_id = models.CharField(max_length=50, unique=True)
+    descripcion_original = models.TextField()
+    descripcion_mejorada = models.TextField(null=True, blank=True)
+    fecha_mejora = models.DateTimeField(null=True, blank=True)
+
+
