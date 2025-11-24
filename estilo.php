@@ -1,7 +1,7 @@
 <?php
 include('modelo/obtenerDatos.php');
 include 'modelo/conexion_bd.php';
-include 'modelo/consultas_menu.php';
+# include 'modelo/consultas_menu.php';
 
 
 $id_adm = $_SESSION['id_adm'];

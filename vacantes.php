@@ -872,10 +872,19 @@ if (empty($vacantes)) {
             <span>Versión 1.0.0</span>
           </div>
           <div class="user-info">
-            <a href="menu.php">Home</a>
+            <a href="menu.php">Menu</a>
+          </div>
+          <div class="user-info">
+            <a href="vacantes.php">Vacantes</a>
           </div>
           <div class="user-info">
             <a href="candidatos.php">Candidatos</a>
+          </div>
+          <div class="user-info">
+            <a href="panel_admin_ia.php">Panel de Configuración</a>
+          </div>
+          <div class="user-info">
+            <a href="tokens.php">Tokens</a>
           </div>
           <div class="user-info">
             <a href="log_errores.php">Errores de los ChatBots</a>
@@ -884,7 +893,15 @@ if (empty($vacantes)) {
             <a href="#">Desarrollado por Giintape Innovahue</a>
             <span>Ayuda</span>
           </div>
-          <a href="https://billing.stripe.com/p/login/fZe3f33cggofeBy144" target="_blank">Actualizar Plan</a>
+
+          <div class="user-info">
+            <a href="#" id="sftpLink" data-toggle="modal" data-target="#sftpModal" style="text-decoration: none; color: inherit; display: block; margin-bottom: 10px;">
+              Integración SFTP
+            </a>
+
+            <a href="https://billing.stripe.com/p/login/fZe3f33cggofeBy144" target="_blank">Actualizar Plan</a>
+
+          </div>
           <a class="a1" href="cerrarSesion.php">Cerrar Sesión</a>
         </div>
       </div>

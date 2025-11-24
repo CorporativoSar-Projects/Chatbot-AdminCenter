@@ -31,6 +31,7 @@ include 'modelo/consultas_menu.php';
       </ul>
     </nav>-->
 
+
     <div class="user-dropdown">
       <div class="cont-btn-user" id="close-btn-user">
         <button class="btn-user" id="user-btn">
@@ -46,6 +47,41 @@ include 'modelo/consultas_menu.php';
           </div>
         </div>
         <div class="dropdown-links">
+          <div class="user-info">
+            <a href="#">Chatbot IXAH</a>
+            <span>Versión 1.0.0</span>
+          </div>
+          <div class="user-info">
+            <a href="menu.php">Menu</a>
+          </div>
+          <div class="user-info">
+            <a href="vacantes.php">Vacantes</a>
+          </div>
+          <div class="user-info">
+            <a href="candidatos.php">Candidatos</a>
+          </div>
+          <div class="user-info">
+            <a href="panel_admin_ia.php">Panel de Configuración</a>
+          </div>
+          <div class="user-info">
+            <a href="tokens.php">Tokens</a>
+          </div>
+          <div class="user-info">
+            <a href="log_errores.php">Errores de los ChatBots</a>
+          </div>
+          <div class="user-info">
+            <a href="#">Desarrollado por Giintape Innovahue</a>
+            <span>Ayuda</span>
+          </div>
+
+          <div class="user-info">
+            <a href="#" id="sftpLink" data-toggle="modal" data-target="#sftpModal" style="text-decoration: none; color: inherit; display: block; margin-bottom: 10px;">
+              Integración SFTP
+            </a>
+
+            <a href="https://billing.stripe.com/p/login/fZe3f33cggofeBy144" target="_blank">Actualizar Plan</a>
+
+          </div>
           <a class="a1" href="cerrarSesion.php">Cerrar Sesión</a>
         </div>
       </div>
@@ -88,7 +124,11 @@ include 'modelo/consultas_menu.php';
 
     async function cargarErroresAPI() {
       try {
-        const res = await fetch(`${API_BASE}/errores/`, { headers: { "X-CSRFToken": csrftoken } });
+        const res = await fetch(`${API_BASE}/errores/`, {
+          headers: {
+            "X-CSRFToken": csrftoken
+          }
+        });
         if (!res.ok) throw new Error(await res.text());
 
         const data = await res.json();
@@ -119,4 +159,5 @@ include 'modelo/consultas_menu.php';
   </script>
 
 </body>
+
 </html>
