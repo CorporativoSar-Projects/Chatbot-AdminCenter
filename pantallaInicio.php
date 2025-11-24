@@ -2,6 +2,8 @@
 
 
 include('modelo/obtenerDatos.php');
+include 'modelo/consultas_menu.php';
+
 
 $id_chatbot = $_SESSION['id_chatbot']?? null;
 ?>
@@ -21,7 +23,9 @@ $id_chatbot = $_SESSION['id_chatbot']?? null;
 
 <body>
     <div class="rectangulo-container">
+        <a href="menu.php">
         <img src="img/Logo_cabeza.svg" width="70px" alt="Logo" class="img-logo-chiq">
+        </a>
     </div>
 
     <header>
@@ -112,10 +116,25 @@ $id_chatbot = $_SESSION['id_chatbot']?? null;
                     </div>
 
                     <div>
+<<<<<<< HEAD
                         <label class="label-nombrechat">Mensaje inicial</label><br>
                         <textarea type="text" name="inp_saludo" id="inp_saludo"
                             placeholder=" ¡Hola! Soy IXAH, tu asistente virtual en el mundo laboral. ¿En qué te puedo ayudar hoy?"
                             class="input-saludo" minlength="2" maxlength="180"><?php echo htmlspecialchars($chatbot['inp_saludo'] ?? ''); ?></textarea> <br>
+=======
+                        <div style="position: relative; width: 45%;">
+                            <label class="label-nombrechat">Mensaje de saludo</label><br>
+                            <textarea name="inp_saludo" id="inp_saludo"
+                                placeholder=" ¡Hola! Soy IXAH, tu asistente virtual en el mundo laboral. ¿En qué te puedo ayudar hoy?"
+                                class="input-saludo" minlength="2" maxlength="180"
+                                style="width: 100%; padding-bottom: 20px;"><?php echo htmlspecialchars($chatbot['inp_saludo'] ?? ''); ?></textarea>
+
+                            <span id="contadorCaracteres"
+                                style="position: absolute; bottom: 5px; right: 10px; font-size: 12px; color: gray;">
+                                0 / 180
+                            </span>
+                        </div>
+>>>>>>> JessicaMoralesAguilar
 
                         <div class="container-conversacion">
                             <div class="asi-conversacion">
@@ -191,6 +210,8 @@ $id_chatbot = $_SESSION['id_chatbot']?? null;
         </div>
     </main>
 
+    <!--Modal de integración -->
+    <?php include 'modalIntegracion.php'; ?>
 
 
     <!-- jQuery y Bootstrap JavaScript -->

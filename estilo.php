@@ -1,7 +1,8 @@
 <?php
 include('modelo/obtenerDatos.php');
 include 'modelo/conexion_bd.php';
-include 'modalIntegracion.php';
+include 'modelo/consultas_menu.php';
+
 
 $id_adm = $_SESSION['id_adm'];
 $sql = "SELECT COUNT(*) AS total FROM chatbot WHERE Administrador_id_adm = ?";
@@ -42,7 +43,9 @@ if ($row['total'] >= 1 && isset($_GET['nuevo'])) {
 <body>
 
     <div class="rectangulo-container">
+        <a href="menu.php">
         <img src="img/Logo_cabeza.svg" width="70px" alt="Logo" class="img-logo-chiq">
+        </a>
     </div>
     <header>
         <div class="user-dropdown">
@@ -126,9 +129,15 @@ if ($row['total'] >= 1 && isset($_GET['nuevo'])) {
                     </div>
 
                     <div>
+                        <div style="position: relative; width: 100%;">
                         <label class="label-nombrechat">Nombre visible de tu ChatBot</label><br>
                         <input type="text" name="inp_nombre" id="inp_nombre" placeholder="IXAH"
-                            class="input-nombre" minlength="2" maxlength="10" required  value="<?php echo htmlspecialchars($chatbot['inp_nombre'] ?? ''); ?>"><br>
+                            class="input-nombre" minlength="2" maxlength="10" required value="<?php echo htmlspecialchars($chatbot['inp_nombre'] ?? ''); ?>">
+                            <br>
+                            <span id="contadorSty"  class="contador" >
+                                0 / 10
+                            </span>
+                        </div>
 
                         <div class="container-colors">
                             <div class="nombre-colord">
@@ -232,6 +241,8 @@ if ($row['total'] >= 1 && isset($_GET['nuevo'])) {
                 </div>
             </div>
     </main>
+<!--Modal de integración -->
+    <?php include 'modalIntegracion.php'; ?>
 
     <!-- jQuery y Bootstrap JavaScript -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

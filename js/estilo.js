@@ -72,6 +72,103 @@ function actualizarColores() {
 }
 
 
+// ==========================
+// FUNCIÓN PARA NORMALIZAR LA URL DEL LOGO
+// ==========================
+function normalizarURLImagen(url) {
+    if (!url) return "";
+
+    url = url.trim();
+
+    // Si NO empieza con http:// o https:// se agrega https://
+    if (!/^https?:\/\//i.test(url)) {
+        url = "https://" + url;
+    }
+
+    return url;
+}
+
+// Función que comprueba si la imagen realmente carga
+function verificarImagen(url) {
+    return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => resolve(true);
+        img.onerror = () => reject(false);
+        img.src = url;
+    });
+}
+
+const contador = document.getElementById('contadorSty');
+ 
+// Función para actualizar el contador
+function actualizarContador() {
+    const max = txtNombreChat.getAttribute('maxlength');
+    contador.textContent = `${txtNombreChat.value.length} / ${max}`;
+}
+
+// ---------- PREVISUALIZAR IMAGEN ----------
+function previsualizarImagen() {
+    const urlInput = document.getElementById('urlLogotipo');
+    const chatbotIcon = document.getElementById('chatbotIcon');
+    let logoURL = normalizarURLImagen(urlInput.value.trim());
+
+    if (logoURL !== '') {
+        verificarImagen(logoURL)
+            .then(() => {
+                chatbotIcon.src = logoURL;
+                localStorage.setItem('chatbotLogo', logoURL);
+            })
+            .catch(() => {
+                chatbotIcon.removeAttribute('src');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error al cargar el logotipo',
+                    text: 'No se pudo cargar la imagen desde la URL proporcionada. Verifica el enlace.',
+                    confirmButtonColor: '#ffb703'
+                });
+            });
+    } else {
+        chatbotIcon.removeAttribute('src');
+        Swal.fire({
+            icon: 'warning',
+            title: 'Sin logotipo',
+            text: 'Por favor, ingresa una URL para el logotipo.',
+            confirmButtonColor: '#ffb703'
+        });
+    }
+}
+
+
+// Cambio en tiempo real del logo al escribir la URL
+document.getElementById("urlLogotipo").addEventListener("input", function () {
+    const rawURL = this.value.trim();
+    const chatbotIcon = document.getElementById("chatbotIcon");
+
+      if (rawURL === "") {
+        chatbotIcon.removeAttribute("src");
+        return;
+    }
+
+   // Normalizar solo para previsualizar, NO sobreescribe el input
+    const urlNormalizada = normalizarURLImagen(rawURL);
+
+
+    verificarImagen(urlNormalizada)
+        .then(() => {
+            chatbotIcon.src = urlNormalizada;
+            localStorage.setItem("chatbotLogo", urlNormalizada);
+        })
+        .catch(() => {
+            chatbotIcon.removeAttribute("src");
+        });
+});
+
+// Normalizar cuando el usuario termina de escribir
+document.getElementById("urlLogotipo").addEventListener("blur", function () {
+    if (this.value.trim() === "") return;
+    this.value = normalizarURLImagen(this.value.trim());
+});
+
 const txtNombreChat = document.querySelector('#inp_nombre');
 const divCopiaNombre = document.getElementById('txt-titulo-chat');
 
@@ -80,7 +177,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (nombreGuardado) {
         txtNombreChat.value = nombreGuardado;
         divCopiaNombre.innerHTML = nombreGuardado;
-    }
+   }
+    actualizarContador();
+
     const logoURL = localStorage.getItem('chatbotLogo');
     if (logoURL) {
         const urlInput = document.getElementById('urlLogotipo');
@@ -96,6 +195,7 @@ txtNombreChat.addEventListener('keyup', () => {
     const nombre = txtNombreChat.value;
     divCopiaNombre.innerHTML = nombre;
     localStorage.setItem('inp_nombre', nombre);
+    actualizarContador();
 });
 
 // Función para previsualizar la imagen desde url
@@ -121,10 +221,15 @@ document.getElementById("btnGuardarEstilo").addEventListener("click", function (
 
      // Tomar primero la URL actual del input o el valor de localStorage o la imagen por defecto
     const urlLogotipoInput = document.getElementById("urlLogotipo").value.trim();
-    const logoURL = urlLogotipoInput || localStorage.getItem("chatbotLogo") || "img/logochiquito.png";
+    const logoPrevio = localStorage.getItem("chatbotLogo") || "";
+    const logoURL = urlLogotipoInput !== "" ? urlLogotipoInput : logoPrevio;
 
+   // Solo guardar si el usuario escribió una nueva URL
+        if (urlLogotipoInput !== "") {
+            logoURL = urlLogotipoInput;
+            localStorage.setItem("chatbotLogo", logoURL);
+        }
 
-    localStorage.setItem("chatbotLogo", logoURL);
     //Objeto con el que los datos se van a guardar
     const data = {
         inp_nombre: document.getElementById("inp_nombre").value,

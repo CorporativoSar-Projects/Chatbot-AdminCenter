@@ -12,12 +12,13 @@ if (!isset($_SESSION['id_adm'])) {
 
 <head>
   <meta charset="UTF-8">
-  <title>Chatbot JobHelper - Admin Center</title>
+  <title>IXAH Interactivo</title>
   <link rel="stylesheet" href="css/styles_prueba.css">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+  <link rel="shortcut icon" href="img/Logo_cabeza.svg" />
 </head>
 
 <body>

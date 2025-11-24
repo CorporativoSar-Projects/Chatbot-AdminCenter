@@ -41,17 +41,25 @@ if ($resChat->num_rows === 0) {
 $config = $resChat->fetch_assoc();
 
 // 3. Verificar si la integración SFTP está activa
-$sqlSftp = "SELECT activo FROM integracion_sftp WHERE Empresa_id_emp = ? LIMIT 1";
+$sqlSftp = "SELECT tipo_integracion, activo, url_estandar  FROM integracion_sftp WHERE Empresa_id_emp = ? LIMIT 1";
 $stmtSftp = $conexion->prepare($sqlSftp);
 $stmtSftp->bind_param("s", $id_emp);
 $stmtSftp->execute();
 $resSftp = $stmtSftp->get_result();
 
-$config['sftp_activo'] = false;
+// Valores por defecto
+$config['integracion_activa'] = false;
+$config['tipo_integracion'] = "estandar";
+$config['url_estandar'] = null;
+
 if ($resSftp->num_rows > 0) {
-    $sftp = $resSftp->fetch_assoc();
-    $config['sftp_activo'] = (bool)$sftp['activo'];
+    $integ = $resSftp->fetch_assoc();
+
+    $config['integracion_activa'] = (bool)$integ['activo'];
+    $config['tipo_integracion'] = $integ['tipo_integracion'] ?? "estandar";
+    $config['url_estandar'] = $integ['url_estandar'] ?? null;  // ⚠ tu campo real es url_estandar
 }
+
 
 echo json_encode($config);
 

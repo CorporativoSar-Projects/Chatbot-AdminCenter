@@ -1,6 +1,8 @@
 <?php
 
 include ('modelo/obtenerDatos.php');
+include 'modelo/consultas_menu.php';
+
 
 
 $id_chatbot = $_SESSION['id_chatbot'] ?? null;
@@ -24,7 +26,9 @@ $id_chatbot = $_SESSION['id_chatbot'] ?? null;
 
 <body>
     <div class="rectangulo-container">
+        <a href="menu.php">
         <img src="img/Logo_cabeza.svg" width="70px" alt="Logo" class="img-logo-chiq">
+        </a>
     </div>
 
     <header>
@@ -108,15 +112,20 @@ $id_chatbot = $_SESSION['id_chatbot'] ?? null;
                         <img src="img/icono-dia.png" class="img-icono-dia">
                         <div class="container-despedida">
                             <p class="txt-crea-conv">Mensaje de despedida</p>
-                            <!-- <p>Muéstrales a tus clientes que el chat está aquí para ayudarte.</p> -->
+                            <p>Muéstrales a tus clientes que el chat está aquí para ayudarte.</p>
                         </div>
                     </div>
 
-                    <div>
+                    <div style="position: relative; width: 100%;">
+                        <label class="label-nombrechat">Mensaje de despedida </label><br>
                         <textarea id="inp_despedida"
                             placeholder="Gracias por usarme, me dio mucho gusto poder ayudarte... ¡Hasta la próxima!"
                             class="input-despedida" required maxlength="280"><?php echo htmlspecialchars($chatbot['inp_despedida'] ?? ''); ?></textarea><br>
-                    </div>
+                     <span id="contadorCaracteres" >
+                                0 / 280
+                            </span>
+                     </div>
+
 
                     <div class="chatbot-principal">
                         <div class="chatbot-container">
@@ -150,9 +159,10 @@ $id_chatbot = $_SESSION['id_chatbot'] ?? null;
                                     ?>
                                 </p>
                                 <?php
-                                $logodes = (!empty($chatbot['urlLogotipo'])) ? $chatbot['urlLogotipo'] : 'img/Logo_principal.svg';
+                                //$logodes = (!empty($chatbot['urlLogotipo'])) ? $chatbot['urlLogotipo'] : 'img/Logo_principal.svg';
                                 ?>
-                                <img src="<?php echo htmlspecialchars($logodes); ?>" alt="" style="margin: 0 auto; display: block; width: 100px; height: auto; max-width: 100%; overflow: hidden;" />
+
+                                <!--<img src="<?php echo htmlspecialchars($logodes); ?>" alt=""  />-->
 
                             </div>
                             <div id="user-input-container" class="user-input-container">
@@ -167,7 +177,8 @@ $id_chatbot = $_SESSION['id_chatbot'] ?? null;
         </div>
     </main>
 
-
+        <!--Modal de integración -->
+    <?php include 'modalIntegracion.php'; ?>
 
     <!-- jQuery y Bootstrap JavaScript -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

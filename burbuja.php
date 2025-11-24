@@ -1,6 +1,7 @@
 <?php
+include('modelo/obtenerDatos.php');
+include 'modelo/consultas_menu.php';
 
-include ('modelo/obtenerDatos.php');
 
 
 $id_chatbot = $_SESSION['id_chatbot'] ?? null;
@@ -24,8 +25,9 @@ $id_chatbot = $_SESSION['id_chatbot'] ?? null;
 <body>
 
     <div class="rectangulo-container">
-
-        <img src="img/Logo_cabeza.svg" width="70px" alt="Logo" class="img-logo-chiq">
+        <a href="menu.php">
+            <img src="img/Logo_cabeza.svg" width="70px" alt="Logo" class="img-logo-chiq">
+        </a>
     </div>
     <header>
         <!-- <nav class="navbar">
@@ -127,9 +129,16 @@ $id_chatbot = $_SESSION['id_chatbot'] ?? null;
                     </div>
 
                     <div>
+
+                    <div style="position: relative; width: 100%;">
                         <label class="label-nombrechat">Mensaje</label><br>
                         <input type="text" name="inp_burbuja" id="inp_burbuja" placeholder="¡Encuentra vacantes!"
-                            class="input-burbuja" minlength="2" maxlength="20" required  value="<?php echo htmlspecialchars($chatbot['inp_burbuja'] ?? '' ); ?>"><br>
+                            class="input-burbuja" minlength="2" maxlength="20" required value="<?php echo htmlspecialchars($chatbot['inp_burbuja'] ?? ''); ?>"><br>
+                            <span id="contadorBurbu" class="contador"  >
+                                0 / 20
+                            </span>
+                        </div>
+
 
                         <div class="container-colors">
                             <div class="nombre-colord">
@@ -167,7 +176,7 @@ $id_chatbot = $_SESSION['id_chatbot'] ?? null;
 
                 </div>
     </main>
-
+    <?php include 'modalIntegracion.php'; ?>
     <!-- jQuery y Bootstrap JavaScript -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
