@@ -4,40 +4,40 @@ const API_BASE = "http://localhost:8000/api";
 
 // PRIMERO definir toggleComparisonButtons
 function toggleComparisonButtons(show) {
-    const buttons = document.querySelectorAll('.btn-compare-candidate');
-    buttons.forEach(button => {
-        button.style.display = show ? 'block' : 'none';
-    });
-    
-    // Ocultar otros botones cuando se muestran los de comparación
-    if (show) {
-        toggleSelectionButtons(false);
-        toggleImproveButtons(false);
-    }
+  const buttons = document.querySelectorAll(".btn-compare-candidate");
+  buttons.forEach((button) => {
+    button.style.display = show ? "block" : "none";
+  });
+
+  // Ocultar otros botones cuando se muestran los de comparación
+  if (show) {
+    toggleSelectionButtons(false);
+    toggleImproveButtons(false);
+  }
 }
 
 // LUEGO las otras funciones
 function toggleSelectionButtons(show) {
-    const buttons = document.querySelectorAll(".btn-select-candidate");
-    buttons.forEach((button) => {
-        button.style.display = show ? "block" : "none";
-    });
-    // Ocultar botones de mejora cuando se muestran los de análisis
-    if (show) {
-        toggleImproveButtons(false);
-    }
+  const buttons = document.querySelectorAll(".btn-select-candidate");
+  buttons.forEach((button) => {
+    button.style.display = show ? "block" : "none";
+  });
+  // Ocultar botones de mejora cuando se muestran los de análisis
+  if (show) {
+    toggleImproveButtons(false);
+  }
 }
 
 function toggleImproveButtons(show) {
-    const buttons = document.querySelectorAll(".btn-improve-job");
-    buttons.forEach((button) => {
-        button.style.display = show ? "block" : "none";
-    });
+  const buttons = document.querySelectorAll(".btn-improve-job");
+  buttons.forEach((button) => {
+    button.style.display = show ? "block" : "none";
+  });
 
-    // Ocultar botones de análisis cuando se muestran los de mejora
-    if (show) {
-        toggleSelectionButtons(false);
-    }
+  // Ocultar botones de análisis cuando se muestran los de mejora
+  if (show) {
+    toggleSelectionButtons(false);
+  }
 }
 
 // DEMAS FUNCIONES //
@@ -962,6 +962,7 @@ function mostrarModalPuestos(puestos) {
         align-items: center;
         padding-top: 15px;
         border-top: 1px solid #dee2e6;
+        gap: 10px;
     `;
 
   const counter = document.createElement("div");
@@ -973,8 +974,21 @@ function mostrarModalPuestos(puestos) {
   cancelButton.className = "btn btn-secondary";
   cancelButton.onclick = () => document.body.removeChild(modalOverlay);
 
+  // NUEVO BOTÓN DE COMPARATIVA MANUAL
+  const manualButton = document.createElement("button");
+  manualButton.textContent = "📝 Comparativa Manual";
+  manualButton.className = "btn btn-info";
+  manualButton.style.background =
+    "linear-gradient(135deg, #17a2b8 0%, #20c997 100%)";
+  manualButton.style.border = "none";
+  manualButton.onclick = () => {
+    document.body.removeChild(modalOverlay);
+    mostrarComparativaManual(candidato.id_candidate);
+  };
+
   modalFooter.appendChild(counter);
   modalFooter.appendChild(cancelButton);
+  modalFooter.appendChild(manualButton);  // Agregar el nuevo botón
 
   // Ensamblar el modal
   modalContent.appendChild(modalHeader);
@@ -1363,7 +1377,19 @@ async function mostrarModalPuestosParaComparacion(candidato) {
     cancelButton.className = "btn btn-secondary";
     cancelButton.onclick = cerrarModal;
 
+     // NUEVO BOTÓN DE COMPARATIVA MANUAL - usar el parámetro candidato
+    const manualButton = document.createElement("button");
+    manualButton.textContent = "📝 Comparativa Manual";
+    manualButton.className = "btn btn-info";
+    manualButton.style.background = "linear-gradient(135deg, #17a2b8 0%, #20c997 100%)";
+    manualButton.style.border = "none";
+    manualButton.onclick = () => {
+        document.body.removeChild(modalOverlay);
+        mostrarComparativaManual(candidato.id_candidate);  // ✅ Ahora candidato está definido
+    };
+
     modalFooter.appendChild(counter);
+    modalFooter.appendChild(manualButton);
     modalFooter.appendChild(cancelButton);
 
     // Ensamblar el modal
@@ -1588,4 +1614,243 @@ function activarComparacionCV() {
     'Por favor, selecciona un candidato de la tabla haciendo clic en "🔍 Comparar CV con SAP"',
     "bot-message"
   );
+}
+
+// COMPARATIVA MANUAL
+
+// Función para mostrar modal de comparativa manual
+function mostrarComparativaManual(candidatoId) {
+  const candidato = candidatosData.find((c) => c.id_candidate == candidatoId);
+  if (!candidato) return;
+
+  // Crear modal overlay
+  const modalOverlay = document.createElement("div");
+  modalOverlay.id = "comparativa-manual-overlay";
+  modalOverlay.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 43, 69, 0.95);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 10000;
+        padding: 20px;
+    `;
+
+  // Contenido del modal
+  const modalContent = document.createElement("div");
+  modalContent.style.cssText = `
+        background: white;
+        border-radius: 15px;
+        padding: 30px;
+        max-width: 800px;
+        width: 90%;
+        max-height: 90vh;
+        overflow-y: auto;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    `;
+
+  modalContent.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid #002B45;">
+            <h3 style="margin: 0; color: #002B45; font-weight: 700;">
+                📝 Comparativa Manual - ${candidato.nombre_candidate} ${
+    candidato.apellidop_candidate
+  }
+            </h3>
+            <button onclick="cerrarComparativaManual()" style="background: #dc3545; color: white; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 24px; cursor: pointer;">
+                ×
+            </button>
+        </div>
+
+        <div style="margin-bottom: 20px;">
+            <p><strong>👤 Candidato:</strong> ${candidato.nombre_candidate} ${
+    candidato.apellidop_candidate
+  }</p>
+            <p><strong>📧 Email:</strong> ${candidato.correo_candidate}</p>
+            <p><strong>💼 Puesto aplicado:</strong> ${
+              candidato.puesto || "No especificado"
+            }</p>
+        </div>
+
+        <div style="margin-bottom: 25px;">
+            <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #002B45;">
+                📋 Descripción de la vacante (manual):
+            </label>
+            <textarea 
+                id="descripcion-vacante-manual" 
+                rows="8" 
+                placeholder="Escribe aquí la descripción completa del puesto, requisitos, responsabilidades, habilidades requeridas..."
+                style="width: 100%; padding: 15px; border: 2px solid #e9ecef; border-radius: 10px; font-size: 14px; resize: vertical; font-family: inherit;"
+            ></textarea>
+            <small style="color: #6c757d; display: block; margin-top: 5px;">
+                ⓘ Describe detalladamente el puesto para una comparación más precisa con el CV del candidato.
+            </small>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; gap: 15px;">
+            <button onclick="cerrarComparativaManual()" class="btn btn-secondary" style="flex: 1;">
+                ← Cancelar
+            </button>
+            <button onclick="enviarComparativaManual(${candidatoId})" class="btn btn-primary" style="flex: 2; background: linear-gradient(135deg, #002B45 0%, #3ca6e5 100%); border: none;">
+                🔍 Comparar con IA
+            </button>
+        </div>
+    `;
+
+  modalOverlay.appendChild(modalContent);
+  document.body.appendChild(modalOverlay);
+
+  // Cerrar modal al hacer click fuera
+  modalOverlay.onclick = (e) => {
+    if (e.target === modalOverlay) {
+      cerrarComparativaManual();
+    }
+  };
+}
+
+// Función para cerrar el modal
+function cerrarComparativaManual() {
+  const modal = document.getElementById("comparativa-manual-overlay");
+  if (modal) {
+    document.body.removeChild(modal);
+  }
+  setTimeout(() => {
+    mostrarConfirmacionAyuda();
+  }, 500);
+}
+
+// Función para enviar la comparativa manual
+async function enviarComparativaManual(candidatoId) {
+  const textoManual = document
+    .getElementById("descripcion-vacante-manual")
+    .value.trim();
+
+  if (!textoManual) {
+    Swal.fire(
+      "⚠️",
+      "Por favor ingresa la descripción de la vacante.",
+      "warning"
+    );
+    return;
+  }
+
+  // Cerrar modal
+  cerrarComparativaManual();
+
+  // Mostrar mensaje en el chat
+  addMessage(
+    `Quiero comparar manualmente el CV con una descripción de vacante`,
+    "user-message"
+  );
+
+  const loadingHTML = `
+        <div class="candidate-analysis">
+            <h5>🔍 Comparativa Manual en Proceso</h5>
+            <div class="analysis-field">
+                <strong>🔄 Proceso:</strong> Analizando compatibilidad del CV con la descripción manual...
+            </div>
+            <div class="analysis-field">
+                <strong>📊 Estado:</strong> Consultando con IA...
+            </div>
+        </div>
+    `;
+  addHTMLMessage(loadingHTML, "bot-message");
+
+  try {
+    const response = await fetch(
+      `${API_BASE}/comparar_manual/${candidatoId}/`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          texto_manual: textoManual,
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`Error HTTP: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    if (data.error) {
+      throw new Error(data.error);
+    }
+
+    // Mostrar resultados de la comparación
+    mostrarResultadoComparativaManual(data, candidatoId);
+  } catch (error) {
+    console.error("Error en comparativa manual:", error);
+
+    const errorHTML = `
+            <div class="chat-message bot-message">
+                <div style="color: #dc3545; font-weight: bold;">❌ Error en comparativa manual</div>
+                <p>No se pudo completar la comparación. Por favor intenta nuevamente.</p>
+                <button class="special-btn" onclick="mostrarComparativaManual(${candidatoId})" 
+                        style="background: linear-gradient(135deg, #dc3545 0%, #e83e8c 100%); margin-top: 10px;">
+                    🔄 Reintentar
+                </button>
+            </div>
+        `;
+    addHTMLMessage(errorHTML, "bot-message");
+  }
+}
+
+// Función para mostrar resultados de la comparativa manual
+function mostrarResultadoComparativaManual(data, candidatoId) {
+  const candidato = candidatosData.find((c) => c.id_candidate == candidatoId);
+  const score = data.score || 0;
+  const scoreColor =
+    score >= 80 ? "#28a745" : score >= 60 ? "#ffc107" : "#dc3545";
+  const scoreText =
+    score >= 80
+      ? "Alta compatibilidad"
+      : score >= 60
+      ? "Compatibilidad media"
+      : "Baja compatibilidad";
+
+  const resultadoHTML = `
+        <div class="candidate-analysis" style="border-left: 4px solid ${scoreColor};">
+            <h5>📊 Resultado de Comparativa Manual</h5>
+            
+            <div class="analysis-field">
+                <strong>👤 Candidato:</strong> ${candidato.nombre_candidate} ${candidato.apellidop_candidate}
+            </div>
+            
+            <div class="analysis-field">
+                <strong>🎯 Puntuación de Compatibilidad:</strong>
+                <div style="background: ${scoreColor}; color: white; padding: 12px; border-radius: 8px; text-align: center; margin-top: 5px; font-weight: bold; font-size: 20px;">
+                    ${score}/100 - ${scoreText}
+                </div>
+            </div>
+            
+            <div class="analysis-field">
+                <strong>📋 Tipo:</strong> Comparación Manual vs Descripción Personalizada
+            </div>
+        </div>
+        
+        <div class="special-buttons" style="margin-top: 15px;">
+            <button class="special-btn" onclick="mostrarComparativaManual(${candidatoId})" 
+                    style="background: linear-gradient(135deg, #17a2b8 0%, #20c997 100%);">
+                🔄 Nueva Comparación Manual
+            </button>
+            <button class="special-btn" onclick="activarComparacionCV()" 
+                    style="background: linear-gradient(135deg, #6f42c1 0%, #e83e8c 100%);">
+                📊 Comparar con Puesto SAP
+            </button>
+        </div>
+    `;
+
+  addHTMLMessage(resultadoHTML, "bot-message");
+
+  // Mostrar confirmación después de mostrar resultados
+  setTimeout(() => {
+    mostrarConfirmacionAyuda();
+  }, 1000);
 }

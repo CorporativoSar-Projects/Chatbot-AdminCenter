@@ -1,5 +1,7 @@
 from io import BytesIO
-
+import PyPDF2
+import requests
+import io
 import json
 import os
 import traceback
@@ -127,8 +129,8 @@ def call_openai_with_context(user_message):
     except Exception as e:
         # Guardar log del error
         ChatErrorLog.objects.create(
-            user=None,              # O asigna request.user si lo usas dentro de un view
-            session_id=None,        # O asigna la sesión actual si la tienes
+            user=None,  # O asigna request.user si lo usas dentro de un view
+            session_id=None,  # O asigna la sesión actual si la tienes
             user_message=user_message,
             error_code=500,
             error_text=str(e)
@@ -1219,6 +1221,7 @@ def mejorar_puesto_y_guardar(req_id: str) -> str:
 
     return descripcion_mejorada
 
+
 # SELECCION WEB
 
 '''
@@ -1237,5 +1240,200 @@ def mejorar_puesto_view(request, req_id):
         return JsonResponse({"error": str(e)}, status=500)
 
 
+##  COMPARAR CV CON DESCRIPCIÓN MANUAL
 
+
+def comparar_cv_con_texto_manual(candidato, texto_manual: str):
+    """
+    Compara el CV del candidato contra una descripción manual escrita en un textarea.
+    """
+
+    # 1. Obtener URL del CV
+    cv_url = candidato.CV_candidate
+    if not cv_url:
+        raise ValueError("El candidato no tiene URL de CV")
+
+    # 2. Extraer texto real del PDF del CV
+    cv_texto = descargar_texto_cv(cv_url)
+
+    # 3. Preparar prompt para IA
+    prompt = f"""
+Analiza el CV y compáralo con la descripción manual.
+
+### CV
+{cv_texto}
+
+### DESCRIPCIÓN MANUAL
+{texto_manual}
+
+### RESPUESTA
+Devuelve:
+- compatibilidad (0-100)
+- fortalezas
+- debilidades
+- resumen
+En formato JSON.
+"""
+
+    # 4. Llamar a OpenAI
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[{"role": "user", "content": prompt}]
+    )
+
+    resultado_texto = response.choices[0].message.content
+
+    # 5. Extraer score mínimo
+    score = 0
+    for s in range(100, -1, -1):
+        if str(s) in resultado_texto:
+            score = s
+            break
+
+    # 6. Guardar en DB
+    registro = ComparacionCVPuesto.objects.create(
+        candidato=candidato,
+        id_puesto="manual",  # o NULL si tu modelo lo permite
+        resultado=resultado_texto,
+        score=score
+    )
+
+    return registro
+
+
+@csrf_exempt
+def comparar_candidato_manual_view(request, candidato_id):
+    """
+    Compara el CV de un candidato contra un texto manual escrito en un textarea.
+    """
+    print("=== [LOG] Iniciando comparar_candidato_manual_view ===")
+    print(f"[LOG] candidato_id recibido: {candidato_id}")
+
+    if request.method != "POST":
+        return JsonResponse({"error": "POST requerido"}, status=400)
+
+    # 1. Leer texto manual desde request
+    data = json.loads(request.body.decode("utf-8"))
+    texto_manual = data.get("texto_manual", "").strip()
+
+    if not texto_manual:
+        return JsonResponse({"error": "Se requiere texto_manual"}, status=400)
+
+    print("[LOG] Texto manual recibido:")
+    print(texto_manual[:200], "...")
+
+    try:
+        # 2. Obtener candidato de BD
+        print("[LOG] Buscando candidato...")
+        candidato = Candidato.objects.get(id_candidate=candidato_id)
+        print("[LOG] Candidato encontrado correctamente")
+
+        # 3. Realizar comparación
+        print("[LOG] Comparando CV contra descripción manual...")
+        resultado = comparar_cv_con_texto_manual(candidato, texto_manual)
+
+        print("[LOG] Comparación completada correctamente")
+
+        return JsonResponse({
+            "ok": True,
+            "candidato_id": candidato_id,
+            "resultado_id": resultado.id,
+            "score": resultado.score,
+        })
+
+    except Candidato.DoesNotExist:
+        print("[ERROR] Candidato no existe")
+        return JsonResponse({"error": "Candidato no existe"}, status=404)
+
+    except Exception as e:
+        print("[ERROR] Excepción inesperada:")
+        import traceback
+        traceback.print_exc()
+        return JsonResponse({"error": str(e)}, status=500)
+
+
+''' SOLO PARA DETALLES '''
+
+
+@csrf_exempt
+def extraer_puesto_candidato(request, candidato_id):
+    """
+    Extrae el puesto del CV del candidato para mostrar en el modal
+    """
+    try:
+        candidato = Candidato.objects.get(id_candidate=candidato_id)
+
+        puesto_extraido = "No especificado"
+
+        if candidato.CV_candidate:
+            puesto_extraido = extraer_puesto_desde_cv(candidato.CV_candidate)
+            # Actualizar en la base de datos para futuras consultas
+            candidato.puesto = puesto_extraido
+            candidato.save()
+
+        return JsonResponse({
+            "puesto_extraido": puesto_extraido,
+            "candidato_id": candidato_id
+        })
+
+    except Candidato.DoesNotExist:
+        return JsonResponse({"error": "Candidato no existe"}, status=404)
+    except Exception as e:
+        return JsonResponse({"puesto_extraido": "No especificado"})  # Fallback
+
+
+def extraer_puesto_desde_cv(cv_url):
+    """
+    Intenta extraer el puesto/posición del texto del CV PDF
+    """
+    try:
+        # Descargar el PDF
+        response = requests.get(cv_url)
+        pdf_file = io.BytesIO(response.content)
+
+        # Leer PDF
+        pdf_reader = PyPDF2.PdfReader(pdf_file)
+        texto_cv = ""
+
+        for page in pdf_reader.pages:
+            texto_cv += page.extract_text()
+
+        # Buscar patrones comunes de puesto
+        patrones_puesto = [
+            "Objective:",
+            "Summary:",
+            "Position:",
+            "Puesto:",
+            "Cargo:",
+            "Título:",
+            "Applied for:",
+            "Seeking:",
+            "Aspirante a:"
+        ]
+
+        # Buscar en las primeras líneas (donde suele estar el puesto)
+        lineas = texto_cv.split('\n')
+        for i, linea in enumerate(lineas[:20]):  # Primeras 20 líneas
+            linea_limpia = linea.strip()
+
+            # Si la línea parece un título/puesto (no vacía, no demasiado larga)
+            if (linea_limpia and
+                    len(linea_limpia) < 100 and
+                    any(palabra in linea_limpia for palabra in
+                        ['Engineer', 'Developer', 'Manager', 'Analyst', 'Coordinator', 'Specialist'])):
+                return linea_limpia
+
+            # Buscar después de patrones clave
+            for patron in patrones_puesto:
+                if patron.lower() in linea.lower():
+                    if i + 1 < len(lineas):
+                        siguiente_linea = lineas[i + 1].strip()
+                        if siguiente_linea:
+                            return siguiente_linea
+
+        return "Extraído del CV"  # Fallback
+
+    except Exception as e:
+        print(f"Error extrayendo puesto del CV: {e}")
+        return "No especificado"
 

@@ -41,4 +41,9 @@ urlpatterns = [
     path("api/comparar/<int:candidato_id>/<int:req_id>/", views.comparar_candidato_view, name="comparar_candidato"),
     # MEJORAR PUESTO DESDE INFORME SAP SSFF
     path("api/mejorar-puesto/<str:req_id>/", views.mejorar_puesto_view, name="mejorar_puesto"),
+    # COMPARATIVA MANUAL
+    path("api/comparar_manual/<int:candidato_id>/", views.comparar_candidato_manual_view, name="comparativa_manual"),
+    # EXTRAER PUESTO DESDE CV
+    path('api/extraer_puesto_candidato/<int:candidato_id>/', views.extraer_puesto_candidato, name='extraer_puesto_candidato'),
+    path('api/comparar_manual/<int:candidato_id>/', views.comparar_candidato_manual_view, name='comparativa_manual'),
 ]
