@@ -1173,30 +1173,58 @@ def mejorar_puesto_y_guardar(req_id: str) -> str:
     from django.utils import timezone
     from .models import Puesto
 
-    # Convertir a entero para que coincida con el CSV
+    print("==== INICIO PROCESO ====")
+    print(f"req_id recibido: {req_id}")
+
+    # Convertir a entero
     try:
         req_int = int(req_id)
+        print(f"req_id convertido a entero: {req_int}")
     except:
+        print("ERROR: req_id inválido")
         raise ValueError("req_id inválido")
 
     # 1. Leer CSV
+    print("Leyendo CSV puestos.csv...")
     df = pd.read_csv("puestos.csv", encoding="utf-8")
+    print("CSV cargado correctamente.")
 
-    # Asegurar que la columna es numérica
     df["reqId_ix"] = pd.to_numeric(df["reqId_ix"], errors="coerce")
+    print("Conversión de columna reqId_ix a numérica completada.")
 
     fila = df[df["reqId_ix"].astype(str) == str(req_id)]
+    print(f"Coincidencias encontradas: {len(fila)}")
 
     if fila.empty:
+        print(f"ERROR: Puesto {req_id} no está en el CSV.")
         raise ValueError(f"Puesto {req_id} NO está en el CSV")
 
-    descripcion_original = fila["jobDesc_ix"].iloc[0]
+    # descripcion_original = fila["jobDesc_ix"].iloc[0]
+    from bs4 import BeautifulSoup
 
-    # 2. Llamar a la IA
+    html_original = fila["jobDesc_ix"].iloc[0]
+    soup = BeautifulSoup(html_original, "html.parser")
+    descripcion_original = soup.get_text(separator=" ", strip=True)
+
+    # --- FALLBACK SI EL TEXTO QUEDÓ VACÍO O MUY CORTO ---
+    if descripcion_original is None or len(descripcion_original.strip()) < 30:
+        descripcion_original = html_original.strip()
+
+    print("Descripción original encontrada:")
+    print(descripcion_original)
+
+    # 2. Llamar a IA (prompt estricto)
     prompt = (
-        "Mejora profesionalmente la siguiente descripción sin inventar funciones nuevas:\n\n"
+        "Mejora profesionalmente la siguiente descripción, "
+        "SIN agregar funciones nuevas, "
+        "SIN explicaciones, "
+        "SIN saludos. "
+        "Devuelve solo el texto mejorado:\n\n"
         f"{descripcion_original}"
     )
+
+    print("Llamando a IA con prompt:")
+    print(prompt)
 
     response = client.chat.completions.create(
         model="gpt-5-nano",
@@ -1206,11 +1234,14 @@ def mejorar_puesto_y_guardar(req_id: str) -> str:
         ]
     )
 
-    # descripcion_mejorada = response.choices[0].message["content"]
     descripcion_mejorada = response.choices[0].message.content
 
-    # 3. Guardar en BD
-    puesto, _ = Puesto.objects.update_or_create(
+    print("Respuesta recibida de la IA:")
+    print(descripcion_mejorada)
+
+    # 3. Guardar
+    print("Guardando en la base de datos...")
+    puesto, creado = Puesto.objects.update_or_create(
         req_id=req_int,
         defaults={
             "descripcion_original": descripcion_original,
@@ -1218,6 +1249,10 @@ def mejorar_puesto_y_guardar(req_id: str) -> str:
             "fecha_mejora": timezone.now()
         }
     )
+
+    print("Registro guardado.")
+    print(f"¿Se creó nuevo? {creado}")
+    print("==== FIN PROCESO ====")
 
     return descripcion_mejorada
 

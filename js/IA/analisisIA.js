@@ -974,21 +974,8 @@ function mostrarModalPuestos(puestos) {
   cancelButton.className = "btn btn-secondary";
   cancelButton.onclick = () => document.body.removeChild(modalOverlay);
 
-  // NUEVO BOTÓN DE COMPARATIVA MANUAL
-  const manualButton = document.createElement("button");
-  manualButton.textContent = "📝 Comparativa Manual";
-  manualButton.className = "btn btn-info";
-  manualButton.style.background =
-    "linear-gradient(135deg, #17a2b8 0%, #20c997 100%)";
-  manualButton.style.border = "none";
-  manualButton.onclick = () => {
-    document.body.removeChild(modalOverlay);
-    mostrarComparativaManual(candidato.id_candidate);
-  };
-
   modalFooter.appendChild(counter);
   modalFooter.appendChild(cancelButton);
-  modalFooter.appendChild(manualButton);  // Agregar el nuevo botón
 
   // Ensamblar el modal
   modalContent.appendChild(modalHeader);
