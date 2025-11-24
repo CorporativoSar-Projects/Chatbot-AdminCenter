@@ -146,21 +146,26 @@ header .navbar ul li ul li a:hover {
 
 .user-dropdown {
   position: absolute;
+  display: inline-block;
   top: 5px;
   right: 10px;
 }
 
+
 .dropdown-content {
   display: none;
-  position: fixed;
-  right: 0;
-  top: 80px;
+  position: absolute;
+  right: -10px;
+  top: 100%; /* Justo debajo del botón */
   background-color: #3ca6e5;
   min-width: 250px;
   box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-  z-index: 1;
+  z-index: 9999;
   overflow: hidden;
+  margin-top: 0;
+  padding: 0;
 }
+
 
 .user-dropdown:hover .dropdown-content {
   display: block;
@@ -185,6 +190,29 @@ header .navbar ul li ul li a:hover {
   text-decoration: none;
   font-size: 14px;
 }
+
+.swal2-container {
+  z-index: 20000 !important;
+}
+  
+
+
+#contadorCaracteres {
+    position: absolute;
+    bottom: 5px;
+    right: 60%;
+    font-size: 12px;
+    color: gray;
+}
+
+.contador{
+    position: absolute;
+    bottom: 5px;
+    right: 60%;
+    font-size: 12px;
+    color: gray;
+}
+
 a{
 /*padding: 10px 15px;*/
  
@@ -1884,6 +1912,17 @@ a{
     height: 150vh;
   }
 
+    #contadorCaracteres {
+        font-size: 11px;
+        right: 105px;
+    }
+
+    .contador{
+        font-size: 11px;
+        right: 205px;
+    }
+    
+
   .chatbot-container2 {
     margin-left: 90%;
     position: absolute;
@@ -2257,6 +2296,19 @@ a{
     padding: 12px;
   }
 
+
+   #contadorCaracteres {
+        font-size: 11px;
+        right: 8px;
+    }
+
+    .contador{
+        font-size: 11px;
+        right: 169px;
+    }
+
+
+
   /*Adaptacion para la burbuja*/
 
   .chat-toggle {
@@ -2323,6 +2375,18 @@ a{
   .dropdown-links span {
     font-size: 9.6px;
   }
+
+
+     #contadorCaracteres {
+        font-size: 10px;
+        right: 74px;
+    }
+
+    .contador{
+        font-size: 10px;
+        right: 134px;
+    }
+
 }
 
 @media (max-width: 662px) {
@@ -2415,6 +2479,17 @@ a{
 
     padding: 8px;
   }
+
+
+   #contadorCaracteres {
+        font-size: 10px;
+        right: 40px;
+    }
+
+    .contador{
+        font-size: 10px;
+        right: 80px;
+    }
 
   /* Propiedades para que la ventana modal del chatbot
 

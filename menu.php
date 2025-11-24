@@ -4,6 +4,7 @@ si no esta validado es redirigido a la página de inicio -->
 <!-- Las demás secciones cuentán con esta función con el fin de proteger la información de la empresa -->
 <?php
 include 'modelo/consultas_menu.php';
+
 ?>
 
 <!DOCTYPE html>
@@ -113,16 +114,16 @@ include 'modelo/consultas_menu.php';
       <div class="container-bienv">
 
         <p class="txtBien">Bienvenido</p>
-        <div class="container-btn-refresh">
-          <button class="btn-refresh">
+        <!-- <div class="container-btn-refresh">
+         <button class="btn-refresh">
             <img src="img/refresh.png" width="25" alt="Refresh" />
           </button>
-        </div>
+        </div>-->
       </div>
 
       <div>
         <div class="txt-disena-chat">
-          <p>Configuración</p>
+          <!-- <p>Configuración</p>-->
         </div>
         <?php if (count($chatbots) > 0): ?>
           <?php foreach ($chatbots as $chatbot): ?>
@@ -255,6 +256,8 @@ include 'modelo/consultas_menu.php';
   <!--<script src="js/IA/chatbotIA_dinamico.js"></script>-->
   <script src="js/IA/chat-toggle.js"></script>
 
+  <!--Modal de integración -->
+  <?php include 'modalIntegracion.php'; ?>
 
   <!-- jQuery y Bootstrap JavaScript -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

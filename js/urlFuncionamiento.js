@@ -1,3 +1,19 @@
+// ==============================
+// FUNCIÓN PARA NORMALIZAR URL DE FUNCIONAMIENTO
+// ==============================
+function normalizarURL(url) {
+    if (!url) return "";
+
+    url = url.trim();
+
+    // Si no empieza con http:// o https:// → se agrega https:// automáticamente
+    if (!/^https?:\/\//i.test(url)) {
+        url = "https://" + url;
+    }
+
+    return url;
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   const input = document.getElementById("input");
   const btnGuardarUrl = document.getElementById("btnGuardarurl");
@@ -26,7 +42,8 @@ document.addEventListener("DOMContentLoaded", () => {
    .then(res => res.json())
     .then(data => {
       if (data.success) {
-        input.value = data.url || "";
+        const urlNormalizada = normalizarURL(data.url || "");
+                input.value = urlNormalizada;
 
         if (data.url && data.url !== "") {
           // Ya tiene URL → bloquear edición

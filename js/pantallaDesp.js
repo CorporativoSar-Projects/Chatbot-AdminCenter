@@ -8,17 +8,20 @@ const despedidaGuardada = localStorage.getItem('inp_despedida');
 if (despedidaGuardada) {
   txtDespedida.value = despedidaGuardada;
   divCopiaDesp.innerHTML = despedidaGuardada;
+  actualizarContador();
 }
 
 // Función para ajustar el contenido del saludo
 txtDespedida.addEventListener('keyup', () => {
     divCopiaDesp.innerHTML = txtDespedida.value;
-    
-    // Aplicar el mismo tamaño fijo a .chatbot-content
+
     const chatbotContent = document.querySelector('.chatbot-content');
-    chatbotContent.style.width = '300px';
-    chatbotContent.style.height = '300px';
-    
+    if (chatbotContent) {
+        chatbotContent.style.width = '300px';
+        chatbotContent.style.height = '300px';
+    }
+
+    actualizarContador();
 });
 
 txtDespedida.addEventListener('input', () => {

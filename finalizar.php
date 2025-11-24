@@ -1,6 +1,7 @@
 <?php
 
-include('modelo/obtenerDatos.php')
+include('modelo/obtenerDatos.php');
+include 'modelo/consultas_menu.php';
 
 ?>
 
@@ -22,38 +23,14 @@ include('modelo/obtenerDatos.php')
 <body>
 
     <div class="rectangulo-container">
-        <img src="img/Logo_cabeza.svg" width="70px" alt="Logo" class="img-logo-chiq">
+        <a href="menu.php">
+            <img src="img/Logo_cabeza.svg" width="70px" alt="Logo" class="img-logo-chiq">
+        </a>
     </div>
     <header>
 
-        <div class="user-dropdown">
-            <div class="cont-btn-user" id="close-btn-user">
-                <button class="btn-user" id="user-btn"><img src="img/user.png" width="30" alt="User Icon"></button>
-            </div>
-            <!-- Menu lateral -->
-            <div class="dropdown-content" id="dropdown-content">
-                <div class="d-flex align-items-center px-3 user-info">
-                    <img src="img/user.png" width="40" alt="User Icon">
-                    <div class="div-user">
-                        <strong><?php echo $_SESSION['nombre_adm'] . ' ' . $_SESSION['apellidop_adm']; ?></strong><br>
-                        <small><?php echo ($_SESSION['correo_adm']) ?></small>
-                    </div>
-                </div>
 
-                <div class="dropdown-links">
-                    <div class="user-info">
-                        <a href="#">Chatbot IXAH</a>
-                        <span>Versión 1.0.0</span>
-                    </div>
-                    <div class="user-info">
-                        <a href="#">Desarrollado por Giintape Innovahue</a>
-                        <span> Ayuda</span>
-                    </div>
-
-                    <a class="a1" href="cerrarSesion.php">Cerrar Sesión</a>
-                </div>
-            </div>
-        </div>
+        <?php include 'DatosMenu.php'; ?>
     </header>
 
     <main>
@@ -184,6 +161,10 @@ include('modelo/obtenerDatos.php')
                                 <button type="submit" class="btnGuardarurl" id="btnGuardarurl">
                                     <i class="fas fa-save"></i>
                                 </button>
+<<<<<<< HEAD
+=======
+
+>>>>>>> JessicaMoralesAguilar
                             </div>
                             <div class="generar-container">
                                 <button type="submit" id="myBtn" class="btnGenerar" data-idadm="<?= $_SESSION['id_adm'] ?>" data-toggle="modal" data-target="#myModal">
@@ -191,65 +172,76 @@ include('modelo/obtenerDatos.php')
                                 </button>
 
                                 <!-- Nuevo botón a la derecha -->
+<<<<<<< HEAD
                                 <button type="button" id="btnInteractivo" class="btnInteractivo" onclick="window.location.href='pagina_pruebas.php'">
                                     <span class="btnInteractivo">Modo Interactivo</span>
                                 </button>
                             </div>
 
-                        </div>
-
-                    </div>
-                </div>
-
-
-                <!-- Modal -->
-                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="linkModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-xl" role="document">
-                        <div class="modal-content">
-
-                            <!-- Header -->
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="linkModalLabel">¡Copia el código HTML de tu ChatBot!</h5>
-
-                                <div class="d-flex align-items-center" style="margin-left: 25px; cursor: pointer;" id="copyWrapper">
-                                    <i class="fas fa-copy" id="copySnippetBtn" style="font-size: 1.5rem;" title="Copiar Código"></i>
-                                    <span style="margin-left: 6px; font-weight: 500;">Copiar</span>
-                                </div>
-
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
-                                    <span aria-hidden="true">&times;</span>
+=======
+                                <button type="button" id="btnInteractivo" class="btnInteractivo" onclick="window.open('pagina_pruebas.php', '_blank')">
+                                    <span>Modo Interactivo</span>
                                 </button>
+                            </div>
+>>>>>>> JessicaMoralesAguilar
+                        </div>
 
+
+                    </div>
+
+                </div>
+            </div>
+
+
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="linkModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl" role="document">
+                    <div class="modal-content">
+
+                        <!-- Header -->
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="linkModalLabel">¡Copia el código HTML de tu ChatBot!</h5>
+
+                            <div class="d-flex align-items-center" style="margin-left: 25px; cursor: pointer;" id="copyWrapper">
+                                <i class="fas fa-copy" id="copySnippetBtn" style="font-size: 1.5rem;" title="Copiar Código"></i>
+                                <span style="margin-left: 6px; font-weight: 500;">Copiar</span>
                             </div>
 
-
-                            <div class="modal-body">
-
-                                <p><strong>Instrucciones:</strong> Copia y pega este código en tu sitio web <code>&lt;/body&gt;</code>.</p>
-                                <pre><code id="snippetCode"></code></pre>
-                                <div id="alertContainer"></div>
-
-
-
-                            </div>
-
-
-                            <!-- Footer -->
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                <!--- <button type="button" class="btn btn-success" onclick="copySnippet()">Copiar Código</button>--->
-                            </div>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
 
                         </div>
+
+
+                        <div class="modal-body">
+
+                            <p><strong>Instrucciones:</strong> Copia y pega este código en tu sitio web <code>&lt;/body&gt;</code>.</p>
+                            <pre><code id="snippetCode"></code></pre>
+                            <div id="alertContainer"></div>
+
+
+
+                        </div>
+
+
+                        <!-- Footer -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            <!--- <button type="button" class="btn btn-success" onclick="copySnippet()">Copiar Código</button>--->
+                        </div>
+
                     </div>
                 </div>
-
             </div>
+
+        </div>
 
 
     </main>
 
-
+    <!--Modal de integración -->
+    <?php include 'modalIntegracion.php'; ?>
 
     <!-- jQuery y Bootstrap JavaScript -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -259,6 +251,28 @@ include('modelo/obtenerDatos.php')
     <script src="js/custom.js"></script>
     <script src="js/menuLateral.js" type="module"></script>
     <script src="js/guardar.js"></script>
+<<<<<<< HEAD
+=======
+    <script src="js/formularioIntegracion.js"></script>
+    <script>
+        window.appData = {
+            nombrePlan: '<?php echo $planUsuario; ?>',
+            estadoSuscripcion: '<?php echo $estadoSuscripcion; ?>',
+            sftpActivo: <?php echo $sftpActivo; ?>,
+            sftpConfig: <?php
+                        echo json_encode([
+                            'servidor' => $sftpData['servidor'] ?? '',
+                            'puerto' => $sftpData['puerto'] ?? '22',
+                            'usuario' => $sftpData['usuario'] ?? '',
+                            'contrasena' => '',
+                            'rutaDestino' => $sftpData['rutaDestino'] ?? '',
+                            'url_estandar' =>  $sftpData['url_estandar'] ?? ''
+                        ]);
+                        ?>
+        };
+    </script>
+    <script src="js/guardadoGeneral.js"></script>
+>>>>>>> JessicaMoralesAguilar
     <script src="js/urlFuncionamiento.js"></script>
 
 </body>
