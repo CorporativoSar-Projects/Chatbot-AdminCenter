@@ -25,7 +25,7 @@ $id_chatbot = $_SESSION['id_chatbot'] ?? null;
 
     <div class="rectangulo-container">
         <a href="menu.php">
-            <img src="img/Logo_cabeza.svg" width="70px" alt="Logo" class="img-logo-chiq">
+            <img src="img/LOGOTIPO_IXAH-02.png" width="70px" alt="Logo" class="img-logo-chiq">
         </a>
     </div>
     <header>
@@ -86,7 +86,7 @@ $id_chatbot = $_SESSION['id_chatbot'] ?? null;
                         <img src="img/paint.png" class="img-paint">
                         <div class="container-pers3">
                             <p class="txt-crea-conv">Crea la conversación</p>
-                            <p>Muéstrales a tus clientes que el chat está aquí para ayudarte.</p>
+                            <p>Muéstrales a tus clientes que la conversación está diseñada para guiarlos.</p>
                         </div>
                     </div>
 
@@ -164,6 +164,8 @@ $id_chatbot = $_SESSION['id_chatbot'] ?? null;
             sftpActivo: <?php echo $sftpActivo; ?>,
             sftpConfig: <?php
                         echo json_encode([
+                            'tipo_integracion' => $sftpData['tipo_integracion'] ?? 'estandar',
+                            'activo' => isset($sftpData['activo']) ? (int)$sftpData['activo'] : 0,
                             'servidor' => $sftpData['servidor'] ?? '',
                             'puerto' => $sftpData['puerto'] ?? '22',
                             'usuario' => $sftpData['usuario'] ?? '',

@@ -1,45 +1,45 @@
 {
     "id_emp": "urban3602qt",
     "estilos": {
-        "colorPrimario": "#1e2be6",
-        "colorSecundario": "#403597",
-        "colorTexto": "#f5f0f0",
-        "colorAcento": "#4034e5",
-        "colorRespuestaUsuario": "#2140ba",
+        "colorPrimario": "#0c202c",
+        "colorSecundario": "#030521",
+        "colorTexto": "#f7f8fc",
+        "colorAcento": "#173e8c",
+        "colorRespuestaUsuario": "#012546",
         "logo": "https://upload.wikimedia.org/wikipedia/commons/6/61/Samsung_old_logo_before_year_2015.svg",
         "nombreChatbot": "SamsungBot",
-        "burbuja": "¡Encuentra Puestos!",
-        "saludo": "¡Hola! Soy tu asistente virtual, te ayudaré con la búsqueda de vacantes."
+        "burbuja": "¡Encuentra puestos!",
+        "saludo": "Hola Bienvenido estoy aqui para ayudarte."
     },
     "funcionamiento": {
-        "urlChatbot": "localhost/chatbot-giintape/",
-        "tipoIntegracion": "estandar",
+        "urlChatbot": "https://chatbot.giintapeinnovahue.com/",
+        "tipoIntegracion": "sftp",
         "integracionActiva": true
     },
     "conversacion": [
         {
             "tema": "Buscar vacantes por categoría",
-            "mensaje": "Elige la categoría que más te interese.",
+            "mensaje": "Busca vacantes por categoria",
             "columna": "category_ix",
-            "urlInforme": "https://chatbot.giintapeinnovahue.com/report_Job.csv"
+            "urlInforme": "http://localhost/Chatbot-AdminCenter/crearConversacion.php"
         },
         {
             "tema": "Buscar vacantes por ubicación",
-            "mensaje": "Selecciona la ubicación que más te interese.",
+            "mensaje": "Busca vacantes por ubicación ",
             "columna": "location_ix",
-            "urlInforme": "https://chatbot.giintapeinnovahue.com/report_Job.csv"
+            "urlInforme": "http://localhost/Chatbot-AdminCenter/crearConversacion.php"
         },
         {
             "tema": "Seguimiento de mi postulación",
-            "mensaje": "Mantente al día con las postulaciones que haz hecho.",
+            "mensaje": "Mantente al día con tus postulaciones.",
             "columna": "email_ix",
-            "urlInforme": "http://localhost/Chatbot-AdminCenter/candidatos.csv"
+            "urlInforme": "http://localhost/Chatbot-AdminCenter/crearConversacion.php"
         }
     ],
-    "despedida": "Te agradecemos haber usado a SamsungBot, esperamos verte pronto.",
+    "despedida": "Gracias por usar samsungBot, esperamos haberte ayudado.",
     "vacantes": [
-        "https://chatbot.giintapeinnovahue.com/report_Job.csv",
-        "https://chatbot.giintapeinnovahue.com/report_Job.csv",
-        "http://localhost/Chatbot-AdminCenter/candidatos.csv"
+        "http://localhost/Chatbot-AdminCenter/crearConversacion.php",
+        "http://localhost/Chatbot-AdminCenter/crearConversacion.php",
+        "http://localhost/Chatbot-AdminCenter/crearConversacion.php"
     ]
 }

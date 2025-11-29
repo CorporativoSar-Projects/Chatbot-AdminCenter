@@ -78,11 +78,11 @@ try {
     $mail->Port = 587;
 
     // Credenciales
-    $mail->Username = "contacto@giintapeinnovahue.com";
-    $mail->Password = "giintape$2025"; 
+    $mail->Username = "holaixah@giintapeinnovahueteam.onmicrosoft.com";
+    $$mail->Password = '$';
 
     // Configuración del correo
-    $mail->setFrom("contacto@giintapeinnovahue.com", "Soporte");
+    $mail->setFrom("holaixah@giintapeinnovahueteam.onmicrosoft.com", "Soporte");
     $mail->addAddress($email); // Aquí se envía al correo recibido en JSON
 
     $mail->isHTML(true);

@@ -2,6 +2,6 @@
     "require": {
         "phpmailer/phpmailer": "^6.9",
         "stripe/stripe-php": "^17.5",
-        "phpseclib/phpseclib": "3.0"
+        "phpseclib/phpseclib": "^3.0.38"
     }
 }

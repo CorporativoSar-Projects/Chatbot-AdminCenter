@@ -93,9 +93,10 @@ document.addEventListener('DOMContentLoaded', function () {
     if (savedBurbuja) {
         document.getElementById('inp_burbuja').value = savedBurbuja;
         document.getElementById('chatTextBurb').innerHTML = savedBurbuja;
-        actualizarContador();
+        
     }
 
+    actualizarContador();
     // Al recargar la página, eliminar la URL guardada
    // window.addEventListener('beforeunload', function () {
        // localStorage.removeItem('chatbotLogo');

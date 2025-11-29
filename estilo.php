@@ -43,7 +43,7 @@ if ($row['total'] >= 1 && isset($_GET['nuevo'])) {
 
     <div class="rectangulo-container">
         <a href="menu.php">
-        <img src="img/Logo_cabeza.svg" width="70px" alt="Logo" class="img-logo-chiq">
+        <img src="img/LOGOTIPO_IXAH-02.png" width="70px" alt="Logo" class="img-logo-chiq">
         </a>
     </div>
     <header>
@@ -159,7 +159,7 @@ if ($row['total'] >= 1 && isset($_GET['nuevo'])) {
                                 <label for="urlLogotipo">Ingresa la URL del Logotipo</label><br>
                                 <div class="select-archivo">
                                     <input type="text" id="urlLogotipo" placeholder="https://tusitio.com/logo.png (.png, .jpg, .svg)" class="input-url" value="<?php echo htmlspecialchars($chatbot['urlLogotipo'] ?? ''); ?>">
-                                    <button type="button" onclick="previsualizarImagen()" class="update-logo-button">Actualizar logo</button>
+                                    <!--<button type="button" onclick="previsualizarImagen()" class="update-logo-button">Actualizar logo</button>--->
                                 </div>
                             </div>
                         </div>
@@ -239,6 +239,8 @@ if ($row['total'] >= 1 && isset($_GET['nuevo'])) {
       sftpActivo: <?php echo $sftpActivo; ?>,
       sftpConfig: <?php
                   echo json_encode([
+                    'tipo_integracion' => $sftpData['tipo_integracion'] ?? 'estandar',
+                    'activo' => isset($sftpData['activo']) ? (int)$sftpData['activo'] : 0,
                     'servidor' => $sftpData['servidor'] ?? '',
                     'puerto' => $sftpData['puerto'] ?? '22',
                     'usuario' => $sftpData['usuario'] ?? '',

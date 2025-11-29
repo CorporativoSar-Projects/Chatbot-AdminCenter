@@ -105,33 +105,54 @@ function actualizarContador() {
     contador.textContent = `${txtNombreChat.value.length} / ${max}`;
 }
 
+// ==========================
+// URL por defecto
+// ==========================
+const URL_DEFAULT_LOGO = "https://ixahcenter.giintapeinnovahue.com/img/Logo_cabeza.svg"; // <- Cambia por la URL real
+
+// Función para obtener el logo actual
+function obtenerLogoActual() {
+    const urlInput = document.getElementById('urlLogotipo');
+    const logoAlmacenado = localStorage.getItem('chatbotLogo');
+
+    if (urlInput.value.trim() !== "") {
+        return normalizarURLImagen(urlInput.value.trim());
+    } else if (logoAlmacenado && logoAlmacenado !== "") {
+        return logoAlmacenado;
+    } else {
+        return URL_DEFAULT_LOGO;
+    }
+}
+
 // ---------- PREVISUALIZAR IMAGEN ----------
 function previsualizarImagen() {
     const urlInput = document.getElementById('urlLogotipo');
     const chatbotIcon = document.getElementById('chatbotIcon');
-    let logoURL = normalizarURLImagen(urlInput.value.trim());
+     let logoURL = urlInput.value.trim() !== "" ? normalizarURLImagen(urlInput.value.trim()) : URL_DEFAULT_LOGO;
 
-    if (logoURL !== '') {
+   if (logoURL !== '') {
         verificarImagen(logoURL)
             .then(() => {
                 chatbotIcon.src = logoURL;
                 localStorage.setItem('chatbotLogo', logoURL);
             })
             .catch(() => {
-                chatbotIcon.removeAttribute('src');
+                chatbotIcon.src = URL_DEFAULT_LOGO; // fallback a IXAH
+                localStorage.setItem('chatbotLogo', URL_DEFAULT_LOGO);
                 Swal.fire({
                     icon: 'error',
                     title: 'Error al cargar el logotipo',
-                    text: 'No se pudo cargar la imagen desde la URL proporcionada. Verifica el enlace.',
+                    text: 'No se pudo cargar la imagen desde la URL proporcionada. Se aplicó el logotipo por defecto.',
                     confirmButtonColor: '#ffb703'
                 });
             });
     } else {
-        chatbotIcon.removeAttribute('src');
+        chatbotIcon.src = URL_DEFAULT_LOGO; // fallback a IXAH
+        localStorage.setItem('chatbotLogo', URL_DEFAULT_LOGO);
         Swal.fire({
             icon: 'warning',
             title: 'Sin logotipo',
-            text: 'Por favor, ingresa una URL para el logotipo.',
+            text: 'No se ingresó ninguna URL. Se aplicó el logotipo por defecto.',
             confirmButtonColor: '#ffb703'
         });
     }
@@ -142,14 +163,13 @@ document.getElementById("urlLogotipo").addEventListener("input", function () {
     const rawURL = this.value.trim();
     const chatbotIcon = document.getElementById("chatbotIcon");
 
-      if (rawURL === "") {
-        chatbotIcon.removeAttribute("src");
+    if (rawURL === "") {
+        chatbotIcon.src = URL_DEFAULT_LOGO;
+        localStorage.setItem("chatbotLogo", URL_DEFAULT_LOGO);
         return;
     }
 
-   // Normalizar solo para previsualizar, NO sobreescribe el input
     const urlNormalizada = normalizarURLImagen(rawURL);
-
 
     verificarImagen(urlNormalizada)
         .then(() => {
@@ -157,7 +177,8 @@ document.getElementById("urlLogotipo").addEventListener("input", function () {
             localStorage.setItem("chatbotLogo", urlNormalizada);
         })
         .catch(() => {
-            chatbotIcon.removeAttribute("src");
+            chatbotIcon.src = URL_DEFAULT_LOGO;
+            localStorage.setItem("chatbotLogo", URL_DEFAULT_LOGO);
         });
 });
 
@@ -178,13 +199,34 @@ document.addEventListener("DOMContentLoaded", () => {
    }
     actualizarContador();
 
-    const logoURL = localStorage.getItem('chatbotLogo');
-    if (logoURL) {
-        const urlInput = document.getElementById('urlLogotipo');
-        const chatbotIcon = document.getElementById('chatbotIcon');
+     const urlInput = document.getElementById('urlLogotipo');
+    const chatbotIcon = document.getElementById('chatbotIcon');
 
-        urlInput.value = logoURL;        
-        chatbotIcon.src = logoURL;       
+    // Cargamos logo respetando localStorage y default
+    let logoURL = localStorage.getItem('chatbotLogo') || urlInput.value.trim() || URL_DEFAULT_LOGO;
+    logoURL = normalizarURLImagen(logoURL);
+
+    urlInput.value = logoURL;
+
+    if (logoURL !== '') {
+        verificarImagen(logoURL)
+            .then(() => {
+                chatbotIcon.src = logoURL;
+                localStorage.setItem('chatbotLogo', logoURL);
+            })
+            .catch(() => {
+                chatbotIcon.src = URL_DEFAULT_LOGO;
+                localStorage.setItem('chatbotLogo', URL_DEFAULT_LOGO);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error al cargar el logotipo',
+                    text: 'No se pudo cargar la imagen desde la URL proporcionada. Se aplicó el logotipo por defecto.',
+                    confirmButtonColor: '#ffb703'
+                });
+            });
+    } else {
+        chatbotIcon.src = URL_DEFAULT_LOGO;
+        localStorage.setItem('chatbotLogo', URL_DEFAULT_LOGO);
     }
 
 });
