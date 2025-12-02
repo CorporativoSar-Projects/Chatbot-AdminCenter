@@ -1,21 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-  const { estadoSuscripcion, nombrePlan, sftpActivo, sftpConfig } = window.appData || {};
+  const { estadoSuscripcion, nombrePlan, sftpConfig } = window.appData || {};
 
   const sftpLink = document.getElementById("sftpLink");
   const modalSFTP = $('#sftpModal');
   const contenido = document.getElementById("contenidoPrincipal");
   const modalSuspension = $('#modalSuspension');
 
-  // Ocultar modal al inicio
-  $('#sftpModal').modal('hide').removeClass('show').attr('aria-hidden', 'true').css('display', 'none');
-  $('.modal-backdrop').remove();
-
-  modalSFTP.on('hide.bs.modal', () => {
-    if (document.activeElement) document.activeElement.blur();
-  });
-
-  // ---- ELEMENTOS ----
   const activarSFTP = document.getElementById("sftpCheckbox");
   const estandarCheckbox = document.getElementById("estandarCheckbox");
   const formSFTP = document.getElementById("formIntegracionSFTP");
@@ -24,111 +15,33 @@ document.addEventListener('DOMContentLoaded', () => {
   const tipoIntegracionHidden = document.getElementById("tipoIntegracionHidden");
   const btnGuardar = document.getElementById("guardarIntegracion");
 
+  
+
   if (!activarSFTP || !estandarCheckbox) return;
 
   const planFree = typeof nombrePlan === 'string' && nombrePlan.trim().toLowerCase() === 'free';
   const suscripcionInactiva = estadoSuscripcion === 'paused' || estadoSuscripcion === 'canceled';
 
-  /* ==============================================================
-     ESTADO REAL DESDE BD
-  ============================================================== */
 
-  let integracionBD = sftpConfig?.tipo_integracion || "estandar";
-  let activoBD = parseInt(sftpConfig?.activo) || 0;
-
-  if (activoBD === 1) {
-    if (integracionBD === "sftp") {
-      activarSFTP.checked = true;
-      estandarCheckbox.checked = false;
-    } else {
-      activarSFTP.checked = false;
-      estandarCheckbox.checked = true;
-    }
-  } else {
-    activarSFTP.checked = false;
-    estandarCheckbox.checked = true;
-    integracionBD = "estandar";
-  }
-
-  if (tipoIntegracion) {
-    tipoIntegracion.value = integracionBD;
-    tipoIntegracionHidden.value = integracionBD;
-  }
-
-
-  /* ==============================================================
-     PLAN FREE
-  ============================================================== */
-  if (planFree) {
-
-    activarSFTP.checked = false;
-    activarSFTP.disabled = true;
-    estandarCheckbox.checked = true;
-
-    const opcionSFTP = tipoIntegracion.querySelector('option[value="sftp"]');
-    if (opcionSFTP) opcionSFTP.remove();
-
-    tipoIntegracion.value = "estandar";
-    tipoIntegracionHidden.value = "estandar";
-
-    const inputUrl = formEstandar?.querySelector('input[name="url_estandar"]');
-    if (inputUrl) {
-      inputUrl.value = window.appData.url_estandar || "";
-      inputUrl.disabled = false;
-      inputUrl.readOnly = false;
-    }
-  }
-
-
-  /* ==============================================================
-      PLAN FREE: evitar SFTP
-  ============================================================== */
-  if (planFree && formSFTP) {
-
-    const observer = new MutationObserver(() => {
-      formSFTP.querySelectorAll("input, textarea, select, button").forEach(el => {
-        if (!el.disabled) el.disabled = true;
-      });
-    });
-
-    observer.observe(formSFTP, {
-      attributes: true,
-      subtree: true,
-      attributeFilter: ['disabled']
-    });
-
-    formSFTP.addEventListener("submit", (e) => {
-      e.preventDefault();
-      Swal.fire({
-        icon: 'warning',
-        title: 'Función restringida',
-        text: 'El envío SFTP no está disponible en el plan Free.',
-        confirmButtonColor: '#eca726'
-      });
-      return false;
-    });
-  }
-
-
-  /* ==============================================================
-      FUNCIÓN EXTRA → VALIDAR URL
-  ============================================================== */
+  // -----------------------------------------
+  // Funciones de utilidad
+  // -----------------------------------------
   function esURLValida(url) {
-    const regex = /^(https?:\/\/)[\w\-]+(\.[\w\-]+)+([\/\w\-\.\?\=\&\#]*)?$/;
-    return regex.test(url.trim());
+    try {
+      // Si no empieza con http:// o https://, se lo agregamos temporalmente
+      if (!/^https?:\/\//i.test(url)) url = 'http://' + url;
+      new URL(url); // Intentamos crear un objeto URL
+      return true;
+    } catch (err) {
+      return false;
+    }
   }
 
-
-  /* ==============================================================
-     FUNCIONES
-  ============================================================== */
 
   function toggleInputs(disabled) {
     if (!formSFTP) return;
     formSFTP.querySelectorAll("input, button[type=submit]").forEach(input => {
-      if (input.id !== "sftpCheckbox") {
-        input.disabled = disabled;
-      }
+      if (input.id !== "sftpCheckbox") input.disabled = disabled;
     });
   }
 
@@ -141,6 +54,12 @@ document.addEventListener('DOMContentLoaded', () => {
       formSFTP.style.display = "none";
       formEstandar.style.display = "block";
       btnGuardar.setAttribute("form", "formIntegracionEstandar");
+
+      // Actualizar el input de URL estándar inmediatamente
+      if (formEstandar) {
+        const inputUrl = formEstandar.querySelector('input[name="url_estandar"]');
+        if (inputUrl) inputUrl.value = sftpConfig?.url_estandar || window.appData.url_estandar || "";
+      }
     }
     tipoIntegracionHidden.value = tipoIntegracion.value;
   }
@@ -149,12 +68,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!formEstandar) return;
     const inputUrl = formEstandar.querySelector('input[name="url_estandar"]');
     inputUrl.disabled = !estandarCheckbox.checked;
-
-    if (estandarCheckbox.checked) {
-      inputUrl.setAttribute("required", "required");
-    } else {
-      inputUrl.removeAttribute("required");
-    }
+    if (estandarCheckbox.checked) inputUrl.setAttribute("required", "required");
+    else inputUrl.removeAttribute("required");
   }
 
   function controlarExclusividad(origen) {
@@ -169,28 +84,69 @@ document.addEventListener('DOMContentLoaded', () => {
         confirmButtonColor: '#eca726'
       });
     }
-
     toggleEstandarInput();
     toggleInputs(!activarSFTP.checked);
   }
 
+  // -----------------------------------------
+  // Inicialización según BD y plan
+  // -----------------------------------------
+  (function inicializarIntegracion() {
+    const activo = parseInt(sftpConfig?.activo) === 1;
+    const tipo = sftpConfig?.tipo_integracion || "estandar";
 
-  /* ==============================================================
-     INICIALIZACIÓN
-  ============================================================== */
-
-  toggleFormIntegracion();
-  toggleInputs(!activarSFTP.checked);
-  toggleEstandarInput();
+    activarSFTP.checked = activo && tipo === "sftp";
+    estandarCheckbox.checked = !(activo && tipo === "sftp");
 
 
-  /* ==============================================================
-     🔥 EVENTOS
-  ============================================================== */
+    if (tipoIntegracion) tipoIntegracion.value = tipo;
+    if (tipoIntegracionHidden) tipoIntegracionHidden.value = tipo;
 
-  tipoIntegracion.addEventListener("change", () => {
     toggleFormIntegracion();
-  });
+    toggleInputs(!activarSFTP.checked);
+    toggleEstandarInput();
+
+    if (planFree) {
+  //  Forzar solo integración estándar
+  activarSFTP.checked = false;
+  activarSFTP.disabled = true;
+
+  estandarCheckbox.checked = true;
+  estandarCheckbox.disabled = false;
+
+  tipoIntegracion.value = "estandar";
+  tipoIntegracionHidden.value = "estandar";
+
+  //  Ocultar todo SFTP
+  if (formSFTP) formSFTP.style.display = "none";
+  if (activarSFTP) activarSFTP.parentElement.style.display = "none";
+
+  // Ocultar opción SFTP del select
+  const optSftp = tipoIntegracion.querySelector('option[value="sftp"]');
+  if (optSftp) optSftp.style.display = "none";
+
+  //  Bloquear select para evitar cambios
+  tipoIntegracion.disabled = true;
+
+  //  Mostrar solo estándar
+  if (formEstandar) {
+    formEstandar.style.display = "block";
+    const inputUrl = formEstandar.querySelector('input[name="url_estandar"]');
+    if (inputUrl) {
+      inputUrl.value = window.appData?.url_estandar || "";
+      inputUrl.disabled = false;
+      inputUrl.readOnly = false;
+    }
+  }
+
+  return; // Detener aquí. No ejecutar más lógica.
+}
+  })();
+
+  // -----------------------------------------
+  // Eventos de checkboxes y selects
+  // -----------------------------------------
+  tipoIntegracion.addEventListener("change", toggleFormIntegracion);
 
   activarSFTP.addEventListener("change", () => {
     tipoIntegracion.value = "sftp";
@@ -207,25 +163,20 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
 
-  /* ==============================================================
-     ABRIR MODAL
-  ============================================================== */
-
+  // -----------------------------------------
+  // Modal SFTP
+  // -----------------------------------------
   if (sftpLink) {
     sftpLink.addEventListener('click', (e) => {
       e.preventDefault();
-
       if (planFree) return;
-
       if (suscripcionInactiva) {
         modalSuspension.modal('show');
         return;
       }
-
       modalSFTP.modal({ backdrop: 'static', keyboard: false }).modal('show');
       contenido.classList.add("blur");
 
-      // SFTP
       if (formSFTP && sftpConfig) {
         formSFTP.servidor.value = sftpConfig.servidor || '';
         formSFTP.puerto.value = sftpConfig.puerto || '22';
@@ -234,14 +185,9 @@ document.addEventListener('DOMContentLoaded', () => {
         formSFTP.rutaDestino.value = sftpConfig.rutaDestino || '';
       }
 
-      // URL estándar
       if (formEstandar) {
         const inputUrl = formEstandar.querySelector('input[name="url_estandar"]');
-        const urlEstandar =
-          (window.appData.sftpConfig && window.appData.sftpConfig.url_estandar) ||
-          window.appData.url_estandar || "";
-
-        if (inputUrl) inputUrl.value = urlEstandar;
+        if (inputUrl) inputUrl.value = sftpConfig?.url_estandar || window.appData.url_estandar || "";
       }
 
       toggleInputs(!activarSFTP.checked);
@@ -249,10 +195,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-
-  /* ==============================================================
-      CERRAR MODAL
-  ============================================================== */
 
   modalSFTP.on('hidden.bs.modal', () => {
     contenido.classList.remove("blur");
@@ -263,16 +205,14 @@ document.addEventListener('DOMContentLoaded', () => {
   if (cerrarSFTP) cerrarSFTP.addEventListener('click', () => modalSFTP.modal('hide'));
 
 
-  /* ==============================================================
-     GUARDAR INTEGRACIÓN (CON VALIDACIÓN URL)
-  ============================================================== */
-
+  // -----------------------------------------
+  // Guardar integración
+  // -----------------------------------------
   [formSFTP, formEstandar].forEach(form => {
     if (!form) return;
 
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
-
       if (planFree && form.id === "formIntegracionSFTP") {
         modalSFTP.modal('hide');
         Swal.fire({
@@ -285,26 +225,17 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       const formData = Object.fromEntries(new FormData(form).entries());
-
-      /* 🔥 VALIDAR URL SOLO EN INTEGRACIÓN ESTÁNDAR */
       if (form.id === "formIntegracionEstandar") {
-
-        const inputUrl = form.querySelector('input[name="url_estandar"]');
-        const url = inputUrl.value.trim();
-
-        if (estandarCheckbox.checked) {
-
-          if (!esURLValida(url)) {
-            Swal.fire({
-              icon: 'error',
-              title: 'URL inválida',
-              text: 'Por favor ingresa una URL válida. Debe empezar con http:// o https://',
-              confirmButtonColor: '#eca726'
-            });
-            return;
-          }
+        const url = form.querySelector('input[name="url_estandar"]').value.trim();
+        if (estandarCheckbox.checked && !esURLValida(url)) {
+          Swal.fire({
+            icon: 'error',
+            title: 'URL inválida',
+            text: 'Por favor ingresa una URL válida. Debe empezar con http:// o https://',
+            confirmButtonColor: '#eca726'
+          });
+          return;
         }
-
         formData.activo = estandarCheckbox.checked ? 1 : 0;
         if (!estandarCheckbox.checked) formData.url_estandar = '';
       } else {
@@ -322,35 +253,26 @@ document.addEventListener('DOMContentLoaded', () => {
         const result = await res.json();
 
         if (result.success) {
-
-          if (form.id === "formIntegracionEstandar") {
-            const inputUrlModal = form.querySelector('input[name="url_estandar"]');
-            const nuevaURL = inputUrlModal?.value || "";
-
-            if (!window.appData.sftpConfig) window.appData.sftpConfig = {};
-            window.appData.sftpConfig.url_estandar = nuevaURL;
-
-            const spanUrl = document.getElementById("urlEstandarTexto");
-            if (spanUrl) spanUrl.textContent = nuevaURL;
-
-            if (formEstandar) {
-              const inputUrl = formEstandar.querySelector('input[name="url_estandar"]');
-              if (inputUrl) inputUrl.value = nuevaURL;
-            }
+          // Actualizar window.appData con los valores guardados
+          if (formData.tipo_integracion === 'estandar') {
+            window.appData.sftpConfig.url_estandar = formData.url_estandar;
+            sftpConfig.url_estandar = formData.url_estandar; // también para el modal actual
+          } else if (formData.tipo_integracion === 'sftp') {
+            // actualizar sftpConfig con los datos SFTP si quieres reflejar cambios
+            sftpConfig.servidor = formData.servidor || '';
+            sftpConfig.puerto = formData.puerto || '22';
+            sftpConfig.usuario = formData.usuario || '';
+            sftpConfig.rutaDestino = formData.rutaDestino || '';
           }
-
           Swal.fire({
             icon: 'success',
             title: 'Integración guardada',
-            text:
-              formData.tipo_integracion === 'sftp'
-                ? (activarSFTP.checked ? 'SFTP guardado correctamente.' : 'SFTP desactivado.')
-                : 'Integración estándar guardada correctamente.',
+            text: formData.tipo_integracion === 'sftp'
+              ? (activarSFTP.checked ? 'SFTP guardado correctamente.' : 'SFTP desactivado.')
+              : 'Integración estándar guardada correctamente.',
             confirmButtonColor: '#eca726'
           });
-
           modalSFTP.modal('hide');
-
         } else {
           Swal.fire({
             icon: 'error',
@@ -359,7 +281,6 @@ document.addEventListener('DOMContentLoaded', () => {
             confirmButtonColor: '#eca726'
           });
         }
-
       } catch (err) {
         Swal.fire({
           icon: 'error',

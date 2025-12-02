@@ -2,43 +2,40 @@
 const txtDespedida = document.querySelector('#inp_despedida');
 const divCopiaDesp= document.getElementById('txt-chatbot-Desp');
 
-// Cargar valor desde localStorage si existe
-const despedidaGuardada = localStorage.getItem('inp_despedida');
-
-if (despedidaGuardada) {
-  txtDespedida.value = despedidaGuardada;
-  divCopiaDesp.innerHTML = despedidaGuardada;
-  actualizarContador();
+// Función para actualizar el contador
+function actualizarContador() {
+    const max = txtDespedida.getAttribute('maxlength');
+    contador.textContent = `${txtDespedida.value.length} / ${max}`;
 }
 
-// Función para ajustar el contenido del saludo
-txtDespedida.addEventListener('keyup', () => {
-    divCopiaDesp.innerHTML = txtDespedida.value;
+document.addEventListener('DOMContentLoaded', () => {
+    // Cargar valor desde localStorage si existe
+    const despedidaGuardada = localStorage.getItem('inp_despedida');
 
-    const chatbotContent = document.querySelector('.chatbot-content');
-    if (chatbotContent) {
-        chatbotContent.style.width = '300px';
-        chatbotContent.style.height = '300px';
+    if (despedidaGuardada) {
+        txtDespedida.value = despedidaGuardada;
+        divCopiaDesp.innerHTML = despedidaGuardada;
     }
 
+    // Asegurar que el contador refleja el valor inicial
     actualizarContador();
+
+    // Colores de iconos
+    const colorTexto = localStorage.getItem('colorTexto') || '#000000';
+    const iconosSVG = document.querySelectorAll('.chatbot-min svg, .chatbot-close svg');
+
+    iconosSVG.forEach(svg => {
+        svg.style.stroke = colorTexto;
+        svg.style.fill = colorTexto;
+    });
 });
 
+// Actualizar preview y contador cuando escribe
 txtDespedida.addEventListener('input', () => {
-  localStorage.setItem('inp_despedida', txtDespedida.value);
-});
+    divCopiaDesp.innerHTML = txtDespedida.value;
+    localStorage.setItem('inp_despedida', txtDespedida.value);
+    actualizarContador();
 
-document.addEventListener('DOMContentLoaded', () => {
-  const colorTexto = localStorage.getItem('colorTexto') || '#000000';
-  
-  
-  const iconosSVG = document.querySelectorAll('.chatbot-min svg, .chatbot-close svg');
-
-  iconosSVG.forEach(svg => {
-    
-    svg.style.stroke = colorTexto;  
-    svg.style.fill = colorTexto;    
-  });
 });
 
 

@@ -11,10 +11,11 @@ header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Allow-Headers: Content-Type");
 header('Content-Type: application/json');
 
+
 session_start();
 
 // --- CONTROL DE EXPIRACIÓN DE SESIÓN (30 minutos) ---
-if (isset($_SESSION['token_expira'])) {
+if (isset($_SESSION['token_validado']) && isset($_SESSION['token_expira'])) {
     if (time() > $_SESSION['token_expira']) {
         // Sesión expirada → destruir
         session_unset();
@@ -34,15 +35,16 @@ if (isset($_SESSION['token_expira'])) {
 $inputJSON   = file_get_contents('php://input');
 $input       = json_decode($inputJSON, true);
 
-$correo = trim(strtolower($input['correo_candidate'] ?? $_POST['correo_candidate'] ?? ''));
+$correo      = trim($input['correo_candidate'] ?? $_POST['correo_candidate'] ?? '');
 $nombre      = trim($_POST['nombre_candidate'] ?? '');
 $apellidop   = trim($_POST['apellidop_candidate'] ?? '');
 $apellidom   = trim($_POST['apellidom_candidate'] ?? '');
 $telefono    = trim($_POST['tel_candidate'] ?? '');
 $id_emp      = $_POST['id_emp'] ?? null;
 $id_vacante  = $_POST['idRequisicion'] ?? null;
-$linkVacante = trim($_POST['linkVacante'] ?? '');
+$nombre_vacante = trim($_POST['nombreVacante'] ?? '');
 $tokenIngresado = trim($input['token'] ?? $_POST['token'] ?? '');
+
 
 // --- VALIDAR CORREO ---
 if (!filter_var($correo, FILTER_VALIDATE_EMAIL)) {
@@ -59,116 +61,102 @@ $cvAntiguo = null;
 $cvAntiguoId = null; // Inicializamos siempre
 $nuevoCandidato = false;
 
-$stmt = $conexion->prepare("
-    SELECT id_candidate, nombre_candidate, apellidop_candidate, apellidom_candidate, 
-           tel_candidate, CV_candidate, CV_id_onedrive, token_verificacion, token_expira, token_validado 
-    FROM candidato WHERE correo_candidate = ?
-");
+
+
+$stmt = $conexion->prepare("SELECT id_candidate, nombre_candidate, apellidop_candidate, apellidom_candidate, tel_candidate, CV_candidate, CV_id_onedrive, token_verificacion, token_expira FROM candidato WHERE correo_candidate = ?");
 $stmt->bind_param("s", $correo);
 $stmt->execute();
 $stmt->store_result();
 $existe = $stmt->num_rows > 0;
-$stmt->bind_result($id_candidate, $nombreExist, $apellidopExist, $apellidomExist, $telExist, $cvAntiguoDb, $cvAntiguoIdDb, $tokenBD, $expiraBD, $tokenValidadoBD);
+$stmt->bind_result($id_candidate, $nombreExist, $apellidopExist, $apellidomExist, $telExist, $cvAntiguoDb, $cvAntiguoIdDb, $tokenBD, $expiraBD);
 $stmt->fetch();
 $stmt->close();
 
-$cvAntiguo = $cvAntiguoDb;
-$cvAntiguoId = $cvAntiguoIdDb;
+$correoVerificado = $_SESSION['token_validado'] ?? false;
+
+if ($existe) {
+    // Candidato existente
+    $cvAntiguo = $cvAntiguoDb;
+    $cvAntiguoId = $cvAntiguoIdDb;
+    $primerIngreso = empty($tokenBD); // Si no tiene token, es su primera interacción
 
 
 
-if ($existe && $tokenValidadoBD == 1 && (!($_SESSION['token_validado'] ?? false) || ($_SESSION['correo_candidate'] ?? '') !== $correo)) {
-    $_SESSION['token_validado'] = true;
-    $_SESSION['correo_candidate'] = $correo;
-    $_SESSION['token_expira'] = time() + 1800; // 30 minutos
-}
+    if (!$correoVerificado || $_SESSION['correo_candidate'] !== $correo) {
+        $tokenExpirado = !$tokenBD || strtotime($expiraBD) < time();
 
-// --- CONTROL DE TOKEN ---
-//$tokenValidoSesion = $_SESSION['token_validado'] ?? false;
-//$correoSesion = $_SESSION['correo_candidate'] ?? '';
-$tokenValidadoBD = $tokenValidadoBD ?? 0;  // Asegúrate de tener el campo token_validado de BD
-
-// Caso: token ya validado (en sesión o en BD)
-if (($tokenValidoSesion && $correoSesion === $correo) || ($existe && $tokenValidadoBD == 1)) {
-    // Token ya validado → no hacer nada, solo continuar
-} else {
-    $tokenExpirado = !$tokenBD || strtotime($expiraBD) < time();
-
-    // Si no hay token ingresado o el token está expirado → generar y enviar uno nuevo
-    if (!$tokenValidoSesion && (empty($tokenIngresado) || $tokenExpirado)) {
-        $token = rand(100000, 999999);
-        $expiraToken = date("Y-m-d H:i:s", time() + 120); // 2 min
-
-        if ($existe) {
-            $stmtToken = $conexion->prepare("UPDATE candidato SET token_verificacion=?, token_expira=?, token_validado=0 WHERE correo_candidate=?");
+        if ($tokenExpirado && empty($tokenIngresado)) {
+            // Generar token y enviar correo
+            $token = rand(100000, 999999);
+            $expiraToken = date("Y-m-d H:i:s", time() + 120);
+            $stmtToken = $conexion->prepare("UPDATE candidato SET token_verificacion=?, token_expira=? WHERE correo_candidate=?");
             $stmtToken->bind_param("sss", $token, $expiraToken, $correo);
-        } else {
-            $stmtToken = $conexion->prepare("INSERT INTO candidato (correo_candidate, token_verificacion, token_expira, token_validado) VALUES (?,?,?,0)");
-            $stmtToken->bind_param("sss", $correo, $token, $expiraToken);
-        }
-        $stmtToken->execute();
-        $stmtToken->close();
+            $stmtToken->execute();
+            $stmtToken->close();
 
-        // Enviar token por correo
-        try {
-            $mail = new PHPMailer(true);
-            $mail->CharSet = "UTF-8";
-            $mail->isSMTP();
-            $mail->SMTPAuth = true;
-            $mail->SMTPSecure = 'tls';
-            $mail->Host = "smtp-mail.outlook.com";
-            $mail->Port = 587;
-            $mail->Username = "holaixah@giintapeinnovahueteam.onmicrosoft.com";
-            $mail->Password = '$';
-            $mail->setFrom("holaixah@giintapeinnovahueteam.onmicrosoft.com", "Soporte");
-            $mail->addAddress($correo);
-            $mail->isHTML(true);
-            $mail->Subject = "Código de verificación";
+            try {
+                $mail = new PHPMailer(true);
+                $mail->CharSet = "UTF-8";
+                $mail->isSMTP();
+                $mail->SMTPAuth = true;
+                $mail->SMTPSecure = 'tls';
+                $mail->Host = "smtp-mail.outlook.com";
+                $mail->Port = 587;
+                $mail->Username = "holaixah@giintapeinnovahueteam.onmicrosoft.com";
+                $$mail->Password = '$';
 
-            $plantilla = file_get_contents(__DIR__ . '/plantillaToken.php');
+                $mail->setFrom("holaixah@giintapeinnovahueteam.onmicrosoft.com", "Soporte");
+                $mail->addAddress($correo);
+
+                $mail->isHTML(true);
+                $mail->Subject = "Código de verificación";
+
+                $plantilla = file_get_contents(__DIR__ . '/plantillaToken.php');
                 $plantilla = str_replace('{{LOGO_URL}}', 'https://ixah.giintapeinnovahue.com/images/LOGOTIPO_IXAH-02.png', $plantilla);
                 $plantilla = str_replace('{{LOGO_PIE_URL}}', 'https://giintapeinnovahue.com/images/logoGintapeCircle.png', $plantilla);
                 $plantilla = str_replace('{{TOKEN}}', $token, $plantilla);
                 $plantilla = str_replace('{{EXPIRA}}', $expiraToken, $plantilla);
 
-            $mail->Body = $plantilla;
-            $mail->send();
-        } catch (Exception $e) {
-            echo json_encode(["error" => "No se pudo enviar el token: " . $mail->ErrorInfo]);
-            exit;
+                $mail->Body = $plantilla;
+                $mail->send();
+
+                echo json_encode([
+                    "requiere_token" => true,
+                    "mensaje" => "Se ha enviado un token de verificación a tu correo"
+                ]);
+                exit;
+            } catch (Exception $e) {
+                echo json_encode(["error" => "No se pudo enviar el token: " . $mail->ErrorInfo]);
+                exit;
+            }
         }
 
-        echo json_encode([
-            "requiere_token" => true,
-            "mensaje" => "Se ha enviado un token de verificación a tu correo"
-        ]);
-        exit;
-    }
-
-    // Validación de token ingresado
-    if (!empty($tokenIngresado)) {
-        if ($tokenIngresado !== $tokenBD || strtotime($expiraBD) < time()) {
+        // Validar token ingresado
+        if (!empty($tokenIngresado)) {
+            if ($tokenIngresado !== $tokenBD || strtotime($expiraBD) < time()) {
+                echo json_encode(["error" => "Token inválido o expirado"]);
+                exit;
+            }
+            $_SESSION['correo_candidate'] = $correo;
+            $_SESSION['token_validado'] = true;
+            $_SESSION['token_expira'] = time() + 120; // 30 min
+        } else {
             echo json_encode([
                 "requiere_token" => true,
-                "mensaje" => "Token inválido o expirado. Se ha enviado un nuevo código"
+                "mensaje" => "Ingresa tu código de verificación"
             ]);
             exit;
         }
-
-       if (!isset($_SESSION['token_validado']) || $_SESSION['correo_candidate'] !== $correo) {
-    $_SESSION['token_validado'] = true;
-    $_SESSION['correo_candidate'] = $correo;
-    $_SESSION['token_expira'] = time() + 1800;
-}
-        if ($existe) {
-            $stmtValida = $conexion->prepare("UPDATE candidato SET token_validado=1 WHERE correo_candidate=?");
-            $stmtValida->bind_param("s", $correo);
-            $stmtValida->execute();
-            $stmtValida->close();
-        }
     }
+} else {
+    // Candidato nuevo → registrar directamente
+    $_SESSION['correo_candidate'] = $correo;
+    $_SESSION['token_validado'] = true;
+    $_SESSION['token_expira'] = time() + 300; // 30 min
+    $nombreExist = $nombre;
+    $apellidopExist = $apellidop;
+    $apellidomExist = $apellidom;
 }
-
 // --- FUNCIONES ONEDRIVE ---
 function borrarCVOneDrive($accessToken, $fileId)
 {
@@ -189,7 +177,7 @@ function borrarCVOneDrive($accessToken, $fileId)
 // --- FUNCION PARA SUBIR CV A ONEDRIVE ---
 function subirACvOneDrive($tmpPath, $nombreArchivo, $cvAntiguoId = null)
 {
-    $client_id     = ""; //el ID de la aplicación (Application ID).
+   $client_id     = ""; //el ID de la aplicación (Application ID).
     $client_secret = ""; //Clave secreta que da one Drive
     $tenant_id     = ""; //el identificador del directorio
     $userPrincipalName = "holaixah@giintapeinnovahueteam.onmicrosoft.com";
@@ -339,15 +327,6 @@ if ($existe) {
     $stmtInsert->close();
 }
 
-// Verificar que el token esté validado en sesión
-$tokenValidoSesion = $_SESSION['token_validado'] ?? false;
-$correoSesion = $_SESSION['correo_candidate'] ?? '';
-
-if (!$tokenValidoSesion || $correoSesion !== $correo) {
-    echo json_encode(["error" => "Debes ingresar el código de verificación"]);
-    exit;
-}
-
 
 // --- INSERTAR POSTULACIÓN ---
 if ($id_emp && $id_vacante) {
@@ -361,16 +340,7 @@ if ($id_emp && $id_vacante) {
     $yaPostulado = $stmtCheck->num_rows > 0;
     $stmtCheck->close();
 
-       // --- SOLO PEDIR TOKEN SI YA SE HA POSTULADO ---
     if ($yaPostulado) {
-        $tokenValidoSesion = $_SESSION['token_validado'] ?? false;
-        $correoSesion = $_SESSION['correo_candidate'] ?? '';
-
-        if (!$tokenValidoSesion || $correoSesion !== $correo) {
-            echo json_encode(["error" => "Debes ingresar el código de verificación"]);
-            exit;
-        }
-
         echo json_encode(["tipo" => "alerta", "mensaje" => "Ya te has postulado a esta vacante"]);
         exit;
     }
@@ -418,13 +388,24 @@ if ($id_emp && $id_vacante) {
     $tmp = fopen('php://memory', 'r+');
     fwrite($tmp, $csvContent);
     rewind($tmp);
-    fgetcsv($tmp); // encabezado
+    // Leemos encabezado
+    $header = fgetcsv($tmp);
+    if ($header === false) {
+        fclose($tmp);
+        echo json_encode(["error" => "CSV vacío o corrupto"]);
+        exit;
+    }
+
+    // Procesamos cada fila
     while (($data = fgetcsv($tmp)) !== false) {
-        $vacantesMap[trim($data[0])] = trim($data[2]);
+        $key   = isset($data[0]) ? trim($data[0]) : '';
+        $value = isset($data[2]) ? trim($data[2]) : '';
+        if ($key !== '') {
+            $vacantesMap[$key] = $value;
+        }
     }
     fclose($tmp);
-    // --- OBTENER RUTA DESTINO PARA CSV (REMOTA EN SFTP) ---
-
+    // --- OBTENER RUTA DESTINO PARA CSV ---
     $stmtRuta = $conexion->prepare("SELECT rutaDestino, servidor, puerto, usuario, contrasena FROM integracion_sftp WHERE Empresa_id_emp=? AND activo=1");
     $stmtRuta->bind_param("s", $id_emp);
     $stmtRuta->execute();
@@ -439,30 +420,23 @@ if ($id_emp && $id_vacante) {
         exit;
     }
 
-    // Normalizamos la ruta remota (NO intentamos crearla en local)
     $rutaDestino = str_replace("\\", "/", $rutaDestino);
-    $remoteFilename = rtrim($rutaDestino, '/') . "/postulaciones_{$id_emp}.csv";
 
-    // --- GENERAR CSV EN MEMORIA (NO EN DISCO) ---
-    $mem = fopen('php://temp', 'w+');
-    if ($mem === false) {
-        // fallback: intentar php://memory
-        $mem = fopen('php://memory', 'w+');
-        if ($mem === false) {
-            error_log("No se pudo abrir stream en memoria para CSV");
-            echo json_encode(["error" => "No se pudo preparar el CSV en memoria"]);
-            exit;
-        }
+
+    if (!is_dir($rutaDestino)) {
+        mkdir($rutaDestino, 0777, true);
     }
+    $csvFile = rtrim($rutaDestino, '/') . "/postulaciones_{$id_emp}.csv";
 
-    // Encabezado CSV (igual a tu formato)
-    fputcsv($mem, ["Nombre", "ApellidoP", "ApellidoM", "Correo", "Teléfono", "CV_Link", "Vacante", "Nombre Vacante"]);
 
-    // Llenar con los postulados de la empresa
+    // --- CREAR CSV ---
+    $fp = fopen($csvFile, 'w');
+    fputcsv($fp, ["Nombre", "ApellidoP", "ApellidoM", "Correo", "Teléfono", "CV_Link", "Vacante", "Nombre Vacante"]);
+
     $stmtCSV = $conexion->prepare("
         SELECT c.nombre_candidate, c.apellidop_candidate, c.apellidom_candidate,
                c.correo_candidate, c.tel_candidate, c.CV_candidate,
-               p.id_vacante, p.link_vacante
+               p.id_vacante, p.nombre_vacante
         FROM postulaciones p
         INNER JOIN candidato c ON p.Candidato_id_candidate=c.id_candidate
         WHERE p.Empresa_id_emp=?
@@ -471,105 +445,78 @@ if ($id_emp && $id_vacante) {
     $stmtCSV->execute();
     $resultCSV = $stmtCSV->get_result();
     while ($row = $resultCSV->fetch_assoc()) {
-        fputcsv($mem, [
+        fputcsv($fp, [
             $row['nombre_candidate'],
             $row['apellidop_candidate'],
             $row['apellidom_candidate'],
             $row['correo_candidate'],
             $row['tel_candidate'],
             $row['CV_candidate'],
-            $vacantesMap[$row['id_vacante']] ?? $row['id_vacante'],
-            $row['link_vacante']
+            //$vacantesMap[$row['id_vacante']] ?? $row['id_vacante'],
+            $row['id_vacante'],
+            $row['nombre_vacante']
         ]);
     }
+    fclose($fp);
     $stmtCSV->close();
 
-    rewind($mem);
-    $csvData = stream_get_contents($mem);
-    fclose($mem);
-
-    // --- DESENCRIPTAR CONTRASEÑA SFTP ---
+    // --- SUBIR CSV A SFTP ---
     define('SECRET_KEY', 'tu_clave_secreta_super_segura_32_bytes');
     define('SECRET_IV', '1234567890123456');
     function decryptSFTP($string)
     {
-        // protege por si llega null o vacío
-        if (empty($string)) return '';
-        $decoded = openssl_decrypt($string, "AES-256-CBC", SECRET_KEY, 0, SECRET_IV);
-        return $decoded === false ? '' : $decoded;
+        return openssl_decrypt($string, "AES-256-CBC", SECRET_KEY, 0, SECRET_IV);
     }
 
-    // --- SUBIR CSV DIRECTO AL SFTP (SIN CREAR CARPETA LOCAL) ---
     if (!empty($rowRuta['servidor'])) {
-        $sftpHost = $rowRuta['servidor'];
-        $sftpPort = (int)($rowRuta['puerto'] ?? 22);
-        $sftpUser = $rowRuta['usuario'] ?? '';
-        $sftpPass = decryptSFTP($rowRuta['contrasena'] ?? '');
-
-        $sftp = new SFTP($sftpHost, $sftpPort);
-        if (!$sftp->login($sftpUser, $sftpPass)) {
-            error_log("No se pudo autenticar SFTP empresa $id_emp en $sftpHost:$sftpPort");
-            // Respondemos pero permitimos continuar con el CSV interno
-            $sftp_error = "No se pudo autenticar SFTP";
-        } else {
-            // Intentamos subir como string al remotePath
-            $putOk = $sftp->put($remoteFilename, $csvData, SFTP::SOURCE_STRING);
-            if (!$putOk) {
-                error_log("Error subiendo CSV SFTP empresa $id_emp a $remoteFilename");
-                $sftp_error = "Error subiendo CSV al SFTP";
-            } else {
-                // éxito: puedes opcionalmente guardar info en BD o log
-                $sftp_error = null;
+        $sftp = new SFTP($rowRuta['servidor'], (int)$rowRuta['puerto']);
+        $pass = decryptSFTP($rowRuta['contrasena']);
+        if ($sftp->login($rowRuta['usuario'], $pass)) {
+            $remotePath = rtrim($rowRuta['rutaDestino'], '/') . "/postulaciones.csv";
+            if (!$sftp->put($remotePath, $csvFile, SFTP::SOURCE_LOCAL_FILE)) {
+                error_log("Error subiendo CSV SFTP empresa $id_emp");
             }
+        } else {
+            error_log("No se pudo autenticar SFTP empresa $id_emp");
         }
-    } else {
-        $sftp_error = "No hay servidor SFTP configurado";
     }
 
-    // --- CSV interno global (se mantiene como antes) ---
+    $cvLinkTexto = $nuevoCV ? '<a href="' . $nuevoCV . '" target="_blank">Ver CV</a>' : 'No disponible';
+
+    // --- CSV interno global ---
     $csvInterno = __DIR__ . "/../interno/postulaciones_internas.csv";
     $fp2 = fopen($csvInterno, 'w');
-    if ($fp2 !== false) {
-        fputcsv($fp2, ["Nombre", "ApellidoP", "ApellidoM", "Correo", "Teléfono", "CV_Link", "Vacante", "Link_Vacante", "Empresa"]);
-        $stmtInterno = $conexion->prepare("SELECT c.nombre_candidate, c.apellidop_candidate, c.apellidom_candidate, c.correo_candidate, c.tel_candidate, c.CV_candidate, p.id_vacante, p.nombre_vacante, p.Empresa_id_emp FROM postulaciones p INNER JOIN candidato c ON p.Candidato_id_candidate=c.id_candidate");
-        $stmtInterno->execute();
-        $resInterno = $stmtInterno->get_result();
-        while ($row = $resInterno->fetch_assoc()) {
-            //$nombreVacante = $vacantesMap[$row['id_vacante']] ?? $row['id_vacante'];
-            fputcsv($fp2, [
-                $row['nombre_candidate'],
-                $row['apellidop_candidate'],
-                $row['apellidom_candidate'],
-                $row['correo_candidate'],
-                $row['tel_candidate'],
-                $row['CV_candidate'],
-                $row['id_vacante'],
-                $row['nombre_vacante'],
-                $row['Empresa_id_emp']
-            ]);
-        }
-        fclose($fp2);
-        $stmtInterno->close();
-    } else {
-        error_log("No se pudo abrir archivo interno $csvInterno para escritura");
-
+    fputcsv($fp2, ["Nombre", "ApellidoP", "ApellidoM", "Correo", "Teléfono", "CV_Link", "Vacante", "Link_Vacante", "Empresa"]);
+    $stmtInterno = $conexion->prepare("SELECT c.nombre_candidate, c.apellidop_candidate, c.apellidom_candidate, c.correo_candidate, c.tel_candidate, c.CV_candidate, p.id_vacante, p.nombre_vacante, p.Empresa_id_emp FROM postulaciones p INNER JOIN candidato c ON p.Candidato_id_candidate=c.id_candidate");
+    $stmtInterno->execute();
+    $resInterno = $stmtInterno->get_result();
+    while ($row = $resInterno->fetch_assoc()) {
+        //$nombreVacante = $vacantesMap[$row['id_vacante']] ?? $row['id_vacante'];
+        fputcsv($fp2, [
+            $row['nombre_candidate'],
+            $row['apellidop_candidate'],
+            $row['apellidom_candidate'],
+            $row['correo_candidate'],
+            $row['tel_candidate'],
+            $row['CV_candidate'],
+            $row['id_vacante'],
+            $row['nombre_vacante'],
+            $row['Empresa_id_emp']
+        ]);
     }
+    fclose($fp2);
+    $stmtInterno->close();
 
     $cvLinkFinal = $nuevoCV ?: $cvAntiguoDb ?: null;
 
-    // Respuesta: incluimos status SFTP si falló (para debug)
-    $response = [
+    echo json_encode([
         "mensaje" => "Postulación enviada correctamente",
         "nombre_candidate" => $nombre,
         "apellidop_candidate" => $apellidop,
         "apellidom_candidate" => $apellidom,
         "tel_candidate" => $telefono,
-        "cv_link" => $nuevoCV ? '<a href="' . $nuevoCV . '" target="_blank">Ver CV</a>' : 'No disponible'
-    ];
-    if (!empty($sftp_error)) {
-        $response['sftp_error'] = $sftp_error;
-    }
-    echo json_encode($response);
+        "cv_link" => $cvLinkTexto
+    ]);
 } else {
     echo json_encode([
         "valido" => true,

@@ -181,8 +181,8 @@ try {
         $mail->SMTPSecure = 'tls';
         $mail->Host = "smtp-mail.outlook.com";
         $mail->Port = 587;
-        $mail->Username = "contacto@giintapeinnovahue.com";
-        $mail->Password = "$";
+        $mail->Username = "holaixah@giintapeinnovahueteam.onmicrosoft.com";
+        $$mail->Password = '$';
 
         $mail->setFrom("contacto@giintapeinnovahue.com", "Soporte");
         $mail->addAddress($reg['correo_adm']);

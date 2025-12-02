@@ -26,7 +26,7 @@ $id_chatbot = $_SESSION['id_chatbot'] ?? null;
 
     <div class="rectangulo-container">
         <a href="menu.php">
-            <img src="img/Logo_cabeza.svg" width="70px" alt="Logo" class="img-logo-chiq">
+            <img src="img/LOGOTIPO_IXAH-02.png" width="70px" alt="Logo" class="img-logo-chiq">
         </a>
     </div>
     <header>
@@ -130,11 +130,11 @@ $id_chatbot = $_SESSION['id_chatbot'] ?? null;
 
                     <div>
 
-                    <div style="position: relative; width: 100%;">
-                        <label class="label-nombrechat">Mensaje</label><br>
-                        <input type="text" name="inp_burbuja" id="inp_burbuja" placeholder="¡Encuentra vacantes!"
-                            class="input-burbuja" minlength="2" maxlength="20" required value="<?php echo htmlspecialchars($chatbot['inp_burbuja'] ?? ''); ?>"><br>
-                            <span id="contadorBurbu" class="contador"  >
+                        <div style="position: relative; width: 100%;">
+                            <label class="label-nombrechat">Mensaje</label><br>
+                            <input type="text" name="inp_burbuja" id="inp_burbuja" placeholder="¡Encuentra vacantes!"
+                                class="input-burbuja" minlength="2" maxlength="20" required value="<?php echo htmlspecialchars($chatbot['inp_burbuja'] ?? ''); ?>"><br>
+                            <span id="contadorBurbu" class="contador">
                                 0 / 20
                             </span>
                         </div>
@@ -190,6 +190,27 @@ $id_chatbot = $_SESSION['id_chatbot'] ?? null;
     <script src="js/custom.js"></script>
     <script src="js/menuLateral.js" type="module"></script>
     <script src="js/guardar.js"></script>
+    <script src="js/formularioIntegracion.js"></script>
+    <script>
+        window.appData = {
+            nombrePlan: '<?php echo $planUsuario; ?>',
+            estadoSuscripcion: '<?php echo $estadoSuscripcion; ?>',
+            sftpActivo: <?php echo $sftpActivo; ?>,
+            sftpConfig: <?php
+                        echo json_encode([
+                            'tipo_integracion' => $sftpData['tipo_integracion'] ?? 'estandar',
+                            'activo' => isset($sftpData['activo']) ? (int)$sftpData['activo'] : 0,
+                            'servidor' => $sftpData['servidor'] ?? '',
+                            'puerto' => $sftpData['puerto'] ?? '22',
+                            'usuario' => $sftpData['usuario'] ?? '',
+                            'contrasena' => '',
+                            'rutaDestino' => $sftpData['rutaDestino'] ?? '',
+                            'url_estandar' =>  $sftpData['url_estandar'] ?? ''
+                        ]);
+                        ?>
+        };
+    </script>
+    <script src="js/guardadoGeneral.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </body>

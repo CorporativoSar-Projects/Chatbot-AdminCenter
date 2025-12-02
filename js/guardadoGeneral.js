@@ -33,22 +33,40 @@ function guardarChatbotCompleto() {
         });
         return;
     }
+    // ==========================
+    // NORMALIZAR URL DE IMAGEN
+    // ==========================
+    function normalizarURLImagen(url) {
+        if (!url) return "";
+        url = url.trim();
+        // Si NO empieza con http:// o https:// se agrega https://
+        if (!/^https?:\/\//i.test(url)) {
+            url = "https://" + url;
+        }
+        return url;
+    }
 
-     // Manejar logo: mantener el anterior si no hay nuevo input
+    // ==========================
+    // URL por defecto
+    // ==========================
+    const URL_DEFAULT_LOGO = "https://ixahcenter.giintapeinnovahue.com/img/Logo_cabeza.svg"; // <- Cambia por la URL real
+
+    // Manejar logo: mantener el anterior si no hay nuevo input, fallback a IXAH
     const urlLogotipoInput = document.getElementById("urlLogotipo")?.value.trim() || "";
-    const logoPrevio = localStorage.getItem("chatbotLogo");
+    const logoPrevio = localStorage.getItem("chatbotLogo") || "";
     let logoURL = "";
 
     if (urlLogotipoInput !== "") {
-        logoURL = urlLogotipoInput;
-    } else if (logoPrevio) {
-        logoURL = logoPrevio;
+        logoURL = normalizarURLImagen(urlLogotipoInput);
+    } else if (logoPrevio !== "") {
+        logoURL = normalizarURLImagen(logoPrevio);
     } else {
+        logoURL = URL_DEFAULT_LOGO;
     }
 
     // Guardar la URL del logo en localStorage
     localStorage.setItem("chatbotLogo", logoURL);
-    
+
     //  Preparar datos para envío
     const datosPlanos = {
         id_chatbot: localStorage.getItem("id_chatbot") || null,
@@ -81,49 +99,49 @@ function guardarChatbotCompleto() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(datosPlanos)
     })
-    .then(res => res.json())
-    .then(data => {
-        if (data.success) {
-            if (data.id_chatbot) {
-                localStorage.setItem("id_chatbot", data.id_chatbot);
-            }
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                if (data.id_chatbot) {
+                    localStorage.setItem("id_chatbot", data.id_chatbot);
+                }
 
-            if (data.message.includes("creado")) {
-                Swal.fire({
-                    icon: "success",
-                    title: "¡Chatbot creado!",
-                    text: "Tu chatbot se guardó exitosamente.",
-                    confirmButtonColor: "#ffb703"
-                });
-            } else if (data.message.includes("actualizado")) {
-                Swal.fire({
-                    icon: "info",
-                    title: "Chatbot actualizado",
-                    text: "Los cambios en tu chatbot se guardaron correctamente.",
-                    confirmButtonColor: "#ffb703"
-                });
+                if (data.message.includes("creado")) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "¡Chatbot creado!",
+                        text: "Tu chatbot se guardó exitosamente.",
+                        confirmButtonColor: "#ffb703"
+                    });
+                } else if (data.message.includes("actualizado")) {
+                    Swal.fire({
+                        icon: "info",
+                        title: "Chatbot actualizado",
+                        text: "Los cambios en tu chatbot se guardaron correctamente.",
+                        confirmButtonColor: "#ffb703"
+                    });
+                } else {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Guardado exitoso",
+                        text: data.message || "Cambios aplicados correctamente.",
+                        confirmButtonColor: "#ffb703"
+                    });
+                }
             } else {
                 Swal.fire({
-                    icon: "success",
-                    title: "Guardado exitoso",
-                    text: data.message || "Cambios aplicados correctamente.",
-                    confirmButtonColor: "#ffb703"
+                    icon: "error",
+                    title: "Error al guardar",
+                    text: data.error || "Ocurrió un error desconocido."
                 });
             }
-        } else {
+        })
+        .catch(err => {
+            console.error("Error en guardado general:", err);
             Swal.fire({
                 icon: "error",
-                title: "Error al guardar",
-                text: data.error || "Ocurrió un error desconocido."
+                title: "Error de red",
+                text: "No se pudo conectar con el servidor."
             });
-        }
-    })
-    .catch(err => {
-        console.error("Error en guardado general:", err);
-        Swal.fire({
-            icon: "error",
-            title: "Error de red",
-            text: "No se pudo conectar con el servidor."
         });
-    });
 }

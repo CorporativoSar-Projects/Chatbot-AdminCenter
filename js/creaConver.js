@@ -31,7 +31,7 @@ function impMenu1(event) {
   // Contenido de la función impMenu1
   var stringMenu = `
         <div class="container-crear-conver">
-            <label class="label-nombrechat2">Mensaje inicial de la conversación<span class="false-span" style="color: white;">1234567891011121314151617181920</span></label><br>
+            <label class="label-nombrechat2">Mensaje inicial de la conversación</label><br>
             <input type="text" name="inp_mensaje_usuario" id="inp_mensaje_usuario" placeholder="Escribe"
                 class="inp-mensaje-usuario-crear" required><br>
             
@@ -66,7 +66,7 @@ function impMenu2(event) {
   // Contenido de la función impMenu2
   var stringMenu = `
         <div class="container-crear-conver">
-            <label class="label-nombrechat2">Mensaje inicial de la conversación<span class="false-span" style="color: white;">1234567891011121314151617181920</span></label><br>
+            <label class="label-nombrechat2">Mensaje inicial de la conversación</label><br>
             <input type="text" name="inp_mensaje_usuario2" id="inp_mensaje_usuario2" placeholder="Escribe"
                 class="inp-mensaje-usuario-crear" required><br>
           
@@ -91,7 +91,7 @@ function impMenu3(event) {
   // Contenido de la función impMenu3
   var stringMenu = `
         <div class="container-crear-conver">
-            <label class="label-nombrechat2">Mensaje inicial de la conversación<span class="false-span" style="color: white;">1234567891011121314151617181920</span></label><br>
+            <label class="label-nombrechat2">Mensaje inicial de la conversación</label><br>
             <input type="text" name="inp_mensaje_usuario3" id="inp_mensaje_usuario3" placeholder="Escribe"
                 class="inp-mensaje-usuario-crear" required><br>
            

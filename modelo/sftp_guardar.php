@@ -51,6 +51,13 @@ if ($rowEmp = $resultEmp->fetch_assoc()) {
     exit;
 }
 
+// Obtener configuración de integración
+$stmt = $conexion->prepare("SELECT tipo_integracion, activo, servidor, puerto, usuario, rutaDestino, url_estandar FROM integracion_sftp WHERE Empresa_id_emp=?");
+$stmt->bind_param("i", $id_emp);
+$stmt->execute();
+$res = $stmt->get_result();
+$sftpConfig = $res->fetch_assoc() ?: [];
+
 // Obtener datos enviados por fetch (JSON)
 $data = json_decode(file_get_contents('php://input'), true);
 

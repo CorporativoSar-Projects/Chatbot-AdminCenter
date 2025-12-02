@@ -24,7 +24,7 @@ include 'modelo/consultas_menu.php';
 
     <div class="rectangulo-container">
         <a href="menu.php">
-            <img src="img/Logo_cabeza.svg" width="70px" alt="Logo" class="img-logo-chiq">
+            <img src="img/LOGOTIPO_IXAH-02.png" width="70px" alt="Logo" class="img-logo-chiq">
         </a>
     </div>
     <header>
@@ -261,6 +261,8 @@ include 'modelo/consultas_menu.php';
             sftpActivo: <?php echo $sftpActivo; ?>,
             sftpConfig: <?php
                         echo json_encode([
+                            'tipo_integracion' => $sftpData['tipo_integracion'] ?? 'estandar',
+                            'activo' => isset($sftpData['activo']) ? (int)$sftpData['activo'] : 0,
                             'servidor' => $sftpData['servidor'] ?? '',
                             'puerto' => $sftpData['puerto'] ?? '22',
                             'usuario' => $sftpData['usuario'] ?? '',

@@ -44,7 +44,7 @@ if ($row['total'] >= 1 && isset($_GET['nuevo'])) {
 
     <div class="rectangulo-container">
         <a href="menu.php">
-        <img src="img/Logo_cabeza.svg" width="70px" alt="Logo" class="img-logo-chiq">
+        <img src="img/LOGOTIPO_IXAH-02.png" width="70px" alt="Logo" class="img-logo-chiq">
         </a>
     </div>
     <header>
@@ -185,8 +185,8 @@ if ($row['total'] >= 1 && isset($_GET['nuevo'])) {
                             <div class="container-archivo">
                                 <label for="urlLogotipo">Ingresa la URL del Logotipo</label><br>
                                 <div class="select-archivo">
-                                    <input type="text" id="urlLogotipo" placeholder="https://logo" class="input-url" value="<?php echo htmlspecialchars($chatbot['urlLogotipo'] ?? ''); ?>">
-                                    <button type="button" onclick="previsualizarImagen()" class="update-logo-button">Actualizar logo</button>
+                                    <input type="text" id="urlLogotipo" placeholder="https://tusitio.com/logo.png (.png, .jpg, .svg)" class="input-url" value="<?php echo htmlspecialchars($chatbot['urlLogotipo'] ?? ''); ?>">
+                                    <!--<button type="button" onclick="previsualizarImagen()" class="update-logo-button">Actualizar logo</button>--->
                                 </div>
                             </div>
                         </div>
@@ -257,7 +257,27 @@ if ($row['total'] >= 1 && isset($_GET['nuevo'])) {
     <script src="js/estilo.js"></script>
     <script src="js/custom.js"></script>
     <script src="js/formularioIntegracion.js"></script>
-     <script src="js/guardar.js"></script>
+  <script>
+    window.appData = {
+      nombrePlan: '<?php echo $planUsuario; ?>',
+      estadoSuscripcion: '<?php echo $estadoSuscripcion; ?>',
+      sftpActivo: <?php echo $sftpActivo; ?>,
+      sftpConfig: <?php
+                  echo json_encode([
+                    'tipo_integracion' => $sftpData['tipo_integracion'] ?? 'estandar',
+                    'activo' => isset($sftpData['activo']) ? (int)$sftpData['activo'] : 0,
+                    'servidor' => $sftpData['servidor'] ?? '',
+                    'puerto' => $sftpData['puerto'] ?? '22',
+                    'usuario' => $sftpData['usuario'] ?? '',
+                    'contrasena' => '',
+                    'rutaDestino' => $sftpData['rutaDestino'] ?? '',
+                    'url_estandar' =>  $sftpData['url_estandar'] ?? ''
+                  ]);
+                  ?>
+    };
+  </script>
+    <script src="js/guardadoGeneral.js"></script>
+    <script src="js/guardar.js"></script>
     <script src="js/menuLateral.js" type="module"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 

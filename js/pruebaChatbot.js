@@ -776,6 +776,12 @@ function enviarRespuesta() {
 function manejarFlujoSeguimiento(userInput) {
   if (estadoConversacion !== "preguntaUsuario") return;
 
+    // Validar que el input sea un email
+  if (!validateEmail(userInput)) {
+    agregarMensajeChatbot("Por favor, ingresa un correo electrónico válido.");
+    return; // No continuar hasta que sea válido
+  }
+
   const columnaClave = window.temaSeguimiento.columna;
   const csvData = csvDataPorColumna[columnaClave] || [];
 
@@ -942,8 +948,9 @@ function funcionNo() {
 
   // Texto
   const texto = document.createElement("p");
-  texto.textContent = windowConfig.despedida || "¡Gracias por usar nuestro asistente virtual!";
+  texto.textContent = windowConfig.inp_despedida || "¡Gracias por usar nuestro asistente virtual!";
   texto.style.margin = 0;
+console.log(windowConfig.inp_despedida);
 
   // Logo
   const logo = document.createElement("img");
@@ -956,6 +963,8 @@ function funcionNo() {
   mensajeDespedida.appendChild(logo);
 
   contenedor.appendChild(mensajeDespedida);
+  contenedor.scrollTop = contenedor.scrollHeight;
+
   mensajeDespedida.scrollIntoView({ behavior: "smooth" });
 
   // Luego cerrar chatbot después de unos segundos
