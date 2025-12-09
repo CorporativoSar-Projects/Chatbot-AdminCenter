@@ -26,7 +26,7 @@ include 'modelo/consultas_menu.php';
       </div>
       <div class="user-info">
         <a href="#" style="text-decoration: none; color: inherit; display: block; margin-bottom: 10px;">Desarrollado por Giintape Innovahue</a>
-        <a href="https://giintapeinnovahue.freshdesk.com/support/tickets/new" target="_blank">Ayuda</a>
+        <a href="https://giintapeinnovahue.freshdesk.com/support/tickets/new" target="_blank">Soporte técnico</a>
       </div>
     </div>
 
