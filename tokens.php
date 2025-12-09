@@ -115,8 +115,16 @@ $tokens = $response['data'] ?? [];
 <body>
 
     <!-- Logo y Navbar -->
-    <div class="rectangulo-container">
+    <!--<div class="rectangulo-container">
         <img src="img/Logo_cabeza.svg" width="70px" alt="Logo" class="img-logo-chiq" />
+    </div>-->
+
+    <div class="rectangulo-container">
+        <img
+            src="img/LOGOTIPO_IXAH-02.png"
+            width="70px"
+            alt="Logo"
+            class="img-logo-chiq" />
     </div>
 
     <header>
@@ -143,11 +151,15 @@ $tokens = $response['data'] ?? [];
                     <div class="user-info">
                         <a href="menu.php">Menu</a>
                     </div>
+                    <!--
                     <div class="user-info">
                         <a href="vacantes.php">Vacantes</a>
                     </div>
                     <div class="user-info">
                         <a href="candidatos.php">Candidatos</a>
+                    </div>-->
+                    <div class="user-info">
+                        <a href="vacantes_candidatos.php?tab=vacantes">Vacantes y Candidatos</a>
                     </div>
                     <div class="user-info">
                         <a href="panel_admin_ia.php">Panel de Configuración</a>

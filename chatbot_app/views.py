@@ -292,7 +292,7 @@ def send_message_ajax(request, session_id, token_record):
 
         bot_response = response.choices[0].message.content
 
-        session = ChatSession.objects.filter(user=request.user).last()
+        # session = ChatSession.objects.filter(user=request.user).last()
 
         chat_message = ChatMessage.objects.create(
             session=session,

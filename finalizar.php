@@ -1,8 +1,8 @@
 <?php
-
+/*
 include('modelo/obtenerDatos.php');
 include 'modelo/consultas_menu.php';
-
+*/
 ?>
 
 <!DOCTYPE html>
@@ -161,10 +161,6 @@ include 'modelo/consultas_menu.php';
                                 <button type="submit" class="btnGuardarurl" id="btnGuardarurl">
                                     <i class="fas fa-save"></i>
                                 </button>
-<<<<<<< HEAD
-=======
-
->>>>>>> JessicaMoralesAguilar
                             </div>
                             <div class="generar-container">
                                 <button type="submit" id="myBtn" class="btnGenerar" data-idadm="<?= $_SESSION['id_adm'] ?>" data-toggle="modal" data-target="#myModal">
@@ -172,23 +168,18 @@ include 'modelo/consultas_menu.php';
                                 </button>
 
                                 <!-- Nuevo botón a la derecha -->
-<<<<<<< HEAD
                                 <button type="button" id="btnInteractivo" class="btnInteractivo" onclick="window.location.href='pagina_pruebas.php'">
                                     <span class="btnInteractivo">Modo Interactivo</span>
                                 </button>
                             </div>
 
-=======
-                                <button type="button" id="btnInteractivo" class="btnInteractivo" onclick="window.open('pagina_pruebas.php', '_blank')">
+                            <!--    
+                            <button type="button" id="btnInteractivo" class="btnInteractivo" onclick="window.open('pagina_pruebas.php', '_blank')">
                                     <span>Modo Interactivo</span>
                                 </button>
-                            </div>
->>>>>>> JessicaMoralesAguilar
+                            </div>-->
                         </div>
-
-
                     </div>
-
                 </div>
             </div>
 
@@ -251,31 +242,30 @@ include 'modelo/consultas_menu.php';
     <script src="js/custom.js"></script>
     <script src="js/menuLateral.js" type="module"></script>
     <script src="js/guardar.js"></script>
-<<<<<<< HEAD
-=======
-    <script src="js/formularioIntegracion.js"></script>
-    <script>
-        window.appData = {
-            nombrePlan: '<?php echo $planUsuario; ?>',
-            estadoSuscripcion: '<?php echo $estadoSuscripcion; ?>',
-            sftpActivo: <?php echo $sftpActivo; ?>,
-            sftpConfig: <?php
-                        echo json_encode([
-                            'tipo_integracion' => $sftpData['tipo_integracion'] ?? 'estandar',
-                            'activo' => isset($sftpData['activo']) ? (int)$sftpData['activo'] : 0,
-                            'servidor' => $sftpData['servidor'] ?? '',
-                            'puerto' => $sftpData['puerto'] ?? '22',
-                            'usuario' => $sftpData['usuario'] ?? '',
-                            'contrasena' => '',
-                            'rutaDestino' => $sftpData['rutaDestino'] ?? '',
-                            'url_estandar' =>  $sftpData['url_estandar'] ?? ''
-                        ]);
-                        ?>
-        };
-    </script>
-    <script src="js/guardadoGeneral.js"></script>
->>>>>>> JessicaMoralesAguilar
-    <script src="js/urlFuncionamiento.js"></script>
+    <<<<<<< HEAD=======<script src="js/formularioIntegracion.js">
+        </script>
+        <script>
+            window.appData = {
+                nombrePlan: '<?php echo $planUsuario; ?>',
+                estadoSuscripcion: '<?php echo $estadoSuscripcion; ?>',
+                sftpActivo: <?php echo $sftpActivo; ?>,
+                sftpConfig: <?php
+                            echo json_encode([
+                                'tipo_integracion' => $sftpData['tipo_integracion'] ?? 'estandar',
+                                'activo' => isset($sftpData['activo']) ? (int)$sftpData['activo'] : 0,
+                                'servidor' => $sftpData['servidor'] ?? '',
+                                'puerto' => $sftpData['puerto'] ?? '22',
+                                'usuario' => $sftpData['usuario'] ?? '',
+                                'contrasena' => '',
+                                'rutaDestino' => $sftpData['rutaDestino'] ?? '',
+                                'url_estandar' =>  $sftpData['url_estandar'] ?? ''
+                            ]);
+                            ?>
+            };
+        </script>
+        <script src="js/guardadoGeneral.js"></script>
+        >>>>>>> JessicaMoralesAguilar
+        <script src="js/urlFuncionamiento.js"></script>
 
 </body>
 
