@@ -697,29 +697,59 @@ $mysqli->close();
                     ¡Hola! Soy tu asistente de IA. ¿En qué puedo ayudarte hoy?
                     <!-- Botones especializados -->
                     <div class="special-buttons">
-                        <button class="special-btn" onclick="mostrarAnalisisCandidato()">
+                        <!--<button class="special-btn" onclick="mostrarAnalisisCandidato()">
+                            🔍 Análisis de candidatos
+                            🔍 Comparar CV con SAP
+                        </button>-->
+                        <button class="special-btn" onclick="activarComparacionCV()">
                             🔍 Análisis de candidatos
                         </button>
+                        <!--
                         <button class="special-btn" onclick="mejorarDescripcionPuesto()">
                             ✏️ Mejorar descripciones de puestos
                         </button>
                         <button class="special-btn" onclick="mostrarInputManualDescripcion()">
                             ✏️ Mejorar descripción manual
+                        </button>-->
+
+                        <button class="special-btn" onclick="mostrarOpcionesMejoraDescripcion()">
+                            ✏️ Mejorar descripción de puesto
                         </button>
+                        <!-- Contenedor para opciones de mejora de descripción -->
+                        <div id="opciones-mejora-container" class="analysis-input-container" style="display: none;">
+                            <div style="text-align: center; margin-bottom: 15px;">
+                                <h5 style="color: #002B45; margin-bottom: 20px;">Selecciona una opción:</h5>
+
+                                <button class="special-btn" onclick="seleccionarDescripcionManual()"
+                                    style="margin-bottom: 10px; background: #3ca6e5;">
+                                    📝 Descripción Manual
+                                </button>
+
+                                <button class="special-btn" onclick="seleccionarDescripcionATS()"
+                                    style="margin-bottom: 10px; background: #28a745;">
+                                    📊 Descripción desde ATS
+                                </button>
+
+                                <button class="special-btn" onclick="ocultarOpcionesMejora()"
+                                    style="background: #6c757d; color: white;">
+                                    ↩️ Volver
+                                </button>
+                            </div>
+                        </div>
+
                         <button class="special-btn" onclick="procesarSAPSSFF()">
                             📊 Procesar SAP SSFF
                         </button>
-                        <button class="special-btn" onclick="activarComparacionCV()">
-                            🔍 Comparar CV con SAP
-                        </button>
                     </div>
                 </div>
-                <div id="manual-description-container" class="analysis-input-container">
-                    <textarea id="descripcion-puesto-input" class="analysis-input" rows="4" placeholder="Escribe aquí la descripción del puesto que deseas mejorar..."></textarea>
+                <div id="manual-description-container" class="analysis-input-container" style="display: none;">
+
+                </div>
+                <!--
+                <textarea id="descripcion-puesto-input" class="analysis-input" rows="4" placeholder="Escribe aquí la descripción del puesto que deseas mejorar..."></textarea>
                     <button class="analysis-btn" onclick="enviarDescripcionParaMejora()">
                         ✏️ Optimizar descripción con IA
-                    </button>
-                </div>
+                    </button>-->
 
                 <!-- Contenedor para análisis de candidatos -->
                 <div id="analysis-input-container" class="analysis-input-container">
@@ -747,6 +777,96 @@ $mysqli->close();
 
     <!-- Scripts de IA -->
     <script>
+        // Función para mostrar las opciones de mejora de descripción
+        function mostrarOpcionesMejoraDescripcion() {
+            // Ocultar otros contenedores
+            document.getElementById('analysis-input-container').style.display = 'none';
+            document.getElementById('manual-description-container').style.display = 'none';
+
+            // Mostrar contenedor de opciones
+            document.getElementById('opciones-mejora-container').style.display = 'block';
+
+            // Agregar mensaje al chat
+            agregarMensajeChat('user', 'Quiero mejorar una descripción de puesto');
+            setTimeout(() => {
+                agregarMensajeChat('bot', 'Por favor, selecciona el tipo de descripción que deseas mejorar:');
+            }, 500);
+        }
+
+
+        // Función para seleccionar descripción manual
+        function seleccionarDescripcionManual() {
+            // Ocultar opciones
+            document.getElementById('opciones-mejora-container').style.display = 'none';
+
+            // Agregar mensaje al chat
+            agregarMensajeChat('user', 'Descripción Manual');
+            setTimeout(() => {
+                // Mostrar textarea para descripción manual
+                mostrarInputManualDescripcion();
+            }, 500);
+        }
+
+        // Función para seleccionar descripción desde ATS
+        function seleccionarDescripcionATS() {
+            // Ocultar opciones
+            document.getElementById('opciones-mejora-container').style.display = 'none';
+
+            // Agregar mensaje al chat
+            agregarMensajeChat('user', 'Descripción desde ATS');
+            setTimeout(() => {
+                agregarMensajeChat('bot', 'Selecciona un candidato de la tabla para mejorar la descripción de su puesto.');
+
+                // Mostrar botones de mejora en la tabla usando la función de analisisIA.js
+                if (typeof toggleImproveButtons === 'function') {
+                    toggleImproveButtons(true);
+                } else {
+                    // Fallback si no existe la función
+                    mostrarBotonesMejoraEnTabla();
+                }
+            }, 500);
+        }
+
+        // Función para ocultar opciones
+        function ocultarOpcionesMejora() {
+            document.getElementById('opciones-mejora-container').style.display = 'none';
+            agregarMensajeChat('bot', '¿En qué más puedo ayudarte?');
+        }
+
+        // Función auxiliar para mostrar botones de mejora
+        function mostrarBotonesMejoraEnTabla() {
+            // Ocultar otros botones si están visibles
+            ocultarTodosLosBotones();
+
+            // Mostrar botones de mejora
+            document.querySelectorAll('.btn-improve-job').forEach(btn => {
+                btn.style.display = 'inline-block';
+            });
+        }
+
+        // Función para ocultar todos los botones especiales
+        function ocultarTodosLosBotones() {
+            document.querySelectorAll('.btn-select-candidate').forEach(btn => {
+                btn.style.display = 'none';
+            });
+            document.querySelectorAll('.btn-improve-job').forEach(btn => {
+                btn.style.display = 'none';
+            });
+            document.querySelectorAll('.btn-compare-candidate').forEach(btn => {
+                btn.style.display = 'none';
+            });
+        }
+
+        // Función para agregar mensajes al chat (si no la tienes)
+        function agregarMensajeChat(tipo, mensaje) {
+            const chatBody = document.getElementById('chat-body');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `chat-message ${tipo}-message`;
+            messageDiv.textContent = mensaje;
+            chatBody.appendChild(messageDiv);
+            chatBody.scrollTop = chatBody.scrollHeight;
+        }
+
         // Datos de candidatos desde PHP
         const candidatosData = <?php echo json_encode($candidatos); ?>;
     </script>

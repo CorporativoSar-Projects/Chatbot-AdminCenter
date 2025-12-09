@@ -74,14 +74,24 @@ include 'modelo/consultas_menu.php';
             <a href="#">Chatbot IXAH</a>
             <span>Versión 1.0.0</span>
           </div>
+          <!--
           <div class="user-info">
             <a href="vacantes.php">Vacantes</a>
           </div>
           <div class="user-info">
             <a href="candidatos.php">Candidatos</a>
+          </div>-->
+          <div class="user-info">
+            <a href="vacantes_candidatos.php?tab=vacantes">Vacantes</a>
           </div>
           <div class="user-info">
+            <a href="vacantes_candidatos.php?tab=candidatos">Candidatos</a>
+          </div>
+          <!--<div class="user-info">
             <a href="panel_admin_ia.php">Panel de Configuración</a>
+          </div>-->
+          <div class="user-info">
+            <a href="informacion_empresa.php">Información de la Empresa</a>
           </div>
           <div class="user-info">
             <a href="tokens.php">Tokens</a>

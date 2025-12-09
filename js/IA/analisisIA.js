@@ -40,28 +40,6 @@ function toggleImproveButtons(show) {
   }
 }
 
-// DEMAS FUNCIONES //
-
-// Función para seleccionar candidato desde la tabla
-/*
-function seleccionarParaAnalisis(id) {
-  const candidato = candidatosData.find((c) => c.id_candidate == id);
-  if (candidato) {
-    // Ocultar todos los botones de selección
-    toggleSelectionButtons(false);
-
-    // Mostrar mensaje en el chat
-    addMessage(
-      `Seleccioné a ${candidato.nombre_candidate} ${candidato.apellidop_candidate} para análisis`,
-      "user-message"
-    );
-
-    // Iniciar función de análisis
-    iniciarAnalisisCandidato(candidato);
-  }
-}*/
-
-
 // Modifica la función seleccionarParaAnalisis
 function seleccionarParaAnalisis(id) {
   const candidato = candidatosData.find((c) => c.id_candidate == id);
@@ -82,17 +60,24 @@ function seleccionarParaAnalisis(id) {
 
 // Nueva función para análisis + recomendación
 async function iniciarAnalisisYRecomendacion(candidato) {
-  console.log("Candidato seleccionado para análisis y recomendación:", candidato);
+  console.log(
+    "Candidato seleccionado para análisis y recomendación:",
+    candidato
+  );
 
   // Mostrar análisis básico
   const analysisHTML = `
         <div class="candidate-analysis">
-            <h5>🔍 Análisis de ${candidato.nombre_candidate} ${candidato.apellidop_candidate}</h5>
+            <h5>🔍 Análisis de ${candidato.nombre_candidate} ${
+    candidato.apellidop_candidate
+  }</h5>
             <div class="analysis-field">
                 <strong>📧 Email:</strong> ${candidato.correo_candidate}
             </div>
             <div class="analysis-field">
-                <strong>💼 Puesto aplicado:</strong> ${candidato.puesto || "No especificado"}
+                <strong>💼 Puesto aplicado:</strong> ${
+                  candidato.puesto || "No especificado"
+                }
             </div>
             <div class="analysis-field">
                 <strong>🔄 Proceso:</strong> Analizando CV y buscando vacantes recomendadas...
@@ -104,23 +89,28 @@ async function iniciarAnalisisYRecomendacion(candidato) {
 
   try {
     // 1. Primero obtener el texto del CV
-    const cvResponse = await fetch(`${API_BASE}/obtener_texto_cv/${candidato.id_candidate}/`);
+    const cvResponse = await fetch(
+      `${API_BASE}/obtener_texto_cv/${candidato.id_candidate}/`
+    );
     const cvData = await cvResponse.json();
-    
+
     if (!cvData.cv_texto || cvData.cv_texto.startsWith("ERROR:")) {
       throw new Error("No se pudo obtener un texto válido del CV");
     }
 
     // 2. Llamar a la función de recomendación de vacantes
-    const recomendacionResponse = await fetch(`${API_BASE}/recomendar-vacantes/`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        cv_texto: cvData.cv_texto
-      })
-    });
+    const recomendacionResponse = await fetch(
+      `${API_BASE}/recomendar-vacantes/`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          cv_texto: cvData.cv_texto,
+        }),
+      }
+    );
 
     if (!recomendacionResponse.ok) {
       const errorData = await recomendacionResponse.json().catch(() => ({}));
@@ -135,19 +125,21 @@ async function iniciarAnalisisYRecomendacion(candidato) {
     }
 
     // 3. Mostrar resultados de recomendación
-    mostrarRecomendacionesVacantes(candidato, recomendacionData.recomendaciones);
-
+    mostrarRecomendacionesVacantes(
+      candidato,
+      recomendacionData.recomendaciones
+    );
   } catch (error) {
-    console.error('Error en análisis y recomendación:', error);
-    
+    console.error("Error en análisis y recomendación:", error);
+
     const errorHTML = `
       <div class="chat-message bot-message">
         <div style="color: #dc3545; font-weight: bold;">❌ Error en el análisis</div>
         <p>No se pudo completar la recomendación de vacantes: ${error.message}</p>
       </div>
     `;
-    addHTMLMessage(errorHTML, 'bot-message');
-    
+    addHTMLMessage(errorHTML, "bot-message");
+
     setTimeout(() => {
       mostrarConfirmacionAyuda();
     }, 1000);
@@ -185,7 +177,6 @@ function mostrarRecomendacionesVacantes(candidato, recomendaciones) {
     mostrarConfirmacionAyuda();
   }, 1000);
 }
-
 
 // Función que se ejecuta cuando se selecciona un candidato
 function iniciarAnalisisCandidato(candidato) {
@@ -373,37 +364,140 @@ function manejarConfirmacion(respuesta) {
   }
 }
 
-// Función para mostrar las opciones principales
+// Función para mostrar las opciones principales - VERSIÓN CORREGIDA
 function mostrarOpcionesPrincipales() {
   // document.getElementById('manual-description-container').style.display = 'none';
   document.getElementById("analysis-input-container").style.display = "none";
   toggleSelectionButtons(false);
   toggleImproveButtons(false);
 
+  // Ocultar también los contenedores del nuevo flujo
+  if (document.getElementById("opciones-mejora-container")) {
+    document.getElementById("opciones-mejora-container").style.display = "none";
+  }
+  if (document.getElementById("manual-description-container")) {
+    document.getElementById("manual-description-container").style.display =
+      "none";
+  }
+
   const opcionesHTML = `
         <div class="special-buttons">
             <p>¡Perfecto! ¿En qué más puedo ayudarte?</p>
             <div class="special-buttons">
-                <button class="special-btn" onclick="mostrarAnalisisCandidato()">
+                <!--<button class="special-btn" onclick="mostrarAnalisisCandidato()">
+                    🔍 Análisis de candidatos
+                     🔍 Comparar CV con SAP
+                </button>-->
+                <button class="special-btn" onclick="activarComparacionCV()">
                     🔍 Análisis de candidatos
                 </button>
-                <button class="special-btn" onclick="mejorarDescripcionPuesto()">
-                    ✏️ Mejorar descripciones de puestos
-                </button>
-                <button class="special-btn" onclick="mostrarInputManualDescripcion()">
-                        ✏️ Mejorar descripción manual
+                <button class="special-btn" onclick="mostrarOpcionesMejoraDescripcion()">
+                    ✏️ Mejorar descripción de puesto
                 </button>
                 <button class="special-btn" onclick="procesarSAPSSFF()">
-                            📊 Procesar SAP SSFF
-                </button>
-                <button class="special-btn" onclick="activarComparacionCV()">
-                        🔍 Comparar CV con SAP
+                    📊 Procesar SAP SSFF
                 </button>
             </div>
         </div>
     `;
 
   addHTMLMessage(opcionesHTML, "bot-message");
+}
+
+// JS DEMAS PARA mostrarOpcionesMejoraDescripcion
+
+// Función para mostrar las opciones de mejora de descripción
+function mostrarOpcionesMejoraDescripcion() {
+    // Ocultar otros contenedores
+    if (document.getElementById('analysis-input-container')) {
+        document.getElementById('analysis-input-container').style.display = 'none';
+    }
+    
+    if (document.getElementById('manual-description-container')) {
+        document.getElementById('manual-description-container').style.display = 'none';
+    }
+    
+    // Ocultar botones de selección en la tabla
+    toggleSelectionButtons(false);
+    toggleImproveButtons(false);
+    
+    // Agregar mensaje al chat
+    addMessage("Quiero mejorar una descripción de puesto", "user-message");
+    
+    // Mostrar opciones después de un breve delay
+    setTimeout(() => {
+        const opcionesHTML = `
+            <div class="special-buttons">
+                <p>Selecciona el tipo de descripción que deseas mejorar:</p>
+                <div class="special-buttons">
+                    <button class="special-btn" onclick="seleccionarDescripcionManual()" 
+                            style="background: #3ca6e5;">
+                        📝 Descripción Manual
+                    </button>
+                    <button class="special-btn" onclick="seleccionarDescripcionATS()" 
+                            style="background: #28a745;">
+                        📊 Descripción desde ATS
+                    </button>
+                    <button class="special-btn" onclick="mostrarOpcionesPrincipales()" 
+                            style="background: #6c757d;">
+                        ↩️ Volver
+                    </button>
+                </div>
+            </div>
+        `;
+        
+        addHTMLMessage(opcionesHTML, "bot-message");
+    }, 500);
+}
+
+// Función para seleccionar descripción manual
+function seleccionarDescripcionManual() {
+    addMessage("Descripción Manual", "user-message");
+    
+    // Ocultar botones de selección en la tabla
+    toggleSelectionButtons(false);
+    toggleImproveButtons(false);
+    
+    // Mostrar textarea para descripción manual usando la función existente
+    setTimeout(() => {
+        mostrarInputManualDescripcion();
+    }, 500);
+}
+
+// Función para seleccionar descripción desde ATS
+function seleccionarDescripcionATS() {
+    addMessage("Descripción desde ATS", "user-message");
+    
+    // Ocultar otros contenedores
+    if (document.getElementById('manual-description-container')) {
+        document.getElementById('manual-description-container').style.display = 'none';
+    }
+    
+    // Usar la función existente de mejora de descripción
+    setTimeout(() => {
+        mejorarDescripcionPuesto();
+    }, 500);
+}
+
+// Función auxiliar para mostrar botones de mejora en la tabla (si toggleImproveButtons no existe)
+function mostrarBotonesMejoraEnTabla() {
+    // Ocultar otros botones si están visibles
+    if (typeof toggleSelectionButtons === 'function') {
+        toggleSelectionButtons(false);
+    }
+    
+    // Mostrar botones de mejora
+    const botonesMejora = document.querySelectorAll('.btn-improve-job');
+    if (botonesMejora.length > 0) {
+        botonesMejora.forEach(btn => {
+            btn.style.display = 'inline-block';
+        });
+        
+        addMessage(
+            'Por favor, selecciona un candidato de la tabla haciendo clic en "✏️ Mejorar Descripción" para mejorar el puesto al que aplicó',
+            "bot-message"
+        );
+    }
 }
 
 // Función para mostrar mensaje de espera
@@ -819,7 +913,6 @@ function mostrarInputManualDescripcion() {
 
   // Agregar el textarea y el botón **dentro del chat** cada vez
   const html = `
-        
             <p>✏️ Ingresa la descripción del puesto que deseas mejorar:</p>
             <textarea id="descripcion-puesto-input" class="analysis-input" rows="4" placeholder="Escribe aquí la descripción del puesto que deseas mejorar..."></textarea>
             <button class="analysis-btn" onclick="enviarDescripcionParaMejora()">
@@ -1491,15 +1584,16 @@ async function mostrarModalPuestosParaComparacion(candidato) {
     cancelButton.className = "btn btn-secondary";
     cancelButton.onclick = cerrarModal;
 
-     // NUEVO BOTÓN DE COMPARATIVA MANUAL - usar el parámetro candidato
+    // NUEVO BOTÓN DE COMPARATIVA MANUAL - usar el parámetro candidato
     const manualButton = document.createElement("button");
     manualButton.textContent = "📝 Comparativa Manual";
     manualButton.className = "btn btn-info";
-    manualButton.style.background = "linear-gradient(135deg, #17a2b8 0%, #20c997 100%)";
+    manualButton.style.background =
+      "linear-gradient(135deg, #17a2b8 0%, #20c997 100%)";
     manualButton.style.border = "none";
     manualButton.onclick = () => {
-        document.body.removeChild(modalOverlay);
-        mostrarComparativaManual(candidato.id_candidate);  // ✅ Ahora candidato está definido
+      document.body.removeChild(modalOverlay);
+      mostrarComparativaManual(candidato.id_candidate); // ✅ Ahora candidato está definido
     };
 
     modalFooter.appendChild(counter);
@@ -1968,3 +2062,24 @@ function mostrarResultadoComparativaManual(data, candidatoId) {
     mostrarConfirmacionAyuda();
   }, 1000);
 }
+
+// DEMAS FUNCIONES //
+
+// Función para seleccionar candidato desde la tabla
+/*
+function seleccionarParaAnalisis(id) {
+  const candidato = candidatosData.find((c) => c.id_candidate == id);
+  if (candidato) {
+    // Ocultar todos los botones de selección
+    toggleSelectionButtons(false);
+
+    // Mostrar mensaje en el chat
+    addMessage(
+      `Seleccioné a ${candidato.nombre_candidate} ${candidato.apellidop_candidate} para análisis`,
+      "user-message"
+    );
+
+    // Iniciar función de análisis
+    iniciarAnalisisCandidato(candidato);
+  }
+}*/
