@@ -128,6 +128,7 @@ include 'modelo/consultas_menu.php';
       <div class="container-bienv">
 
         <p class="txtBien">Bienvenido</p>
+        <p class="txtBien">HOLA MUNDO EMILIO</p>
         <!-- <div class="container-btn-refresh">
          <button class="btn-refresh">
             <img src="img/refresh.png" width="25" alt="Refresh" />
