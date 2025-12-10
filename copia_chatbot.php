@@ -22,6 +22,9 @@ if ($mysqli->connect_errno) {
     die("Error al conectar a la base de datos: " . $mysqli->connect_error);
 }
 
+// Determinar qué pestaña está activa
+$tab_activa = isset($_GET['tab']) ? $_GET['tab'] : 'candidatos';
+
 // Configuración de paginación para CANDIDATOS
 $registros_por_pagina_candidatos = 10;
 $pagina_actual_candidatos = isset($_GET['pagina_candidatos']) ? max(1, intval($_GET['pagina_candidatos'])) : 1;
@@ -916,16 +919,18 @@ $mysqli->close();
         <div id="content">
             <!-- Pestañas -->
             <div class="tabs-container">
-                <button class="tab-btn active" onclick="cambiarTab('candidatos')">
+                <button class="tab-btn <?php echo $tab_activa == 'candidatos' ? 'active' : ''; ?>"
+                    onclick="cambiarTab('candidatos')">
                     👥 Candidatos
                 </button>
-                <button class="tab-btn" onclick="cambiarTab('vacantes')">
+                <button class="tab-btn <?php echo $tab_activa == 'vacantes' ? 'active' : ''; ?>"
+                    onclick="cambiarTab('vacantes')">
                     📋 Vacantes
                 </button>
             </div>
 
             <!-- Tab de CANDIDATOS -->
-            <div id="candidatos-content" class="tab-content active">
+            <div id="candidatos-content" class="tab-content <?php echo $tab_activa == 'candidatos' ? 'active' : ''; ?>">
                 <!-- Header de la página -->
                 <div class="page-header">
                     <h2>Lista de Candidatos</h2>
@@ -1011,7 +1016,7 @@ $mysqli->close();
                             <!-- Botón Anterior -->
                             <?php if ($pagina_actual_candidatos > 1): ?>
                                 <li class="page-item-custom">
-                                    <a class="page-link-custom" href="?pagina_candidatos=<?php echo $pagina_actual_candidatos - 1; ?>">
+                                    <a class="page-link-custom" href="?pagina_candidatos=<?php echo $pagina_actual_candidatos - 1; ?>&tab=<?php echo $tab_activa; ?>">
                                         &laquo; Anterior
                                     </a>
                                 </li>
@@ -1024,7 +1029,7 @@ $mysqli->close();
                             <!-- Números de página -->
                             <?php for ($i = 1; $i <= $total_paginas_candidatos; $i++): ?>
                                 <li class="page-item-custom <?php echo $i == $pagina_actual_candidatos ? 'active' : ''; ?>">
-                                    <a class="page-link-custom" href="?pagina_candidatos=<?php echo $i; ?>">
+                                    <a class="page-link-custom" href="?pagina_candidatos=<?php echo $i; ?>&tab=<?php echo $tab_activa; ?>">
                                         <?php echo $i; ?>
                                     </a>
                                 </li>
@@ -1033,7 +1038,7 @@ $mysqli->close();
                             <!-- Botón Siguiente -->
                             <?php if ($pagina_actual_candidatos < $total_paginas_candidatos): ?>
                                 <li class="page-item-custom">
-                                    <a class="page-link-custom" href="?pagina_candidatos=<?php echo $pagina_actual_candidatos + 1; ?>">
+                                    <a class="page-link-custom" href="?pagina_candidatos=<?php echo $pagina_actual_candidatos + 1; ?>&tab=<?php echo $tab_activa; ?>">
                                         Siguiente &raquo;
                                     </a>
                                 </li>
@@ -1048,7 +1053,7 @@ $mysqli->close();
             </div>
 
             <!-- Tab de VACANTES -->
-            <div id="vacantes-content" class="tab-content">
+            <div id="vacantes-content" class="tab-content <?php echo $tab_activa == 'vacantes' ? 'active' : ''; ?>">
                 <!-- Header de vacantes -->
                 <div class="page-header">
                     <h2>📊 Vacantes Activas</h2>
@@ -1129,7 +1134,7 @@ $mysqli->close();
                             <!-- Botón Anterior -->
                             <?php if ($pagina_actual_vacantes > 1): ?>
                                 <li class="page-item-custom">
-                                    <a class="page-link-custom" href="?pagina_vacantes=<?php echo $pagina_actual_vacantes - 1; ?>">
+                                    <a class="page-link-custom" href="?pagina_vacantes=<?php echo $pagina_actual_vacantes - 1; ?>&tab=<?php echo $tab_activa; ?>">
                                         &laquo; Anterior
                                     </a>
                                 </li>
@@ -1142,7 +1147,7 @@ $mysqli->close();
                             <!-- Números de página -->
                             <?php for ($i = 1; $i <= $total_paginas_vacantes; $i++): ?>
                                 <li class="page-item-custom <?php echo $i == $pagina_actual_vacantes ? 'active' : ''; ?>">
-                                    <a class="page-link-custom" href="?pagina_vacantes=<?php echo $i; ?>">
+                                    <a class="page-link-custom" href="?pagina_vacantes=<?php echo $i; ?>&tab=<?php echo $tab_activa; ?>">
                                         <?php echo $i; ?>
                                     </a>
                                 </li>
@@ -1151,7 +1156,7 @@ $mysqli->close();
                             <!-- Botón Siguiente -->
                             <?php if ($pagina_actual_vacantes < $total_paginas_vacantes): ?>
                                 <li class="page-item-custom">
-                                    <a class="page-link-custom" href="?pagina_vacantes=<?php echo $pagina_actual_vacantes + 1; ?>">
+                                    <a class="page-link-custom" href="?pagina_vacantes=<?php echo $pagina_actual_vacantes + 1; ?>&tab=<?php echo $tab_activa; ?>">
                                         Siguiente &raquo;
                                     </a>
                                 </li>
@@ -1204,9 +1209,10 @@ $mysqli->close();
                                 </button>
                             </div>
                         </div>
+                        <!--
                         <button class="special-btn" onclick="procesarSAPSSFF()">
                             📊 Procesar SAP SSFF
-                        </button>
+                        </button>-->
                     </div>
                 </div>
                 <div id="manual-description-container" class="analysis-input-container" style="display: none;">
@@ -1240,6 +1246,7 @@ $mysqli->close();
 
     <!-- Scripts de IA -->
     <script>
+
         // Datos de candidatos desde PHP
         const candidatosData = <?php echo json_encode($candidatos); ?>;
         const vacantesData = <?php echo json_encode($vacantes); ?>;
@@ -1300,19 +1307,17 @@ $mysqli->close();
 
         // Función para cambiar de pestaña
         function cambiarTab(tab) {
-            // Ocultar todas las pestañas
-            document.querySelectorAll('.tab-content').forEach(tabContent => {
-                tabContent.classList.remove('active');
-            });
+            // Construir URL con la pestaña seleccionada
+            let url = `?tab=${tab}`;
 
-            // Mostrar la pestaña seleccionada
-            document.getElementById(tab + '-content').classList.add('active');
+            // Agregar parámetro de paginación según la pestaña
+            if (tab === 'candidatos') {
+                url += `&pagina_candidatos=1`;
+            } else if (tab === 'vacantes') {
+                url += `&pagina_vacantes=1`;
+            }
 
-            // Actualizar botones de pestañas
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            document.querySelector('.tab-btn[onclick="cambiarTab(\'' + tab + '\')"]').classList.add('active');
+            window.location.href = url;
         }
 
         // Funciones del chat (se mantienen igual)
