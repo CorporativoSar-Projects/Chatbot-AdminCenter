@@ -77,6 +77,24 @@ function contarCandidatosPorVacante($candidatos, $tituloVacante)
     return $contador;
 }
 
+// Función para contar candidatos para TODAS las vacantes
+function contarCandidatosPorTodasVacantes($vacantes, $candidatos)
+{
+    $resultados = [];
+    
+    foreach ($vacantes as $vacante) {
+        $titulo = $vacante['title_ix'] ?? $vacante['Titulo'] ?? '';
+        if (!empty($titulo)) {
+            $resultados[$titulo] = contarCandidatosPorVacante($candidatos, $titulo);
+        }
+    }
+    
+    // Ordenar por cantidad de candidatos (mayor a menor)
+    arsort($resultados);
+    
+    return $resultados;
+}
+
 function normaliza($texto)
 {
     $texto = mb_strtolower($texto, 'UTF-8');
@@ -427,18 +445,50 @@ if (empty($vacantes)) {
 
 // Procesar candidatos para la pestaña activa
 if ($tab_activa == 'candidatos') {
-    // SIEMPRE mostrar TODOS los candidatos en la pestaña
-    $candidatos_filtrados = $todos_candidatos;
+    // Filtrar candidatos que coincidan con la vacante (si hay parámetros)
+    $candidatos_filtrados = [];
+
+    if (!empty($titulo_vacante)) {
+        // Normalizar una sola vez
+        $tituloBusqueda = normaliza($titulo_vacante);
+
+        foreach ($todos_candidatos as $candidato) {
+            $tituloCandidatoRaw = $candidato['Titulo'] ?? '';
+            $tituloCandidato = normaliza($tituloCandidatoRaw);
+
+            if (empty($tituloCandidato)) {
+                continue;
+            }
+
+            $coincide = false;
+
+            // 1. Coincidencia exacta o parcial REAL
+            if (
+                strpos($tituloCandidato, $tituloBusqueda) !== false ||
+                strpos($tituloBusqueda, $tituloCandidato) !== false ||
+                similar_text($tituloBusqueda, $tituloCandidato) > 10
+            ) {
+                $coincide = true;
+            }
+            // 2. Coincidencia por categoría
+            else if (coincidenPorCategoria($tituloBusqueda, $tituloCandidato)) {
+                $coincide = true;
+            }
+
+            if ($coincide) {
+                $candidatos_filtrados[] = $candidato;
+            }
+        }
+    } else {
+        // Si no hay título, mostrar todos
+        $candidatos_filtrados = $todos_candidatos;
+    }
 
     // Paginación para candidatos
     $total_candidatos = count($candidatos_filtrados);
     $total_paginas = ceil($total_candidatos / $registros_por_pagina);
     $inicio = ($pagina_actual - 1) * $registros_por_pagina;
     $candidatos_paginados = array_slice($candidatos_filtrados, $inicio, $registros_por_pagina);
-
-    // NO usar parámetros de filtrado en esta vista
-    $titulo_vacante = '';
-    $id_requisicion = 0;
 } else {
     // Para vacantes, usar todos los candidatos para contar
     $candidatos = $todos_candidatos;
@@ -448,6 +498,9 @@ if ($tab_activa == 'candidatos') {
     $total_paginas = ceil($total_vacantes / $registros_por_pagina);
     $inicio = ($pagina_actual - 1) * $registros_por_pagina;
     $vacantes_paginadas = array_slice($vacantes, $inicio, $registros_por_pagina);
+    
+    // Contar candidatos por cada vacante
+    $conteo_candidatos_por_vacante = contarCandidatosPorTodasVacantes($vacantes, $todos_candidatos);
 }
 ?>
 
@@ -633,6 +686,18 @@ if ($tab_activa == 'candidatos') {
             font-size: 12px;
             font-weight: bold;
             margin-left: 5px;
+        }
+
+        .badge-count-list {
+            background: #FF6B6B;
+            color: white;
+            border-radius: 12px;
+            padding: 2px 8px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 5px;
+            min-width: 25px;
+            text-align: center;
         }
 
         .requisicion-id {
@@ -824,61 +889,60 @@ if ($tab_activa == 'candidatos') {
             font-size: 14px;
         }
 
-        /* DataTables Responsive Adjustments */
-        .dtr-data {
-            padding-left: 10px !important;
+        /* Estilo para el resumen de candidatos */
+        .resumen-candidatos {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-left: 4px solid #002B45;
         }
 
-        .dtr-title {
+        .resumen-title {
+            color: #002B45;
             font-weight: 600;
-            min-width: 100px;
+            margin-bottom: 15px;
+            font-size: 18px;
         }
 
-        /* Estilos responsivos */
-        @media (max-width: 768px) {
-            .main-content {
-                margin-top: 80px;
-                padding: 0 15px;
-            }
-
-            .tabs-container {
-                padding: 0 15px;
-            }
-
-            .tab-btn {
-                padding: 10px 20px;
-                font-size: 14px;
-            }
-
-            .page-header {
-                padding: 20px;
-            }
-
-            .page-header h2 {
-                font-size: 22px;
-            }
+        .resumen-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
         }
 
-        @media (max-width: 576px) {
-            .tabs-container {
-                flex-direction: column;
-                gap: 5px;
-            }
-
-            .tab-btn {
-                border-radius: 8px;
-                text-align: center;
-            }
-
-            .actions-container {
-                flex-direction: column;
-                align-items: flex-start;
-            }
+        .resumen-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
-        /* AREA DEL CHAT */
+        .resumen-item-title {
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-        /* Estilos del Chat */
+        .resumen-item-count {
+            background: #002B45;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .resumen-item-detail {
+            font-size: 12px;
+            color: #6c757d;
+            margin-top: 5px;
+        }
+
+        /* AREA DEL CHAT (si decides mantenerlo) */
         #chat-panel {
             width: 25%;
             background-color: #f3f3f3;
@@ -889,11 +953,9 @@ if ($tab_activa == 'candidatos') {
             box-shadow: -4px 0px 6px rgba(0, 0, 0, 0.1);
             overflow: hidden;
             height: calc(100vh - 100px);
-            /* Ajusta según tu navbar */
             position: fixed;
             right: 0;
             top: 100px;
-            /* Ajusta según altura de tu header */
             z-index: 1000;
         }
 
@@ -1024,7 +1086,6 @@ if ($tab_activa == 'candidatos') {
             font-weight: bold;
         }
 
-        /* Botón flotante para abrir chat */
         #chat-open-btn {
             position: fixed;
             bottom: 30px;
@@ -1047,7 +1108,6 @@ if ($tab_activa == 'candidatos') {
             filter: brightness(0) invert(1);
         }
 
-        /* Estados del panel */
         #chat-panel.hidden {
             width: 0;
             overflow: hidden;
@@ -1055,19 +1115,33 @@ if ($tab_activa == 'candidatos') {
             padding: 0;
         }
 
-        /* Scrollbar personalizada */
-        #chat-body::-webkit-scrollbar {
-            width: 6px;
-        }
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-content {
+                margin-top: 80px;
+                padding: 0 15px;
+            }
 
-        #chat-body::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 10px;
-        }
+            .tabs-container {
+                padding: 0 15px;
+            }
 
-        #chat-body::-webkit-scrollbar-thumb {
-            background: #002B45;
-            border-radius: 10px;
+            .tab-btn {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+
+            .page-header {
+                padding: 20px;
+            }
+
+            .page-header h2 {
+                font-size: 22px;
+            }
+
+            .resumen-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 
@@ -1109,14 +1183,6 @@ if ($tab_activa == 'candidatos') {
                     <div class="user-info">
                         <a href="menu.php">Menu</a>
                     </div>
-                    <!-- Enlaces modificados para usar la misma página con diferentes tabs -->
-                    <!--
-                    <div class="user-info">
-                        <a href="vacantes_candidatos.php?tab=vacantes">Vacantes</a>
-                    </div>
-                    <div class="user-info">
-                        <a href="vacantes_candidatos.php?tab=candidatos">Candidatos</a>
-                    </div>-->
                     <div class="user-info">
                         <a href="vacantes_candidatos.php?tab=vacantes">Vacantes y Candidatos</a>
                     </div>
@@ -1138,9 +1204,7 @@ if ($tab_activa == 'candidatos') {
                         <a href="#" id="sftpLink" data-toggle="modal" data-target="#sftpModal" style="text-decoration: none; color: inherit; display: block; margin-bottom: 10px;">
                             Integración SFTP
                         </a>
-
                         <a href="https://billing.stripe.com/p/login/fZe3f33cggofeBy144" target="_blank">Actualizar Plan</a>
-
                     </div>
                     <a class="a1" href="cerrarSesion.php">Cerrar Sesión</a>
                 </div>
@@ -1161,16 +1225,86 @@ if ($tab_activa == 'candidatos') {
             </button>
         </div>
 
+        <!-- Resumen de Candidatos por Vacante (solo en pestaña de vacantes) -->
+        <?php if ($tab_activa == 'vacantes' && !empty($conteo_candidatos_por_vacante)): ?>
+            <div class="resumen-candidatos">
+                <div class="resumen-title">
+                    📊 Resumen de Candidatos por Puesto
+                    <small style="font-size: 14px; font-weight: normal; color: #6c757d;">(Total: <?php echo array_sum($conteo_candidatos_por_vacante); ?> coincidencias)</small>
+                </div>
+                <div class="resumen-grid">
+                    <?php 
+                    $top_10 = array_slice($conteo_candidatos_por_vacante, 0, 10, true);
+                    foreach ($top_10 as $titulo => $cantidad): 
+                        if ($cantidad > 0): // Solo mostrar vacantes con candidatos
+                    ?>
+                        <div class="resumen-item">
+                            <div class="resumen-item-title">
+                                <?php echo htmlspecialchars(substr($titulo, 0, 30)) . (strlen($titulo) > 30 ? '...' : ''); ?>
+                                <span class="resumen-item-count"><?php echo $cantidad; ?></span>
+                            </div>
+                            <div class="resumen-item-detail">
+                                <?php echo $cantidad; ?> candidato(s) compatible(s)
+                            </div>
+                        </div>
+                    <?php 
+                        endif;
+                    endforeach; 
+                    
+                    // Contar vacantes sin candidatos
+                    $vacantes_sin_candidatos = 0;
+                    foreach ($conteo_candidatos_por_vacante as $cantidad) {
+                        if ($cantidad == 0) {
+                            $vacantes_sin_candidatos++;
+                        }
+                    }
+                    
+                    if ($vacantes_sin_candidatos > 0): ?>
+                        <div class="resumen-item">
+                            <div class="resumen-item-title">
+                                Vacantes sin candidatos
+                                <span class="resumen-item-count" style="background: #6c757d;"><?php echo $vacantes_sin_candidatos; ?></span>
+                            </div>
+                            <div class="resumen-item-detail">
+                                Sin candidatos compatibles
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+        <?php endif; ?>
+
+        <!-- Header de la página (depende de la pestaña) -->
         <div class="page-header">
             <?php if ($tab_activa == 'vacantes'): ?>
                 <h2>📊 Vacantes Activas</h2>
-                <!-- ... -->
+                <?php if (isset($error_csv)): ?>
+                    <p class="mb-0" style="opacity: 0.8; font-size: 14px;">Error al cargar datos del CSV</p>
+                <?php else: ?>
+                    <div class="stats-info">
+                        <strong><?php echo count($vacantes); ?> vacantes activas</strong> |
+                        <strong><?php echo count($todos_candidatos); ?> candidatos en total</strong> |
+                        <strong><?php echo array_sum($conteo_candidatos_por_vacante); ?> coincidencias encontradas</strong>
+                    </div>
+                <?php endif; ?>
             <?php else: ?>
-                <!-- SIEMPRE mostrar "Todos los Candidatos" -->
-                <h2>👥 Todos los Candidatos</h2>
-                <div class="stats-info">
-                    <strong><?php echo count($todos_candidatos); ?> candidato(s) en total</strong>
-                </div>
+                <h2>
+                    <?php if (!empty($titulo_vacante)): ?>
+                        👥 Candidatos para: <?php echo htmlspecialchars($titulo_vacante); ?>
+                    <?php else: ?>
+                        👥 Todos los Candidatos
+                    <?php endif; ?>
+                </h2>
+                <?php if (!empty($titulo_vacante)): ?>
+                    <div class="stats-info">
+                        <strong>Requisición #<?php echo str_pad($id_requisicion, 3, '0', STR_PAD_LEFT); ?></strong> |
+                        <strong><?php echo count($candidatos_filtrados); ?> candidato(s) encontrado(s)</strong>
+                    </div>
+                <?php else: ?>
+                    <div class="stats-info">
+                        <strong><?php echo count($candidatos_filtrados); ?> candidato(s) en total</strong>
+                    </div>
+                <?php endif; ?>
             <?php endif; ?>
         </div>
 
@@ -1192,6 +1326,7 @@ if ($tab_activa == 'candidatos') {
                             <tr>
                                 <th>ID Requisición</th>
                                 <th>Puesto</th>
+                                <th>Candidatos</th>
                                 <th>Categoría</th>
                                 <th>Ubicación</th>
                                 <th>Acciones</th>
@@ -1200,15 +1335,14 @@ if ($tab_activa == 'candidatos') {
                         <tbody>
                             <?php if (!empty($vacantes_paginadas)): ?>
                                 <?php foreach ($vacantes_paginadas as $vacante):
-                                    // Mapear las nuevas columnas a las antiguas
                                     $idRequisicion = $vacante['reqId_ix'] ?? $vacante['ID de requisición de personal'] ?? '';
                                     $titulo = $vacante['title_ix'] ?? $vacante['Titulo'] ?? '';
                                     $categoria = $vacante['category_ix'] ?? $vacante['Categoría'] ?? '';
                                     $ubicacion = $vacante['location_ix'] ?? $vacante['Ubicación'] ?? '';
                                     $link = $vacante['link'] ?? '#';
-
-                                    // Calcular número REAL de candidatos que coinciden con esta vacante
-                                    $candidateCount = contarCandidatosPorVacante($todos_candidatos, $titulo);
+                                    
+                                    // Obtener cantidad de candidatos para esta vacante
+                                    $candidateCount = isset($conteo_candidatos_por_vacante[$titulo]) ? $conteo_candidatos_por_vacante[$titulo] : 0;
                                     $badgeClass = $candidateCount > 0 ? 'badge-count' : 'badge-count-zero';
                                 ?>
                                     <tr>
@@ -1217,6 +1351,16 @@ if ($tab_activa == 'candidatos') {
                                         </td>
                                         <td>
                                             <div class="puesto-title"><?php echo htmlspecialchars($titulo); ?></div>
+                                        </td>
+                                        <td>
+                                            <?php if ($candidateCount > 0): ?>
+                                                <span style="display: inline-flex; align-items: center;">
+                                                    <span class="badge-count-list"><?php echo $candidateCount; ?></span>
+                                                    <small style="margin-left: 5px; color: #6c757d;">candidato(s)</small>
+                                                </span>
+                                            <?php else: ?>
+                                                <span class="text-muted">Sin candidatos</span>
+                                            <?php endif; ?>
                                         </td>
                                         <td>
                                             <span class="categoria-badge"><?php echo htmlspecialchars($categoria); ?></span>
@@ -1233,14 +1377,14 @@ if ($tab_activa == 'candidatos') {
                                                 <?php endif; ?>
 
                                                 <?php if ($candidateCount > 0): ?>
-                                                    <!-- Si HAY candidatos, enlace a la PÁGINA SEPARADA -->
-                                                    <a href="candidatos_filtrados.php?id_requisicion=<?php echo urlencode($idRequisicion); ?>&titulo=<?php echo urlencode($titulo); ?>&pagina=1" class="btn btn-candidates">
-                                                        👥 Candidatos <span class="<?php echo $badgeClass; ?>"><?php echo $candidateCount; ?></span>
+                                                    <!-- Enlace a la pestaña de candidatos filtrados -->
+                                                    <a href="?tab=candidatos&pagina=1&id_requisicion=<?php echo urlencode($idRequisicion); ?>&titulo=<?php echo urlencode($titulo); ?>" class="btn btn-candidates">
+                                                        👥 Ver Candidatos <span class="<?php echo $badgeClass; ?>"><?php echo $candidateCount; ?></span>
                                                     </a>
                                                 <?php else: ?>
                                                     <!-- Si NO HAY candidatos, mostrar 0 pero SIN redirección -->
                                                     <span class="btn btn-candidates" style="opacity: 0.6; cursor: default;">
-                                                        👥 Candidatos <span class="<?php echo $badgeClass; ?>">0</span>
+                                                        👥 Ver Candidatos <span class="<?php echo $badgeClass; ?>">0</span>
                                                     </span>
                                                 <?php endif; ?>
                                             </div>
@@ -1249,7 +1393,7 @@ if ($tab_activa == 'candidatos') {
                                 <?php endforeach; ?>
                             <?php else: ?>
                                 <tr>
-                                    <td colspan="5" class="text-center py-4">
+                                    <td colspan="6" class="text-center py-4">
                                         <div class="text-muted">
                                             <h5>No hay vacantes disponibles</h5>
                                             <p>No se pudieron cargar las vacantes desde el archivo CSV.</p>
@@ -1454,94 +1598,17 @@ if ($tab_activa == 'candidatos') {
                 </div>
             <?php endif; ?>
         </div>
-
-        <!-- AREA DEL CHAT -->
-        <!-- HTML del chat -->
-        <div id="chat-panel" class="hidden"> <!-- Inicialmente oculto -->
-            <div id="chat-header">
-                <span>Asistente IA</span>
-                <button id="toggle-chat">
-                    <img id="toggle-icon" src="https://img.icons8.com/ios-filled/24/ffffff/chevron-right.png" alt="Cerrar">
-                </button>
-            </div>
-
-            <div id="chat-body">
-                <!-- Mensaje de bienvenida -->
-                <div class="chat-message bot-message">
-                    ¡Hola! Soy tu asistente de IA para gestión de vacantes y candidatos. ¿En qué puedo ayudarte hoy?
-
-                    <!-- Botones especializados para vacantes/candidatos -->
-                    <div class="special-buttons">
-                        <button class="special-btn" onclick="mostrarAnalisisCandidato()">
-                            🔍 Análisis de candidatos
-                        </button>
-
-                        <button class="special-btn" onclick="mostrarOpcionesMejoraDescripcion()">
-                            ✏️ Mejorar descripción de puesto
-                        </button>
-
-                        <!-- Contenedor para opciones de mejora de descripción -->
-                        <div id="opciones-mejora-container" class="analysis-input-container" style="display: none;">
-                            <div style="text-align: center; margin-bottom: 15px;">
-                                <h5 style="color: #002B45; margin-bottom: 20px;">Selecciona una opción:</h5>
-
-                                <button class="special-btn" onclick="seleccionarDescripcionManual()"
-                                    style="margin-bottom: 10px; background: #3ca6e5;">
-                                    📝 Descripción Manual
-                                </button>
-
-                                <button class="special-btn" onclick="seleccionarDescripcionVacante()"
-                                    style="margin-bottom: 10px; background: #28a745;">
-                                    📊 Desde vacante seleccionada
-                                </button>
-
-                                <button class="special-btn" onclick="ocultarOpcionesMejora()"
-                                    style="background: #6c757d; color: white;">
-                                    ↩️ Volver
-                                </button>
-                            </div>
-                        </div>
-
-                        <button class="special-btn" onclick="procesarSAPSSFF()">
-                            📊 Procesar SAP SSFF
-                        </button>
-
-                        <button class="special-btn" onclick="activarComparacionCV()">
-                            🔍 Comparar CV con vacante
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Contenedor para análisis de candidatos -->
-                <div id="analysis-input-container" class="analysis-input-container">
-                    <input type="text" id="candidate-name-input" class="analysis-input"
-                        placeholder="Escribe el nombre del candidato a analizar...">
-                    <button class="analysis-btn" onclick="analizarCandidato()">
-                        🔍 Analizar Candidato
-                    </button>
-                </div>
-
-                <!-- Contenedor para descripción manual -->
-                <div id="manual-description-container" class="analysis-input-container" style="display: none;">
-                    <textarea id="descripcion-puesto-input" class="analysis-input" rows="4"
-                        placeholder="Escribe aquí la descripción del puesto que deseas mejorar..."></textarea>
-                    <button class="analysis-btn" onclick="enviarDescripcionParaMejora()">
-                        ✏️ Optimizar descripción con IA
-                    </button>
-                </div>
-            </div>
-
-            <div id="chat-footer">
-                <input type="text" id="chat-input" placeholder="Consulta sobre vacantes, candidatos...">
-                <button id="send-btn">Enviar</button>
-            </div>
-        </div>
     </main>
 
-    <!-- Botón flotante para abrir el chat -->
-    <div id="chat-open-btn">
-        <img src="https://img.icons8.com/ios-filled/24/ffffff/chat.png" alt="Abrir Chat">
-    </div>
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.bootstrap4.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
     <!-- Modal detalle candidato -->
     <div class="modal fade" id="modalDetalleCandidato" tabindex="-1" role="dialog">
@@ -1600,19 +1667,9 @@ if ($tab_activa == 'candidatos') {
         </div>
     </div>
 
-    <!-- Scripts -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.bootstrap4.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-
     <script>
         $(document).ready(function() {
-            // SOLO inicializar DataTables para la tabla visible
+            // Inicializar DataTables para la tabla visible
             if ($('#vacantes-content').hasClass('active')) {
                 inicializarDataTableVacantes();
             } else if ($('#candidatos-content').hasClass('active')) {
@@ -1664,22 +1721,13 @@ if ($tab_activa == 'candidatos') {
                 paging: false, // Deshabilitar paginación de DataTables porque usamos la nuestra
                 searching: true,
                 ordering: true,
-                order: [
-                    [0, 'asc']
-                ],
+                order: [[0, 'asc']],
                 language: {
                     "search": "Buscar:",
-                    "lengthMenu": "Mostrar _MENU_ registros por página",
                     "zeroRecords": "No se encontraron registros",
-                    "info": "Mostrando página _PAGE_ de _PAGES_",
+                    "info": "Mostrando _START_ a _END_ de _TOTAL_ registros",
                     "infoEmpty": "No hay registros disponibles",
-                    "infoFiltered": "(filtrado de _MAX_ registros totales)",
-                    "paginate": {
-                        "first": "Primera",
-                        "last": "Última",
-                        "next": "Siguiente",
-                        "previous": "Anterior"
-                    }
+                    "infoFiltered": "(filtrado de _MAX_ registros totales)"
                 },
                 dom: '<"row"<"col-sm-12 col-md-6"B><"col-sm-12 col-md-6"f>>' +
                     '<"row"<"col-sm-12"tr>>' +
@@ -1690,7 +1738,7 @@ if ($tab_activa == 'candidatos') {
                     className: 'btn btn-excel',
                     title: 'Vacantes_Activas_' + new Date().toISOString().slice(0, 10),
                     exportOptions: {
-                        columns: [0, 1, 2, 3] // Exportar solo las primeras 4 columnas (excluyendo Acciones)
+                        columns: [0, 1, 2, 3, 4] // Exportar todas las columnas excepto Acciones
                     }
                 }]
             });
@@ -1702,22 +1750,13 @@ if ($tab_activa == 'candidatos') {
                 paging: false, // Deshabilitar paginación de DataTables porque usamos la nuestra
                 searching: true,
                 ordering: true,
-                order: [
-                    [0, 'asc']
-                ],
+                order: [[0, 'asc']],
                 language: {
                     "search": "Buscar:",
-                    "lengthMenu": "Mostrar _MENU_ registros por página",
                     "zeroRecords": "No se encontraron registros",
-                    "info": "Mostrando página _PAGE_ de _PAGES_",
+                    "info": "Mostrando _START_ a _END_ de _TOTAL_ registros",
                     "infoEmpty": "No hay registros disponibles",
-                    "infoFiltered": "(filtrado de _MAX_ registros totales)",
-                    "paginate": {
-                        "first": "Primera",
-                        "last": "Última",
-                        "next": "Siguiente",
-                        "previous": "Anterior"
-                    }
+                    "infoFiltered": "(filtrado de _MAX_ registros totales)"
                 },
                 dom: '<"row"<"col-sm-12 col-md-6"B><"col-sm-12 col-md-6"f>>' +
                     '<"row"<"col-sm-12"tr>>' +
@@ -1743,322 +1782,6 @@ if ($tab_activa == 'candidatos') {
 
             window.location.href = url;
         }
-
-        // Manejar tecla Enter en búsquedas
-        $(document).on('keypress', '.dataTables_filter input', function(e) {
-            if (e.which === 13) {
-                e.preventDefault();
-            }
-        });
-    </script>
-
-    <!-- JavaScript del chat (funciones principales) -->
-    <script>
-        // Datos globales (ajustar según tu página actual)
-        const candidatosData = <?php echo json_encode($candidatos_filtrados ?? []); ?>;
-        const vacantesData = <?php echo json_encode($vacantes_paginadas ?? []); ?>;
-        let modoActual = null; // 'analisis', 'mejora', 'comparacion', 'sap'
-
-        // Inicialización del chat
-        document.addEventListener('DOMContentLoaded', function() {
-            const toggleBtn = document.getElementById('toggle-chat');
-            const chatPanel = document.getElementById('chat-panel');
-            const chatOpenBtn = document.getElementById('chat-open-btn');
-
-            // Estado inicial: chat cerrado
-            chatPanel.classList.add('hidden');
-            chatOpenBtn.style.display = 'flex';
-
-            // Toggle del chat
-            toggleBtn.addEventListener('click', () => {
-                chatPanel.classList.toggle('hidden');
-                chatOpenBtn.style.display = chatPanel.classList.contains('hidden') ? 'flex' : 'none';
-
-                // Cambiar ícono
-                const icon = document.getElementById('toggle-icon');
-                icon.src = chatPanel.classList.contains('hidden') ?
-                    'https://img.icons8.com/ios-filled/24/ffffff/chevron-right.png' :
-                    'https://img.icons8.com/ios-filled/24/ffffff/chevron-left.png';
-            });
-
-            chatOpenBtn.addEventListener('click', () => {
-                chatPanel.classList.remove('hidden');
-                chatOpenBtn.style.display = 'none';
-                document.getElementById('toggle-icon').src = 'https://img.icons8.com/ios-filled/24/ffffff/chevron-left.png';
-            });
-
-            // Envío de mensajes por Enter
-            document.getElementById('chat-input').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    enviarMensajeUsuario();
-                }
-            });
-
-            // Botón de enviar
-            document.getElementById('send-btn').addEventListener('click', enviarMensajeUsuario);
-        });
-
-        // ===== FUNCIONES PRINCIPALES DEL CHAT =====
-
-        function mostrarAnalisisCandidato() {
-            agregarMensajeChat('user', 'Quiero analizar un candidato');
-            setTimeout(() => {
-                agregarMensajeChat('bot', 'Escribe el nombre del candidato que deseas analizar:');
-                document.getElementById('analysis-input-container').style.display = 'block';
-                document.getElementById('opciones-mejora-container').style.display = 'none';
-                document.getElementById('manual-description-container').style.display = 'none';
-                modoActual = 'analisis';
-            }, 500);
-        }
-
-        function mostrarOpcionesMejoraDescripcion() {
-            agregarMensajeChat('user', 'Quiero mejorar una descripción de puesto');
-            setTimeout(() => {
-                agregarMensajeChat('bot', 'Selecciona el tipo de descripción que deseas mejorar:');
-                document.getElementById('opciones-mejora-container').style.display = 'block';
-                document.getElementById('analysis-input-container').style.display = 'none';
-                document.getElementById('manual-description-container').style.display = 'none';
-                modoActual = 'mejora';
-            }, 500);
-        }
-
-        function seleccionarDescripcionManual() {
-            agregarMensajeChat('user', 'Descripción Manual');
-            setTimeout(() => {
-                agregarMensajeChat('bot', 'Pega la descripción del puesto que deseas optimizar:');
-                document.getElementById('opciones-mejora-container').style.display = 'none';
-                document.getElementById('manual-description-container').style.display = 'block';
-            }, 500);
-        }
-
-        function seleccionarDescripcionVacante() {
-            agregarMensajeChat('user', 'Desde vacante seleccionada');
-            setTimeout(() => {
-                agregarMensajeChat('bot', 'Selecciona una vacante de la tabla para mejorar su descripción.');
-                // Aquí podrías activar selección en la tabla de vacantes
-                document.getElementById('opciones-mejora-container').style.display = 'none';
-                modoActual = 'mejora_vacante';
-
-                // Ejemplo: resaltar vacantes para selección
-                // highlightVacantesParaSeleccion();
-            }, 500);
-        }
-
-        function ocultarOpcionesMejora() {
-            document.getElementById('opciones-mejora-container').style.display = 'none';
-            agregarMensajeChat('bot', '¿En qué más puedo ayudarte?');
-        }
-
-        function procesarSAPSSFF() {
-            agregarMensajeChat('user', 'Procesar SAP SSFF');
-            setTimeout(() => {
-                agregarMensajeChat('bot', 'Procesando datos SAP SSFF... Esto puede tomar unos momentos.');
-                modoActual = 'sap';
-
-                // Simular procesamiento
-                setTimeout(() => {
-                    agregarMensajeChat('bot', '✅ Procesamiento SAP SSFF completado. Datos actualizados correctamente.');
-                }, 2000);
-            }, 500);
-        }
-
-        function activarComparacionCV() {
-            agregarMensajeChat('user', 'Comparar CV con vacante');
-            setTimeout(() => {
-                agregarMensajeChat('bot', 'Selecciona un candidato de la tabla para comparar su CV con las vacantes disponibles.');
-                modoActual = 'comparacion';
-
-                // Ejemplo: resaltar candidatos para comparación
-                // highlightCandidatosParaComparacion();
-            }, 500);
-        }
-
-        function analizarCandidato() {
-            const nombre = document.getElementById('candidate-name-input').value;
-            if (!nombre.trim()) {
-                alert('Por favor, escribe un nombre');
-                return;
-            }
-
-            agregarMensajeChat('user', `Analizar candidato: ${nombre}`);
-            document.getElementById('candidate-name-input').value = '';
-            document.getElementById('analysis-input-container').style.display = 'none';
-
-            setTimeout(() => {
-                agregarMensajeChat('bot', `🔍 Analizando candidato: ${nombre}...`);
-
-                // Buscar candidato en los datos
-                const candidato = buscarCandidatoPorNombre(nombre);
-
-                if (candidato) {
-                    setTimeout(() => {
-                        mostrarResultadosAnalisis(candidato);
-                    }, 1500);
-                } else {
-                    setTimeout(() => {
-                        agregarMensajeChat('bot', `No se encontró al candidato "${nombre}". Verifica el nombre e intenta de nuevo.`);
-                    }, 1500);
-                }
-            }, 500);
-        }
-
-        function enviarDescripcionParaMejora() {
-            const descripcion = document.getElementById('descripcion-puesto-input').value;
-            if (!descripcion.trim()) {
-                alert('Por favor, escribe una descripción');
-                return;
-            }
-
-            agregarMensajeChat('user', 'Optimizar descripción');
-            document.getElementById('descripcion-puesto-input').value = '';
-            document.getElementById('manual-description-container').style.display = 'none';
-
-            setTimeout(() => {
-                agregarMensajeChat('bot', '✏️ Optimizando descripción con IA...');
-
-                // Simular procesamiento IA
-                setTimeout(() => {
-                    agregarMensajeChat('bot', '✅ Descripción optimizada:\n\n' +
-                        '**Puesto:** [Nombre optimizado]\n' +
-                        '**Responsabilidades:**\n' +
-                        '- [Responsabilidad 1 optimizada]\n' +
-                        '- [Responsabilidad 2 optimizada]\n' +
-                        '- [Responsabilidad 3 optimizada]\n\n' +
-                        '**Requisitos:**\n' +
-                        '- [Requisito 1 optimizado]\n' +
-                        '- [Requisito 2 optimizado]\n' +
-                        '**Habilidades clave:** SEO-friendly, ATS-compatible');
-                }, 2000);
-            }, 500);
-        }
-
-        function enviarMensajeUsuario() {
-            const input = document.getElementById('chat-input');
-            const mensaje = input.value.trim();
-
-            if (!mensaje) return;
-
-            agregarMensajeChat('user', mensaje);
-            input.value = '';
-
-            // Simular respuesta del bot
-            setTimeout(() => {
-                procesarConsultaUsuario(mensaje);
-            }, 1000);
-        }
-
-        // ===== FUNCIONES AUXILIARES =====
-
-        function agregarMensajeChat(tipo, mensaje) {
-            const chatBody = document.getElementById('chat-body');
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `chat-message ${tipo}-message`;
-            messageDiv.textContent = mensaje;
-            chatBody.appendChild(messageDiv);
-            chatBody.scrollTop = chatBody.scrollHeight;
-        }
-
-        function buscarCandidatoPorNombre(nombre) {
-            const nombreBusqueda = nombre.toLowerCase();
-            return candidatosData.find(c => {
-                const nombreCompleto = (c.Nombre + ' ' + (c.Apellido || '')).toLowerCase();
-                return nombreCompleto.includes(nombreBusqueda) ||
-                    c.Nombre.toLowerCase().includes(nombreBusqueda);
-            });
-        }
-
-        function mostrarResultadosAnalisis(candidato) {
-            const html = `
-        **📊 Análisis de ${candidato.Nombre} ${candidato.Apellido || ''}**
-        
-        **📋 Información básica:**
-        - Puesto solicitado: ${candidato.Titulo || 'No especificado'}
-        - Estado: ${candidato.Estado || 'No especificado'}
-        - Email: ${candidato['Correo Electrónico'] || 'No especificado'}
-        
-        **🎯 Evaluación de compatibilidad:**
-        - Compatibilidad general: 85%
-        - Habilidades técnicas: 9/10
-        - Experiencia relevante: 8/10
-        - Potencial de adaptación: 9/10
-        
-        **💡 Recomendaciones:**
-        1. Programar entrevista técnica
-        2. Validar referencias laborales
-        3. Evaluar disponibilidad inmediata
-        
-        **🏆 Vacantes recomendadas:**
-        - ${candidato.Titulo || 'Puesto similar'} (95% compatibilidad)
-        - Posiciones relacionadas en el área
-    `;
-
-            agregarMensajeChat('bot', html);
-        }
-
-        function procesarConsultaUsuario(consulta) {
-            const consultaLower = consulta.toLowerCase();
-
-            let respuesta = 'No entiendo completamente tu consulta. ';
-            respuesta += 'Puedo ayudarte con:\n';
-            respuesta += '• Análisis de candidatos\n';
-            respuesta += '• Mejora de descripciones de puestos\n';
-            respuesta += '• Procesamiento SAP SSFF\n';
-            respuesta += '• Comparación CV con vacantes';
-
-            if (consultaLower.includes('candidato') || consultaLower.includes('analizar')) {
-                respuesta = 'Para analizar un candidato, haz clic en "🔍 Análisis de candidatos" y escribe el nombre.';
-            } else if (consultaLower.includes('descripción') || consultaLower.includes('puesto')) {
-                respuesta = 'Para mejorar una descripción, haz clic en "✏️ Mejorar descripción de puesto".';
-            } else if (consultaLower.includes('sap') || consultaLower.includes('procesar')) {
-                respuesta = 'Para procesar datos SAP SSFF, haz clic en "📊 Procesar SAP SSFF".';
-            } else if (consultaLower.includes('comparar') || consultaLower.includes('cv')) {
-                respuesta = 'Para comparar un CV con vacantes, haz clic en "🔍 Comparar CV con vacante".';
-            }
-
-            agregarMensajeChat('bot', respuesta);
-        }
-
-        // ===== FUNCIONES DE INTEGRACIÓN CON LA TABLA =====
-        // (Estas funciones necesitarían ajustarse según tu estructura de tabla)
-
-        function seleccionarVacanteParaMejora(idVacante, titulo) {
-            agregarMensajeChat('user', `Mejorar descripción: ${titulo}`);
-            setTimeout(() => {
-                agregarMensajeChat('bot', `✏️ Analizando descripción de "${titulo}"...`);
-
-                // Simular procesamiento
-                setTimeout(() => {
-                    agregarMensajeChat('bot', `✅ Descripción optimizada para: ${titulo}\n\n` +
-                        '**Nueva descripción ATS-optimizada:**\n' +
-                        '[Descripción mejorada generada por IA]\n\n' +
-                        '**Palabras clave añadidas:**\n' +
-                        '- [Keyword 1]\n' +
-                        '- [Keyword 2]\n' +
-                        '- [Keyword 3]');
-                }, 2000);
-            }, 500);
-        }
-
-        function seleccionarCandidatoParaComparacion(idCandidato, nombre) {
-            agregarMensajeChat('user', `Comparar CV de: ${nombre}`);
-            setTimeout(() => {
-                agregarMensajeChat('bot', `🔍 Comparando CV de ${nombre} con vacantes disponibles...`);
-
-                // Simular procesamiento
-                setTimeout(() => {
-                    agregarMensajeChat('bot', `✅ Resultados de comparación para ${nombre}:\n\n` +
-                        '**Vacantes compatibles:**\n' +
-                        '1. [Vacante 1] - 92% compatibilidad\n' +
-                        '2. [Vacante 2] - 87% compatibilidad\n' +
-                        '3. [Vacante 3] - 78% compatibilidad\n\n' +
-                        '**Habilidades que destacan:**\n' +
-                        '- [Habilidad 1]\n' +
-                        '- [Habilidad 2]\n\n' +
-                        '**Recomendación:** Enviar a entrevista técnica');
-                }, 2000);
-            }, 500);
-        }
     </script>
 </body>
-
 </html>

@@ -12,7 +12,8 @@ $titulo_vacante = $_GET['titulo'] ?? '';
 $registros_por_pagina = 10;
 
 // Función para leer el CSV desde la URL
-function leerCSVDesdeURL($url) {
+function leerCSVDesdeURL($url)
+{
     $datos = [];
     if (($handle = fopen($url, 'r')) !== FALSE) {
         $encabezados = fgetcsv($handle, 1000, ',');
@@ -27,13 +28,15 @@ function leerCSVDesdeURL($url) {
     return $datos;
 }
 
-function normaliza($texto) {
+function normaliza($texto)
+{
     $texto = mb_strtolower($texto, 'UTF-8');
     $texto = str_replace(['á', 'é', 'í', 'ó', 'ú', 'ñ'], ['a', 'e', 'i', 'o', 'u', 'n'], $texto);
     return $texto;
 }
 
-function coincidenPorCategoria($tituloVacante, $tituloCandidato) {
+function coincidenPorCategoria($tituloVacante, $tituloCandidato)
+{
     $tituloVacante = normaliza($tituloVacante);
     $tituloCandidato = normaliza($tituloCandidato);
     $categorias = [
@@ -116,7 +119,8 @@ function coincidenPorCategoria($tituloVacante, $tituloCandidato) {
 }
 
 // Función para determinar criterio
-function determinarCriterio($candidato) {
+function determinarCriterio($candidato)
+{
     $estado = $candidato['Estado'] ?? '';
     switch (strtolower($estado)) {
         case 'contratado':
@@ -140,7 +144,8 @@ function determinarCriterio($candidato) {
 }
 
 // Función para determinar estatus
-function determinarEstatus($candidato) {
+function determinarEstatus($candidato)
+{
     $estado = $candidato['Estado'] ?? '';
     switch (strtolower($estado)) {
         case 'contratado':
@@ -172,7 +177,7 @@ if (empty($todos_candidatos)) {
 $candidatos_filtrados = [];
 if (!empty($titulo_vacante)) {
     $tituloBusqueda = normaliza($titulo_vacante);
-    
+
     foreach ($todos_candidatos as $candidato) {
         $tituloCandidatoRaw = $candidato['Titulo'] ?? '';
         $tituloCandidato = normaliza($tituloCandidatoRaw);
@@ -183,9 +188,11 @@ if (!empty($titulo_vacante)) {
 
         $coincide = false;
 
-        if (strpos($tituloCandidato, $tituloBusqueda) !== false ||
+        if (
+            strpos($tituloCandidato, $tituloBusqueda) !== false ||
             strpos($tituloBusqueda, $tituloCandidato) !== false ||
-            similar_text($tituloBusqueda, $tituloCandidato) > 10) {
+            similar_text($tituloBusqueda, $tituloCandidato) > 10
+        ) {
             $coincide = true;
         } else if (coincidenPorCategoria($tituloBusqueda, $tituloCandidato)) {
             $coincide = true;
@@ -205,6 +212,7 @@ $candidatos_paginados = array_slice($candidatos_filtrados, $inicio, $registros_p
 ?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -214,12 +222,13 @@ $candidatos_paginados = array_slice($candidatos_filtrados, $inicio, $registros_p
     <link rel="shortcut icon" href="img/Logo_cabeza.svg" />
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap4.min.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.bootstrap4.min.css" />
-    
+
     <style>
         .main-content {
             margin-top: 100px;
             padding: 0 40px;
         }
+
         .page-header {
             background: #002B45;
             color: white;
@@ -228,11 +237,13 @@ $candidatos_paginados = array_slice($candidatos_filtrados, $inicio, $registros_p
             margin-bottom: 30px;
             box-shadow: 0 8px 25px rgba(0, 43, 69, 0.15);
         }
+
         .page-header h2 {
             margin: 0;
             font-weight: 700;
             font-size: 28px;
         }
+
         .btn-back {
             background: #6c757d;
             color: white;
@@ -248,6 +259,7 @@ $candidatos_paginados = array_slice($candidatos_filtrados, $inicio, $registros_p
             gap: 8px;
             margin-bottom: 20px;
         }
+
         .table-container {
             background: white;
             border-radius: 15px;
@@ -255,28 +267,164 @@ $candidatos_paginados = array_slice($candidatos_filtrados, $inicio, $registros_p
             overflow: hidden;
             margin-bottom: 30px;
         }
-        .viable { background: #d4edda !important; border-left: 4px solid #28a745; }
-        .parcial { background: #fff3cd !important; border-left: 4px solid #ffc107; }
-        .no-viable { background: #f8d7da !important; border-left: 4px solid #dc3545; }
-        .criteria-badge { padding: 6px 12px; border-radius: 20px; font-weight: 600; font-size: 12px; color: white; }
-        .criteria-viable { background: #28a745; }
-        .criteria-parcial { background: #ffc107; }
-        .criteria-no-viable { background: #dc3545; }
-        .criteria-evaluacion { background: #17a2b8; }
-        .status-badge { padding: 6px 12px; border-radius: 20px; font-weight: 600; font-size: 12px; text-transform: uppercase; }
-        .status-accepted { background: #28a745; color: white; }
-        .status-review { background: #ffc107; color: white; }
-        .status-rejected { background: #dc3545; color: white; }
+
+        .viable {
+            background: #d4edda !important;
+            border-left: 4px solid #28a745;
+        }
+
+        .parcial {
+            background: #fff3cd !important;
+            border-left: 4px solid #ffc107;
+        }
+
+        .no-viable {
+            background: #f8d7da !important;
+            border-left: 4px solid #dc3545;
+        }
+
+        .criteria-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 12px;
+            color: white;
+        }
+
+        .criteria-viable {
+            background: #28a745;
+        }
+
+        .criteria-parcial {
+            background: #ffc107;
+        }
+
+        .criteria-no-viable {
+            background: #dc3545;
+        }
+
+        .criteria-evaluacion {
+            background: #17a2b8;
+        }
+
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+        .status-accepted {
+            background: #28a745;
+            color: white;
+        }
+
+        .status-review {
+            background: #ffc107;
+            color: white;
+        }
+
+        .status-rejected {
+            background: #dc3545;
+            color: white;
+        }
+
+        .email-text {
+            font-size: 12px;
+            color: #6c757d;
+            display: block;
+            margin-top: 2px;
+        }
+
+        /* Paginación personalizada */
+        .pagination-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            margin-bottom: 30px;
+        }
+
+        .pagination-custom {
+            display: flex;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .page-item-custom {
+            margin: 0 3px;
+        }
+
+        .page-link-custom {
+            padding: 8px 16px;
+            border: 1px solid #dee2e6;
+            background-color: white;
+            color: #007bff;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .page-link-custom:hover {
+            background-color: #e9ecef;
+        }
+
+        .page-item-custom.active .page-link-custom {
+            background-color: #002B45;
+            color: white;
+            border-color: #002B45;
+        }
+
+        .page-link-custom.disabled {
+            color: #6c757d;
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
+        .stats-info {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 15px;
+            border-radius: 10px;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        /* Mejorar estilos de la tabla */
+        .table thead th {
+            background: #002B45;
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .table tbody tr {
+            transition: all 0.3s ease;
+        }
+
+        .table tbody tr:hover {
+            background-color: rgba(60, 166, 229, 0.05);
+            transform: translateY(-1px);
+        }
+
+        .table tbody td {
+            padding: 15px 20px;
+            border-color: #e9ecef;
+            vertical-align: middle;
+        }
     </style>
-    
+
     <title>Candidatos Filtrados</title>
 </head>
+
 <body>
     <!-- Logo y Navbar (igual que en tu página principal) -->
     <div class="rectangulo-container">
         <img src="img/LOGOTIPO_IXAH-02.png" width="70px" alt="Logo" class="img-logo-chiq" />
     </div>
-    
+
     <header>
         <div class="user-dropdown">
             <!-- ... (mismo header que tu página principal) ... -->
@@ -287,14 +435,14 @@ $candidatos_paginados = array_slice($candidatos_filtrados, $inicio, $registros_p
         <!-- Header de la página -->
         <div class="page-header">
             <h2>👥 Candidatos para: <?php echo htmlspecialchars($titulo_vacante); ?></h2>
-            <div class="stats-info" style="background: rgba(255, 255, 255, 0.1); padding: 10px 15px; border-radius: 10px; margin-top: 10px; font-size: 14px;">
+            <div class="stats-info">
                 <strong>Requisición #<?php echo str_pad($id_requisicion, 3, '0', STR_PAD_LEFT); ?></strong> |
                 <strong><?php echo count($candidatos_filtrados); ?> candidato(s) encontrado(s)</strong>
             </div>
         </div>
 
         <a href="vacantes_candidatos.php?tab=vacantes&pagina=1" class="btn-back">
-            ← Volver a Vacantes
+            ← Volver a Vacantes y Candidatos
         </a>
 
         <!-- Contenedor de la tabla de candidatos -->
@@ -438,7 +586,9 @@ $candidatos_paginados = array_slice($candidatos_filtrados, $inicio, $registros_p
                 paging: false,
                 searching: true,
                 ordering: true,
-                order: [[0, 'asc']],
+                order: [
+                    [0, 'asc']
+                ],
                 language: {
                     "search": "Buscar:",
                     "zeroRecords": "No se encontraron registros",
@@ -448,4 +598,5 @@ $candidatos_paginados = array_slice($candidatos_filtrados, $inicio, $registros_p
         });
     </script>
 </body>
+
 </html>

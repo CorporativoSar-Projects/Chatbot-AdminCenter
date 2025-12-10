@@ -33,7 +33,8 @@
 
     // Click redirecciona
     toggle.addEventListener('click', () => {
-        window.location.href = 'chatbot.php'; // cambia por tu URL
+        // window.location.href = 'chatbot.php'; // cambia por tu URL
+        window.location.href = 'copia_chatbot.php'; // cambia por tu URL
     });
 
     document.body.appendChild(toggle);
