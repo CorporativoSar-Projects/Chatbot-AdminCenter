@@ -215,12 +215,25 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         },
         // PASO 17 - Generar (finalizar.php)
+        //Posible separacion por problemas de contenedores en los botones
         {
             pagina: 'finalizar.php',
-            element: '.generar-container',
+            element: '#myBtn',
             popover: {
                 title: 'Generar y modo interactivo',
-                description: '• <b>Generar:</b> obtén el código HTML que debes insertar en tu sitio web para tener a IXAH funcionando. <br> • <b>Modo interactivo:</b> previsualiza el funcionamiento y diseño de tu chatbot.',
+                description: '• <b>Generar:</b> obtén el código HTML que debes insertar en tu sitio web para tener a IXAH funcionando.',
+                side: "top",
+                align: 'center'
+            }
+        },
+
+        // PASO 17.1 - Generar (finalizar.php)
+        {
+            pagina: 'finalizar.php',
+            element: '#btnInteractivo',
+            popover: {
+                title: 'Generar y modo interactivo',
+                description: '• <b>Modo interactivo:</b> previsualiza el funcionamiento y diseño de tu chatbot.',
                 side: "top",
                 align: 'center'
             }
