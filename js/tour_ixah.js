@@ -2,7 +2,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const driver = window.driver.js.driver;
     const path = window.location.pathname;
 
-    // Verificar si el tour debe ejecutarse
     const tourActivo = localStorage.getItem('ixah_tour_activo') === 'true';
     const tourVisto = localStorage.getItem('ixah_tour_visto') === 'true';
 
@@ -10,7 +9,6 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
     }
 
-    // --- FUNCIONES AUXILIARES ---
     function mostrarMenuUsuario(mostrar) {
         const dropdown = document.getElementById('dropdown-content');
         if (dropdown) {
@@ -18,19 +16,16 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // --- PASOS DEL TOUR COMPLETO ---
     const todosLosPasos = [
-        // PASO 0 - Bienvenida (menu.php)
         {
-            pagina: 'menu.php',
-            popover: {
-                title: 'Te damos la bienvenida a IXAH',
-                description: '¡Hola! 👋 Vemos que es tu primera vez aquí. ¿Qué te parece si damos una vuelta rápida?',
-                side: "center",
-                align: 'center'
+        pagina: 'menu.php',
+        popover: {
+            title: 'Te damos la bienvenida a IXAH',
+            description: 'Hola! Vemos que es tu primera vez aquí. ¿Qué te parece si damos una vuelta rápida?',
+            side: "center",
+            align: 'center'
             }
         },
-        // PASO 1 - Crear chatbot (menu.php)
         {
             pagina: 'menu.php',
             element: '.btn-add-chat',
@@ -41,7 +36,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 align: 'center'
             }
         },
-        // PASO 2 - Botón usuario (menu.php)
         {
             pagina: 'menu.php',
             element: '#user-btn',
@@ -53,7 +47,6 @@ document.addEventListener("DOMContentLoaded", function () {
             },
             onHighlighted: () => mostrarMenuUsuario(true)
         },
-        // PASO 3 - Soporte (menu.php)
         {
             pagina: 'menu.php',
             element: "a[href*='freshdesk']",
@@ -65,7 +58,6 @@ document.addEventListener("DOMContentLoaded", function () {
             },
             onHighlighted: () => mostrarMenuUsuario(true)
         },
-        // PASO 4 - Integraciones (menu.php)
         {
             pagina: 'menu.php',
             element: '#sftpLink',
@@ -77,7 +69,6 @@ document.addEventListener("DOMContentLoaded", function () {
             },
             onHighlighted: () => mostrarMenuUsuario(true)
         },
-        // PASO 5 - Plan (menu.php)
         {
             pagina: 'menu.php',
             element: "a[href*='billing.stripe.com']",
@@ -90,7 +81,6 @@ document.addEventListener("DOMContentLoaded", function () {
             onHighlighted: () => mostrarMenuUsuario(true),
             onDeselected: () => mostrarMenuUsuario(false)
         },
-        // PASO 6 - Nombre (estilo.php)
         {
             pagina: 'estilo.php',
             element: '#inp_nombre',
@@ -101,7 +91,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 align: 'start'
             }
         },
-        // PASO 7 - Logo (estilo.php)
         {
             pagina: 'estilo.php',
             element: '#urlLogotipo',
@@ -112,7 +101,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 align: 'start'
             }
         },
-        // PASO 8 - Colores (estilo.php) - UNIFICADO
         {
             pagina: 'estilo.php',
             element: '.nombre-colord',
@@ -123,7 +111,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 align: 'center'
             }
         },
-        // PASO 9 - Burbuja (burbuja.php)
         {
             pagina: 'burbuja.php',
             element: '#inp_burbuja',
@@ -134,7 +121,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 align: 'start'
             }
         },
-        // PASO 10 - Saludo (pantallaInicio.php)
         {
             pagina: 'pantallaInicio.php',
             element: '#inp_saludo',
@@ -145,7 +131,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 align: 'start'
             }
         },
-        // PASO 11 - Título conversación (crearConversacion.php)
         {
             pagina: 'crearConversacion.php',
             element: '.container-pers3',
@@ -156,7 +141,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 align: 'center'
             }
         },
-        // PASO 12 - Botón 1 Categoría (crearConversacion.php)
         {
             pagina: 'crearConversacion.php',
             element: '#boton1',
@@ -168,7 +152,6 @@ document.addEventListener("DOMContentLoaded", function () {
             },
             onClick: 'impMenu1'
         },
-        // PASO 13 - Botón 2 Ubicación (crearConversacion.php)
         {
             pagina: 'crearConversacion.php',
             element: '#boton2',
@@ -180,7 +163,6 @@ document.addEventListener("DOMContentLoaded", function () {
             },
             onClick: 'impMenu2'
         },
-        // PASO 14 - Botón 3 Seguimiento (crearConversacion.php)
         {
             pagina: 'crearConversacion.php',
             element: '#boton3',
@@ -192,7 +174,6 @@ document.addEventListener("DOMContentLoaded", function () {
             },
             onClick: 'impMenu3'
         },
-        // PASO 15 - Despedida (pantallaDespedida.php)
         {
             pagina: 'pantallaDespedida.php',
             element: '#inp_despedida',
@@ -203,7 +184,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 align: 'start'
             }
         },
-        // PASO 16 - URL (finalizar.php)
         {
             pagina: 'finalizar.php',
             element: '.container-input',
@@ -214,36 +194,31 @@ document.addEventListener("DOMContentLoaded", function () {
                 align: 'center'
             }
         },
-        // PASO 17 - Generar (finalizar.php)
-        //Posible separacion por problemas de contenedores en los botones
-        {
-            pagina: 'finalizar.php',
-            element: '#myBtn',
-            popover: {
-                title: 'Generar y modo interactivo',
-                description: '• <b>Generar:</b> obtén el código HTML que debes insertar en tu sitio web para tener a IXAH funcionando.',
-                side: "top",
-                align: 'center'
-            }
-        },
-
-        // PASO 17.1 - Generar (finalizar.php)
+{
+    pagina: 'finalizar.php',
+    element: '#myBtn .btn-text-Generar',
+    popover: {
+        title: 'Generar',
+        description: '• <b>Generar:</b> obtén el código HTML que debes insertar en tu sitio web para tener a IXAH funcionando.',
+        side: "top",
+        align: 'center'
+    }
+},
         {
             pagina: 'finalizar.php',
             element: '#btnInteractivo',
             popover: {
-                title: 'Generar y modo interactivo',
+                title: 'Modo interactivo',
                 description: '• <b>Modo interactivo:</b> previsualiza el funcionamiento y diseño de tu chatbot.',
                 side: "top",
                 align: 'center'
             }
         },
-        // PASO 18 - Final (finalizar.php)
         {
             pagina: 'finalizar.php',
             popover: {
-                title: '¡Todo listo!',
-                description: 'Has completado el recorrido con éxito. Ya tienes todo lo necesario para empezar a crear y personalizar tu primer ChatBot. ¡Manos a la obra!',
+                title: 'Todo listo!',
+                description: 'Has completado el recorrido con éxito. Ya tienes todo lo necesario para empezar a crear y personalizar tu primer ChatBot. Manos a la obra!',
                 side: "center",
                 align: 'center'
             }
@@ -292,6 +267,33 @@ document.addEventListener("DOMContentLoaded", function () {
         .map((paso, idx) => ({...paso, indiceGlobal: idx}))
         .filter(paso => paso.pagina === paginaActual && paso.indiceGlobal >= indiceActual);
 
+    if (paginaActual === 'menu.php' && pasosEstaPagina.length > 0) {
+        const primerElemento = pasosEstaPagina[0].element;
+        const elementosMenuUsuario = ['#user-btn', "a[href*='freshdesk']", '#sftpLink', "a[href*='billing.stripe.com']"];
+        if (elementosMenuUsuario.includes(primerElemento)) {
+            mostrarMenuUsuario(true);
+        }
+    }
+
+    if (paginaActual === 'crearConversacion.php' && pasosEstaPagina.length > 0) {
+        const primerPaso = pasosEstaPagina[0];
+        if (primerPaso.onClick && typeof window[primerPaso.onClick] === 'function') {
+            window[primerPaso.onClick](new Event('click'));
+        }
+    }
+
+    if (paginaActual === 'finalizar.php') {
+        if (typeof $ !== 'undefined' && $('#myModal').length > 0) {
+            $('#myModal').on('show.bs.modal', function (e) {
+                if (localStorage.getItem('ixah_tour_activo') === 'true') {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return false;
+                }
+            });
+        }
+    }
+
     const stepsDriver = pasosEstaPagina.map(paso => {
         const step = {
             popover: paso.popover
@@ -329,17 +331,23 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
     }
 
-    // Iniciar tour
     localStorage.setItem('ixah_tour_activo', 'true');
 
     const driverObj = driver({
         showProgress: true,
         animate: true,
-        allowClose: false,
+        allowClose: true,
         nextBtnText: 'Siguiente',
         prevBtnText: 'Atrás',
         doneBtnText: pasosEstaPagina[pasosEstaPagina.length - 1].indiceGlobal === todosLosPasos.length - 1 ? 'Finalizar' : 'Siguiente Sección',
         steps: stepsValidos,
+        onDestroyStarted: () => {
+            localStorage.setItem('ixah_tour_activo', 'false');
+            localStorage.setItem('ixah_tour_visto', 'true');
+            localStorage.removeItem('ixah_tour_step');
+            mostrarMenuUsuario(false);
+            driverObj.destroy();
+        },
         onNextClick: () => {
             const indicePasoActual = driverObj.getActiveIndex();
             const pasoActual = pasosEstaPagina[indicePasoActual];
@@ -347,10 +355,8 @@ document.addEventListener("DOMContentLoaded", function () {
             localStorage.setItem('ixah_tour_step', pasoActual.indiceGlobal + 1);
             
             if (indicePasoActual < stepsValidos.length - 1) {
-                // Siguiente paso en esta página
                 driverObj.moveNext();
             } else {
-                // Último paso de esta página - ir a siguiente página
                 const siguientePaso = todosLosPasos[pasoActual.indiceGlobal + 1];
                 
                 if (siguientePaso) {
@@ -366,7 +372,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     driverObj.destroy();
                     window.location.href = navMap[paginaActual];
                 } else {
-                    // Tour completado
                     localStorage.setItem('ixah_tour_activo', 'false');
                     localStorage.setItem('ixah_tour_visto', 'true');
                     localStorage.removeItem('ixah_tour_step');
@@ -378,12 +383,10 @@ document.addEventListener("DOMContentLoaded", function () {
             const indicePasoActual = driverObj.getActiveIndex();
             
             if (indicePasoActual > 0) {
-                // Retroceder dentro de esta página
                 const pasoActual = pasosEstaPagina[indicePasoActual];
                 localStorage.setItem('ixah_tour_step', pasoActual.indiceGlobal - 1);
                 driverObj.movePrevious();
             } else {
-                // Primer paso de esta página - ir a página anterior
                 const pasoAnterior = todosLosPasos[pasosEstaPagina[0].indiceGlobal - 1];
                 
                 if (pasoAnterior) {
@@ -407,3 +410,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
     setTimeout(() => driverObj.drive(), 500);
 });
+
+// Función para activar el recorrido manualmente
+function activarRecorrido() {
+    localStorage.setItem('ixah_tour_activo', 'true');
+    localStorage.setItem('ixah_tour_visto', 'false');
+    localStorage.removeItem('ixah_tour_step');
+    window.location.href = 'menu.php';
+}
+
+// Hacer la función disponible globalmente
+window.activarRecorrido = activarRecorrido;
