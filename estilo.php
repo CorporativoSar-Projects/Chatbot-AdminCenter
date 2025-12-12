@@ -113,6 +113,7 @@ if ($row['total'] >= 1 && isset($_GET['nuevo'])) {
                             </span>
                         </div>
                         <div class="container-colors">
+                            <div id="contenedor-colores-driver" >
                             <div class="nombre-colord">
                                 <label for="colorPrimario">Color Primario</label><br>
                                 <div class="color-selector">
@@ -150,10 +151,8 @@ if ($row['total'] >= 1 && isset($_GET['nuevo'])) {
                                 </div>
 
                             </div>
-
-
-
-
+                            </div>
+                            
                             <!-- Contenedor para cargar la imagen con icono adjunto -->
                             <div class="container-archivo">
                                 <label for="urlLogotipo">Ingresa la URL del Logotipo</label><br>

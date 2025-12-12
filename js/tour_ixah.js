@@ -103,7 +103,7 @@ document.addEventListener("DOMContentLoaded", function () {
         },
         {
             pagina: 'estilo.php',
-            element: '.nombre-colord',
+            element: '#contenedor-colores-driver',
             popover: {
                 title: 'Define los colores de marca',
                 description: 'Personaliza tu chatbot con los colores que representan a tu empresa. Ajusta colores primarios, secundarios y de texto para completar la identidad.',

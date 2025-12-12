@@ -117,3 +117,9 @@
     left: 0 !important;
     top: 0 !important;
 }
+
+#contenedor-colores-driver {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
