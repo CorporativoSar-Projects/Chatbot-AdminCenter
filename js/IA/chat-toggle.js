@@ -7,8 +7,8 @@
         position: fixed;
         bottom: 20px;
         right: 20px;
-        width: 70px;
-        height: 70px;
+        width: 140px;
+        height: 140px;
         background: linear-gradient(135deg,#007bff,#00c6ff);
         border-radius: 50%;
         display: flex;
@@ -19,7 +19,17 @@
         transition: transform 0.2s ease, box-shadow 0.2s ease;
         z-index: 9999;
     `;
-    toggle.innerHTML = `<img src="img/Logo_cabeza.svg" alt="Chat" style="width:40px;">`;
+    toggle.innerHTML = `<img src="img/LOGOTIPO_IXAH-02.png" alt="Chat" style="width:140px;">`;
+
+    /*
+    <div class="rectangulo-container">
+    <img
+      src="img/LOGOTIPO_IXAH-02.png"
+      width="70px"
+      alt="Logo"
+      class="img-logo-chiq" />
+      <img src="img/Logo_cabeza.svg" alt="Chat" style="width:40px;">
+    </div>*/
 
     // Animación hover
     toggle.addEventListener('mouseenter', () => {

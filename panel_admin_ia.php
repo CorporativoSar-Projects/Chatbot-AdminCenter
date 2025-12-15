@@ -6,6 +6,7 @@ include 'modelo/consultas_menu.php';
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -24,7 +25,7 @@ include 'modelo/consultas_menu.php';
       --warning-color: #f39c12;
       --danger-color: #e74c3c;
       --light-bg: #f8f9fa;
-      --card-shadow: 0 8px 25px rgba(0,0,0,0.08);
+      --card-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
       --border-radius: 12px;
     }
 
@@ -50,7 +51,7 @@ include 'modelo/consultas_menu.php';
 
     .panel-card:hover {
       transform: translateY(-2px);
-      box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
     }
 
     .section-title {
@@ -83,7 +84,7 @@ include 'modelo/consultas_menu.php';
     }
 
     .sidebar-nav .nav-link {
-      color: rgba(255,255,255,0.9);
+      color: rgba(255, 255, 255, 0.9);
       padding: 12px 16px;
       margin: 4px 0;
       border-radius: 8px;
@@ -93,7 +94,7 @@ include 'modelo/consultas_menu.php';
     }
 
     .sidebar-nav .nav-link:hover {
-      background: rgba(255,255,255,0.1);
+      background: rgba(255, 255, 255, 0.1);
       color: white;
       transform: translateX(5px);
     }
@@ -168,7 +169,7 @@ include 'modelo/consultas_menu.php';
     }
 
     .revision-item:hover {
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     }
 
     /* Badges y estados */
@@ -196,12 +197,12 @@ include 'modelo/consultas_menu.php';
       main.container {
         margin-top: 20px !important;
       }
-      
+
       .panel-card {
         padding: 16px;
         margin-bottom: 16px;
       }
-      
+
       .section-title {
         font-size: 1.1rem;
       }
@@ -213,8 +214,15 @@ include 'modelo/consultas_menu.php';
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     /* Estado de carga */
@@ -235,16 +243,26 @@ include 'modelo/consultas_menu.php';
     }
 
     @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
     }
   </style>
 </head>
 
 <body>
-  <?php // header y menú tal como lo tienes actualmente ?>
+  <?php // header y menú tal como lo tienes actualmente 
+  ?>
   <div class="rectangulo-container">
-    <img src="img/Logo_cabeza.svg" width="70px" alt="Logo" class="img-logo-chiq" />
+    <img
+      src="img/LOGOTIPO_IXAH-02.png"
+      width="70px"
+      alt="Logo"
+      class="img-logo-chiq" />
   </div>
 
   <header>
@@ -311,7 +329,7 @@ include 'modelo/consultas_menu.php';
           <p class="small-muted mb-3" style="color: rgba(255,255,255,0.8);">
             Usuario: <strong><?php echo $_SESSION['nombre_adm']; ?></strong>
           </p>
-          <hr style="border-color: rgba(255,255,255,0.2);"/>
+          <hr style="border-color: rgba(255,255,255,0.2);" />
           <nav class="nav flex-column">
             <a href="#model-config" class="nav-link">🤖 Modelos IA</a>
             <a href="#prompts" class="nav-link">📝 Prompts</a>
@@ -390,15 +408,15 @@ include 'modelo/consultas_menu.php';
 
             <div class="form-group">
               <label for="promptTemplate">Template del Prompt</label>
-              <textarea id="promptTemplate" name="template" class="form-control" rows="4" required 
-                        placeholder="Usa placeholders como {puesto}, {candidato}, {empresa}..."></textarea>
+              <textarea id="promptTemplate" name="template" class="form-control" rows="4" required
+                placeholder="Usa placeholders como {puesto}, {candidato}, {empresa}..."></textarea>
               <small class="form-text text-muted">
                 Variables disponibles: {puesto}, {candidato}, {empresa}, {habilidades}, {experiencia}
               </small>
             </div>
           </form>
 
-          <hr/>
+          <hr />
           <h6 class="mb-3">📋 Plantillas existentes</h6>
           <div id="promptList" class="fade-in">
             <div class="text-center text-muted py-4">
@@ -445,4 +463,5 @@ include 'modelo/consultas_menu.php';
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

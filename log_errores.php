@@ -18,7 +18,11 @@ include 'modelo/consultas_menu.php';
 
 <body>
   <div class="rectangulo-container">
-    <img src="img/Logo_cabeza.svg" width="70px" alt="Logo" class="img-logo-chiq" />
+    <img
+      src="img/LOGOTIPO_IXAH-02.png"
+      width="70px"
+      alt="Logo"
+      class="img-logo-chiq" />
   </div>
 
   <header>
@@ -54,12 +58,13 @@ include 'modelo/consultas_menu.php';
           <div class="user-info">
             <a href="menu.php">Menu</a>
           </div>
+          <!--
           <div class="user-info">
             <a href="vacantes.php">Vacantes</a>
           </div>
           <div class="user-info">
             <a href="candidatos.php">Candidatos</a>
-          </div>
+          </div>-->
           <div class="user-info">
             <a href="panel_admin_ia.php">Panel de Configuración</a>
           </div>

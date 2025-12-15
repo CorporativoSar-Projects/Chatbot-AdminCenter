@@ -158,9 +158,10 @@ $tokens = $response['data'] ?? [];
                     <div class="user-info">
                         <a href="candidatos.php">Candidatos</a>
                     </div>-->
+                    <!--
                     <div class="user-info">
                         <a href="vacantes_candidatos.php?tab=vacantes">Vacantes y Candidatos</a>
-                    </div>
+                    </div>-->
                     <div class="user-info">
                         <a href="panel_admin_ia.php">Panel de Configuración</a>
                     </div>

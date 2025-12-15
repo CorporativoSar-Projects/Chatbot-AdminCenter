@@ -1,9 +1,94 @@
 <?php
 include 'modelo/consultas_menu.php';
 
-// Si la sesión no está iniciada, entonces iníciala
+// Iniciar sesión SIEMPRE AL PRINCIPIO
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
+}
+
+// === COMENTAR TODO ESTO ===
+/*
+// Verificar si es una petición AJAX
+if (isset($_GET['_ajax']) || (isset($_SERVER['HTTP_X_REQUESTED_WITH']) &&
+    strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest')) {
+
+    if (isset($_GET['_ajax'])) {
+        while (ob_get_level()) ob_end_clean();
+
+        if (isset($_GET['_get_chat'])) {
+            // Devolver el chat actual
+            require_once 'chat_persistente.php';
+            $chat = ChatPersistente::obtenerInstancia($_SESSION['id_adm']);
+            echo json_encode($chat->obtenerChat());
+            exit;
+        }
+
+        ob_start();
+        include 'contenido_ajax.php';
+        $contenido = ob_get_clean();
+        echo $contenido;
+        exit;
+    }
+}
+
+// Incluir y usar el nuevo sistema de chat
+require_once 'chat_persistente.php';
+
+// Obtener instancia del chat
+$chat = ChatPersistente::obtenerInstancia($_SESSION['id_adm']);
+
+// Si se recibe un mensaje nuevo vía POST, guardarlo
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion_chat'])) {
+    if ($_POST['accion_chat'] === 'agregar') {
+        $tipo = $_POST['tipo'] ?? 'user';
+        $mensaje = $_POST['mensaje'] ?? '';
+        $html = $_POST['html'] ?? $mensaje;
+
+        $chat->agregarMensaje($tipo, $mensaje, $html);
+
+        echo json_encode([
+            'success' => true,
+            'historial' => $chat->obtenerChat()
+        ]);
+        exit;
+    }
+
+    if ($_POST['accion_chat'] === 'limpiar') {
+        $chat->limpiarChat();
+        echo json_encode([
+            'success' => true,
+            'historial' => $chat->obtenerChat()
+        ]);
+        exit;
+    }
+}
+*/
+// === FIN DE COMENTARIOS ===
+
+// Obtener historial para mostrar
+// $chatHistorial = $chat->obtenerChat();
+
+// Si se recibe un mensaje nuevo vía POST, guardarlo
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion_chat'])) {
+    if ($_POST['accion_chat'] === 'agregar') {
+        $tipo = $_POST['tipo'] ?? 'user';
+        $mensaje = $_POST['mensaje'] ?? '';
+        $html = $_POST['html'] ?? $mensaje;
+
+        ChatMemoria::agregarMensaje($_SESSION['id_adm'], $tipo, $mensaje, $html);
+
+        // Devolver el historial completo actualizado
+        $chatHistorial = ChatMemoria::obtenerChat($_SESSION['id_adm']);
+        echo json_encode(['success' => true, 'historial' => $chatHistorial]);
+        exit;
+    }
+
+    if ($_POST['accion_chat'] === 'limpiar') {
+        ChatMemoria::limpiarChat($_SESSION['id_adm']);
+        $chatHistorial = ChatMemoria::obtenerChat($_SESSION['id_adm']);
+        echo json_encode(['success' => true, 'historial' => $chatHistorial]);
+        exit;
+    }
 }
 
 if (!isset($_SESSION['id_adm'])) {
@@ -23,6 +108,11 @@ if ($mysqli->connect_errno) {
 }
 
 // Determinar qué pestaña está activa
+// VERIFICAR SI VIENE CON PARÁMETRO _preserve_chat
+if (isset($_GET['_preserve_chat'])) {
+    // No hacemos nada especial, el chat ya está en sesión
+}
+
 $tab_activa = isset($_GET['tab']) ? $_GET['tab'] : 'candidatos';
 
 // Configuración de paginación para CANDIDATOS
@@ -636,11 +726,6 @@ $mysqli->close();
             border: none;
         }
 
-        #chat-open-btn img {
-            width: 35px;
-            filter: brightness(0) invert(1);
-        }
-
         #chat-body::-webkit-scrollbar {
             width: 6px;
         }
@@ -772,7 +857,8 @@ $mysqli->close();
         }
 
         #chat-open-btn img {
-            width: 24px;
+            /* width: 24px;*/
+            width: 50px;
             filter: brightness(0) invert(1);
             position: relative;
             z-index: 1;
@@ -847,20 +933,142 @@ $mysqli->close();
         .chat-toggle-btn.icon-only .toggle-text {
             display: none;
         }
+
+        /** SISTEMA DE ANIMACION JS */
+        /* Agrega esto en tu CSS existente */
+        .loading-animation {
+            display: inline-block;
+            position: relative;
+            width: 80px;
+            height: 20px;
+            margin: 10px auto;
+        }
+
+        .loading-dot {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #3498db;
+            animation-timing-function: cubic-bezier(0, 1, 1, 0);
+        }
+
+        .loading-dot:nth-child(1) {
+            left: 8px;
+            animation: loading-animation1 0.6s infinite;
+        }
+
+        .loading-dot:nth-child(2) {
+            left: 8px;
+            animation: loading-animation2 0.6s infinite;
+        }
+
+        .loading-dot:nth-child(3) {
+            left: 32px;
+            animation: loading-animation2 0.6s infinite;
+        }
+
+        .loading-dot:nth-child(4) {
+            left: 56px;
+            animation: loading-animation3 0.6s infinite;
+        }
+
+        @keyframes loading-animation1 {
+            0% {
+                transform: scale(0);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes loading-animation3 {
+            0% {
+                transform: scale(1);
+            }
+
+            100% {
+                transform: scale(0);
+            }
+        }
+
+        @keyframes loading-animation2 {
+            0% {
+                transform: translate(0, 0);
+            }
+
+            100% {
+                transform: translate(24px, 0);
+            }
+        }
+
+        /* Animación de typing para el bot */
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            background: #f1f1f1;
+            border-radius: 20px;
+            width: fit-content;
+            margin: 5px 0;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #666;
+            margin: 0 2px;
+            animation: typing-bounce 1.4s infinite ease-in-out both;
+        }
+
+        .typing-dot:nth-child(1) {
+            animation-delay: -0.32s;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: -0.16s;
+        }
+
+        .typing-dot:nth-child(3) {
+            animation-delay: 0s;
+        }
+
+        @keyframes typing-bounce {
+
+            0%,
+            80%,
+            100% {
+                transform: scale(0);
+            }
+
+            40% {
+                transform: scale(1);
+            }
+        }
+
+        /* Mensaje de carga */
+        .loading-message {
+            background: #e8f4fd;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+        }
+
+        .loading-text {
+            color: #2c3e50;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 
 <body>
     <div id="chat-open-btn" style="display:none;">
-        <img src="https://img.icons8.com/ios-filled/24/ffffff/chat.png" alt="Abrir Chat">
-    </div>
-
-    <div class="rectangulo-container">
-        <img
-            src="img/LOGOTIPO_IXAH-02.png"
-            width="70px"
-            alt="Logo"
-            class="img-logo-chiq" />
+        <!--<img src="https://img.icons8.com/ios-filled/24/ffffff/chat.png" alt="Abrir Chat">-->
+        <img src="img/LOGOTIPO_IXAH-02.png" width="140px" alt="Abrir Chat">
     </div>
 
     <header>
@@ -884,19 +1092,20 @@ $mysqli->close();
                         <span>Versión 1.0.0</span>
                     </div>
                     <div class="user-info">
-                        <a href="menu.php">Menu</a>
+                        <a href="javascript:void(0);" onclick="limpiarChatYRedirigir('menu.php')">Menu</a>
+                    </div>
+                    <!--
+                    <div class="user-info">
+                        <a href="javascript:void(0);" onclick="limpiarChatYRedirigir('vacantes_candidatos.php?tab=vacantes')">Vacantes y Candidatos</a>
+                    </div>-->
+                    <div class="user-info">
+                        <a href="javascript:void(0);" onclick="limpiarChatYRedirigir('panel_admin_ia.php')">Panel de Configuración</a>
                     </div>
                     <div class="user-info">
-                        <a href="vacantes_candidatos.php?tab=vacantes">Vacantes y Candidatos</a>
+                        <a href="javascript:void(0);" onclick="limpiarChatYRedirigir('tokens.php')">Tokens</a>
                     </div>
                     <div class="user-info">
-                        <a href="panel_admin_ia.php">Panel de Configuración</a>
-                    </div>
-                    <div class="user-info">
-                        <a href="tokens.php">Tokens</a>
-                    </div>
-                    <div class="user-info">
-                        <a href="log_errores.php">Errores de los ChatBots</a>
+                        <a href="javascript:void(0);" onclick="limpiarChatYRedirigir('log_errores.php')">Errores de los ChatBots</a>
                     </div>
                     <div class="user-info">
                         <a href="#">Desarrollado por Giintape Innovahue</a>
@@ -928,6 +1137,28 @@ $mysqli->close();
                     📋 Vacantes
                 </button>
             </div>
+
+            <script>
+                // Reemplaza la función cambiarTab
+                function cambiarTabConChat(tab) {
+                    const url = new URL(window.location);
+                    url.searchParams.set('tab', tab);
+
+                    // Resetear paginación según la pestaña
+                    if (tab === 'candidatos') {
+                        url.searchParams.set('pagina_candidatos', '1');
+                        url.searchParams.delete('pagina_vacantes');
+                    } else {
+                        url.searchParams.set('pagina_vacantes', '1');
+                        url.searchParams.delete('pagina_candidatos');
+                    }
+
+                    // Agregar parámetro para preservar chat
+                    url.searchParams.set('_preserve_chat', '1');
+
+                    window.location.href = url.toString();
+                }
+            </script>
 
             <!-- Tab de CANDIDATOS -->
             <div id="candidatos-content" class="tab-content <?php echo $tab_activa == 'candidatos' ? 'active' : ''; ?>">
@@ -1029,7 +1260,8 @@ $mysqli->close();
                             <!-- Números de página -->
                             <?php for ($i = 1; $i <= $total_paginas_candidatos; $i++): ?>
                                 <li class="page-item-custom <?php echo $i == $pagina_actual_candidatos ? 'active' : ''; ?>">
-                                    <a class="page-link-custom" href="?pagina_candidatos=<?php echo $i; ?>&tab=<?php echo $tab_activa; ?>">
+                                    <a class="page-link-custom"
+                                        href="?pagina_candidatos=<?php echo $i; ?>&tab=<?php echo $tab_activa; ?>&_preserve_chat=1">
                                         <?php echo $i; ?>
                                     </a>
                                 </li>
@@ -1106,7 +1338,8 @@ $mysqli->close();
                                                 <?php endif; ?>
 
                                                 <!-- EL BOTÓN APUNTA A OTRA PÁGINA, NO A UNA PESTAÑA -->
-                                                <a href="detalle_candidatos_vacante.php?id_requisicion=<?php echo urlencode($idRequisicion); ?>&titulo=<?php echo urlencode($titulo); ?>" class="btn btn-candidates">
+                                                <a href="detalle_candidatos_vacante.php?id_requisicion=<?php echo urlencode($idRequisicion); ?>&titulo=<?php echo urlencode($titulo); ?>&_preserve_chat=1"
+                                                    class="btn btn-candidates">
                                                     👥 Ver Candidatos
                                                 </a>
                                             </div>
@@ -1147,7 +1380,8 @@ $mysqli->close();
                             <!-- Números de página -->
                             <?php for ($i = 1; $i <= $total_paginas_vacantes; $i++): ?>
                                 <li class="page-item-custom <?php echo $i == $pagina_actual_vacantes ? 'active' : ''; ?>">
-                                    <a class="page-link-custom" href="?pagina_vacantes=<?php echo $i; ?>&tab=<?php echo $tab_activa; ?>">
+                                    <a class="page-link-custom"
+                                        href="?pagina_vacantes=<?php echo $i; ?>&tab=<?php echo $tab_activa; ?>&_preserve_chat=1">
                                         <?php echo $i; ?>
                                     </a>
                                 </li>
@@ -1171,57 +1405,56 @@ $mysqli->close();
             </div>
         </div>
 
-        <!-- PANEL DEL CHAT (se mantiene igual) -->
+        <!-- PANEL DEL CHAT (CORREGIDO) -->
         <div id="chat-panel">
             <div id="chat-header">
                 <span>Asistente IA</span>
                 <button id="toggle-chat" class="chat-toggle-btn">
-                    <!--<svg id="toggle-icon" class="toggle-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M15 18l-6-6 6-6" />
-                    </svg>-->
                     <span class="toggle-text">Ocultar Chat</span>
                 </button>
             </div>
             <div id="chat-body">
-                <div class="chat-message bot-message">
-                    ¡Hola! Soy tu asistente de IA. ¿En qué puedo ayudarte hoy?
-                    <div class="special-buttons">
-                        <button class="special-btn" onclick="activarComparacionCV()">
-                            🔍 Análisis de candidatos
+                <?php /* COMENTAR ESTO
+                <?php foreach ($chatHistorial as $mensaje): ?>
+                    <div class="chat-message <?php echo $mensaje['tipo'] == 'user' ? 'user-message' : 'bot-message'; ?>">
+                        <?php
+                        if (isset($mensaje['html']) && strpos($mensaje['html'], '<div') !== false):
+                            echo $mensaje['html'];
+                        else:
+                            echo htmlspecialchars($mensaje['mensaje']);
+                        endif;
+                        ?>
+                    </div>
+                <?php endforeach; ?>
+                */ ?>
+
+                <!-- Elementos de entrada (estos deben estar FUERA del bucle) -->
+                <div id="opciones-mejora-container" class="analysis-input-container" style="display: none;">
+                    <div style="text-align: center; margin-bottom: 15px;">
+                        <h5 style="color: #002B45; margin-bottom: 20px;">Selecciona una opción:</h5>
+                        <button class="special-btn" onclick="seleccionarDescripcionManual()"
+                            style="margin-bottom: 10px; background: #3ca6e5;">
+                            📝 Descripción Manual
                         </button>
-                        <button class="special-btn" onclick="mostrarOpcionesMejoraDescripcion()">
-                            ✏️ Mejorar descripción de puesto
+                        <button class="special-btn" onclick="seleccionarDescripcionATS()"
+                            style="margin-bottom: 10px; background: #28a745;">
+                            📊 Descripción desde ATS
                         </button>
-                        <div id="opciones-mejora-container" class="analysis-input-container" style="display: none;">
-                            <div style="text-align: center; margin-bottom: 15px;">
-                                <h5 style="color: #002B45; margin-bottom: 20px;">Selecciona una opción:</h5>
-                                <button class="special-btn" onclick="seleccionarDescripcionManual()"
-                                    style="margin-bottom: 10px; background: #3ca6e5;">
-                                    📝 Descripción Manual
-                                </button>
-                                <button class="special-btn" onclick="seleccionarDescripcionATS()"
-                                    style="margin-bottom: 10px; background: #28a745;">
-                                    📊 Descripción desde ATS
-                                </button>
-                                <button class="special-btn" onclick="ocultarOpcionesMejora()"
-                                    style="background: #6c757d; color: white;">
-                                    ↩️ Volver
-                                </button>
-                            </div>
-                        </div>
-                        <!--
-                        <button class="special-btn" onclick="procesarSAPSSFF()">
-                            📊 Procesar SAP SSFF
-                        </button>-->
+                        <button class="special-btn" onclick="ocultarOpcionesMejora()"
+                            style="background: #6c757d; color: white;">
+                            ↩️ Volver
+                        </button>
                     </div>
                 </div>
+
                 <div id="manual-description-container" class="analysis-input-container" style="display: none;">
                     <textarea id="descripcion-puesto-input" class="analysis-input" rows="4" placeholder="Escribe aquí la descripción del puesto que deseas mejorar..."></textarea>
                     <button class="analysis-btn" onclick="enviarDescripcionParaMejora()">
                         ✏️ Optimizar descripción con IA
                     </button>
                 </div>
-                <div id="analysis-input-container" class="analysis-input-container">
+
+                <div id="analysis-input-container" class="analysis-input-container" style="display: none;">
                     <input type="text" id="candidate-name-input" class="analysis-input"
                         placeholder="Escribe el nombre del candidato a analizar...">
                     <button class="analysis-btn" onclick="analizarCandidato()">
@@ -1246,7 +1479,6 @@ $mysqli->close();
 
     <!-- Scripts de IA -->
     <script>
-
         // Datos de candidatos desde PHP
         const candidatosData = <?php echo json_encode($candidatos); ?>;
         const vacantesData = <?php echo json_encode($vacantes); ?>;
@@ -1348,6 +1580,10 @@ $mysqli->close();
             }, 500);
         }
 
+        function ocultarOpcionesMejora() {
+            document.getElementById('opciones-mejora-container').style.display = 'none';
+        }
+
         function mostrarBotonesMejoraEnTabla() {
             ocultarTodosLosBotones();
             document.querySelectorAll('.btn-improve-job').forEach(btn => {
@@ -1367,16 +1603,269 @@ $mysqli->close();
             });
         }
 
-        function agregarMensajeChat(tipo, mensaje) {
+        // Función MODIFICADA para agregar mensajes
+        async function agregarMensajeChat(tipo, mensaje, esHTML = false) {
             const chatBody = document.getElementById('chat-body');
             const messageDiv = document.createElement('div');
             messageDiv.className = `chat-message ${tipo}-message`;
-            messageDiv.textContent = mensaje;
-            chatBody.appendChild(messageDiv);
+
+            let contenidoParaGuardar = mensaje;
+            let contenidoHTML = mensaje;
+
+            if (esHTML) {
+                messageDiv.innerHTML = mensaje;
+                contenidoHTML = mensaje;
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = mensaje;
+                contenidoParaGuardar = tempDiv.textContent || tempDiv.innerText || '';
+            } else {
+                messageDiv.textContent = mensaje;
+                contenidoHTML = mensaje;
+                contenidoParaGuardar = mensaje;
+            }
+
+            // Insertar antes de los elementos de entrada
+            const opcionesMejora = document.getElementById('opciones-mejora-container');
+            if (opcionesMejora) {
+                chatBody.insertBefore(messageDiv, opcionesMejora);
+            } else {
+                chatBody.appendChild(messageDiv);
+            }
+
             chatBody.scrollTop = chatBody.scrollHeight;
+
+            // ¡IMPORTANTE! Guardar en el servidor y VERIFICAR
+            console.log('Enviando mensaje al servidor...');
+            const resultado = await guardarMensajeServidor(tipo, contenidoParaGuardar, contenidoHTML);
+            console.log('Resultado del servidor:', resultado);
+
+            // Recargar el chat después de guardar
+            if (resultado.success) {
+                await recargarChatDesdeServidor();
+            }
+
+            return messageDiv;
         }
+
+        // Función para recargar chat desde servidor
+        async function recargarChatDesdeServidor() {
+            try {
+                const response = await fetch('?_ajax=1&_get_chat=1');
+                const historial = await response.json();
+
+                console.log('Chat recargado:', historial);
+
+                if (historial && historial.length > 0) {
+                    // Actualizar visualmente si es necesario
+                    return historial;
+                }
+            } catch (error) {
+                console.error('Error al recargar chat:', error);
+            }
+        }
+
+
+        // Función para guardar mensaje en el servidor - MODIFICADA
+        async function guardarMensajeServidor(tipo, mensaje, html = null) {
+            try {
+                const formData = new FormData();
+                formData.append('accion_chat', 'agregar');
+                formData.append('tipo', tipo);
+                formData.append('mensaje', mensaje);
+                if (html) formData.append('html', html);
+
+                // Usar URL específica para evitar problemas
+                const url = window.location.pathname + '?' + new URLSearchParams({
+                    _ajax: 1,
+                    tab: new URL(window.location).searchParams.get('tab') || 'candidatos'
+                }).toString();
+
+                const response = await fetch(url, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Cache-Control': 'no-cache'
+                    }
+                });
+
+                const data = await response.json();
+                console.log('Respuesta POST:', data);
+                return data;
+            } catch (error) {
+                console.error('Error al guardar mensaje:', error);
+                return {
+                    success: false,
+                    error: error.message
+                };
+            }
+        }
+
+        // Configurar eventos del chat para mensajes normales
+        function configurarEventosChat() {
+            // Botón enviar
+            document.getElementById('send-btn')?.addEventListener('click', enviarMensaje);
+
+            // Input con Enter
+            document.getElementById('chat-input')?.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    enviarMensaje();
+                }
+            });
+        }
+
+        // Función para enviar mensaje NORMAL (del input)
+        async function enviarMensaje() {
+            const input = document.getElementById('chat-input');
+            if (!input) return;
+
+            const mensaje = input.value.trim();
+            if (!mensaje) return;
+
+            input.value = '';
+
+            // ¡Usar la NUEVA función que SÍ guarda!
+            await agregarMensajeChat('user', mensaje);
+
+            // Simular respuesta del bot
+            setTimeout(async () => {
+                const respuestas = [
+                    `He procesado tu mensaje: "${mensaje}". ¿En qué más puedo ayudarte?`,
+                    `Entendido. ¿Quieres que analice algún candidato en particular?`,
+                    `Perfecto. Puedo ayudarte con análisis de CVs, mejora de descripciones de puestos, o comparaciones con SAP.`
+                ];
+
+                const respuesta = respuestas[Math.floor(Math.random() * respuestas.length)];
+
+                // ¡Usar la NUEVA función que SÍ guarda!
+                await agregarMensajeChat('bot', respuesta);
+            }, 1000);
+        }
+
+        // Inicializar eventos cuando el DOM esté listo
+        document.addEventListener('DOMContentLoaded', function() {
+            configurarEventosChat();
+        });
+
+        // Verificar estado del chat cada 2 segundos (solo para depuración)
+        function monitorearChat() {
+            setInterval(async () => {
+                try {
+                    const response = await fetch('?_ajax=1&_get_chat=1&_t=' + Date.now());
+                    const historial = await response.json();
+                    console.log('Monitoreo chat:', historial.length, 'mensajes', historial);
+                } catch (error) {
+                    console.error('Error monitoreo:', error);
+                }
+            }, 2000);
+        }
+
+        // Iniciar monitoreo
+        /*
+        document.addEventListener('DOMContentLoaded', function() {
+            monitorearChat();
+        });*/
+        // Función para verificar y cargar el chat
+        /*
+        async function verificarYRecargarChat() {
+            try {
+                const response = await fetch('?_ajax=1&_get_chat=1');
+                const historial = await response.json();
+
+                if (historial && historial.length > 0) {
+                    // El chat ya está cargado
+                    console.log('Chat cargado con', historial.length, 'mensajes');
+                } else {
+                    console.log('Chat vacío o no encontrado');
+                }
+            } catch (error) {
+                console.error('Error al verificar chat:', error);
+            }
+        }
+
+        // Llamar al cargar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            verificarYRecargarChat();
+
+            // También verificar cada vez que se cambia de página
+            window.addEventListener('popstate', verificarYRecargarChat);
+        });*/
     </script>
     <script src="js/IA/analisisIA.js"></script>
+    <!-- Pasar ID de usuario a JavaScript -->
+    <script>
+        window.userId = <?php echo json_encode($_SESSION['id_adm']); ?>;
+        console.log('window.userId:', window.userId);
+        console.log('getUserId():', getUserId());
+        console.log('CHAT_STORAGE_KEY:', CHAT_STORAGE_KEY);
+    </script>
+    <!-- ESTO VA AL FINAL, ANTES de </body> -->
+
+    <script>
+        // Sistema para limpiar chat al navegar a otras páginas
+        (function() {
+            console.log('🔧 Configurando limpieza automática de chat...');
+
+            // Función para obtener userId (igual que en analisisIA.js)
+            function getUserId() {
+                try {
+                    if (typeof window.userId !== 'undefined' && window.userId) {
+                        return window.userId;
+                    }
+                    return 'user_' + btoa(window.location.pathname).substring(0, 10);
+                } catch (e) {
+                    return 'default_user';
+                }
+            }
+
+            // Función para limpiar el chat
+            function limpiarChat() {
+                const chatKey = `ixah_chat_v3_${getUserId()}`;
+                console.log('🗑️ Limpiando chat con clave:', chatKey);
+                localStorage.removeItem(chatKey);
+            }
+
+            // 1. Limpiar cuando se hace clic en enlaces de navegación (menu.php, tokens.php, etc.)
+            document.addEventListener('click', function(e) {
+                let target = e.target;
+
+                // Encontrar el enlace real
+                while (target && target.tagName !== 'A') {
+                    target = target.parentElement;
+                    if (!target) return;
+                }
+
+                if (target && target.tagName === 'A' && target.href) {
+                    const href = target.href;
+                    const currentPage = window.location.pathname;
+                    const targetPage = new URL(href).pathname;
+
+                    // SOLO limpiar si es diferente página (no paginación/tabs)
+                    if (targetPage !== currentPage &&
+                        !href.includes('pagina_') &&
+                        !href.includes('tab=') &&
+                        !href.includes('_preserve_chat')) {
+
+                        console.log('📄 Navegando a otra página:', targetPage);
+                        limpiarChat();
+                    }
+                }
+            });
+
+            // 2. Limpiar cuando se cierra la pestaña/navegador
+            window.addEventListener('beforeunload', function() {
+                // Verificar si NO es una recarga
+                const performance = window.performance || window.mozPerformance || window.msPerformance || window.webkitPerformance;
+                const navigation = performance ? performance.navigation : {};
+
+                if (navigation.type !== 1) { // 1 = TYPE_RELOAD
+                    console.log('🚪 Cerrando página - Limpiando chat');
+                    limpiarChat();
+                }
+            });
+
+            console.log('✅ Sistema de limpieza configurado');
+        })();
+    </script>
 </body>
 
 </html>
