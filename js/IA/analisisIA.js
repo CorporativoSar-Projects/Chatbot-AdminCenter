@@ -91,7 +91,7 @@ const ChatSystem = {
             <div class="special-buttons">
                 <button class="special-btn" onclick="activarComparacionCV()">🔍 Análisis de candidatos</button>
                 <button class="special-btn" onclick="mostrarOpcionesMejoraDescripcion()">✏️ Mejorar descripción de puesto</button>
-                <button class="special-btn" onclick="procesarSAPSSFF()">📊 Procesar SAP SSFF</button>
+                <!--<button class="special-btn" onclick="procesarSAPSSFF()">📊 Procesar SAP SSFF</button>-->
             </div>`,
         timestamp: new Date().toISOString(),
       },
@@ -676,9 +676,10 @@ function mostrarOpcionesPrincipales() {
                 <button class="special-btn" onclick="mostrarOpcionesMejoraDescripcion()">
                     ✏️ Mejorar descripción de puesto
                 </button>
+                <!--
                 <button class="special-btn" onclick="procesarSAPSSFF()">
                     📊 Procesar SAP SSFF
-                </button>
+                </button>-->
             </div>
         </div>
     `;
@@ -717,9 +718,14 @@ function mostrarOpcionesMejoraDescripcion() {
                             style="background: #3ca6e5;">
                         📝 Descripción Manual
                     </button>
+                    <!--
                     <button class="special-btn" onclick="seleccionarDescripcionATS()" 
                             style="background: #28a745;">
                         📊 Descripción desde ATS
+                    </button>-->
+                    <button class="special-btn" onclick="procesarSAPSSFF()"
+                            style="background: #28a745;">
+                        📊 Procesar SAP SSFF
                     </button>
                     <button class="special-btn" onclick="mostrarOpcionesPrincipales()" 
                             style="background: #6c757d;">

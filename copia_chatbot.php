@@ -1436,9 +1436,13 @@ $mysqli->close();
                             style="margin-bottom: 10px; background: #3ca6e5;">
                             📝 Descripción Manual
                         </button>
-                        <button class="special-btn" onclick="seleccionarDescripcionATS()"
+                        <!--<button class="special-btn" onclick="seleccionarDescripcionATS()"
                             style="margin-bottom: 10px; background: #28a745;">
                             📊 Descripción desde ATS
+                        </button>-->
+                        <button class="special-btn" onclick="procesarSAPSSFF()"
+                            style="margin-bottom: 10px; background: #28a745;">
+                            📊 Procesar SAP SSFF
                         </button>
                         <button class="special-btn" onclick="ocultarOpcionesMejora()"
                             style="background: #6c757d; color: white;">
