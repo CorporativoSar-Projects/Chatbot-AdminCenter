@@ -416,7 +416,7 @@ function activarRecorrido() {
     localStorage.setItem('ixah_tour_activo', 'true');
     localStorage.setItem('ixah_tour_visto', 'false');
     localStorage.removeItem('ixah_tour_step');
-    window.location.href = 'menu.php';
+    window.location.reload();//window.location.href = 'menu.php';
 }
 
 // Hacer la función disponible globalmente
