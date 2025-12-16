@@ -43,14 +43,14 @@ if ($row['total'] >= 1 && isset($_GET['nuevo'])) {
 
     <div class="rectangulo-container">
         <a href="menu.php">
-        <img src="img/LOGOTIPO_IXAH-02.png" width="70px" alt="Logo" class="img-logo-chiq">
+            <img src="img/LOGOTIPO_IXAH-02.png" width="70px" alt="Logo" class="img-logo-chiq">
         </a>
     </div>
     <header>
-         <?php include 'DatosMenu.php'; ?>
+        <?php include 'DatosMenu.php'; ?>
     </header>
 
-    <main  id="contenidoPrincipal">
+    <main id="contenidoPrincipal">
         <div class="container-prin">
             <div class="container-bienv">
                 <p class="txt-nombre-chat">ChatBot</p>
@@ -104,51 +104,52 @@ if ($row['total'] >= 1 && isset($_GET['nuevo'])) {
 
                     <div>
                         <div style="position: relative; width: 100%;">
-                        <label class="label-nombrechat">Nombre visible de tu ChatBot</label><br>
-                        <input type="text" name="inp_nombre" id="inp_nombre" placeholder="IXAH"
-                            class="input-nombre" minlength="2" maxlength="10" required value="<?php echo htmlspecialchars($chatbot['inp_nombre'] ?? ''); ?>">
+                            <label class="label-nombrechat">Nombre visible de tu ChatBot</label><br>
+                            <input type="text" name="inp_nombre" id="inp_nombre" placeholder="IXAH"
+                                class="input-nombre" minlength="2" maxlength="10" required value="<?php echo htmlspecialchars($chatbot['inp_nombre'] ?? ''); ?>">
                             <br>
-                            <span id="contadorSty"  class="contador" >
+                            <span id="contadorSty" class="contador">
                                 0 / 10
                             </span>
                         </div>
                         <div class="container-colors">
-                            <div class="nombre-colord">
-                                <label for="colorPrimario">Color Primario</label><br>
-                                <div class="color-selector">
-                                    <input type="color" id="colorPrimario" value="<?php echo htmlspecialchars($chatbot['colorPrimario'] ?? '#3ca6e5'); ?>"
-                                        oninput="actualizarColores()">
-                                    <div id="muestraColorPrimario" class="color-circle"></div><br>
-                                </div>
+                            <div id="contenedor-colores-driver">
+                                <div class="nombre-colord">
+                                    <label for="colorPrimario">Color Primario</label><br>
+                                    <div class="color-selector">
+                                        <input type="color" id="colorPrimario" value="<?php echo htmlspecialchars($chatbot['colorPrimario'] ?? '#3ca6e5'); ?>"
+                                            oninput="actualizarColores()">
+                                        <div id="muestraColorPrimario" class="color-circle"></div><br>
+                                    </div>
 
-                                <label for="colorAcento">Color de Acento</label><br>
-                                <div class="color-selector">
-                                    <input type="color" id="colorAcento" value="<?php echo htmlspecialchars($chatbot['colorAcento'] ?? '#383838'); ?>" oninput="actualizarColores()">
-                                    <div id="muestraColorAcento" class="color-circle"></div><br>
-                                </div>
+                                    <label for="colorAcento">Color de Acento</label><br>
+                                    <div class="color-selector">
+                                        <input type="color" id="colorAcento" value="<?php echo htmlspecialchars($chatbot['colorAcento'] ?? '#383838'); ?>" oninput="actualizarColores()">
+                                        <div id="muestraColorAcento" class="color-circle"></div><br>
+                                    </div>
 
-                                <label for="colorUsuario">Respuesta Usuario</label><br>
-                                <div class="color-selector">
-                                    <input type="color" id="colorRespuestaUsuario" value="<?php echo htmlspecialchars($chatbot['colorRespuestaUsuario'] ?? '#219ebc'); ?>"
-                                        oninput="actualizarColores()">
-                                    <div id="muestraColorRespuestaUsuario" class="color-circle"></div><br>
+                                    <label for="colorUsuario">Respuesta Usuario</label><br>
+                                    <div class="color-selector">
+                                        <input type="color" id="colorRespuestaUsuario" value="<?php echo htmlspecialchars($chatbot['colorRespuestaUsuario'] ?? '#219ebc'); ?>"
+                                            oninput="actualizarColores()">
+                                        <div id="muestraColorRespuestaUsuario" class="color-circle"></div><br>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="nombre-colorc">
-                                <label for="colorSecundario">Color Secundario</label><br>
-                                <div class="color-selector">
-                                    <input type="color" id="colorSecundario" value="<?php echo htmlspecialchars($chatbot['colorSecundario'] ?? '#b6b6b6'); ?>"
-                                        oninput="actualizarColores()">
-                                    <div id="muestraColorSecundario" class="color-circle"></div><br>
+                                <div class="nombre-colorc">
+                                    <label for="colorSecundario">Color Secundario</label><br>
+                                    <div class="color-selector">
+                                        <input type="color" id="colorSecundario" value="<?php echo htmlspecialchars($chatbot['colorSecundario'] ?? '#b6b6b6'); ?>"
+                                            oninput="actualizarColores()">
+                                        <div id="muestraColorSecundario" class="color-circle"></div><br>
+                                    </div>
+
+                                    <label for="colorTexto">Color de Texto</label><br>
+                                    <div class="color-selector">
+                                        <input type="color" id="colorTexto" value="<?php echo htmlspecialchars($chatbot['colorTexto'] ?? '#000000'); ?>" oninput="actualizarColores()">
+                                        <div id="muestraColorTexto" class="color-circle"></div><br>
+
+                                    </div>
                                 </div>
-
-                                <label for="colorTexto">Color de Texto</label><br>
-                                <div class="color-selector">
-                                    <input type="color" id="colorTexto" value="<?php echo htmlspecialchars($chatbot['colorTexto'] ?? '#000000'); ?>" oninput="actualizarColores()">
-                                    <div id="muestraColorTexto" class="color-circle"></div><br>
-
-                                </div>
-
                             </div>
 
 
@@ -214,7 +215,7 @@ if ($row['total'] >= 1 && isset($_GET['nuevo'])) {
                 </div>
             </div>
     </main>
-<!--Modal de integración -->
+    <!--Modal de integración -->
     <?php include 'modalIntegracion.php'; ?>
 
     <!-- jQuery y Bootstrap JavaScript -->
@@ -232,33 +233,39 @@ if ($row['total'] >= 1 && isset($_GET['nuevo'])) {
     <script src="js/formularioIntegracion.js"></script>
 
 
-  <script>
-    window.appData = {
-      nombrePlan: '<?php echo $planUsuario; ?>',
-      estadoSuscripcion: '<?php echo $estadoSuscripcion; ?>',
-      sftpActivo: <?php echo $sftpActivo; ?>,
-      sftpConfig: <?php
-                  echo json_encode([
-                    'tipo_integracion' => $sftpData['tipo_integracion'] ?? 'estandar',
-                    'activo' => isset($sftpData['activo']) ? (int)$sftpData['activo'] : 0,
-                    'servidor' => $sftpData['servidor'] ?? '',
-                    'puerto' => $sftpData['puerto'] ?? '22',
-                    'usuario' => $sftpData['usuario'] ?? '',
-                    'contrasena' => '',
-                    'rutaDestino' => $sftpData['rutaDestino'] ?? '',
-                    'url_estandar' =>  $sftpData['url_estandar'] ?? ''
-                  ]);
-                  ?>
-    };
-  </script>
+    <script>
+        window.appData = {
+            nombrePlan: '<?php echo $planUsuario; ?>',
+            estadoSuscripcion: '<?php echo $estadoSuscripcion; ?>',
+            sftpActivo: <?php echo $sftpActivo; ?>,
+            sftpConfig: <?php
+                        echo json_encode([
+                            'tipo_integracion' => $sftpData['tipo_integracion'] ?? 'estandar',
+                            'activo' => isset($sftpData['activo']) ? (int)$sftpData['activo'] : 0,
+                            'servidor' => $sftpData['servidor'] ?? '',
+                            'puerto' => $sftpData['puerto'] ?? '22',
+                            'usuario' => $sftpData['usuario'] ?? '',
+                            'contrasena' => '',
+                            'rutaDestino' => $sftpData['rutaDestino'] ?? '',
+                            'url_estandar' =>  $sftpData['url_estandar'] ?? ''
+                        ]);
+                        ?>
+        };
+    </script>
     <script src="js/guardadoGeneral.js"></script>
     <script src="js/guardar.js"></script>
     <script src="js/menuLateral.js" type="module"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@1.3.1/dist/driver.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@1.3.1/dist/driver.css" />
+    <script>
+        window.IXAH_CONFIG = {
+            tieneChatbot: <?php echo $esEdicion ? 'true' : 'false'; ?>,
+            modoCreacion: <?php echo $esEdicion ? 'false' : 'true'; ?>
+        };
+    </script>
     <link rel="stylesheet" href="css/tour_ixah.css">
     <script src="https://cdn.jsdelivr.net/npm/driver.js@1.3.1/dist/driver.js.iife.js"></script>
-    <script src="js/tour_ixah.js"></script> 
+    <script src="js/tour_ixah.js"></script>
 
 
 </body>

@@ -12,6 +12,8 @@ if (!isset($_SESSION['id_adm'])) {
 
 include 'conexion_bd.php';
 
+$esEdicion = isset($_GET['id_chatbot']) && !empty($_GET['id_chatbot']);
+
 $id_adm = $_SESSION['id_adm'];
 
 // Plan y estado de la suscripción

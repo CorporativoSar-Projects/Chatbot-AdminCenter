@@ -3,7 +3,6 @@
 include('modelo/obtenerDatos.php');
 include 'modelo/consultas_menu.php';
 
-
 $id_chatbot = $_SESSION['id_chatbot'] ?? null;
 
 ?>
@@ -185,6 +184,12 @@ $id_chatbot = $_SESSION['id_chatbot'] ?? null;
     <script src="js/guardadoGeneral.js"></script>
     <script src="js/menuLateral.js" type="module"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        window.IXAH_CONFIG = {
+            tieneChatbot: <?php echo $esEdicion ? 'true' : 'false'; ?>,
+            modoCreacion: <?php echo $esEdicion ? 'false' : 'true'; ?>
+        };
+    </script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@1.3.1/dist/driver.css" />
     <link rel="stylesheet" href="css/tour_ixah.css">
     <script src="https://cdn.jsdelivr.net/npm/driver.js@1.3.1/dist/driver.js.iife.js"></script>

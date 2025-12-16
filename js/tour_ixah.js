@@ -1,4 +1,31 @@
 document.addEventListener("DOMContentLoaded", function () {
+
+    const guiaBtn = document.getElementById("btnGuia");
+
+    //Si el usuario ya tiene un chatbot -> ocultar Guía
+    if (
+        window.IXAH_CONFIG?.tieneChatbot === true &&
+        window.IXAH_CONFIG?.modoCreacion !== true
+    ) {
+        if (guiaBtn) {
+            guiaBtn.style.display = "none";
+        }
+
+        localStorage.setItem('ixah_tour_activo', 'false');
+        localStorage.setItem('ixah_tour_visto', 'true');
+        localStorage.removeItem('ixah_tour_step');
+
+        return; 
+    }
+
+    // Solo usuarios sin chatbot pueden usar la guía
+    if (guiaBtn) {
+        guiaBtn.addEventListener("click", function (e) {
+            e.preventDefault();
+            activarRecorrido();
+        });
+    }
+
     const driver = window.driver.js.driver;
     const path = window.location.pathname;
 
@@ -18,12 +45,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const todosLosPasos = [
         {
-        pagina: 'menu.php',
-        popover: {
-            title: 'Te damos la bienvenida a IXAH',
-            description: 'Hola! Vemos que es tu primera vez aquí. ¿Qué te parece si damos una vuelta rápida?',
-            side: "center",
-            align: 'center'
+            pagina: 'menu.php',
+            popover: {
+                title: 'Te damos la bienvenida a IXAH',
+                description: 'Hola! Vemos que es tu primera vez aquí. ¿Qué te parece si damos una vuelta rápida?',
+                side: "center",
+                align: 'center'
             }
         },
         {
@@ -103,7 +130,7 @@ document.addEventListener("DOMContentLoaded", function () {
         },
         {
             pagina: 'estilo.php',
-            element: '.nombre-colord',
+            element: '#contenedor-colores-driver',
             popover: {
                 title: 'Define los colores de marca',
                 description: 'Personaliza tu chatbot con los colores que representan a tu empresa. Ajusta colores primarios, secundarios y de texto para completar la identidad.',
@@ -194,16 +221,16 @@ document.addEventListener("DOMContentLoaded", function () {
                 align: 'center'
             }
         },
-{
-    pagina: 'finalizar.php',
-    element: '#myBtn .btn-text-Generar',
-    popover: {
-        title: 'Generar',
-        description: '• <b>Generar:</b> obtén el código HTML que debes insertar en tu sitio web para tener a IXAH funcionando.',
-        side: "top",
-        align: 'center'
-    }
-},
+        {
+            pagina: 'finalizar.php',
+            element: '#myBtn .btn-text-Generar',
+            popover: {
+                title: 'Generar',
+                description: '• <b>Generar:</b> obtén el código HTML que debes insertar en tu sitio web para tener a IXAH funcionando.',
+                side: "top",
+                align: 'center'
+            }
+        },
         {
             pagina: 'finalizar.php',
             element: '#btnInteractivo',
@@ -227,7 +254,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let paginaActual = null;
     const paginas = ['menu.php', 'estilo.php', 'burbuja.php', 'pantallaInicio.php', 'crearConversacion.php', 'pantallaDespedida.php', 'finalizar.php'];
-    
+
     for (let pagina of paginas) {
         if (path.includes(pagina)) {
             paginaActual = pagina;
@@ -243,7 +270,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let indiceActual = parseInt(localStorage.getItem('ixah_tour_step') || '0');
 
     const primerPasoEstaPagina = todosLosPasos.findIndex((p, idx) => p.pagina === paginaActual && idx >= indiceActual);
-    
+
     if (primerPasoEstaPagina === -1) {
         const siguientePaso = todosLosPasos.find((p, idx) => idx > indiceActual);
         if (siguientePaso) {
@@ -264,7 +291,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     const pasosEstaPagina = todosLosPasos
-        .map((paso, idx) => ({...paso, indiceGlobal: idx}))
+        .map((paso, idx) => ({ ...paso, indiceGlobal: idx }))
         .filter(paso => paso.pagina === paginaActual && paso.indiceGlobal >= indiceActual);
 
     if (paginaActual === 'menu.php' && pasosEstaPagina.length > 0) {
@@ -298,10 +325,10 @@ document.addEventListener("DOMContentLoaded", function () {
         const step = {
             popover: paso.popover
         };
-        
+
         if (paso.element) {
             step.element = paso.element;
-            
+
             if (paso.onClick) {
                 step.onHighlighted = () => {
                     if (typeof window[paso.onClick] === 'function') {
@@ -310,10 +337,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 };
             }
         }
-        
+
         if (paso.onHighlighted) step.onHighlighted = paso.onHighlighted;
         if (paso.onDeselected) step.onDeselected = paso.onDeselected;
-        
+
         return step;
     });
 
@@ -331,7 +358,9 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
     }
 
-    localStorage.setItem('ixah_tour_activo', 'true');
+    if (window.IXAH_CONFIG?.tieneChatbot !== true) {
+        localStorage.setItem('ixah_tour_activo', 'true');
+    }
 
     const driverObj = driver({
         showProgress: true,
@@ -351,14 +380,14 @@ document.addEventListener("DOMContentLoaded", function () {
         onNextClick: () => {
             const indicePasoActual = driverObj.getActiveIndex();
             const pasoActual = pasosEstaPagina[indicePasoActual];
-            
+
             localStorage.setItem('ixah_tour_step', pasoActual.indiceGlobal + 1);
-            
+
             if (indicePasoActual < stepsValidos.length - 1) {
                 driverObj.moveNext();
             } else {
                 const siguientePaso = todosLosPasos[pasoActual.indiceGlobal + 1];
-                
+
                 if (siguientePaso) {
                     const navMap = {
                         'menu.php': 'estilo.php?nuevo=1',
@@ -368,7 +397,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         'crearConversacion.php': 'pantallaDespedida.php',
                         'pantallaDespedida.php': 'finalizar.php'
                     };
-                    
+
                     driverObj.destroy();
                     window.location.href = navMap[paginaActual];
                 } else {
@@ -381,17 +410,17 @@ document.addEventListener("DOMContentLoaded", function () {
         },
         onPrevClick: () => {
             const indicePasoActual = driverObj.getActiveIndex();
-            
+
             if (indicePasoActual > 0) {
                 const pasoActual = pasosEstaPagina[indicePasoActual];
                 localStorage.setItem('ixah_tour_step', pasoActual.indiceGlobal - 1);
                 driverObj.movePrevious();
             } else {
                 const pasoAnterior = todosLosPasos[pasosEstaPagina[0].indiceGlobal - 1];
-                
+
                 if (pasoAnterior) {
                     localStorage.setItem('ixah_tour_step', pasoAnterior.indiceGlobal);
-                    
+
                     const navMapReverse = {
                         'estilo.php': 'menu.php',
                         'burbuja.php': 'estilo.php',
@@ -400,7 +429,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         'pantallaDespedida.php': 'crearConversacion.php',
                         'finalizar.php': 'pantallaDespedida.php'
                     };
-                    
+
                     driverObj.destroy();
                     window.location.href = navMapReverse[paginaActual];
                 }
@@ -416,8 +445,7 @@ function activarRecorrido() {
     localStorage.setItem('ixah_tour_activo', 'true');
     localStorage.setItem('ixah_tour_visto', 'false');
     localStorage.removeItem('ixah_tour_step');
-    window.location.reload();
-    //window.location.href = 'menu.php';
+    window.location.reload();//window.location.href = 'menu.php';
 }
 
 // Hacer la función disponible globalmente

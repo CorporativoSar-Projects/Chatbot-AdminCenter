@@ -1234,6 +1234,12 @@ a{
   box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
 }
 
+.guia {
+    pointer-events: none;
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
 .botones-conversacion {
   margin-top: 20px;
 }

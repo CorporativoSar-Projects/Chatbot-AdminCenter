@@ -1,15 +1,15 @@
 {
     "id_emp": "urban3602qt",
     "estilos": {
-        "colorPrimario": "#0c202c",
-        "colorSecundario": "#030521",
-        "colorTexto": "#f7f8fc",
-        "colorAcento": "#173e8c",
-        "colorRespuestaUsuario": "#012546",
-        "logo": "https://upload.wikimedia.org/wikipedia/commons/6/61/Samsung_old_logo_before_year_2015.svg",
+        "colorPrimario": "#3ca6e5",
+        "colorSecundario": "#b6b6b6",
+        "colorTexto": "#000000",
+        "colorAcento": "#383838",
+        "colorRespuestaUsuario": "#219ebc",
+        "logo": "https://ixahcenter.giintapeinnovahue.com/img/Logo_cabeza.svg",
         "nombreChatbot": "SamsungBot",
         "burbuja": "¡Encuentra puestos!",
-        "saludo": "Hola Bienvenido estoy aqui para ayudarte."
+        "saludo": ""
     },
     "funcionamiento": {
         "urlChatbot": "https://chatbot.giintapeinnovahue.com/",
@@ -19,27 +19,23 @@
     "conversacion": [
         {
             "tema": "Buscar vacantes por categoría",
-            "mensaje": "Busca vacantes por categoria",
+            "mensaje": "",
             "columna": "category_ix",
-            "urlInforme": "http://localhost/Chatbot-AdminCenter/crearConversacion.php"
+            "urlInforme": ""
         },
         {
             "tema": "Buscar vacantes por ubicación",
-            "mensaje": "Busca vacantes por ubicación ",
+            "mensaje": "",
             "columna": "location_ix",
-            "urlInforme": "http://localhost/Chatbot-AdminCenter/crearConversacion.php"
+            "urlInforme": ""
         },
         {
             "tema": "Seguimiento de mi postulación",
-            "mensaje": "Mantente al día con tus postulaciones.",
+            "mensaje": "",
             "columna": "email_ix",
-            "urlInforme": "http://localhost/Chatbot-AdminCenter/crearConversacion.php"
+            "urlInforme": ""
         }
     ],
-    "despedida": "Gracias por usar samsungBot, esperamos haberte ayudado.",
-    "vacantes": [
-        "http://localhost/Chatbot-AdminCenter/crearConversacion.php",
-        "http://localhost/Chatbot-AdminCenter/crearConversacion.php",
-        "http://localhost/Chatbot-AdminCenter/crearConversacion.php"
-    ]
+    "despedida": "",
+    "vacantes": []
 }
