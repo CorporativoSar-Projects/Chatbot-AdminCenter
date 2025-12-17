@@ -1066,6 +1066,13 @@ $mysqli->close();
 </head>
 
 <body>
+    <div class="rectangulo-container">
+        <img
+            src="img/LOGOTIPO_IXAH-02.png"
+            width="70px"
+            alt="Logo"
+            class="img-logo-chiq" />
+    </div>
     <div id="chat-open-btn" style="display:none;">
         <!--<img src="https://img.icons8.com/ios-filled/24/ffffff/chat.png" alt="Abrir Chat">-->
         <img src="img/LOGOTIPO_IXAH-02.png" width="140px" alt="Abrir Chat">
