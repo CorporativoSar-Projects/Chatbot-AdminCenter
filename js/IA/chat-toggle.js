@@ -7,9 +7,9 @@
         position: fixed;
         bottom: 20px;
         right: 20px;
-        width: 140px;
-        height: 140px;
-        background: linear-gradient(135deg,#007bff,#00c6ff);
+        width: 90px;
+        height: 90px;
+        background: #002B45;
         border-radius: 50%;
         display: flex;
         align-items: center;
@@ -18,8 +18,9 @@
         box-shadow: 0 8px 20px rgba(0,0,0,0.3);
         transition: transform 0.2s ease, box-shadow 0.2s ease;
         z-index: 9999;
+        /* background: linear-gradient(135deg,#007bff,#00c6ff);*/
     `;
-    toggle.innerHTML = `<img src="img/LOGOTIPO_IXAH-02.png" alt="Chat" style="width:140px;">`;
+    toggle.innerHTML = `<img src="img/Logo_cabeza.svg" alt="Chat" style="width:60px;">`;
 
     /*
     <div class="rectangulo-container">
