@@ -1,38 +1,15 @@
 document.addEventListener("DOMContentLoaded", function () {
-
-    const guiaBtn = document.getElementById("btnGuia");
-
-    //Si el usuario ya tiene un chatbot -> ocultar Guía
-    if (
-        window.IXAH_CONFIG?.tieneChatbot === true &&
-        window.IXAH_CONFIG?.modoCreacion !== true
-    ) {
-        if (guiaBtn) {
-            guiaBtn.style.display = "none";
-        }
-
-        localStorage.setItem('ixah_tour_activo', 'false');
-        localStorage.setItem('ixah_tour_visto', 'true');
-        localStorage.removeItem('ixah_tour_step');
-
-        return; 
-    }
-
-    // Solo usuarios sin chatbot pueden usar la guía
-    if (guiaBtn) {
-        guiaBtn.addEventListener("click", function (e) {
-            e.preventDefault();
-            activarRecorrido();
-        });
-    }
-
     const driver = window.driver.js.driver;
     const path = window.location.pathname;
 
     const tourActivo = localStorage.getItem('ixah_tour_activo') === 'true';
     const tourVisto = localStorage.getItem('ixah_tour_visto') === 'true';
 
+    // Si el tour no está activo Y ya fue visto, no hacer nada
     if (!tourActivo && tourVisto) {
+        return;
+    }
+    if (!tourActivo) {
         return;
     }
 
@@ -42,6 +19,47 @@ document.addEventListener("DOMContentLoaded", function () {
             dropdown.style.display = mostrar ? 'block' : 'none';
         }
     }
+
+    // Verificar la exitencia del chatbot y recuparar id
+    const existeChatbot = document.querySelector('.container-chats') !== null;
+    const btnAddDisabled = document.querySelector('.btn-add-chat[disabled]') !== null;
+    
+    let chatbotId = null;
+    if (existeChatbot) {
+        const linkEditar = document.querySelector('a[href*="estilo.php?id_chatbot="]');
+        if (linkEditar) {
+            const urlParams = new URLSearchParams(linkEditar.href.split('?')[1]);
+            chatbotId = urlParams.get('id_chatbot');
+        }
+    }
+    
+    const savedChatbotId = localStorage.getItem('ixah_chatbot_id');
+    if (savedChatbotId && !chatbotId) {
+        chatbotId = savedChatbotId;
+    }
+
+    // Condicion pára determinar que mensaje mostrar
+    const pasoChatbot = (existeChatbot || btnAddDisabled)
+        ? {
+            pagina: 'menu.php',
+            element: '.btn-edit-chat',
+            popover: {
+                title: 'Editar tu Chatbot',
+                description: 'Aquí puedes ver tu chatbot creado. Haz clic en el botón de editar para acceder a su configuración.',
+                side: "bottom",
+                align: 'center'
+            }
+          }
+        : {
+            pagina: 'menu.php',
+            element: '.btn-add-chat',
+            popover: {
+                title: 'Crear nuevo Chatbot',
+                description: 'Haz clic aquí para comenzar a configurar tu primer asistente virtual desde cero.',
+                side: "bottom",
+                align: 'center'
+            }
+          };
 
     const todosLosPasos = [
         {
@@ -53,16 +71,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 align: 'center'
             }
         },
-        {
-            pagina: 'menu.php',
-            element: '.btn-add-chat',
-            popover: {
-                title: 'Crear nuevo Chatbot',
-                description: 'Haz clic aquí para comenzar a configurar tu primer asistente virtual desde cero.',
-                side: "bottom",
-                align: 'center'
-            }
-        },
+        pasoChatbot,
         {
             pagina: 'menu.php',
             element: '#user-btn',
@@ -254,7 +263,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let paginaActual = null;
     const paginas = ['menu.php', 'estilo.php', 'burbuja.php', 'pantallaInicio.php', 'crearConversacion.php', 'pantallaDespedida.php', 'finalizar.php'];
-
+    
     for (let pagina of paginas) {
         if (path.includes(pagina)) {
             paginaActual = pagina;
@@ -270,28 +279,17 @@ document.addEventListener("DOMContentLoaded", function () {
     let indiceActual = parseInt(localStorage.getItem('ixah_tour_step') || '0');
 
     const primerPasoEstaPagina = todosLosPasos.findIndex((p, idx) => p.pagina === paginaActual && idx >= indiceActual);
-
+    
     if (primerPasoEstaPagina === -1) {
         const siguientePaso = todosLosPasos.find((p, idx) => idx > indiceActual);
         if (siguientePaso) {
-            const navMap = {
-                'menu.php': 'estilo.php?nuevo=1',
-                'estilo.php': 'burbuja.php',
-                'burbuja.php': 'pantallaInicio.php',
-                'pantallaInicio.php': 'crearConversacion.php',
-                'crearConversacion.php': 'pantallaDespedida.php',
-                'pantallaDespedida.php': 'finalizar.php'
-            };
-            if (navMap[paginaActual]) {
-                localStorage.setItem('ixah_tour_activo', 'true');
-                window.location.href = navMap[paginaActual];
-            }
+            console.log('No hay pasos en esta página para el tour actual');
         }
         return;
     }
 
     const pasosEstaPagina = todosLosPasos
-        .map((paso, idx) => ({ ...paso, indiceGlobal: idx }))
+        .map((paso, idx) => ({...paso, indiceGlobal: idx}))
         .filter(paso => paso.pagina === paginaActual && paso.indiceGlobal >= indiceActual);
 
     if (paginaActual === 'menu.php' && pasosEstaPagina.length > 0) {
@@ -325,10 +323,10 @@ document.addEventListener("DOMContentLoaded", function () {
         const step = {
             popover: paso.popover
         };
-
+        
         if (paso.element) {
             step.element = paso.element;
-
+            
             if (paso.onClick) {
                 step.onHighlighted = () => {
                     if (typeof window[paso.onClick] === 'function') {
@@ -337,10 +335,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 };
             }
         }
-
+        
         if (paso.onHighlighted) step.onHighlighted = paso.onHighlighted;
         if (paso.onDeselected) step.onDeselected = paso.onDeselected;
-
+        
         return step;
     });
 
@@ -358,10 +356,6 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
     }
 
-    if (window.IXAH_CONFIG?.tieneChatbot !== true) {
-        localStorage.setItem('ixah_tour_activo', 'true');
-    }
-
     const driverObj = driver({
         showProgress: true,
         animate: true,
@@ -374,53 +368,61 @@ document.addEventListener("DOMContentLoaded", function () {
             localStorage.setItem('ixah_tour_activo', 'false');
             localStorage.setItem('ixah_tour_visto', 'true');
             localStorage.removeItem('ixah_tour_step');
+            localStorage.removeItem('ixah_chatbot_id');
             mostrarMenuUsuario(false);
             driverObj.destroy();
         },
         onNextClick: () => {
             const indicePasoActual = driverObj.getActiveIndex();
             const pasoActual = pasosEstaPagina[indicePasoActual];
-
+            
             localStorage.setItem('ixah_tour_step', pasoActual.indiceGlobal + 1);
-
+            
+            if (chatbotId) {
+                localStorage.setItem('ixah_chatbot_id', chatbotId);
+            }
+            
             if (indicePasoActual < stepsValidos.length - 1) {
                 driverObj.moveNext();
             } else {
                 const siguientePaso = todosLosPasos[pasoActual.indiceGlobal + 1];
-
+                
                 if (siguientePaso) {
+                    const finalChatbotId = localStorage.getItem('ixah_chatbot_id') || chatbotId;
+                    
                     const navMap = {
-                        'menu.php': 'estilo.php?nuevo=1',
+                        'menu.php': finalChatbotId ? `estilo.php?id_chatbot=${finalChatbotId}` : 'estilo.php?nuevo=1',
                         'estilo.php': 'burbuja.php',
                         'burbuja.php': 'pantallaInicio.php',
                         'pantallaInicio.php': 'crearConversacion.php',
                         'crearConversacion.php': 'pantallaDespedida.php',
                         'pantallaDespedida.php': 'finalizar.php'
                     };
-
+                    
                     driverObj.destroy();
                     window.location.href = navMap[paginaActual];
                 } else {
                     localStorage.setItem('ixah_tour_activo', 'false');
                     localStorage.setItem('ixah_tour_visto', 'true');
                     localStorage.removeItem('ixah_tour_step');
+                    localStorage.removeItem('ixah_chatbot_id');
                     driverObj.destroy();
                 }
             }
         },
         onPrevClick: () => {
             const indicePasoActual = driverObj.getActiveIndex();
-
+            
             if (indicePasoActual > 0) {
                 const pasoActual = pasosEstaPagina[indicePasoActual];
                 localStorage.setItem('ixah_tour_step', pasoActual.indiceGlobal - 1);
                 driverObj.movePrevious();
             } else {
                 const pasoAnterior = todosLosPasos[pasosEstaPagina[0].indiceGlobal - 1];
-
+                
                 if (pasoAnterior) {
                     localStorage.setItem('ixah_tour_step', pasoAnterior.indiceGlobal);
-
+                    
                     const navMapReverse = {
                         'estilo.php': 'menu.php',
                         'burbuja.php': 'estilo.php',
@@ -429,7 +431,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         'pantallaDespedida.php': 'crearConversacion.php',
                         'finalizar.php': 'pantallaDespedida.php'
                     };
-
+                    
                     driverObj.destroy();
                     window.location.href = navMapReverse[paginaActual];
                 }
@@ -445,7 +447,8 @@ function activarRecorrido() {
     localStorage.setItem('ixah_tour_activo', 'true');
     localStorage.setItem('ixah_tour_visto', 'false');
     localStorage.removeItem('ixah_tour_step');
-    window.location.reload();//window.location.href = 'menu.php';
+    localStorage.removeItem('ixah_chatbot_id');
+    window.location.reload();
 }
 
 // Hacer la función disponible globalmente
