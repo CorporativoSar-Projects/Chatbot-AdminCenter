@@ -202,6 +202,8 @@ include 'modelo/consultas_menu.php';
 
   <!--Modal de integración -->
   <?php include 'modalIntegracion.php'; ?>
+  <!--Guia Flotante-->
+  <?php include 'guiaFlotante.php'; ?>
 
   <!-- jQuery y Bootstrap JavaScript -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

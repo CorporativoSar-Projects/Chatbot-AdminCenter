@@ -13,8 +13,7 @@ $conexion->set_charset("utf8");
 /* Código para mostrar si la conexión sigue activa o no: */
 
 /* if ($conexion->ping()) {
-    echo "La conexión a la base de datos está activa.";
-} else {
+    echo "La conexión a la base de datos está activa.";} else {
     echo "La conexión a la base de datos no está activa.";
 } */
 ?>

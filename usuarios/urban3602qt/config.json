@@ -1,15 +1,15 @@
 {
     "id_emp": "urban3602qt",
     "estilos": {
-        "colorPrimario": "#3ca6e5",
-        "colorSecundario": "#b6b6b6",
-        "colorTexto": "#000000",
-        "colorAcento": "#383838",
-        "colorRespuestaUsuario": "#219ebc",
+        "colorPrimario": "#157535",
+        "colorSecundario": "#964040",
+        "colorTexto": "#ffffff",
+        "colorAcento": "#832a2a",
+        "colorRespuestaUsuario": "#1a318e",
         "logo": "https://ixahcenter.giintapeinnovahue.com/img/Logo_cabeza.svg",
         "nombreChatbot": "SamsungBot",
         "burbuja": "¡Encuentra puestos!",
-        "saludo": ""
+        "saludo": "hola Bienvenido"
     },
     "funcionamiento": {
         "urlChatbot": "https://chatbot.giintapeinnovahue.com/",
@@ -36,6 +36,6 @@
             "urlInforme": ""
         }
     ],
-    "despedida": "",
+    "despedida": "Gracias por usarme",
     "vacantes": []
 }

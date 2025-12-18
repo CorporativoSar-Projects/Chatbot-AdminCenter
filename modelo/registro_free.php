@@ -30,7 +30,7 @@ if (!isset($data['g-recaptcha-response']) || empty($data['g-recaptcha-response']
 }
 
 $captcha = $data['g-recaptcha-response'];
-$secretKey = ""; // Reemplaza con tu secret key real
+$secretKey = "6Lcv0fwrAAAAAJ5kI8eAP5cmM7wpEdBejnfgMYFM"; // Reemplaza con tu secret key real
 
 $response = file_get_contents(
     "https://www.google.com/recaptcha/api/siteverify?secret={$secretKey}&response={$captcha}"

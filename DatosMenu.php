@@ -27,9 +27,10 @@ include 'modelo/consultas_menu.php';
       <div class="user-info">
         <a href="#" style="text-decoration: none; color: inherit; display: block; margin-bottom: 10px;">Desarrollado por Giintape Innovahue</a>
         <a href="https://giintapeinnovahue.freshdesk.com/support/tickets/new" target="_blank" style="text-decoration: none; color: inherit; display: block; margin-bottom: 10px;">Soporte técnico</a>
-        <?php if (count($chatbots) === 0): ?>
-          <a href="#" id="btnGuia">Guía</a>
-        <?php endif; ?>
+       
+          <!--<a href="#" id="btnGuia">Guía</a>-->
+
+
       </div>
     </div>
 

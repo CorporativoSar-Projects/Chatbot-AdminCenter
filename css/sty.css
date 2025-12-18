@@ -682,6 +682,30 @@ a{
   height: 37px;
 }
 
+/*Boton guía*/
+.fab-guia {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;         
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: #002B45;
+  color: #fff;
+  font-size: 28px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  z-index: 9999;
+}
+
+.fab-guia:hover {
+  background-color: #002B45;
+}
+
+
+
 /* Botón Modo Interactivo */
 .btnInteractivo {
   border-radius: 20px;
