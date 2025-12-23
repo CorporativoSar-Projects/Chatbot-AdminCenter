@@ -1,3 +1,3 @@
-<button id="btnGuiaFlotante" class="fab-guia" title="Guía">
+<button id="btnGuiaFlotante" class="fab-guia1" title="Guía" onclick="activarRecorrido()">
   ?
 </button>

@@ -30,7 +30,7 @@ h1 {
   left: 0;
   width: 100%;
   background: #f8f9fa;
- /*background: linear-gradient(
+  /*background: linear-gradient(
     90deg,
         rgba(60, 166, 229) 27%,
      rgb(0, 54, 87) 100%
@@ -116,8 +116,8 @@ header .navbar ul li ul .divider {
   opacity: 0.5;
 }
 
-header .navbar ul li:focus-within > ul,
-header .navbar ul li:hover > ul {
+header .navbar ul li:focus-within>ul,
+header .navbar ul li:hover>ul {
   display: initial;
 }
 
@@ -156,7 +156,8 @@ header .navbar ul li ul li a:hover {
   display: none;
   position: absolute;
   right: -10px;
-  top: 100%; /* Justo debajo del botón */
+  top: 100%;
+  /* Justo debajo del botón */
   background-color: #f8f9fa;
   min-width: 250px;
   box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
@@ -190,32 +191,33 @@ header .navbar ul li ul li a:hover {
   text-decoration: none;
   font-size: 14px;
 }
+
 .swal2-container {
   z-index: 20000 !important;
 }
-  
+
 
 
 #contadorCaracteres {
-    position: absolute;
-    bottom: 5px;
-    right: 60%;
-    font-size: 12px;
-    color: gray;
+  position: absolute;
+  bottom: 5px;
+  right: 60%;
+  font-size: 12px;
+  color: gray;
 }
 
-.contador{
-    position: absolute;
-    bottom: 5px;
-    right: 60%;
-    font-size: 12px;
-    color: gray;
+.contador {
+  position: absolute;
+  bottom: 5px;
+  right: 60%;
+  font-size: 12px;
+  color: gray;
 }
 
 
-a{
-/*padding: 10px 15px;*/
- 
+a {
+  /*padding: 10px 15px;*/
+
   color: #002B45;
   text-decoration: none;
   font-size: 14px;
@@ -487,6 +489,7 @@ a{
   margin-bottom: 30px;
   resize: none;
 }
+
 .input-despedida {
   width: 40%;
   height: 150px;
@@ -664,9 +667,11 @@ a{
   margin-top: 5px;
 
   display: flex;
-  justify-content: space-between; /* coloca uno a la izquierda y otro a la derecha */
+  justify-content: space-between;
+  /* coloca uno a la izquierda y otro a la derecha */
   align-items: center;
-  width: 55%; /* ajusta este ancho según tu diseño */
+  width: 55%;
+  /* ajusta este ancho según tu diseño */
 }
 
 /* Botón */
@@ -684,12 +689,13 @@ a{
 
 /*Boton guía*/
 .fab-guia {
-  position: fixed;
+  position: absolute;
   bottom: 24px;
-  left: 24px;         
+  left: 24px;
   width: 56px;
   height: 56px;
   border-radius: 50%;
+  top: 115%;
   background-color: #002B45;
   color: #fff;
   font-size: 28px;
@@ -700,9 +706,37 @@ a{
   z-index: 9999;
 }
 
-.fab-guia:hover {
-  background-color: #002B45;
+.fab-guia,
+.fab-guia1:hover {
+  background-color: #06304a;
 }
+
+.fab-guia1 {
+  position: absolute;
+  bottom: 24px;
+  left: 24px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  top: 90%;
+  background-color: #002B45;
+  color: #fff;
+  font-size: 28px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  z-index: 9999;
+}
+
+.pagina-burbuja .fab-guia1,
+.pagina-finalizar .fab-guia1{
+  top:90%;
+}
+.pagina-inicio .fab-guia1{
+  top:95%;
+}
+
 
 
 
@@ -748,13 +782,15 @@ a{
 }
 
 .btnGuardarurl i {
- /* margin-right: 8px; /* espacio entre icono y texto */
+  /* margin-right: 8px; /* espacio entre icono y texto */
   align-items: center;
 }
 
 .btnGuardarurl:disabled {
-  background-color: #ccc;   /* gris claro */
-  color: #666;              /* texto gris más oscuro */
+  background-color: #ccc;
+  /* gris claro */
+  color: #666;
+  /* texto gris más oscuro */
   cursor: not-allowed;
   border: 1px solid #aaa;
   opacity: 0.8;
@@ -777,7 +813,8 @@ a{
   line-height: 1.4;
   margin-bottom: 10px;
   text-align: left;
-  font-size: 14px;           /* ajusta texto para pantallas pequeñas */
+  font-size: 14px;
+  /* ajusta texto para pantallas pequeñas */
 }
 
 .chatbot-content1 {
@@ -793,19 +830,22 @@ a{
   text-align: left;
   align-self: flex-start;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
-              rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+    rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
   border-radius: 15px;
   overflow-wrap: break-word;
-  overflow: visible; /* <- permite crecer con texto o imagen */
+  overflow: visible;
+  /* <- permite crecer con texto o imagen */
 }
 
 .chatbot-content1 img {
-  max-width: 80px; /* tamaño fijo, evita que se haga enorme */
+  max-width: 80px;
+  /* tamaño fijo, evita que se haga enorme */
   height: auto;
   border-radius: 10px;
   object-fit: contain;
   display: block;
-  margin: 10px auto 0; /* separada del texto y centrada */
+  margin: 10px auto 0;
+  /* separada del texto y centrada */
 }
 
 
@@ -820,7 +860,7 @@ a{
   border: 1px solid #ccc;
   background-color: #ffffff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  border-radius: 20px; 
+  border-radius: 20px;
 }
 
 .chatbot-container2 {
@@ -841,19 +881,21 @@ a{
   cursor: pointer;
   margin-right: 5px;
   padding: 7px 15px;
-  
+
 }
+
 .icono-svg {
   color: var(--color-texto-boton, #000000);
   width: 24px;
   height: 24px;
   cursor: pointer;
 }
+
 .chatbot-min {
   cursor: pointer;
   margin-right: 5px;
   padding: 7px 15px;
- 
+
 }
 
 .container1,
@@ -865,7 +907,7 @@ a{
 .txt-titulo-chat {
   margin-top: 10px;
   font-size: 15px;
- color: var(--color-texto, #000000);
+  color: var(--color-texto, #000000);
 }
 
 .chatbot-icon {
@@ -958,16 +1000,19 @@ a{
   background-color: var(--color-acento, #383838);
   color: var(--color-texto-hover, #ffffff);
 }
+
 /*Estilo del contenedor para la respuesta del usuario*/
-.user-message2{
-  background-color:var(--color-respuesta-usuario, #219ebc); /* Fondo azul para el usuario */
-  color: var(--color-texto, #000000 );
+.user-message2 {
+  background-color: var(--color-respuesta-usuario, #219ebc);
+  /* Fondo azul para el usuario */
+  color: var(--color-texto, #000000);
   padding: 10px;
   border-radius: 15px;
   margin-right: 20px;
   margin-top: 20px;
   text-align: left;
-  align-self: flex-end; /* Alinea los mensajes del usuario a la derecha */
+  align-self: flex-end;
+  /* Alinea los mensajes del usuario a la derecha */
   box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
     rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
 }
@@ -1122,13 +1167,15 @@ a{
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  overflow: hidden; /* Asegura que la imagen no se desborde */
+  overflow: hidden;
+  /* Asegura que la imagen no se desborde */
 }
 
 .toggle-icon img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Ajusta la imagen dentro del círculo sin deformarla */
+  object-fit: cover;
+  /* Ajusta la imagen dentro del círculo sin deformarla */
 }
 
 .chat-text {
@@ -1259,9 +1306,9 @@ a{
 }
 
 .guia {
-    pointer-events: none;
-    opacity: 0.4;
-    cursor: not-allowed;
+  pointer-events: none;
+  opacity: 0.4;
+  cursor: not-allowed;
 }
 
 .botones-conversacion {
@@ -1568,28 +1615,32 @@ a{
   display: none;
   position: fixed;
   z-index: 9999;
-  left: 0; top: 0;
-  width: 100%; height: 100%;
-  background-color: rgba(0,0,0,0.4);
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
 }
 
 .modal-contentF {
   background-color: white;
   border-radius: 8px;
   max-width: 500px;
-   height: 420px;
+  height: 420px;
   margin: 8% auto;
   padding: 20px;
   position: relative;
 }
+
 .modal-content input {
-    width: 90%;
-    padding: 10px;
-    border-radius: 20px;
-    border: 1px solid #ccc;
-    text-align: center;
-    font-size: 16px;
+  width: 90%;
+  padding: 10px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  text-align: center;
+  font-size: 16px;
 }
+
 .submit-button-form {
   background: #ffb703;
   color: white;
@@ -1599,9 +1650,11 @@ a{
   cursor: pointer;
   transition: background 0.3s;
   font-size: 16px;
-  margin: 15px auto 0 auto; /* margen superior y auto en los lados */
+  margin: 15px auto 0 auto;
+  /* margen superior y auto en los lados */
   text-align: center;
-  display: block; /* ← necesario para que funcione el margin auto */
+  display: block;
+  /* ← necesario para que funcione el margin auto */
 }
 
 .cerrar-modal {
@@ -1609,7 +1662,7 @@ a{
   right: 15px;
   top: 10px;
   font-size: 24px;
-  cursor: pointer;
+  cursor: pointer;
 }
 
 /* Add Animation */
@@ -1672,18 +1725,24 @@ a{
 }
 
 .modal-footer1 {
-  display: flex;             /* habilita flexbox */
-  justify-content: center;   /* centra horizontalmente */
-  align-items: center;       /* centra verticalmente */
+  display: flex;
+  /* habilita flexbox */
+  justify-content: center;
+  /* centra horizontalmente */
+  align-items: center;
+  /* centra verticalmente */
   padding: 10px 16px;
-  color: #000;               /* texto legible */
+  color: #000;
+  /* texto legible */
   border-radius: 0 0 15px 15px;
   text-align: center;
 }
 
 .modal-footer1 .btn {
-  width: auto;               /* que no ocupe todo el ancho */
-  font-size: 0.9rem;         /* tamaño de fuente proporcional */
+  width: auto;
+  /* que no ocupe todo el ancho */
+  font-size: 0.9rem;
+  /* tamaño de fuente proporcional */
   padding: 6px 20px;
 }
 
@@ -1719,6 +1778,7 @@ a{
 .copy-button:hover {
   background-color: #e69b19;
 }
+
 /*Estilo del input donde va el url del logo*/
 .input-url {
   flex-grow: 1;
@@ -1726,16 +1786,21 @@ a{
   min-width: 400px;
   height: 35px;
   padding: 10px 15px;
-  border: 2px solid #d9d9d9; /* Se adapta el color del borde */
+  border: 2px solid #d9d9d9;
+  /* Se adapta el color del borde */
   border-radius: 20px;
-  background-color: #ffffff; /* Fondo blanco */
+  background-color: #ffffff;
+  /* Fondo blanco */
   box-sizing: border-box;
   outline: none;
   transition: opacity 0.2s ease;
-  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2); /* Añadimos sombra para asemejarlo al primer bloque */
+  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
+  /* Añadimos sombra para asemejarlo al primer bloque */
   opacity: 1;
-  margin-bottom: 10px; /* Si es necesario para la disposición */
+  margin-bottom: 10px;
+  /* Si es necesario para la disposición */
 }
+
 /*Estilo del botón Actualizar logo*/
 .update-logo-button {
   border-radius: 20px;
@@ -1746,7 +1811,8 @@ a{
   cursor: pointer;
   white-space: nowrap;
   height: 37px;
-  margin-top: 10px; /* Añade un margen superior para separar el botón del input */
+  margin-top: 10px;
+  /* Añade un margen superior para separar el botón del input */
   margin-left: 30%;
 }
 
@@ -1815,6 +1881,7 @@ a{
   border-color: #ffb703;
   color: white;
 }
+
 .btn-secondary {
   width: 25%;
   background-color: #ffb703;
@@ -1834,8 +1901,9 @@ a{
   color: white;
   border-color: #F9BE21;
 }
-.btn-primary:hover{
- background-color: #eebe45;
+
+.btn-primary:hover {
+  background-color: #eebe45;
   border-color: #eebe45;
 }
 
@@ -1845,6 +1913,7 @@ a{
   color: white;
   border-color: #F9BE21;
 }
+
 .btn-continuar:hover {
   background-color: #ec9e4a;
   border-color: #ec9e4a;
@@ -1857,8 +1926,8 @@ a{
 }
 
 .btn-contratar {
- /* background-color: #F9BE21;*/
- background-color: #F9BE21;
+  /* background-color: #F9BE21;*/
+  background-color: #F9BE21;
   width: 25%;
   color: white;
 }
@@ -1895,7 +1964,8 @@ a{
 /* Efecto blur para difuminar contenido */
 .blur {
   filter: blur(5px);
-  pointer-events: none; /* Evita interacción con contenido mientras está activo */
+  pointer-events: none;
+  /* Evita interacción con contenido mientras está activo */
 }
 
 .grayed-checkbox {
@@ -1904,10 +1974,14 @@ a{
 }
 
 .small-checkbox {
-  width: 16px !important;   /* controla el ancho del cuadro */
-  height: 16px !important;  /* controla el alto del cuadro */
-  transform: none !important; /* evita deformarlo */
-  margin-right: 6px;        /* espacio entre checkbox y texto */
+  width: 16px !important;
+  /* controla el ancho del cuadro */
+  height: 16px !important;
+  /* controla el alto del cuadro */
+  transform: none !important;
+  /* evita deformarlo */
+  margin-right: 6px;
+  /* espacio entre checkbox y texto */
   cursor: pointer;
 }
 
@@ -1923,7 +1997,8 @@ a{
 }
 
 .btn-icon i {
-  margin: 0; /* quitar espacios extra */
+  margin: 0;
+  /* quitar espacios extra */
 }
 
 
@@ -1936,13 +2011,37 @@ a{
   }
 
   .menu-pers ul li {
-    margin: 5px 0;
+    margin: 5px 0; 
 
     padding: 10px;
 
     font-size: 16px;
 
     margin-left: 10px;
+  }
+
+   .fab-guia1 {
+    bottom: 19px;
+    top: 77%;
+    left: 20px;
+    width: 55px;
+    height: 55px;
+    font-size: 25px;
+  }
+
+  .pagina-burbuja .fab-guia1{
+    top:135%
+  }
+  .pagina-inicio .fab-guia1{
+    top:225%
+  }
+
+  .pagina-conversacion .fab-guia1{
+    top:185%
+  }
+  .pagina-despedida .fab-guia1, 
+  .pagina-finalizar .fab-guia1{
+    top:205%
   }
 
   .chatbot-principal {
@@ -1990,16 +2089,16 @@ a{
     height: 150vh;
   }
 
-    #contadorCaracteres {
-        font-size: 11px;
-        right: 105px;
-    }
+  #contadorCaracteres {
+    font-size: 11px;
+    right: 105px;
+  }
 
-    .contador{
-        font-size: 11px;
-        right: 205px;
-    }
-    
+  .contador {
+    font-size: 11px;
+    right: 205px;
+  }
+
 
   .chatbot-container2 {
     margin-left: 90%;
@@ -2168,11 +2267,11 @@ a{
   }
 
   .container-btn-cerrar-guar {
-  margin-left: 18%;
-  display: flex;
-  justify-content: flex-end;
-  width: 70%;
-}
+    margin-left: 18%;
+    display: flex;
+    justify-content: flex-end;
+    width: 70%;
+  }
 
   .btnSiguiente {
     background-color: #fb8300;
@@ -2258,6 +2357,15 @@ a{
     width: 22%;
   }
 
+  /*Boton guía*/
+  .fab-guia {
+    bottom: 24px;
+    left: 24px;
+    width: 52px;
+    height: 52px;
+    font-size: 26px;
+  }
+
   /*Adpacion de los botones de crear la conversación*/
 
   .boton1 {
@@ -2311,7 +2419,7 @@ a{
 
 
     } */
-     .modal-contentF {
+  .modal-contentF {
     width: 75%;
   }
 }
@@ -2331,6 +2439,40 @@ a{
     right: -28px;
     margin-left: auto;
     top: 30vh;
+  }
+
+  /*Botón guía*/
+  .fab-guia {
+    top:265%;
+    bottom: 16px;
+    left: 16px;
+    width: 48px;
+    height: 48px;
+    font-size: 24px;
+  }
+
+  .fab-guia1 {
+    bottom: 19px;
+    top: 77%;
+    left: 20px;
+    width: 55px;
+    height: 55px;
+    font-size: 25px;
+  }
+
+  .pagina-burbuja .fab-guia1{
+    top:135%
+  }
+  .pagina-inicio .fab-guia1{
+    top:225%
+  }
+
+  .pagina-conversacion .fab-guia1{
+    top:185%
+  }
+  .pagina-despedida .fab-guia1, 
+  .pagina-finalizar .fab-guia1{
+    top:205%
   }
 
   /*Estilo del link de funcionamiento*/
@@ -2355,7 +2497,7 @@ a{
     height: 40px;
   }
 
-   .generar-container {
+  .generar-container {
     margin-left: 24%;
     text-align: center;
   }
@@ -2366,7 +2508,7 @@ a{
     margin-right: auto;
   }
 
-   .btnGuardarurl {
+  .btnGuardarurl {
     justify-content: center;
     width: 100%;
     max-width: 100px;
@@ -2374,15 +2516,15 @@ a{
   }
 
 
-   #contadorCaracteres {
-        font-size: 11px;
-        right: 8px;
-    }
+  #contadorCaracteres {
+    font-size: 11px;
+    right: 8px;
+  }
 
-    .contador{
-        font-size: 11px;
-        right: 169px;
-    }
+  .contador {
+    font-size: 11px;
+    right: 169px;
+  }
 
 
   /*Adaptacion para la burbuja*/
@@ -2420,7 +2562,7 @@ a{
     height: 160vh;
   }
 
-    .modal-contentF {
+  .modal-contentF {
     width: 70%;
     margin-top: 12%;
   }
@@ -2452,15 +2594,48 @@ a{
     font-size: 9.6px;
   }
 
-     #contadorCaracteres {
-        font-size: 10px;
-        right: 74px;
-    }
+  #contadorCaracteres {
+    font-size: 10px;
+    right: 74px;
+  }
 
-    .contador{
-        font-size: 10px;
-        right: 134px;
-    }
+  .contador {
+    font-size: 10px;
+    right: 134px;
+  }
+
+  .fab-guia {
+    bottom: 6px;
+    top: 265%;
+    left: 12px;
+    width: 44px;
+    height: 44px;
+    font-size: 22px;
+  }
+
+   .fab-guia1 {
+    bottom: 19px;
+    top: 77%;
+    left: 20px;
+    width: 55px;
+    height: 55px;
+    font-size: 25px;
+  }
+
+  .pagina-burbuja .fab-guia1{
+    top:150%
+  }
+  .pagina-inicio .fab-guia1{
+    top:225%
+  }
+
+  .pagina-conversacion .fab-guia1{
+    top:185%
+  }
+  .pagina-despedida .fab-guia1, 
+  .pagina-finalizar .fab-guia1{
+    top:205%
+  }
 }
 
 @media (max-width: 662px) {
@@ -2472,7 +2647,7 @@ a{
     font-size: 14px;
   }
 
-   .modal-contentF {
+  .modal-contentF {
     width: 90%;
   }
 }
@@ -2514,11 +2689,39 @@ a{
 /* Consulta para mensaje y texto de la sección de pantalla de inicio*/
 
 @media (max-width: 536px) {
+
   .msg-perso-chat,
   .txt-msg-chat {
     font-size: 14px;
   }
+  .fab-guia1 {
+    bottom: 19px;
+    top: 77%;
+    left: 20px;
+    width: 55px;
+    height: 55px;
+    font-size: 25px;
+  }
+  .pagina-burbuja .fab-guia1{
+    top:178%
+  }
+  .pagina-inicio .fab-guia1{
+    top:225%
+  }
+
+  .pagina-conversacion .fab-guia{
+    top:190%
+  }
+  .pagina-despedida .fab-guia1, 
+  .pagina-finalizar .fab-guia1{
+    top:205%
+  }
 }
+
+
+
+
+
 
 /* Ajustes adicionales para pantallas extremadamente pequeñas */
 
@@ -2554,15 +2757,15 @@ a{
     padding: 8px;
   }
 
-   #contadorCaracteres {
-        font-size: 10px;
-        right: 40px;
-    }
+  #contadorCaracteres {
+    font-size: 10px;
+    right: 40px;
+  }
 
-    .contador{
-        font-size: 10px;
-        right: 80px;
-    }
+  .contador {
+    font-size: 10px;
+    right: 80px;
+  }
 
   /* Propiedades para que la ventana modal del chatbot
 
@@ -2578,6 +2781,51 @@ a{
     width: 100%;
     height: auto;
     bottom: 50px;
+  }
+
+  /*Botón Guía*/
+  .fab-guia {
+    bottom: 6px;
+    top: 274%;
+    left: 12px;
+    width: 44px;
+    height: 44px;
+    font-size: 22px;
+  }
+
+  .fab-guia1 {
+    bottom: 19px;
+    top: 74%;
+    left: 20px;
+    width: 55px;
+    height: 55px;
+    font-size: 25px;
+  }
+
+
+
+  .pagina-burbuja .fab-guia1 {
+    top: 170%;
+    
+  }
+
+  .pagina-conversacion .fab-guia1
+   {
+    top: 190%;
+   
+  }
+
+  .pagina-inicio .fab-guia1 {
+    top: 225%;
+
+  }
+  .pagina-finalizar .fab-guia1 {
+    top: 235%;
+ 
+  }
+  .pagina-despedida .fab-guia1 {
+    top: 210%;
+   
   }
 
   /* Propiedades del footer para separar los elementos de la parte inferior de la página */
@@ -2652,7 +2900,7 @@ a{
     height: 70px;
   }
 
- /* .container-prin {
+  /* .container-prin {
     height: 218vh;
   }*/
 
@@ -2679,7 +2927,7 @@ a{
     margin-left: 10px;
   }
 
-    .modal-contentF {
+  .modal-contentF {
     width: 95%;
     margin-top: 18%;
     padding: 15px;
@@ -2850,7 +3098,7 @@ del texto de mensaje de despedida */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
 
-  
+
 
   .chatbot-content,
   .chatbot-content2 {
@@ -2870,7 +3118,7 @@ del texto de mensaje de despedida */
     overflow-wrap: break-word;
   }
 
-   .chatbot-content1 {
+  .chatbot-content1 {
     background-color: #f1f1f1;
     color: var(--color-texto, #000000);
     padding: 10px;
@@ -3018,7 +3266,7 @@ del texto de mensaje de despedida */
 
   /* Contenedor del input */
 
-  .container-input{
+  .container-input {
     display: flex;
     flex-direction: column;
     align-items: stretch;
@@ -3037,7 +3285,7 @@ del texto de mensaje de despedida */
     box-sizing: border-box;
   }
 
-.generar-container {
+  .generar-container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -3052,7 +3300,7 @@ del texto de mensaje de despedida */
     padding: 10px 20px;
     margin-bottom: 10px;
     display: flex;
-     margin-right: 25%;
+    margin-right: 25%;
     justify-content: center;
     align-items: center;
   }
@@ -3063,19 +3311,21 @@ del texto de mensaje de despedida */
     font-size: 14px;
     padding: 10px 20px;
     margin-bottom: 10px;
-    border-radius: 999px; /* para que sea muy redondo */
+    border-radius: 999px;
+    /* para que sea muy redondo */
     display: flex;
     justify-content: center;
     align-items: center;
   }
 
   .btnInteractivo {
-      width: 100%;
+    width: 100%;
     max-width: 300px;
     font-size: 14px;
     padding: 10px 20px;
     margin-bottom: 10px;
-    border-radius: 999px; /* para que sea muy redondo */
+    border-radius: 999px;
+    /* para que sea muy redondo */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -3144,7 +3394,8 @@ del texto de mensaje de despedida */
   /*Adaptación del titulo del ChatBot*/
 
   .txt-nombre-chat {
-    font-size: 16px; /* Reduce el tamaño del texto en pantallas pequeñas */
+    font-size: 16px;
+    /* Reduce el tamaño del texto en pantallas pequeñas */
     white-space: nowrap;
   }
 }

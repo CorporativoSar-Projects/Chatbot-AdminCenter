@@ -22,7 +22,7 @@ $id_chatbot = $_SESSION['id_chatbot'] ?? null;
     <link rel="shortcut icon" href="img/Logo_cabeza.svg" />
 </head>
 
-<body>
+<body class="pagina-despedida">
     <div class="rectangulo-container">
         <a href="menu.php">
             <img src="img/LOGOTIPO_IXAH-02.png" width="70px" alt="Logo" class="img-logo-chiq">
@@ -148,6 +148,8 @@ $id_chatbot = $_SESSION['id_chatbot'] ?? null;
 
     <!--Modal de integración -->
     <?php include 'modalIntegracion.php'; ?>
+    <!--Guia Flotante-->
+    <?php include 'guiaFlotante.php'; ?>
 
     <!-- jQuery y Bootstrap JavaScript -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

@@ -217,6 +217,10 @@ if ($row['total'] >= 1 && isset($_GET['nuevo'])) {
     </main>
     <!--Modal de integración -->
     <?php include 'modalIntegracion.php'; ?>
+    <!--Guia Flotante-->
+    <button id="btnGuiaFlotante" class="fab-guia" title="Guía" onclick="activarRecorrido()">
+        ?
+    </button>
 
     <!-- jQuery y Bootstrap JavaScript -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -268,10 +272,10 @@ if ($row['total'] >= 1 && isset($_GET['nuevo'])) {
     <script src="js/tour_ixah.js"></script>
 
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@1.3.1/dist/driver.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@1.3.1/dist/driver.css" />
     <link rel="stylesheet" href="css/tour_ixah.css">
     <script src="https://cdn.jsdelivr.net/npm/driver.js@1.3.1/dist/driver.js.iife.js"></script>
-    <script src="js/tour_ixah.js"></script> 
+    <script src="js/tour_ixah.js"></script>
 
 </body>
 
