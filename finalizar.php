@@ -2,6 +2,7 @@
 
 include('modelo/obtenerDatos.php');
 include 'modelo/consultas_menu.php';
+
 ?>
 
 <!DOCTYPE html>
@@ -19,7 +20,7 @@ include 'modelo/consultas_menu.php';
     <link rel="shortcut icon" href="img/Logo_cabeza.svg" />
 </head>
 
-<body>
+<body class="pagina-finalizar">
 
     <div class="rectangulo-container">
         <a href="menu.php">
@@ -229,6 +230,8 @@ include 'modelo/consultas_menu.php';
 
     <!--Modal de integración -->
     <?php include 'modalIntegracion.php'; ?>
+    <!--Guia Flotante-->
+    <?php include 'guiaFlotante.php'; ?>
 
     <!-- jQuery y Bootstrap JavaScript -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -260,10 +263,17 @@ include 'modelo/consultas_menu.php';
     </script>
     <script src="js/guardadoGeneral.js"></script>
     <script src="js/urlFuncionamiento.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@1.3.1/dist/driver.css"/>
+    <!-- <script>
+        window.IXAH_CONFIG = {
+            tieneChatbot: <?php echo $esEdicion ? 'true' : 'false'; ?>,
+            modoCreacion: <?php echo $esEdicion ? 'false' : 'true'; ?>
+        };
+    </script>-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@1.3.1/dist/driver.css" />
     <link rel="stylesheet" href="css/tour_ixah.css">
     <script src="https://cdn.jsdelivr.net/npm/driver.js@1.3.1/dist/driver.js.iife.js"></script>
-    <script src="js/tour_ixah.js"></script> 
+    <script src="js/tour_ixah.js"></script>
+
 
 </body>
 

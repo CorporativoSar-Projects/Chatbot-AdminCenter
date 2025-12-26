@@ -21,6 +21,11 @@ include 'modelo/consultas_menu.php';
   <title>Home</title>
   <link rel="shortcut icon" href="img/Logo_cabeza.svg" />
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+    window.IXAH_CONFIG = {
+      tieneChatbot: <?= count($chatbots) > 0 ? 'true' : 'false' ?>
+    };
+  </script>
 </head>
 
 <body>
@@ -197,6 +202,8 @@ include 'modelo/consultas_menu.php';
 
   <!--Modal de integración -->
   <?php include 'modalIntegracion.php'; ?>
+  <!--Guia Flotante-->
+  <?php include 'guiaFlotante.php'; ?>
 
   <!-- jQuery y Bootstrap JavaScript -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

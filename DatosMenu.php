@@ -26,7 +26,11 @@ include 'modelo/consultas_menu.php';
       </div>
       <div class="user-info">
         <a href="#" style="text-decoration: none; color: inherit; display: block; margin-bottom: 10px;">Desarrollado por Giintape Innovahue</a>
-        <a href="https://giintapeinnovahue.freshdesk.com/support/tickets/new" target="_blank">Soporte técnico</a>
+        <a href="https://giintapeinnovahue.freshdesk.com/support/tickets/new" target="_blank" style="text-decoration: none; color: inherit; display: block; margin-bottom: 10px;">Soporte técnico</a>
+       
+          <!--<a href="#" id="btnGuia">Guía</a>-->
+
+
       </div>
     </div>
 
@@ -42,3 +46,21 @@ include 'modelo/consultas_menu.php';
   </div>
 </div>
 </div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const guiaBtn = document.getElementById("btnGuia");
+
+    if (guiaBtn) {
+      guiaBtn.addEventListener("click", function(e) {
+        e.preventDefault();
+
+        if (typeof activarRecorrido === "function") {
+          activarRecorrido();
+        } else {
+          console.error("La función activarRecorrido() no está cargada.");
+        }
+      });
+    }
+  });
+</script>
