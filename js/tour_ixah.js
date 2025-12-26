@@ -1,23 +1,20 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-
     const driver = window.driver.js.driver;
     const path = window.location.pathname;
 
+    const tourVisto = localStorage.getItem('ixah_tour_visto');
     const tourActivo = localStorage.getItem('ixah_tour_activo') === 'true';
-    const tourVisto = localStorage.getItem('ixah_tour_visto') === 'true';
     const btnGuia = document.getElementById("btnGuiaFlotante");
 
-    // Si el tour está activo, ocultar el botón
-    if (btnGuia && tourActivo) {
+    const esPrimeraVisita = tourVisto === null;
+    const debeEjecutar = esPrimeraVisita || tourActivo;
+
+    if (btnGuia && debeEjecutar) {
         btnGuia.style.display = "none";
     }
 
-    // Si el tour no está activo Y ya fue visto, no hacer nada
-    if (!tourActivo && tourVisto) {
-        return;
-    }
-    if (!tourActivo) {
+    if (!debeEjecutar) {
         return;
     }
 
@@ -28,7 +25,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // Verificar la exitencia del chatbot y recuparar id
     const existeChatbot = document.querySelector('.container-chats') !== null;
     const btnAddDisabled = document.querySelector('.btn-add-chat[disabled]') !== null;
 
@@ -46,7 +42,6 @@ document.addEventListener("DOMContentLoaded", function () {
         chatbotId = savedChatbotId;
     }
 
-    // Condicion pára determinar que mensaje mostrar
     const pasoChatbot = (existeChatbot || btnAddDisabled)
         ? {
             pagina: 'menu.php',
@@ -456,7 +451,6 @@ document.addEventListener("DOMContentLoaded", function () {
     setTimeout(() => driverObj.drive(), 500);
 });
 
-// Función para activar el recorrido manualmente
 function activarRecorrido() {
     const btnGuia = document.getElementById("btnGuiaFlotante");
     if (btnGuia) {
@@ -470,5 +464,4 @@ function activarRecorrido() {
     window.location.reload();
 }
 
-// Hacer la función disponible globalmente
 window.activarRecorrido = activarRecorrido;
