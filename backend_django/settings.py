@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
-from django.db.backends.mysql.base import DatabaseWrapper
 from django.db.backends.signals import connection_created
 from django.dispatch import receiver
 
@@ -136,19 +135,11 @@ DATABASES = {
 }
 
 
-def patch_check_version():
-    def skip_check(self):
-        pass
-    DatabaseWrapper.check_database_version_supported = skip_check
-
-
 @receiver(connection_created)
 def disable_returning(sender, connection, **kwargs):
     if connection.vendor == 'mysql':
         connection.features.can_return_columns_from_insert = False
 
-
-patch_check_version()
 
 
 # Password validation

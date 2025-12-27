@@ -2,7 +2,16 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
+# import pymysql
+# pymysql.install_as_MySQLdb()
 
+# 🔴 PARCHE ANTES DE DJANGO
+from django.db.backends.mysql.base import DatabaseWrapper
+
+def skip_check(self):
+    pass
+
+DatabaseWrapper.check_database_version_supported = skip_check
 
 def main():
     """Run administrative tasks."""
