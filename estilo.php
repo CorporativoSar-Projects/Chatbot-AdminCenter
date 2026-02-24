@@ -218,10 +218,11 @@ if ($row['total'] >= 1 && isset($_GET['nuevo'])) {
     </main>
     <!--Modal de integración -->
     <?php include 'modalIntegracion.php'; ?>
-    <!--Guia Flotante-->
+    <!--Guia Flotante
     <button id="btnGuiaFlotante" class="fab-guia" title="Guía" onclick="activarRecorrido()">
         ?
-    </button>
+    </button>-->
+    <?php include 'guiaFlotante.php'; ?>
 
     <!-- jQuery y Bootstrap JavaScript -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
