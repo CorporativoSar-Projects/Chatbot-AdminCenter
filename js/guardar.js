@@ -16,13 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // limpia los campos al salir de la configuración
     if (btnCerrar) {
         btnCerrar.addEventListener("click", () => {
-            const tempActivo = localStorage.getItem('ixah_tour_activo');
-            const tempVisto = localStorage.getItem('ixah_tour_visto');
-
-            localStorage.clear();
-
-            if (tempActivo !== null) localStorage.setItem('ixah_tour_activo', tempActivo);
-            if (tempVisto !== null) localStorage.setItem('ixah_tour_visto', tempVisto);
+            localStorage.clear(); 
         });
     }
 });

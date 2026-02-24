@@ -1,4 +1,4 @@
-const stripe = Stripe('TU_PUBLIC_KEY_STRIPE');
+const stripe = Stripe('...');//public key de stripe
 
 document.getElementById("btnRegistro").addEventListener("click", async (e) => {
   e.preventDefault();
@@ -7,14 +7,19 @@ document.getElementById("btnRegistro").addEventListener("click", async (e) => {
   const formData = new FormData(form);
   const data = Object.fromEntries(formData.entries());
 
-  // --- Validar campos obligatorios ---
+  // --- Validar que todos los campos estén llenos ---
   let camposVacios = false;
-  const camposOpcionales = ["url_cs_emp"]; 
+
+  // Define aquí los campos opcionales
+  const camposOpcionales = ["url_cs_emp"]; // nombre del campo URL opcional
 
   for (const [key, valor] of Object.entries(data)) {
-    if (typeof valor === "string" && valor.trim() === "" && !camposOpcionales.includes(key)) {
-      camposVacios = true;
-      break;
+    if (typeof valor === "string" && valor.trim() === "") {
+      // Solo marcar error si NO es un campo opcional
+      if (!camposOpcionales.includes(key)) {
+        camposVacios = true;
+        break;
+      }
     }
   }
 
@@ -29,31 +34,18 @@ document.getElementById("btnRegistro").addEventListener("click", async (e) => {
     return;
   }
 
-  // --- Validar reCAPTCHA ---
-  const captchaResponse = grecaptcha.getResponse();
-  if (!captchaResponse) {
-    Swal.fire({
-      icon: "warning",
-      title: "Captcha requerido",
-      text: "Por favor completa el reCAPTCHA antes de continuar.",
-      confirmButtonColor: "#3085d6",
-      confirmButtonText: "Entendido"
-    });
-    return;
-  }
-
-  // --- Agregar token de reCAPTCHA a los datos ---
-  data['g-recaptcha-response'] = captchaResponse;
-
   // --- Verificar plan seleccionado ---
   const planSeleccionado = data.nombre_susc;
 
   if (planSeleccionado === "free") {
+    // --- Plan Free: enviar al backend directamente ---
+    const formDataFinal = new FormData();
+    formDataFinal.append("registro", JSON.stringify(data));
+
     try {
       const response = await fetch("modelo/registro_free.php", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: formDataFinal,
       });
 
       const resultado = await response.json();
@@ -67,48 +59,46 @@ document.getElementById("btnRegistro").addEventListener("click", async (e) => {
           confirmButtonText: "Entendido"
         });
       } else {
+        // Registro exitoso
         window.location.href = "index.php";
       }
     } catch (error) {
-      Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: "Ocurrió un error al registrar el plan Free: " + error.message,
-        confirmButtonColor: "#3085d6",
-        confirmButtonText: "Entendido"
-      });
+      alert("Ocurrió un error al registrar el plan Free: " + error.message);
     }
-    return;
-  }
 
-  // --- Plan de pago (Stripe) ---
+    return; // Detiene la ejecución, no se va a Stripe
+  }
+  // --- Plan de pago: flujo normal de Stripe ---
   try {
     const respuesta = await fetch("modelo/crear_sesion.php", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(data),
     });
 
     const resultado = await respuesta.json();
 
     if (resultado.linkPago_susc) {
+      // Redirigir directamente al link de pago
       window.location.href = resultado.linkPago_susc;
     } else {
-      Swal.fire({
-        icon: "warning",
-        title: "Error",
-        text: "Error al obtener link de pago.",
-        confirmButtonColor: "#3085d6",
-        confirmButtonText: "Entendido"
-      });
+       Swal.fire({
+          icon: "warning",
+          title: "Error",
+          text: "Error al obtener link de pago.",
+          confirmButtonColor: "#3085d6",
+          confirmButtonText: "Entendido"
+        });
     }
   } catch (error) {
-    Swal.fire({
-      icon: "warning",
-      title: "Error",
-      text: "Ocurrió un error en el flujo de pago. Inténtelo nuevamente.",
-      confirmButtonColor: "#3085d6",
-      confirmButtonText: "Entendido"
-    });
+     Swal.fire({
+          icon: "warning",
+          title: "Error",
+          text: "Ocurrió un error en el flujo de pago. Inténtelo nuevamente.",
+          confirmButtonColor: "#3085d6",
+          confirmButtonText: "Entendido"
+        });
   }
 });

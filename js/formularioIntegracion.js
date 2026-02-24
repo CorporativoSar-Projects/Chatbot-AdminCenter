@@ -19,7 +19,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (!activarSFTP || !estandarCheckbox) return;
 
-  const planFree = typeof nombrePlan === 'string' && nombrePlan.trim().toLowerCase() === 'free';
+     const plan = (nombrePlan || '').toLowerCase().replace(/\s+/g, '');
+    
+    const esFree = plan === 'free';
+    const esPlanDePago = !esFree;
   const suscripcionInactiva = estadoSuscripcion === 'paused' || estadoSuscripcion === 'canceled';
 
   // -----------------------------------------
@@ -43,24 +46,27 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  function toggleFormIntegracion() {
-    if (tipoIntegracion.value === "sftp") {
-      formSFTP.style.display = "block";
-      formEstandar.style.display = "none";
-      btnGuardar.setAttribute("form", "formIntegracionSFTP");
-    } else {
-      formSFTP.style.display = "none";
-      formEstandar.style.display = "block";
-      btnGuardar.setAttribute("form", "formIntegracionEstandar");
+function toggleFormIntegracion() {
+    if (!tipoIntegracion || !formSFTP || !formEstandar) return;
 
-      // Actualizar el input de URL estándar inmediatamente
-      if (formEstandar) {
-        const inputUrl = formEstandar.querySelector('input[name="url_estandar"]');
-        if (inputUrl) inputUrl.value = sftpConfig?.url_estandar || window.appData.url_estandar || "";
-      }
+    if (tipoIntegracion.value === "sftp") {
+        formSFTP.style.display = "block";
+        formEstandar.style.display = "none";
+        if (btnGuardar) {
+            btnGuardar.setAttribute("form", "formIntegracionSFTP");
+        }
+    } else {
+        formSFTP.style.display = "none";
+        formEstandar.style.display = "block";
+        if (btnGuardar) {
+            btnGuardar.setAttribute("form", "formIntegracionEstandar");
+        }
     }
-    tipoIntegracionHidden.value = tipoIntegracion.value;
-  }
+
+    if (tipoIntegracionHidden) {
+        tipoIntegracionHidden.value = tipoIntegracion.value;
+    }
+}
 
   function toggleEstandarInput() {
     if (!formEstandar) return;
@@ -71,6 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function controlarExclusividad(origen) {
+     if (esFree) {
     if (activarSFTP.checked && estandarCheckbox.checked) {
       if (origen === 'sftp') activarSFTP.checked = false;
       else estandarCheckbox.checked = false;
@@ -82,10 +89,11 @@ document.addEventListener('DOMContentLoaded', () => {
         confirmButtonColor: '#eca726'
       });
     }
-    toggleEstandarInput();
-    toggleInputs(!activarSFTP.checked);
   }
 
+  toggleEstandarInput();
+  toggleInputs(!activarSFTP.checked);
+}
   // -----------------------------------------
   // Inicialización según BD y plan
   // -----------------------------------------
@@ -103,42 +111,42 @@ document.addEventListener('DOMContentLoaded', () => {
     toggleInputs(!activarSFTP.checked);
     toggleEstandarInput();
 
-    if (planFree) {
-  //  Forzar solo integración estándar
+    if (esFree) {
   activarSFTP.checked = false;
   activarSFTP.disabled = true;
+  activarSFTP.parentElement.style.display = "none";
 
   estandarCheckbox.checked = true;
   estandarCheckbox.disabled = false;
 
   tipoIntegracion.value = "estandar";
   tipoIntegracionHidden.value = "estandar";
+  tipoIntegracion.disabled = true;
 
-  //  Ocultar todo SFTP
-  if (formSFTP) formSFTP.style.display = "none";
-  if (activarSFTP) activarSFTP.parentElement.style.display = "none";
-
-  // Ocultar opción SFTP del select
   const optSftp = tipoIntegracion.querySelector('option[value="sftp"]');
   if (optSftp) optSftp.style.display = "none";
 
-  //  Bloquear select para evitar cambios
-  tipoIntegracion.disabled = true;
+  formSFTP.style.display = "none";
+  formEstandar.style.display = "block";
 
-  //  Mostrar solo estándar
-  if (formEstandar) {
-    formEstandar.style.display = "block";
-    const inputUrl = formEstandar.querySelector('input[name="url_estandar"]');
-    if (inputUrl) {
-      inputUrl.value = window.appData?.url_estandar || "";
-      inputUrl.disabled = false;
-      inputUrl.readOnly = false;
-    }
-  }
-
-  return; // Detener aquí. No ejecutar más lógica.
+  return;
 }
-  })();
+
+// PLANES DE PAGO (Básico + Plus)
+if (esPlanDePago) {
+  activarSFTP.disabled = false;
+  activarSFTP.parentElement.style.display = "flex";
+
+  estandarCheckbox.disabled = false;
+  tipoIntegracion.disabled = false;
+
+  const optSftp = tipoIntegracion.querySelector('option[value="sftp"]');
+  if (optSftp) optSftp.style.display = "block";
+
+  toggleFormIntegracion();
+}
+
+})();
 
   // -----------------------------------------
   // Eventos de checkboxes y selects
@@ -165,13 +173,16 @@ document.addEventListener('DOMContentLoaded', () => {
   if (sftpLink) {
     sftpLink.addEventListener('click', (e) => {
       e.preventDefault();
-      if (planFree) return;
+      if (esFree) return;
       if (suscripcionInactiva) {
         modalSuspension.modal('show');
         return;
       }
-      modalSFTP.modal({ backdrop: 'static', keyboard: false }).modal('show');
+    modalSFTP.modal({ backdrop: 'static', keyboard: false }).modal('show');
+    
+    if (contenido) {
       contenido.classList.add("blur");
+    }
 
       if (formSFTP && sftpConfig) {
         formSFTP.servidor.value = sftpConfig.servidor || '';
@@ -191,10 +202,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  modalSFTP.on('hidden.bs.modal', () => {
+ modalSFTP.on('hidden.bs.modal', () => {
+  if (contenido) {
     contenido.classList.remove("blur");
-    toggleInputs(!activarSFTP.checked);
-  });
+  }
+  toggleInputs(!activarSFTP.checked);
+});
 
   const cerrarSFTP = document.getElementById("cerrarIntegracion");
   if (cerrarSFTP) cerrarSFTP.addEventListener('click', () => modalSFTP.modal('hide'));
@@ -207,7 +220,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
-      if (planFree && form.id === "formIntegracionSFTP") {
+      if (esFree && form.id === "formIntegracionSFTP") {
         modalSFTP.modal('hide');
         Swal.fire({
           title: 'Función restringida',

@@ -1,7 +1,8 @@
 <?php
 include('modelo/obtenerDatos.php');
 include 'modelo/conexion_bd.php';
-include 'modelo/consultas_menu.php';
+# include 'modelo/consultas_menu.php';
+
 
 $id_adm = $_SESSION['id_adm'];
 $sql = "SELECT COUNT(*) AS total FROM chatbot WHERE Administrador_id_adm = ?";
@@ -32,26 +33,25 @@ if ($row['total'] >= 1 && isset($_GET['nuevo'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="js/cargaEstilos.js"></script>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/sty.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <title>Estilo</title>
-    <link rel="shortcut icon" href="img/Logo_cabeza.svg" />
+    <link rel="shortcut icon" href="img/Logo_cabeza.svg"/>
 </head>
 
 <body>
 
     <div class="rectangulo-container">
         <a href="menu.php">
-            <img src="img/LOGOTIPO_IXAH-02.png" width="70px" alt="Logo" class="img-logo-chiq">
+        <img src="img/LOGOTIPO_IXAH-02.png" width="70px" alt="Logo" class="img-logo-chiq">
         </a>
     </div>
     <header>
         <?php include 'DatosMenu.php'; ?>
     </header>
 
-    <main id="contenidoPrincipal">
+    <main>
         <div class="container-prin">
             <div class="container-bienv">
                 <p class="txt-nombre-chat">ChatBot</p>
@@ -63,7 +63,7 @@ if ($row['total'] >= 1 && isset($_GET['nuevo'])) {
                         </a>
                         <a href="#" class="btnContinuar" id="btnContinuar">
                             <span class="btn-text">Continuar</span>
-                            <img src="img/flecha-c.png" class="btn-icon" style="width: 17px;">
+                            <img src="img/flecha-c.png" class="btn-icon" style="width: 15px;">
                         </a>
                     </div>
                     <div class="btn-group">
@@ -105,56 +105,56 @@ if ($row['total'] >= 1 && isset($_GET['nuevo'])) {
 
                     <div>
                         <div style="position: relative; width: 100%;">
-                            <label class="label-nombrechat">Nombre visible de tu ChatBot</label><br>
-                            <input type="text" name="inp_nombre" id="inp_nombre" placeholder="IXAH"
-                                class="input-nombre" minlength="2" maxlength="10" required value="<?php echo htmlspecialchars($chatbot['inp_nombre'] ?? ''); ?>">
+                        <label class="label-nombrechat">Nombre visible de tu ChatBot</label><br>
+                        <input type="text" name="inp_nombre" id="inp_nombre" placeholder="IXAH"
+                            class="input-nombre" minlength="2" maxlength="10" required value="<?php echo htmlspecialchars($chatbot['inp_nombre'] ?? ''); ?>">
                             <br>
-                            <span id="contadorSty" class="contador">
+                            <span id="contadorSty"  class="contador" >
                                 0 / 10
                             </span>
                         </div>
+
                         <div class="container-colors">
-                            <div id="contenedor-colores-driver">
-                                <div class="nombre-colord">
-                                    <label for="colorPrimario">Color Primario</label><br>
-                                    <div class="color-selector">
-                                        <input type="color" id="colorPrimario" value="<?php echo htmlspecialchars($chatbot['colorPrimario'] ?? '#3ca6e5'); ?>"
-                                            oninput="actualizarColores()">
-                                        <div id="muestraColorPrimario" class="color-circle"></div><br>
-                                    </div>
-
-                                    <label for="colorAcento">Color de Acento</label><br>
-                                    <div class="color-selector">
-                                        <input type="color" id="colorAcento" value="<?php echo htmlspecialchars($chatbot['colorAcento'] ?? '#383838'); ?>" oninput="actualizarColores()">
-                                        <div id="muestraColorAcento" class="color-circle"></div><br>
-                                    </div>
-
-                                    <label for="colorUsuario">Respuesta Usuario</label><br>
-                                    <div class="color-selector">
-                                        <input type="color" id="colorRespuestaUsuario" value="<?php echo htmlspecialchars($chatbot['colorRespuestaUsuario'] ?? '#219ebc'); ?>"
-                                            oninput="actualizarColores()">
-                                        <div id="muestraColorRespuestaUsuario" class="color-circle"></div><br>
-                                    </div>
+                            <div class="nombre-colord">
+                                <label for="colorPrimario">Color Primario</label><br>
+                                <div class="color-selector">
+                                    <input type="color" id="colorPrimario"  value="<?php echo htmlspecialchars($chatbot['colorPrimario'] ?? '#3ca6e5'); ?>"
+                                        oninput="actualizarColores()">
+                                    <div id="muestraColorPrimario" class="color-circle"></div><br>
                                 </div>
-                                <div class="nombre-colorc">
-                                    <label for="colorSecundario">Color Secundario</label><br>
-                                    <div class="color-selector">
-                                        <input type="color" id="colorSecundario" value="<?php echo htmlspecialchars($chatbot['colorSecundario'] ?? '#b6b6b6'); ?>"
-                                            oninput="actualizarColores()">
-                                        <div id="muestraColorSecundario" class="color-circle"></div><br>
-                                    </div>
 
-                                    <label for="colorTexto">Color de Texto</label><br>
-                                    <div class="color-selector">
-                                        <input type="color" id="colorTexto" value="<?php echo htmlspecialchars($chatbot['colorTexto'] ?? '#000000'); ?>" oninput="actualizarColores()">
-                                        <div id="muestraColorTexto" class="color-circle"></div><br>
+                                <label for="colorAcento">Color de Acento</label><br>
+                                <div class="color-selector">
+                                    <input type="color" id="colorAcento" value="<?php echo htmlspecialchars($chatbot['colorAcento'] ?? '#383838' ); ?>" oninput="actualizarColores()">
+                                    <div id="muestraColorAcento" class="color-circle"></div><br>
+                                </div>
 
-                                    </div>
+                                <label for="colorUsuario">Respuesta Usuario</label><br>
+                                <div class="color-selector">
+                                    <input type="color" id="colorRespuestaUsuario" value="<?php echo htmlspecialchars($chatbot['colorRespuestaUsuario'] ?? '#219ebc') ; ?>"
+                                        oninput="actualizarColores()">
+                                    <div id="muestraColorRespuestaUsuario" class="color-circle"></div><br>
                                 </div>
                             </div>
+                            <div class="nombre-colorc">
+                                <label for="colorSecundario">Color Secundario</label><br>
+                                <div class="color-selector">
+                                    <input type="color" id="colorSecundario" value="<?php echo htmlspecialchars($chatbot['colorSecundario'] ?? '#b6b6b6') ; ?>"
+                                        oninput="actualizarColores()">
+                                    <div id="muestraColorSecundario" class="color-circle"></div><br>
+                                </div>
 
-
-
+                                <label for="colorTexto">Color de Texto</label><br>
+                                <div class="color-selector">
+                                    <input type="color" id="colorTexto" value="<?php echo htmlspecialchars($chatbot['colorTexto'] ?? '#000000' ) ; ?>" oninput="actualizarColores()">
+                                    <div id="muestraColorTexto" class="color-circle"></div><br>
+    
+                                </div>
+                                
+                            </div>
+                        
+                                
+                        
 
                             <!-- Contenedor para cargar la imagen con icono adjunto -->
                             <div class="container-archivo">
@@ -173,26 +173,26 @@ if ($row['total'] >= 1 && isset($_GET['nuevo'])) {
                                 $logo = (!empty($chatbot['urlLogotipo'])) ? $chatbot['urlLogotipo'] : 'img/Logo_cabeza.svg';
                                 ?>
                                 <img src="<?php echo htmlspecialchars($logo); ?>" alt="Chatbot" class="chatbot-icon" id="chatbotIcon">
-                                <p class="txt-titulo-chat" id="txt-titulo-chat"><?php echo htmlspecialchars($chatbot['inp_nombre'] ?? 'IXAH'); ?></p>
+                                <p class="txt-titulo-chat" id="txt-titulo-chat"><?php echo htmlspecialchars($chatbot['inp_nombre'] ?? 'IXAH' ) ;?></p>
                                 <div class="container1">
                                     <div class="chatbot-min" title="Minimizar" onclick="toggleChatbot()">
                                         <svg class="icono-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                                            <path d="M 6 12 C 6 11.449219 6.449219 11 7 11 L 17 11 C 17.550781 11 18 11.449219 18 12 C 18 12.550781 17.550781 13 17 13 L 7 13 C 6.449219 13 6 12.550781 6 12 Z" />
-                                        </svg>
+                                        <path d="M 6 12 C 6 11.449219 6.449219 11 7 11 L 17 11 C 17.550781 11 18 11.449219 18 12 C 18 12.550781 17.550781 13 17 13 L 7 13 C 6.449219 13 6 12.550781 6 12 Z"/>
+                                    </svg>
 
                                     </div>
                                     <div class="chatbot-close" title="Cerrar" onclick="cerrar()">
-                                        <svg class="icono-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="miter">
-                                            <path d="M 16 8 L 8 16 M 8 8 L 16 16" />
-                                        </svg>
+                                         <svg class="icono-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="miter">
+                                            <path d="M 16 8 L 8 16 M 8 8 L 16 16"/>
+                                            </svg>
                                     </div>
                                 </div>
                             </div>
                             <div class="chatbot-content">
                                 <p class="txt-chatbot">
-                                    <?php
-                                    $saludo = !empty($chatbot['inp_saludo'])
-                                        ? $chatbot['inp_saludo']
+                                    <?php 
+                                    $saludo = !empty($chatbot['inp_saludo']) 
+                                        ? $chatbot['inp_saludo'] 
                                         : '¡Hola! Soy IXAH, tu asistente virtual en el mundo laboral. ¿En qué te puedo ayudar hoy?';
                                     echo htmlspecialchars($saludo);
                                     ?>
@@ -205,7 +205,7 @@ if ($row['total'] >= 1 && isset($_GET['nuevo'])) {
                             </div>
 
                             <div class="user-message2">
-                                <p>vurzolakku@gufum.com</p>
+                                    <p>vurzolakku@gufum.com</p>
                             </div>
                             <div id="user-input-container" class="user-input-container">
                                 <input type="text" id="user-input" placeholder="Escribe aquí tu respuesta...">
@@ -216,30 +216,24 @@ if ($row['total'] >= 1 && isset($_GET['nuevo'])) {
                 </div>
             </div>
     </main>
-    <!--Modal de integración -->
-    <?php include 'modalIntegracion.php'; ?>
-    <!--Guia Flotante
-    <button id="btnGuiaFlotante" class="fab-guia" title="Guía" onclick="activarRecorrido()">
-        ?
-    </button>-->
-    <?php include 'guiaFlotante.php'; ?>
+<!--Modal de integración -->
+    <?php require_once 'modalIntegracion.php'; ?>
+
 
     <!-- jQuery y Bootstrap JavaScript -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    <script>
-        const id_chatbot = <?php echo isset($id_chatbot) ? $id_chatbot : 'null'; ?>;
+    
+            <script>
+        const id_chatbot = <?php echo json_encode($id_chatbot); ?>;
         if (id_chatbot) {
             localStorage.setItem("id_chatbot", id_chatbot);
         }
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+        </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/estilo.js"></script>
     <script src="js/custom.js"></script>
     <script src="js/formularioIntegracion.js"></script>
-
-
-    <script>
+     <script>
         window.appData = {
             nombrePlan: '<?php echo $planUsuario; ?>',
             estadoSuscripcion: '<?php echo $estadoSuscripcion; ?>',
@@ -262,22 +256,6 @@ if ($row['total'] >= 1 && isset($_GET['nuevo'])) {
     <script src="js/guardar.js"></script>
     <script src="js/menuLateral.js" type="module"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@1.3.1/dist/driver.css" />
-    <!--<script>
-        window.IXAH_CONFIG = {
-            tieneChatbot: <?php echo $esEdicion ? 'true' : 'false'; ?>,
-            modoCreacion: <?php echo $esEdicion ? 'false' : 'true'; ?>
-        };
-    </script>-->
-    <link rel="stylesheet" href="css/tour_ixah.css">
-    <script src="https://cdn.jsdelivr.net/npm/driver.js@1.3.1/dist/driver.js.iife.js"></script>
-    <script src="js/tour_ixah.js"></script>
-
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@1.3.1/dist/driver.css" />
-    <link rel="stylesheet" href="css/tour_ixah.css">
-    <script src="https://cdn.jsdelivr.net/npm/driver.js@1.3.1/dist/driver.js.iife.js"></script>
-    <script src="js/tour_ixah.js"></script>
 
 </body>
 

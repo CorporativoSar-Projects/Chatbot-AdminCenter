@@ -2,7 +2,6 @@
 
 include('modelo/obtenerDatos.php');
 include 'modelo/consultas_menu.php';
-
 ?>
 
 <!DOCTYPE html>
@@ -12,7 +11,6 @@ include 'modelo/consultas_menu.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/bootstrap.min.css">
-    <script src="js/cargaEstilos.js"></script>
     <link rel="stylesheet" href="css/sty.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -21,7 +19,7 @@ include 'modelo/consultas_menu.php';
     <link rel="shortcut icon" href="img/Logo_cabeza.svg" />
 </head>
 
-<body class="pagina-finalizar">
+<body>
 
     <div class="rectangulo-container">
         <a href="menu.php">
@@ -33,7 +31,7 @@ include 'modelo/consultas_menu.php';
         <?php include 'DatosMenu.php'; ?>
     </header>
 
-    <main id="contenidoPrincipal">
+    <main>
         <div class="container-prinF">
             <div class="container-bienv">
                 <p class="txt-nombre-chat">ChatBot</p>
@@ -45,7 +43,7 @@ include 'modelo/consultas_menu.php';
                         </a>
                         <a href="#" class="btnContinuar" id="btnContinuar">
                             <span class="btn-text">Continuar</span>
-                            <img src="img/flecha-c.png" class="btn-icon" style="width: 17px;">
+                            <img src="img/flecha-c.png" class="btn-icon" style="width: 15px;">
                         </a>
                     </div>
                     <div class="btn-group">
@@ -161,7 +159,6 @@ include 'modelo/consultas_menu.php';
                                 <button type="submit" class="btnGuardarurl" id="btnGuardarurl">
                                     <i class="fas fa-save"></i>
                                 </button>
-
                             </div>
                             <div class="generar-container">
                                 <button type="submit" id="myBtn" class="btnGenerar" data-idadm="<?= $_SESSION['id_adm'] ?>" data-toggle="modal" data-target="#myModal">
@@ -169,15 +166,18 @@ include 'modelo/consultas_menu.php';
                                 </button>
 
                                 <!-- Nuevo botón a la derecha -->
-                                <button type="button" id="btnInteractivo" class="btnInteractivo" onclick="window.open('pagina_pruebas.php', '_blank')">
-                                    <span>Modo Interactivo</span>
+                                <button type="button" id="btnInteractivo" class="btnInteractivo" onclick="window.location.href='pagina_pruebas.php'">
+                                    <span class="btnInteractivo">Modo Interactivo</span>
                                 </button>
                             </div>
+
+                            <!--    
+                            <button type="button" id="btnInteractivo" class="btnInteractivo" onclick="window.open('pagina_pruebas.php', '_blank')">
+                                    <span>Modo Interactivo</span>
+                                </button>
+                            </div>-->
                         </div>
-
-
                     </div>
-
                 </div>
             </div>
 
@@ -231,8 +231,6 @@ include 'modelo/consultas_menu.php';
 
     <!--Modal de integración -->
     <?php include 'modalIntegracion.php'; ?>
-    <!--Guia Flotante-->
-    <?php include 'guiaFlotante.php'; ?>
 
     <!-- jQuery y Bootstrap JavaScript -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -242,39 +240,30 @@ include 'modelo/consultas_menu.php';
     <script src="js/custom.js"></script>
     <script src="js/menuLateral.js" type="module"></script>
     <script src="js/guardar.js"></script>
-    <script src="js/formularioIntegracion.js"></script>
-    <script>
-        window.appData = {
-            nombrePlan: '<?php echo $planUsuario; ?>',
-            estadoSuscripcion: '<?php echo $estadoSuscripcion; ?>',
-            sftpActivo: <?php echo $sftpActivo; ?>,
-            sftpConfig: <?php
-                        echo json_encode([
-                            'tipo_integracion' => $sftpData['tipo_integracion'] ?? 'estandar',
-                            'activo' => isset($sftpData['activo']) ? (int)$sftpData['activo'] : 0,
-                            'servidor' => $sftpData['servidor'] ?? '',
-                            'puerto' => $sftpData['puerto'] ?? '22',
-                            'usuario' => $sftpData['usuario'] ?? '',
-                            'contrasena' => '',
-                            'rutaDestino' => $sftpData['rutaDestino'] ?? '',
-                            'url_estandar' =>  $sftpData['url_estandar'] ?? ''
-                        ]);
-                        ?>
-        };
-    </script>
-    <script src="js/guardadoGeneral.js"></script>
-    <script src="js/urlFuncionamiento.js"></script>
-    <!-- <script>
-        window.IXAH_CONFIG = {
-            tieneChatbot: <?php echo $esEdicion ? 'true' : 'false'; ?>,
-            modoCreacion: <?php echo $esEdicion ? 'false' : 'true'; ?>
-        };
-    </script>-->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@1.3.1/dist/driver.css" />
-    <link rel="stylesheet" href="css/tour_ixah.css">
-    <script src="https://cdn.jsdelivr.net/npm/driver.js@1.3.1/dist/driver.js.iife.js"></script>
-    <script src="js/tour_ixah.js"></script>
-
+    <<<<<<< HEAD=======<script src="js/formularioIntegracion.js">
+        </script>
+        <script>
+            window.appData = {
+                nombrePlan: '<?php echo $planUsuario; ?>',
+                estadoSuscripcion: '<?php echo $estadoSuscripcion; ?>',
+                sftpActivo: <?php echo $sftpActivo; ?>,
+                sftpConfig: <?php
+                            echo json_encode([
+                                'tipo_integracion' => $sftpData['tipo_integracion'] ?? 'estandar',
+                                'activo' => isset($sftpData['activo']) ? (int)$sftpData['activo'] : 0,
+                                'servidor' => $sftpData['servidor'] ?? '',
+                                'puerto' => $sftpData['puerto'] ?? '22',
+                                'usuario' => $sftpData['usuario'] ?? '',
+                                'contrasena' => '',
+                                'rutaDestino' => $sftpData['rutaDestino'] ?? '',
+                                'url_estandar' =>  $sftpData['url_estandar'] ?? ''
+                            ]);
+                            ?>
+            };
+        </script>
+        <script src="js/guardadoGeneral.js"></script>
+       
+        <script src="js/urlFuncionamiento.js"></script>
 
 </body>
 

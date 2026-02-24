@@ -73,6 +73,7 @@ function actualizarContador() {
 
 txtBurbuja.addEventListener('keyup', () => {
     divCopiaBurb.innerHTML = txtBurbuja.value;
+
     localStorage.setItem('inp_burbuja', txtBurbuja.value);
     actualizarContador();
 });
@@ -104,7 +105,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 //DOM 
-/*document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function () {
     const btnGuardar = document.getElementById("btnGuardarBurbuja");
 
     btnGuardar.addEventListener("click", function (event) {
@@ -148,4 +149,4 @@ document.addEventListener('DOMContentLoaded', function () {
             alert("Error de red o del servidor.");
         })
     });
-});*/
+});

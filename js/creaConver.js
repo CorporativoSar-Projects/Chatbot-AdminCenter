@@ -15,36 +15,6 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-// --- Función para crear contador dinámico ---
-function agregarContador(input) {
-    const max = input.getAttribute('maxlength') || 40;
-    let contador = document.createElement('span');
-    contador.className = 'contador-caracteres';
-    contador.style.fontSize = '12px';
-    contador.style.color = 'gray';
-    contador.style.marginLeft = '5px';
-    contador.textContent = `${input.value.length} / ${max}`;
-    
-    // Insertar el contador después del input
-    input.parentNode.insertBefore(contador, input.nextSibling);
-
-    // Actualizar contador en tiempo real
-    input.addEventListener('input', () => {
-        contador.textContent = `${input.value.length} / ${max}`;
-    });
-}
-
-// --- Función para inicializar inputs y contadores ---
-function initInputConContador(inputId, localStorageKey, defaultValue = "") {
-    const input = document.getElementById(inputId);
-    input.value = localStorage.getItem(localStorageKey) || defaultValue || "";
-    agregarContador(input);
-
-    // Guardar cambios en localStorage
-    input.addEventListener('input', () => {
-        localStorage.setItem(localStorageKey, input.value);
-    });
-}
 
 // Función para manejar el estado activo de los botones
 function handleButtonClick(event) {
@@ -63,14 +33,14 @@ function impMenu1(event) {
         <div class="container-crear-conver">
             <label class="label-nombrechat2">Mensaje inicial de la conversación</label><br>
             <input type="text" name="inp_mensaje_usuario" id="inp_mensaje_usuario" placeholder="Escribe"
-                class="inp-mensaje-usuario-crear" required maxlength="40"><br>
+                class="inp-mensaje-usuario-crear" required><br>
             
             <label class="label-nombrechat">Origen de búsqueda</label><br>
-            <input type="text" name="inp_columna" id="inp_columna"
-                class="input-columna-crear value="category_ix" required  disabled><br>
+            <input type="text" name="inp_columna" id="inp_columna" placeholder="Escribe"
+                class="input-columna-crear" required ><br>
 
             <label class="label-nombrechat">URL del informe</label><br>
-            <input type="url" name="inp_url_informe" id="inp_url_informe" placeholder="https://tusitio.com/vacantes.csv"
+            <input type="url" name="inp_url_informe" id="inp_url_informe" placeholder="https://ejemplo.csv"
                     class="input-columna-crear"><br>
 
             
@@ -79,10 +49,8 @@ function impMenu1(event) {
     `;
   document.getElementById("imprimir").innerHTML = stringMenu;
 
-  initInputConContador("inp_mensaje_usuario", "inp_mensaje_usuario", datosChatbot.inp_mensaje_usuario);
-
   //Recupera los datos del localStogare
-  document.getElementById("inp_mensaje_usuario").value = localStorage.getItem("inp_mensaje_usuario") || datosChatbot.inp_mensaje_usuario || "";
+    document.getElementById("inp_mensaje_usuario").value = localStorage.getItem("inp_mensaje_usuario") || datosChatbot.inp_mensaje_usuario || "";
   document.getElementById("inp_columna").value = localStorage.getItem("inp_columna") || datosChatbot.inp_columna || "";
   document.getElementById("inp_url_informe").value = localStorage.getItem("inp_url_informe") || datosChatbot.inp_url_informe || "";
 
@@ -91,22 +59,6 @@ function impMenu1(event) {
   /* <label class="label-nombrechat">URL de origen de datos</label><br>
             <input type="text" name="inp-columna" id="inp-url" placeholder="Escribe"
                 class="input-columna-crear" required><br> */
-
-  // Seguridad extra: evitar que se modifique desde inspección
-  const campo = document.getElementById("inp_columna");
-  const valorFijo = "category_ix";
-  campo.value = valorFijo;
-  Object.defineProperty(campo, "value", {
-    writable: false,
-    configurable: false,
-  });
-
-  // Reaplicar cada 500ms por si intentan modificarlo
-  setInterval(() => {
-    if (campo.value !== valorFijo) campo.value = valorFijo;
-    campo.setAttribute("disabled", true);
-    campo.setAttribute("readonly", true);
-  }, 500);
 }
 
 function impMenu2(event) {
@@ -116,17 +68,14 @@ function impMenu2(event) {
         <div class="container-crear-conver">
             <label class="label-nombrechat2">Mensaje inicial de la conversación</label><br>
             <input type="text" name="inp_mensaje_usuario2" id="inp_mensaje_usuario2" placeholder="Escribe"
-                class="inp-mensaje-usuario-crear" required maxlength="40"><br>
+                class="inp-mensaje-usuario-crear" required><br>
           
             <label class="label-nombrechat">Origen de búsqueda</label><br>
-            <input type="text" name="inp_columna2" id="inp_columna2" value="location_ix"
-                class="input-columna-crear" required  disabled><br>
+            <input type="text" name="inp_columna2" id="inp_columna2" placeholder="Escribe"
+                class="input-columna-crear" required><br>
         </div>
     `;
   document.getElementById("imprimir").innerHTML = stringMenu;
-
-   initInputConContador("inp_mensaje_usuario2", "inp_mensaje_usuario2", datosChatbot.inp_mensaje_usuario3);
-
   //Recupera los datos del localStorage
    document.getElementById("inp_mensaje_usuario2").value = localStorage.getItem("inp_mensaje_usuario2") || datosChatbot.inp_mensaje_usuario2 || "";
   document.getElementById("inp_columna2").value = localStorage.getItem("inp_columna2") || datosChatbot.inp_columna2 || "";
@@ -135,20 +84,6 @@ function impMenu2(event) {
   /*   <label class="label-nombrechat">URL de origen de datos</label><br>
             <input type="text" name="inp-columna" id="inp-url" placeholder="Escribe"
                 class="input-columna-crear" required><br> */
-
-  const campo = document.getElementById("inp_columna2");
-  const valorFijo = "location_ix";
-  campo.value = valorFijo;
-  Object.defineProperty(campo, "value", {
-    writable: false,
-    configurable: false,
-  });
-
-  setInterval(() => {
-    if (campo.value !== valorFijo) campo.value = valorFijo;
-    campo.setAttribute("disabled", true);
-    campo.setAttribute("readonly", true);
-  }, 500);          
 }
 
 function impMenu3(event) {
@@ -158,20 +93,20 @@ function impMenu3(event) {
         <div class="container-crear-conver">
             <label class="label-nombrechat2">Mensaje inicial de la conversación</label><br>
             <input type="text" name="inp_mensaje_usuario3" id="inp_mensaje_usuario3" placeholder="Escribe"
-                class="inp-mensaje-usuario-crear" required maxlength="40"><br>
+                class="inp-mensaje-usuario-crear" required><br>
            
             
             <label class="label-nombrechat">Origen de búsqueda</label><br>
-            <input type="text" name="inp_columna3" id="inp_columna3" value="email_ix"
+            <input type="text" name="inp_columna3" id="inp_columna3" placeholder="Escribe"
                 class="input-columna-crear" required><br>
       
             <label class="label-nombrechat">URL del informe</label><br>
             <input type="url" name="inp_url_informe3" id="inp_url_informe3" placeholder="https://tusitio.com/candidatos.csv" class="input-columna-crear"><br>
+
                      
         </div>
     `;
   document.getElementById("imprimir").innerHTML = stringMenu;
- initInputConContador("inp_mensaje_usuario3", "inp_mensaje_usuario3", datosChatbot.inp_mensaje_usuario3);
 
   //Recupera los datos del localStogare
     document.getElementById("inp_mensaje_usuario3").value = localStorage.getItem("inp_mensaje_usuario3") || datosChatbot.inp_mensaje_usuario3 || "";
@@ -182,21 +117,6 @@ function impMenu3(event) {
   /* <label class="label-nombrechat">URL de origen de datos</label><br>
             <input type="text" name="inp-columna" id="inp-url" placeholder="Escribe"
                 class="input-columna-crear" required><br> */
-
-  
-  const campo = document.getElementById("inp_columna3");
-  const valorFijo = "email_ix";
-  campo.value = valorFijo;
-  Object.defineProperty(campo, "value", {
-    writable: false,
-    configurable: false,
-  });
-
-  setInterval(() => {
-    if (campo.value !== valorFijo) campo.value = valorFijo;
-    campo.setAttribute("disabled", true);
-    campo.setAttribute("readonly", true);
-  }, 500);
 }
 
 // Añadir eventos a los botones
@@ -244,7 +164,7 @@ function validarURL(valor) {
     }
 }
 
-/*document.getElementById("btnGuardarConver").addEventListener("click", function () {
+document.getElementById("btnGuardarConver").addEventListener("click", function () {
     // Recuperar id_chatbot desde localStorage
     const id_chatbot = localStorage.getItem("id_chatbot");
     if (!id_chatbot) {
@@ -289,7 +209,7 @@ function validarURL(valor) {
     };
 
     // Envía los datos al archivo PHP mediante fetch
-   /* fetch("modelo/guardar_datos.php", {
+    fetch("modelo/guardar_datos.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -298,18 +218,18 @@ function validarURL(valor) {
         })
     })
     .then(response => response.json()) // Convierte la respuesta a formato JSON
-    .then(response => {
+    /*.then(response => {
         if (response.success) {
             alert("Conversación guardada correctamente.");
         } else {
             console.error("Error en el backend:", response.error);
             alert("Error al guardar la conversación: " + response.error);
         }
-    })
+    })*/
     .catch(err => {
         console.error("Error al guardar en base de datos", err);
       alert("Error de red o del servidor.");
     });
-});*/
+});
 
 

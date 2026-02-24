@@ -45,26 +45,14 @@ resetForm.addEventListener("submit", function (event) {
   event.preventDefault();
 
   const email = emailInput.value.trim();
-   const submitButton = resetForm.querySelector('button[type="submit"]'); // Botón de enviar
-
-
   if (!email) {
     /* Si el correo no es valido el correo aparecera un mensaje de error */
     showCustomAlert("Por favor, ingresa un correo electrónico válido.");
     return;
   }
-  // 🔒 Desactivar el botón y mostrar estado de envío
-   submitButton.disabled = true;
-  const originalText = submitButton.textContent;
-  const originalBg = submitButton.style.backgroundColor;
-  submitButton.style.backgroundColor = "#7b7b7b";
-  submitButton.textContent = "Enviando...";
-  
-
   /* Función que vincula al archivo de php para enviar el correo con la contraseña aleatoria */
   const newPassword = generateRandomPassword();
-
-
+  console.log({ email, newPassword });
   fetch("send-reset-password.php", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -81,17 +69,9 @@ resetForm.addEventListener("submit", function (event) {
         showCustomAlert("Error al enviar el correo electrónico.");
       }
     })
-     .catch((error) => {
-      console.error("Error:", error);
-      showCustomAlert("Ocurrió un error al enviar la solicitud.");
-    })
-    .finally(() => {
-      //  Restaurar el botón después del envío
-      submitButton.disabled = false;
-      submitButton.textContent = originalText;
-      submitButton.style.backgroundColor = originalBg;
-    });
+    .catch((error) => console.error("Error:", error));
 });
+
 //Función general para cerrar la ventana al presionar el botón, hacer click afuera y con escape
 
 export default function showCustomAlert(message) {

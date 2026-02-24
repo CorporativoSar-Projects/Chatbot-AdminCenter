@@ -1,11 +1,10 @@
 <?php
-
 include('modelo/obtenerDatos.php');
 include 'modelo/consultas_menu.php';
 
 
-//$id_chatbot = $_SESSION['id_chatbot'] ?? null;
-$esEdicion = !empty($id_chatbot);
+
+$id_chatbot = $_SESSION['id_chatbot'] ?? null;
 
 ?>
 
@@ -16,7 +15,6 @@ $esEdicion = !empty($id_chatbot);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="js/cargaEstilos.js"></script>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/sty.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
@@ -24,7 +22,7 @@ $esEdicion = !empty($id_chatbot);
     <link rel="shortcut icon" href="img/Logo_cabeza.svg" />
 </head>
 
-<body class="pagina-burbuja">
+<body>
 
     <div class="rectangulo-container">
         <a href="menu.php">
@@ -45,10 +43,10 @@ $esEdicion = !empty($id_chatbot);
             </ul>
         </nav> -->
 
-        <?php include 'DatosMenu.php'; ?>
+       <?php include 'DatosMenu.php'; ?>
     </header>
 
-    <main id="contenidoPrincipal">
+    <main>
         <div class="container-prinBur">
             <div class="container-bienv">
                 <p class="txt-nombre-chat">ChatBot</p>
@@ -62,7 +60,7 @@ $esEdicion = !empty($id_chatbot);
 
                         <a href="#" class="btnContinuar" id="btnContinuar">
                             <span class="btn-text">Continuar</span>
-                            <img src="img/flecha-c.png" class="btn-icon" style="width: 17px;">
+                            <img src="img/flecha-c.png" class="btn-icon" style="width: 15px;">
                         </a>
                     </div>
                     <div class="btn-group">
@@ -114,6 +112,7 @@ $esEdicion = !empty($id_chatbot);
                             </span>
                         </div>
 
+
                         <div class="container-colors">
                             <div class="nombre-colord">
                                 <label for="colorPrimarioBurbuja">Color Primario</label><br>
@@ -127,7 +126,7 @@ $esEdicion = !empty($id_chatbot);
                             <div class="nombre-colorc">
                                 <label for="colorTextoBurbuja">Color de texto</label><br>
                                 <div class="color-selector">
-                                    <input type="color" id="colorTextoBurbuja" value="<?php echo htmlspecialchars($chatbot['colorTexto'] ?? '#000000'); ?>"
+                                    <input type="color" id="colorTextoBurbuja" value="<?php echo htmlspecialchars($chatbot['colorTexto'] ?? '#000000' ) ; ?>"
                                         oninput="actualizarColores()">
                                     <div id="muestraColorTextoBurbuja" class="color-circle"></div><br>
                                 </div>
@@ -140,8 +139,8 @@ $esEdicion = !empty($id_chatbot);
                         <div id="chatbot-toggle" class="chat-toggle">
                             <span id="chatTextBurb" class="chat-text"><?php echo !empty($chatbot['inp_burbuja']) ? htmlspecialchars($chatbot['inp_burbuja']) : '¡Encuentra Vacantes!'; ?></span>
                             <?php
-                            $logo = (!empty($chatbot['urlLogotipo'])) ? $chatbot['urlLogotipo'] : 'img/Logo_cabeza.svg';
-                            ?>
+                                $logo = (!empty($chatbot['urlLogotipo'])) ? $chatbot['urlLogotipo'] : 'img/Logo_cabeza.svg';
+                                ?>
                             <img id="chatBubbleIcon" src="<?php echo htmlspecialchars($logo); ?>" alt="Chat" class="toggle-icon">
                         </div>
 
@@ -151,18 +150,15 @@ $esEdicion = !empty($id_chatbot);
                 </div>
     </main>
     <?php include 'modalIntegracion.php'; ?>
-    <!--Guia Flotante-->
-    <?php include 'guiaFlotante.php'; ?>
-
     <!-- jQuery y Bootstrap JavaScript -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/burbuja.js"></script>
     <script>
-        const id_chatbot = <?php echo json_encode($id_chatbot); ?>;
-        if (id_chatbot) {
-            localStorage.setItem("id_chatbot", id_chatbot);
-        }
+    const id_chatbot = <?php echo json_encode($id_chatbot); ?>;
+    if (id_chatbot) {
+        localStorage.setItem("id_chatbot", id_chatbot);
+    }
     </script>
     <script src="js/custom.js"></script>
     <script src="js/menuLateral.js" type="module"></script>
@@ -187,19 +183,8 @@ $esEdicion = !empty($id_chatbot);
                         ?>
         };
     </script>
-    <!-- <script>
-        window.IXAH_CONFIG = {
-            tieneChatbot: <?php echo $esEdicion ? 'true' : 'false'; ?>,
-            modoCreacion: <?php echo $esEdicion ? 'false' : 'true'; ?>
-        };
-    </script>-->
     <script src="js/guardadoGeneral.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@1.3.1/dist/driver.css" />
-    <link rel="stylesheet" href="css/tour_ixah.css">
-    <script src="https://cdn.jsdelivr.net/npm/driver.js@1.3.1/dist/driver.js.iife.js"></script>
-    <script src="js/tour_ixah.js"></script>
-
 
 </body>
 

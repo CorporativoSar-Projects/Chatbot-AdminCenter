@@ -6,12 +6,12 @@ const divCopiaSaludo = document.getElementById('txt-chatbot');
  txtSaludo.addEventListener('keyup', () => {
     divCopiaSaludo.innerHTML = txtSaludo.value;
     // Guardar el saludo en el Local Storage
-    localStorage.setItem('inp_saludo', txtSaludo.value);
+    localStorage.setItem('saludoChatbot', txtSaludo.value);
 });
 
 // Recuperar el saludo desde el Local Storage cuando la página se carga
 document.addEventListener('DOMContentLoaded', () => {
-    const saludoGuardado = localStorage.getItem('inp_saludot');
+    const saludoGuardado = localStorage.getItem('saludoChatbot');
     if (saludoGuardado) {
         txtSaludo.value = saludoGuardado;
         divCopiaSaludo.innerHTML = saludoGuardado;

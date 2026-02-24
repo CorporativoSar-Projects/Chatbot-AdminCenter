@@ -1,19 +1,12 @@
-<?php
-include 'modelo/consultas_menu.php';
-?>
-
 <!-- modalIntegracion.php -->
-<div class="modal fade" id="sftpModal" tabindex="-1" role="dialog" aria-labelledby="sftpModalLabel">
+<div class="modal fade" id="sftpModal" tabindex="-1" role="dialog" aria-labelledby="sftpModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
 
-    <div class="modal-content" style="border-radius: 20px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.25);">
-
-      <!-- Header con título y botón X -->
-      <div class="modal-header border-0">
-        <h5 class="modal-title fw-bold" id="sftpModalLabel">Configuración de Integración</h5>
-        <button type="button" class="btn-close" id="cerrarIntegracion" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      <div class="modal-header">
+        <h5 class="modal-title" id="sftpModalLabel">Configuración de Integración</h5>
+        <span class="cerrar-modal" id="cerrarIntegracion" data-dismiss="modal">&times;</span>
       </div>
-
 
       <div class="modal-body" style="margin-left: 40px">
         <!-- Selector de tipo de integración -->
@@ -40,10 +33,10 @@ include 'modelo/consultas_menu.php';
         </form>
 
         <!-- 🔹 Formulario Integración SFTP -->
+>>>>>>> JessicaMoralesAguilar
         <form id="formIntegracionSFTP">
           <div class="d-flex align-items-center mb-3">
-            <input class="form-check-input small-checkbox me-2" type="checkbox" id="sftpCheckbox"
-              <?php echo ($sftpActivo == 1) ? 'checked' : ''; ?>>
+            <input class="form-check-input small-checkbox me-2" type="checkbox" id="sftpCheckbox">
             <label for="sftpCheckbox" class="m-0">Activar integración SFTP</label>
           </div>
 
@@ -65,7 +58,7 @@ include 'modelo/consultas_menu.php';
       </div>
 
       <div class="modal-footer1">
-        <button class="submit-button-form" id="guardarIntegracion" type="submit" form="formIntegracionSFTP">Guardar</button>
+        <button class="submit-button-form" type="submit" form="formIntegracionSFTP">Guardar</button>
       </div>
 
     </div>

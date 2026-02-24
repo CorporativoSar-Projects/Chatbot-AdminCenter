@@ -1,10 +1,6 @@
-<!-- Función que permite que la validación del usuario sea correcta y 
-si no esta validado es redirigido a la página de inicio -->
-
-<!-- Las demás secciones cuentán con esta función con el fin de proteger la información de la empresa -->
 <?php
-include 'modelo/consultas_menu.php';
 
+include 'modelo/consultas_menu.php';
 ?>
 
 <!DOCTYPE html>
@@ -21,11 +17,6 @@ include 'modelo/consultas_menu.php';
   <title>Home</title>
   <link rel="shortcut icon" href="img/Logo_cabeza.svg" />
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script>
-    window.IXAH_CONFIG = {
-      tieneChatbot: <?= count($chatbots) > 0 ? 'true' : 'false' ?>
-    };
-  </script>
 </head>
 
 <body>
@@ -49,10 +40,15 @@ include 'modelo/consultas_menu.php';
                         
                     </ul>
                 </li> -->
+        <!--<li><a href="vacantes.php" class="txt-home">Vacantes</a></li>-->
+        <!--<li><a href="menu.php" class="txt-home">Home</a></li>-->
+        <!--<li><a href="vacantes.php" class="txt-home">Vacantes</a></li>-->
+        <!--<li><a href="chatbot.php" class="txt-home">ChatBots</a></li>-->
+        <!--<li><a href="log_errores.php" class ="txt-home">Errores del ChatBot</a></li>-->
       </ul>
     </nav>
-    <?php include 'DatosMenu.php'; ?>
 
+    <?php include 'DatosMenu.php'; ?>
   </header>
 
   <main id="contenidoPrincipal">
@@ -110,54 +106,6 @@ include 'modelo/consultas_menu.php';
 
   </main>
 
-  <!-- Modal Integración SFTP 
-  <div class="modal fade" id="sftpModal" tabindex="-1" role="dialog" aria-labelledby="sftpModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-
-       Header 
-        <div class="modal-header">
-          <h5 class="modal-title" id="sftpModalLabel">Configuración de Integración</h5>
-          <span class="cerrar-modal" id="cerrarIntegracion" data-dismiss="modal">&times;</span>
-        </div>
-
-        Body
-        <div class="modal-body" style="margin-left: 40px">
-
-          <form id="formIntegracionSFTP">
-
-            <div class="d-flex align-items-center mb-3">
-              <input class="form-check-input small-checkbox me-2" type="checkbox" id="sftpCheckbox"
-                >
-              <label for="sftpCheckbox" class="m-0">Activar integración SFTP</label>
-            </div>
-            <label>Servidor:</label>
-            <input type="text" class="form-control custom-input" name="servidor" required />
-
-            <label>Puerto:</label>
-            <input type="text" class="form-control custom-input" name="puerto" value="22" readonly />
-
-            <label>Usuario:</label>
-            <input type="text" class="form-control custom-input" name="usuario" required />
-
-            <label>Contraseña:</label>
-            <input type="password" class="form-control custom-input" name="contrasena" />
-
-
-            <label>Ruta de Destino:</label>
-            <input type="text" class="form-control custom-input" name="rutaDestino" required />
-          </form>
-        </div>
-
-       Footer 
-        <div class="modal-footer1">
-          <button class="submit-button-form" type="submit" form="formIntegracionSFTP">Guardar</button>
-        </div>
-
-      </div>
-    </div>
-  </div>-->
-
 
   <div class="modal fade" id="modalAvisoCancelacion" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
@@ -199,22 +147,23 @@ include 'modelo/consultas_menu.php';
       </div>
     </div>
   </div>
+<!--<script src="js/IA/chatbotIA_dinamico.js"></script>-->
 
-  <!--Modal de integración -->
+
+<!--Modal de integración -->
   <?php include 'modalIntegracion.php'; ?>
-  <!--Guia Flotante-->
-  <?php include 'guiaFlotante.php'; ?>
-
   <!-- jQuery y Bootstrap JavaScript -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="js/loginError.js" type="module"></script>
   <script src="js/menuLateral.js" type="module"></script>
+  <script src="js/navegacion.js"></script>
   <script src="js/formularioIntegracion.js"></script>
 
 
   <script>
     window.appData = {
+        puedeVerIA: <?php echo $puedeVerIA; ?>,
       nombrePlan: '<?php echo $planUsuario; ?>',
       estadoSuscripcion: '<?php echo $estadoSuscripcion; ?>',
       sftpActivo: <?php echo $sftpActivo; ?>,
@@ -233,10 +182,8 @@ include 'modelo/consultas_menu.php';
     };
   </script>
   <script src="js/reactivar_plan.js"></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@1.3.1/dist/driver.css"/>
-  <link rel="stylesheet" href="css/tour_ixah.css">
-  <script src="https://cdn.jsdelivr.net/npm/driver.js@1.3.1/dist/driver.js.iife.js"></script>
-  <script src="js/tour_ixah.js"></script>
+   <!--<script src="js/IA/chatbotIA_dinamico.js"></script>-->
+  <script src="js/IA/chat-toggle.js"></script>
 
 </body>
 

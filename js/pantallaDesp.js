@@ -1,7 +1,6 @@
 // Seleccionar el input y el contenedor del texto del chatbot
 const txtDespedida = document.querySelector('#inp_despedida');
 const divCopiaDesp= document.getElementById('txt-chatbot-Desp');
-const contador = document.getElementById('contadorCaracteres');
 
 // Función para actualizar el contador
 function actualizarContador() {
@@ -36,10 +35,11 @@ txtDespedida.addEventListener('input', () => {
     divCopiaDesp.innerHTML = txtDespedida.value;
     localStorage.setItem('inp_despedida', txtDespedida.value);
     actualizarContador();
+
 });
 
 
-/*document.getElementById("btnGuardarDespedida").addEventListener("click", function () {
+document.getElementById("btnGuardarDespedida").addEventListener("click", function () {
     // Validar que haya un id_chatbot guardado
     const id_chatbot = localStorage.getItem("id_chatbot");
     if (!id_chatbot) {
@@ -75,4 +75,4 @@ txtDespedida.addEventListener('input', () => {
       console.error("Error al guardar en base de datos", err);
       alert("Error de red o del servidor.");
     });
-});*/
+});

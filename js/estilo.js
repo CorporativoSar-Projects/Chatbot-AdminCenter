@@ -71,6 +71,7 @@ function actualizarColores() {
     localStorage.setItem('colorRespuestaUsuario', colors['--color-respuesta-usuario']);
 }
 
+
 // ==========================
 // FUNCIÓN PARA NORMALIZAR LA URL DEL LOGO
 // ==========================
@@ -158,6 +159,7 @@ function previsualizarImagen() {
     }
 }
 
+
 // Cambio en tiempo real del logo al escribir la URL
 document.getElementById("urlLogotipo").addEventListener("input", function () {
     const rawURL = this.value.trim();
@@ -238,6 +240,23 @@ txtNombreChat.addEventListener('keyup', () => {
     actualizarContador();
 });
 
+// Función para previsualizar la imagen desde url
+function previsualizarImagen() {
+    const urlInput = document.getElementById('urlLogotipo');
+    const chatbotIcon = document.getElementById('chatbotIcon');
+    
+        if (urlInput.value.trim() !== '') {
+            const logoURL = urlInput.value;
+    
+            // Guardar la URL en localStorage
+            localStorage.setItem('chatbotLogo', logoURL);
+    
+            // Cambiar el logo en la página actual
+            chatbotIcon.src = logoURL;
+        } else {
+            chatbotIcon.src = 'img/logochiquito.png'; // Imagen por defecto
+        }
+}
     
 document.getElementById("btnGuardarEstilo").addEventListener("click", function () {
     const id_chatbot = localStorage.getItem("id_chatbot") || null;
@@ -269,9 +288,7 @@ document.getElementById("btnGuardarEstilo").addEventListener("click", function (
         data.id_chatbot = parseInt(id_chatbot);
     }
 
-
-    
-    /*fetch("modelo/guardar_datos.php", {
+    fetch("modelo/guardar_datos.php", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -301,6 +318,6 @@ document.getElementById("btnGuardarEstilo").addEventListener("click", function (
 .catch(err => {
      console.error("Error al guardar en base de datos", err);
         alert("Error de red o del servidor.");
-});*/
+});
     
 });

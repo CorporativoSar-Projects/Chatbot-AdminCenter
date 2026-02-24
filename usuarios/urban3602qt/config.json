@@ -1,15 +1,16 @@
 {
     "id_emp": "urban3602qt",
     "estilos": {
-        "colorPrimario": "#3ca6e5",
-        "colorSecundario": "#b6b6b6",
-        "colorTexto": "#000000",
-        "colorAcento": "#383838",
-        "colorRespuestaUsuario": "#219ebc",
-        "logo": "https://ixahcenter.giintapeinnovahue.com/img/Logo_cabeza.svg",
-        "nombreChatbot": "",
-        "burbuja": "",
-        "saludo": "bienvenido"
+
+        "colorPrimario": "#1e2be6",
+        "colorSecundario": "#403597",
+        "colorTexto": "#f5f0f0",
+        "colorAcento": "#4034e5",
+        "colorRespuestaUsuario": "#2140ba",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/6/61/Samsung_old_logo_before_year_2015.svg",
+        "nombreChatbot": "SamsungBot",
+        "burbuja": "¡Encuentra puestos!",
+        "saludo": "Hola Bienvenido estoy aqui para ayudarte."
     },
     "funcionamiento": {
         "urlChatbot": "https://chatbot.giintapeinnovahue.com/",
@@ -19,23 +20,28 @@
     "conversacion": [
         {
             "tema": "Buscar vacantes por categoría",
-            "mensaje": "",
+            "mensaje": "Busca vacantes por categoria",
             "columna": "category_ix",
-            "urlInforme": ""
+            "urlInforme": "http://localhost/Chatbot-AdminCenter/crearConversacion.php"
         },
         {
             "tema": "Buscar vacantes por ubicación",
-            "mensaje": "",
+            "mensaje": "Selecciona la ubicación que más te interese.",
             "columna": "location_ix",
-            "urlInforme": ""
+            "urlInforme": "http://localhost/Chatbot-AdminCenter/crearConversacion.php"
         },
         {
             "tema": "Seguimiento de mi postulación",
-            "mensaje": "",
+            "mensaje": "Mantente al día con tus postulaciones.",
             "columna": "email_ix",
-            "urlInforme": ""
+            "urlInforme": "https://chatbot.giintapeinnovahue.com/report_Candidate_status_test.csv "
         }
     ],
-    "despedida": "",
-    "vacantes": []
+    "despedida": "Gracias por usar samsungBot, esperamos haberte ayudado.",
+    "vacantes": [
+        "http://localhost/Chatbot-AdminCenter/crearConversacion.php",
+        "http://localhost/Chatbot-AdminCenter/crearConversacion.php",
+        "http://localhost/Chatbot-AdminCenter/crearConversacion.php"
+
+    ]
 }

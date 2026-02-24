@@ -12,8 +12,6 @@ if (!isset($_SESSION['id_adm'])) {
 
 include 'conexion_bd.php';
 
-$esEdicion = isset($_GET['id_chatbot']) && !empty($_GET['id_chatbot']);
-
 $id_adm = $_SESSION['id_adm'];
 
 // Plan y estado de la suscripción
@@ -41,6 +39,26 @@ if ($rowPlan = $resultPlan->fetch_assoc()) {
     $estadoSuscripcion = "inactivo";
 }
 
+// ===== Permiso para mostrar opciones del men�� lateral =====
+$planUsuarioNormalizado = strtolower($planUsuario);
+
+// Planes que NO deben ver el men�� admin
+$planesBloqueadosMenu = [
+    'basicoMensual',
+    'basicoAnual',
+    'free'
+];
+
+// Normalizar planes del array
+$planesBloqueadosMenu = array_map('strtolower', $planesBloqueadosMenu);
+
+// Validaci��n final
+$puedeVerMenuAdmin = !in_array(
+    $planUsuarioNormalizado,
+    $planesBloqueadosMenu
+);
+
+
 // ID de empresa
 $sqlEmp = "SELECT Empresa_id_emp FROM administrador WHERE id_adm = ?";
 $stmtEmp = $conexion->prepare($sqlEmp);
@@ -56,6 +74,14 @@ $sqlSFTP->execute();
 $resultSFTP = $sqlSFTP->get_result();
 $sftpData = $resultSFTP->fetch_assoc() ?: [];
 $sftpActivo = (int)($sftpData['activo'] ?? 0);
+
+
+$planesPermitidos = ['plusMensual', 'plusAnual'];
+
+$puedeVerIA = (
+    in_array($planUsuario, $planesPermitidos) &&
+    $estadoSuscripcion === 'activo'
+) ? 1 : 0;
 
 // Chatbots del administrador
 $sql = "SELECT c.id_chatbot, c.inp_nombre, t.nombre_tipo_chatbot

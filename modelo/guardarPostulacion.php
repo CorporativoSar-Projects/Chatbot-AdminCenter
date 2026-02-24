@@ -14,7 +14,7 @@ header('Content-Type: application/json');
 session_start();
 
 // --- CONTROL DE EXPIRACIÓN DE SESIÓN (30 minutos) ---
-if (isset($_SESSION['token_validado']) && isset($_SESSION['token_expira'])) {
+if (isset($_SESSION['token_expira'])) {
     if (time() > $_SESSION['token_expira']) {
         // Sesión expirada → destruir
         session_unset();
@@ -41,7 +41,7 @@ $apellidom   = trim($_POST['apellidom_candidate'] ?? '');
 $telefono    = trim($_POST['tel_candidate'] ?? '');
 $id_emp      = $_POST['id_emp'] ?? null;
 $id_vacante  = $_POST['idRequisicion'] ?? null;
-$nombre_vacante = trim($_POST['nombreVacante'] ?? '');
+$linkVacante = trim($_POST['linkVacante'] ?? '');
 $tokenIngresado = trim($input['token'] ?? $_POST['token'] ?? '');
 
 // --- VALIDAR CORREO ---
@@ -74,6 +74,7 @@ $stmt->close();
 
 $cvAntiguo = $cvAntiguoDb;
 $cvAntiguoId = $cvAntiguoIdDb;
+
 
 
 if ($existe && $tokenValidadoBD == 1 && (!($_SESSION['token_validado'] ?? false) || ($_SESSION['correo_candidate'] ?? '') !== $correo)) {
@@ -129,7 +130,6 @@ if (($tokenValidoSesion && $correoSesion === $correo) || ($existe && $tokenValid
                 $plantilla = str_replace('{{LOGO_PIE_URL}}', 'https://giintapeinnovahue.com/images/logoGintapeCircle.png', $plantilla);
                 $plantilla = str_replace('{{TOKEN}}', $token, $plantilla);
                 $plantilla = str_replace('{{EXPIRA}}', $expiraToken, $plantilla);
-
 
             $mail->Body = $plantilla;
             $mail->send();
@@ -189,7 +189,7 @@ function borrarCVOneDrive($accessToken, $fileId)
 // --- FUNCION PARA SUBIR CV A ONEDRIVE ---
 function subirACvOneDrive($tmpPath, $nombreArchivo, $cvAntiguoId = null)
 {
-   $client_id     = ""; //el ID de la aplicación (Application ID).
+    $client_id     = ""; //el ID de la aplicación (Application ID).
     $client_secret = ""; //Clave secreta que da one Drive
     $tenant_id     = ""; //el identificador del directorio
     $userPrincipalName = "holaixah@giintapeinnovahueteam.onmicrosoft.com";
@@ -375,7 +375,6 @@ if ($id_emp && $id_vacante) {
         exit;
     }
 
-
     $stmtPost = $conexion->prepare("INSERT INTO postulaciones (Candidato_id_candidate, Empresa_id_emp, id_vacante, nombre_vacante) VALUES (?,?,?,?)");
     $stmtPost->bind_param("isss", $id_candidate, $id_emp, $id_vacante, $nombre_vacante);
     $stmtPost->execute();
@@ -419,25 +418,13 @@ if ($id_emp && $id_vacante) {
     $tmp = fopen('php://memory', 'r+');
     fwrite($tmp, $csvContent);
     rewind($tmp);
-    // Leemos encabezado
-    $header = fgetcsv($tmp);
-    if ($header === false) {
-        fclose($tmp);
-        echo json_encode(["error" => "CSV vacío o corrupto"]);
-        exit;
-    }
-
-    // Procesamos cada fila
+    fgetcsv($tmp); // encabezado
     while (($data = fgetcsv($tmp)) !== false) {
-        $key   = isset($data[0]) ? trim($data[0]) : '';
-        $value = isset($data[2]) ? trim($data[2]) : '';
-        if ($key !== '') {
-            $vacantesMap[$key] = $value;
-        }
+        $vacantesMap[trim($data[0])] = trim($data[2]);
     }
     fclose($tmp);
-
     // --- OBTENER RUTA DESTINO PARA CSV (REMOTA EN SFTP) ---
+
     $stmtRuta = $conexion->prepare("SELECT rutaDestino, servidor, puerto, usuario, contrasena FROM integracion_sftp WHERE Empresa_id_emp=? AND activo=1");
     $stmtRuta->bind_param("s", $id_emp);
     $stmtRuta->execute();
@@ -475,7 +462,7 @@ if ($id_emp && $id_vacante) {
     $stmtCSV = $conexion->prepare("
         SELECT c.nombre_candidate, c.apellidop_candidate, c.apellidom_candidate,
                c.correo_candidate, c.tel_candidate, c.CV_candidate,
-               p.id_vacante, p.nombre_vacante
+               p.id_vacante, p.link_vacante
         FROM postulaciones p
         INNER JOIN candidato c ON p.Candidato_id_candidate=c.id_candidate
         WHERE p.Empresa_id_emp=?
@@ -491,9 +478,8 @@ if ($id_emp && $id_vacante) {
             $row['correo_candidate'],
             $row['tel_candidate'],
             $row['CV_candidate'],
-            //$vacantesMap[$row['id_vacante']] ?? $row['id_vacante'],
-            $row['id_vacante'],
-            $row['nombre_vacante']
+            $vacantesMap[$row['id_vacante']] ?? $row['id_vacante'],
+            $row['link_vacante']
         ]);
     }
     $stmtCSV->close();
@@ -566,6 +552,7 @@ if ($id_emp && $id_vacante) {
         $stmtInterno->close();
     } else {
         error_log("No se pudo abrir archivo interno $csvInterno para escritura");
+
     }
 
     $cvLinkFinal = $nuevoCV ?: $cvAntiguoDb ?: null;
