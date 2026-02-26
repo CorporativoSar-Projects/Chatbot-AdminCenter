@@ -920,7 +920,8 @@ $mysqli->close();
             right: 30px;
             width: 60px;
             height: 60px;
-            background: linear-gradient(135deg, #002B45, #3ca6e5);
+            /*background: linear-gradient(135deg, #002B45, #3ca6e5);*/
+            background: #002B45;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -940,7 +941,6 @@ $mysqli->close();
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent);
             border-radius: 50%;
         }
 
@@ -1164,15 +1164,13 @@ $mysqli->close();
 
 <body>
     <div class="rectangulo-container">
-        <img
-            src="img/LOGOTIPO_IXAH-02.png"
-            width="70px"
-            alt="Logo"
-            class="img-logo-chiq" />
+        <a href="menu.php">
+            <img src="img/LOGOTIPO_IXAH-02.png" width="70px" alt="Logo" class="img-logo-chiq">
+        </a>
     </div>
     <div id="chat-open-btn" style="display:none;">
         <!--<img src="https://img.icons8.com/ios-filled/24/ffffff/chat.png" alt="Abrir Chat">-->
-        <img src="img/LOGOTIPO_IXAH-02.png" width="140px" alt="Abrir Chat">
+        <img src="img/Logo_cabeza.svg" width="140px" alt="Abrir Chat">
     </div>
 
     <header>
@@ -1315,17 +1313,17 @@ $mysqli->close();
                                             <button class="btn btn-select-candidate"
                                                 onclick="seleccionarParaAnalisis(<?php echo $candidato['id_candidate']; ?>)"
                                                 style="display: none;">
-                                                ✅ Seleccionar para Análisis
+                                                Seleccionar para Análisis
                                             </button>
                                             <button class="btn btn-improve-job"
                                                 onclick="seleccionarParaMejoraPuesto(<?php echo $candidato['id_candidate']; ?>)"
                                                 style="display: none;">
-                                                ✏️ Mejorar Descripción
+                                                Mejorar Descripción
                                             </button>
                                             <button class="btn btn-compare-candidate"
                                                 onclick="compararCVConSAP(<?php echo $candidato['id_candidate']; ?>)"
                                                 style="display: none;">
-                                                🔍 Comparar CV con SAP
+                                                Ver compatibilidad
                                             </button>
                                         </td>
                                     </tr>

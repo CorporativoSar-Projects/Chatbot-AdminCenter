@@ -91,7 +91,7 @@ const ChatSystem = {
             <div class="special-buttons">
                 <button class="special-btn" onclick="activarComparacionCV()">🔍 Análisis de candidatos</button>
                 <button class="special-btn" onclick="mostrarOpcionesMejoraDescripcion()">✏️ Mejorar descripción de puesto</button>
-                <!--<button class="special-btn" onclick="procesarSAPSSFF()">📊 Procesar SAP SSFF</button>-->
+                <!--<button class="special-btn" onclick="procesarSAPSSFF()">📊 Descripción ATS</button>-->
             </div>`,
         timestamp: new Date().toISOString(),
       },
@@ -377,16 +377,14 @@ async function iniciarAnalisisYRecomendacion(candidato) {
   // Mostrar análisis básico
   const analysisHTML = `
         <div class="candidate-analysis">
-            <h5>🔍 Análisis de ${candidato.nombre_candidate} ${
-    candidato.apellidop_candidate
-  }</h5>
+            <h5>Compatibiilidad de ${candidato.nombre_candidate} ${candidato.apellidop_candidate
+    }</h5>
             <div class="analysis-field">
                 <strong>📧 Email:</strong> ${candidato.correo_candidate}
             </div>
             <div class="analysis-field">
-                <strong>💼 Puesto aplicado:</strong> ${
-                  candidato.puesto || "No especificado"
-                }
+                <strong>💼 Puesto aplicado:</strong> ${candidato.puesto || "No especificado"
+    }
             </div>
             <div class="analysis-field">
                 <strong>🔄 Proceso:</strong> Analizando CV y buscando vacantes recomendadas...
@@ -512,27 +510,24 @@ function mostrarRecomendacionesVacantes(candidato, recomendaciones) {
 
 // Función que se ejecuta cuando se selecciona un candidato
 function iniciarAnalisisCandidato(candidato) {
-  console.log("Candidato seleccionado para análisis:", candidato);
+  console.log("Candidato seleccionado para compatibilidad:", candidato);
 
   // Mostrar análisis básico en el chat
   const analysisHTML = `
         <div class="candidate-analysis">
-            <h5>🔍 Análisis de ${candidato.nombre_candidate} ${
-    candidato.apellidop_candidate
-  }</h5>
+            <h5>Compatibilidad de ${candidato.nombre_candidate} ${candidato.apellidop_candidate
+    }</h5>
             <div class="analysis-field">
                 <strong>📧 Email:</strong> ${candidato.correo_candidate}
             </div>
             <div class="analysis-field">
-                <strong>💼 Puesto aplicado:</strong> ${
-                  candidato.puesto || "No especificado"
-                }
+                <strong>💼 Puesto aplicado:</strong> ${candidato.puesto || "No especificado"
+    }
             </div>
             <div class="analysis-field">
                 <strong>📊 Estado del proceso:</strong> 
-                <span class="badge badge-${
-                  candidato.estado === "Contratado" ? "success" : "warning"
-                }">
+                <span class="badge badge-${candidato.estado === "Contratado" ? "success" : "warning"
+    }">
                     ${candidato.estado || "Pendiente"}
                 </span>
             </div>
@@ -584,24 +579,20 @@ function mostrarResultadoIA(resultado) {
         <div class="candidate-analysis" style="border-left-color: #28a745;">
             <h5>🤖 Análisis IA Completo</h5>
             <div class="analysis-field">
-                <strong>📊 Puntuación general:</strong> ${
-                  resultado.puntuacion || "N/A"
-                }
+                <strong>📊 Puntuación general:</strong> ${resultado.puntuacion || "N/A"
+    }
             </div>
             <div class="analysis-field">
-                <strong>💡 Fortalezas:</strong> ${
-                  resultado.fortalezas || "Por analizar"
-                }
+                <strong>💡 Fortalezas:</strong> ${resultado.fortalezas || "Por analizar"
+    }
             </div>
             <div class="analysis-field">
-                <strong>⚠️ Áreas de mejora:</strong> ${
-                  resultado.areas_mejora || "Por analizar"
-                }
+                <strong>⚠️ Áreas de mejora:</strong> ${resultado.areas_mejora || "Por analizar"
+    }
             </div>
             <div class="analysis-field">
-                <strong>🎯 Recomendación:</strong> ${
-                  resultado.recomendacion || "Por analizar"
-                }
+                <strong>🎯 Recomendación:</strong> ${resultado.recomendacion || "Por analizar"
+    }
             </div>
         </div>
     `;
@@ -850,10 +841,8 @@ function seleccionarParaMejoraPuesto(id) {
 
     // Mostrar mensaje en el chat
     addMessage(
-      `Seleccioné a ${candidato.nombre_candidate} ${
-        candidato.apellidop_candidate
-      } para mejorar la descripción del puesto: ${
-        candidato.puesto || "Sin especificar"
+      `Seleccioné a ${candidato.nombre_candidate} ${candidato.apellidop_candidate
+      } para mejorar la descripción del puesto: ${candidato.puesto || "Sin especificar"
       }`,
       "user-message"
     );
@@ -872,14 +861,12 @@ async function iniciarMejoraDescripcionPuesto(candidato) {
         <div class="candidate-analysis">
             <h5>✏️ Mejorar Descripción de Puesto</h5>
             <div class="analysis-field">
-                <strong>👤 Candidato:</strong> ${candidato.nombre_candidate} ${
-    candidato.apellidop_candidate
-  }
+                <strong>👤 Candidato:</strong> ${candidato.nombre_candidate} ${candidato.apellidop_candidate
+    }
             </div>
             <div class="analysis-field">
-                <strong>💼 Puesto actual:</strong> ${
-                  candidato.puesto || "No especificado"
-                }
+                <strong>💼 Puesto actual:</strong> ${candidato.puesto || "No especificado"
+    }
             </div>
             <div class="analysis-field">
                 <strong>📧 Email:</strong> ${candidato.correo_candidate}
@@ -981,16 +968,15 @@ function mostrarDescripcionMejoradaReal(candidato, descripcionIA) {
         
         <div class="special-buttons" style="margin-top: 15px;">
             <button class="special-btn" onclick="copiarDescripcionIA('${descripcionIA
-              .replace(/'/g, "\\'")
-              .replace(
-                /\n/g,
-                "\\n"
-              )}')" style="background: linear-gradient(135deg, #17a2b8 0%, #20c997 100%);">
+      .replace(/'/g, "\\'")
+      .replace(
+        /\n/g,
+        "\\n"
+      )}')" style="background: linear-gradient(135deg, #17a2b8 0%, #20c997 100%);">
                 📋 Copiar Descripción
             </button>
-            <button class="special-btn" onclick="personalizarDescripcion(${
-              candidato.id_candidate
-            })" style="background: linear-gradient(135deg, #6f42c1 0%, #e83e8c 100%);">
+            <button class="special-btn" onclick="personalizarDescripcion(${candidato.id_candidate
+    })" style="background: linear-gradient(135deg, #6f42c1 0%, #e83e8c 100%);">
                 🎨 Personalizar Más
             </button>
         </div>
@@ -1434,7 +1420,7 @@ function mostrarModalPuestos(puestos) {
 
   const modalTitle = document.createElement("h3");
   modalTitle.textContent =
-    "📊 Puestos SAP SSFF - Selecciona uno para mejorar con IA";
+    "Selecciona un puesto para mejorar con IA";
   modalTitle.style.cssText = `
         margin: 0;
         color: #002B45;
@@ -1601,18 +1587,16 @@ function mostrarModalPuestos(puestos) {
       row.onmouseleave = () => (row.style.backgroundColor = "");
 
       row.innerHTML = `
-            <td style="padding: 10px; font-weight: bold; color: #002B45;">${
-              puesto.reqId
-            }</td>
+            <td style="padding: 10px; font-weight: bold; color: #002B45;">${puesto.reqId
+        }</td>
             <td style="padding: 10px;">
                 <strong>${puesto.titulo}</strong>
-                ${
-                  puesto.descripcion
-                    ? `<br><small class="text-muted">${limpiarHTML(
-                        puesto.descripcion
-                      ).substring(0, 100)}...</small>`
-                    : ""
-                }
+                ${puesto.descripcion
+          ? `<br><small class="text-muted">${limpiarHTML(
+            puesto.descripcion
+          ).substring(0, 100)}...</small>`
+          : ""
+        }
             </td>
             <td style="padding: 10px;">
                 <span class="badge badge-categoria" style="background: #17a2b8; color: white; padding: 4px 8px; border-radius: 4px;">
@@ -1624,7 +1608,7 @@ function mostrarModalPuestos(puestos) {
                 <button class="btn btn-success btn-sm" 
                         onclick="seleccionarPuestoDesdeModal('${puesto.reqId}')"
                         style="padding: 6px 12px; font-size: 12px; width: 100%;">
-                    ✅ Seleccionar
+                    Optimizar
                 </button>
             </td>
         `;
@@ -1847,39 +1831,37 @@ function mostrarResultadoMejoraPuesto(puesto, resultado) {
         <div class="candidate-analysis" style="border-left: 4px solid #002B45;">
             <h5>✅ Puesto Optimizado: ${puesto.titulo}</h5>
             
-            ${
-              resultado.descripcion_original
-                ? `
+            ${resultado.descripcion_original
+      ? `
             <div class="analysis-field">
                 <strong>📝 Descripción Original:</strong>
                 <div style="background: #fff3cd; padding: 10px; border-radius: 8px; margin-top: 5px; font-size: 13px; max-height: 150px; overflow-y: auto;">
                     ${limpiarHTML(resultado.descripcion_original).substring(
-                      0,
-                      300
-                    )}...
+        0,
+        300
+      )}...
                 </div>
             </div>
             `
-                : ""
-            }
+      : ""
+    }
             
             <div class="analysis-field">
                 <strong>🚀 Descripción Mejorada por IA:</strong>
                 <div style="background: #d4edda; padding: 15px; border-radius: 10px; margin-top: 10px; white-space: pre-wrap; font-size: 14px; line-height: 1.5;">
-                    ${
-                      resultado.descripcion_mejorada ||
-                      "No se pudo generar la descripción mejorada"
-                    }
+                    ${resultado.descripcion_mejorada ||
+    "No se pudo generar la descripción mejorada"
+    }
                 </div>
             </div>
         </div>
         
         <div class="special-buttons" style="margin-top: 15px;">
             <button class="special-btn" onclick="copiarDescripcionPuesto('${(
-              resultado.descripcion_mejorada || ""
-            )
-              .replace(/'/g, "\\'")
-              .replace(/\n/g, "\\n")}')" 
+      resultado.descripcion_mejorada || ""
+    )
+      .replace(/'/g, "\\'")
+      .replace(/\n/g, "\\n")}')" 
                     style="background: linear-gradient(135deg, #17a2b8 0%, #20c997 100%);">
                 📋 Copiar Descripción Mejorada
             </button>
@@ -2017,7 +1999,7 @@ async function mostrarModalPuestosParaComparacion(candidato) {
         `;
 
     const modalTitle = document.createElement("h3");
-    modalTitle.innerHTML = `📊 Comparar CV de <span style="color: #002B45;">${candidato.nombre_candidate} ${candidato.apellidop_candidate}</span> con puesto SAP`;
+    modalTitle.innerHTML = `Comparar CV de <span style="color: #002B45;">${candidato.nombre_candidate} ${candidato.apellidop_candidate}</span> con otros puestos`;
     modalTitle.style.cssText = `
             margin: 0;
             color: #333;
@@ -2028,8 +2010,8 @@ async function mostrarModalPuestosParaComparacion(candidato) {
     const closeButton = document.createElement("button");
     closeButton.textContent = "×";
     closeButton.style.cssText = `
-            background: #dc3545;
-            color: white;
+            */background: #dc3545;/*
+            color: black;
             border: none;
             border-radius: 50%;
             width: 40px;
@@ -2065,7 +2047,7 @@ async function mostrarModalPuestosParaComparacion(candidato) {
     // Input de búsqueda
     const searchInput = document.createElement("input");
     searchInput.type = "text";
-    searchInput.placeholder = "🔍 Buscar por ID o nombre del puesto...";
+    searchInput.placeholder = "Buscar por ID o nombre del puesto...";
     searchInput.style.cssText = `
             flex: 1;
             padding: 12px 15px;
@@ -2183,18 +2165,16 @@ async function mostrarModalPuestosParaComparacion(candidato) {
         row.onmouseleave = () => (row.style.backgroundColor = "");
 
         row.innerHTML = `
-                    <td style="padding: 10px; font-weight: bold; color: #002B45;">${
-                      puesto.reqId
-                    }</td>
+                    <td style="padding: 10px; font-weight: bold; color: #002B45;">${puesto.reqId
+          }</td>
                     <td style="padding: 10px;">
                         <strong>${puesto.titulo}</strong>
-                        ${
-                          puesto.descripcion
-                            ? `<br><small class="text-muted">${limpiarHTML(
-                                puesto.descripcion
-                              ).substring(0, 100)}...</small>`
-                            : ""
-                        }
+                        ${puesto.descripcion
+            ? `<br><small class="text-muted">${limpiarHTML(
+              puesto.descripcion
+            ).substring(0, 100)}...</small>`
+            : ""
+          }
                     </td>
                     <td style="padding: 10px;">
                         <span class="badge badge-categoria" style="background: #17a2b8; color: white; padding: 4px 8px; border-radius: 4px;">
@@ -2204,11 +2184,10 @@ async function mostrarModalPuestosParaComparacion(candidato) {
                     <td style="padding: 10px;">${puesto.ubicacion}</td>
                     <td style="padding: 10px;">
                         <button class="btn btn-primary btn-sm" 
-                                onclick="iniciarComparacionCV('${
-                                  candidato.id_candidate
-                                }', '${puesto.reqId}')"
+                                onclick="iniciarComparacionCV('${candidato.id_candidate
+          }', '${puesto.reqId}')"
                                 style="padding: 6px 12px; font-size: 12px; width: 100%;">
-                            🔍 Comparar
+                            Compatibilidad
                         </button>
                     </td>
                 `;
@@ -2278,19 +2257,19 @@ async function mostrarModalPuestosParaComparacion(candidato) {
     cancelButton.onclick = cerrarModal;
 
     // NUEVO BOTÓN DE COMPARATIVA MANUAL
-    const manualButton = document.createElement("button");
-    manualButton.textContent = "📝 Comparativa Manual";
-    manualButton.className = "btn btn-info";
-    manualButton.style.background =
-      "linear-gradient(135deg, #17a2b8 0%, #20c997 100%)";
-    manualButton.style.border = "none";
-    manualButton.onclick = () => {
-      document.body.removeChild(modalOverlay);
-      mostrarComparativaManual(candidato.id_candidate);
-    };
+    //const manualButton = document.createElement("button");
+    //manualButton.textContent = "📝 Comparativa Manual";
+    //manualButton.className = "btn btn-info";
+    //manualButton.style.background =
+    //"linear-gradient(135deg, #17a2b8 0%, #20c997 100%)";
+    //manualButton.style.border = "none";
+    //manualButton.onclick = () => {
+    //  document.body.removeChild(modalOverlay);
+    //mostrarComparativaManual(candidato.id_candidate);
+    //};
 
     modalFooter.appendChild(counter);
-    modalFooter.appendChild(manualButton);
+    //modalFooter.appendChild(manualButton);
     modalFooter.appendChild(cancelButton);
 
     // Ensamblar el modal
@@ -2432,17 +2411,16 @@ function mostrarResultadoComparacion(candidato, puesto, resultado) {
     score >= 80
       ? "Alta compatibilidad"
       : score >= 60
-      ? "Compatibilidad media"
-      : "Baja compatibilidad";
+        ? "Compatibilidad media"
+        : "Baja compatibilidad";
 
   const resultadoHTML = `
         <div class="candidate-analysis" style="border-left: 4px solid ${scoreColor};">
             <h5>📊 Resultado de Comparación</h5>
             
             <div class="analysis-field">
-                <strong>👤 Candidato:</strong> ${candidato.nombre_candidate} ${
-    candidato.apellidop_candidate
-  }
+                <strong>👤 Candidato:</strong> ${candidato.nombre_candidate} ${candidato.apellidop_candidate
+    }
             </div>
             <div class="analysis-field">
                 <strong>💼 Puesto:</strong> ${puesto.titulo}
@@ -2455,9 +2433,8 @@ function mostrarResultadoComparacion(candidato, puesto, resultado) {
                 </div>
             </div>
             
-            ${
-              resultado.fortalezas
-                ? `
+            ${resultado.fortalezas
+      ? `
             <div class="analysis-field">
                 <strong>✅ Fortalezas:</strong>
                 <div style="background: #d4edda; padding: 10px; border-radius: 8px; margin-top: 5px;">
@@ -2465,12 +2442,11 @@ function mostrarResultadoComparacion(candidato, puesto, resultado) {
                 </div>
             </div>
             `
-                : ""
-            }
+      : ""
+    }
             
-            ${
-              resultado.debilidades
-                ? `
+            ${resultado.debilidades
+      ? `
             <div class="analysis-field">
                 <strong>⚠️ Áreas de Mejora:</strong>
                 <div style="background: #fff3cd; padding: 10px; border-radius: 8px; margin-top: 5px;">
@@ -2478,12 +2454,11 @@ function mostrarResultadoComparacion(candidato, puesto, resultado) {
                 </div>
             </div>
             `
-                : ""
-            }
+      : ""
+    }
             
-            ${
-              resultado.resumen
-                ? `
+            ${resultado.resumen
+      ? `
             <div class="analysis-field">
                 <strong>📋 Resumen:</strong>
                 <div style="background: #e8f4fd; padding: 10px; border-radius: 8px; margin-top: 5px;">
@@ -2491,12 +2466,11 @@ function mostrarResultadoComparacion(candidato, puesto, resultado) {
                 </div>
             </div>
             `
-                : ""
-            }
+      : ""
+    }
             
-            ${
-              resultado.resultado
-                ? `
+            ${resultado.resultado
+      ? `
             <div class="analysis-field">
                 <strong>📝 Análisis Detallado:</strong>
                 <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; margin-top: 10px; white-space: pre-wrap; font-size: 14px; line-height: 1.5;">
@@ -2504,14 +2478,13 @@ function mostrarResultadoComparacion(candidato, puesto, resultado) {
                 </div>
             </div>
             `
-                : ""
-            }
+      : ""
+    }
         </div>
         
         <div class="special-buttons" style="margin-top: 15px;">
-            <button class="special-btn" onclick="compararOtroCV(${
-              candidato.id_candidate
-            })" 
+            <button class="special-btn" onclick="compararOtroCV(${candidato.id_candidate
+    })" 
                     style="background: linear-gradient(135deg, #17a2b8 0%, #20c997 100%);">
                 🔍 Comparar con Otro Puesto
             </button>
@@ -2531,7 +2504,7 @@ function mostrarResultadoComparacion(candidato, puesto, resultado) {
 
 // Función para comparar otro CV
 function compararOtroCV(candidatoId) {
-  addMessage("Quiero comparar con otro puesto SAP", "user-message");
+  addMessage("Quiero ver la compatibilidad con otro puesto SAP", "user-message");
   const candidato = candidatosData.find((c) => c.id_candidate == candidatoId);
   if (candidato) {
     mostrarModalPuestosParaComparacion(candidato);
@@ -2540,7 +2513,7 @@ function compararOtroCV(candidatoId) {
 
 // Función para activar la comparación desde el chat
 function activarComparacionCV() {
-  addMessage("Quiero comparar un CV con un puesto SAP", "user-message");
+  addMessage("Quiero ver la compatibildad del CV con un puesto SAP", "user-message");
 
   // Ocultar otros inputs
   document.getElementById("analysis-input-container").style.display = "none";
@@ -2553,7 +2526,7 @@ function activarComparacionCV() {
   toggleComparisonButtons(true);
 
   addMessage(
-    'Por favor, selecciona un candidato de la tabla haciendo clic en "🔍 Comparar CV con SAP"',
+    'Por favor, selecciona un candidato de la tabla haciendo clic en "Ver compatibilidad"',
     "bot-message"
   );
 }
@@ -2598,9 +2571,8 @@ function mostrarComparativaManual(candidatoId) {
   modalContent.innerHTML = `
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid #002B45;">
             <h3 style="margin: 0; color: #002B45; font-weight: 700;">
-                📝 Comparativa Manual - ${candidato.nombre_candidate} ${
-    candidato.apellidop_candidate
-  }
+                📝 Comparativa Manual - ${candidato.nombre_candidate} ${candidato.apellidop_candidate
+    }
             </h3>
             <button onclick="cerrarComparativaManual()" style="background: #dc3545; color: white; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 24px; cursor: pointer;">
                 ×
@@ -2608,13 +2580,11 @@ function mostrarComparativaManual(candidatoId) {
         </div>
 
         <div style="margin-bottom: 20px;">
-            <p><strong>👤 Candidato:</strong> ${candidato.nombre_candidate} ${
-    candidato.apellidop_candidate
-  }</p>
+            <p><strong>👤 Candidato:</strong> ${candidato.nombre_candidate} ${candidato.apellidop_candidate
+    }</p>
             <p><strong>📧 Email:</strong> ${candidato.correo_candidate}</p>
-            <p><strong>💼 Puesto aplicado:</strong> ${
-              candidato.puesto || "No especificado"
-            }</p>
+            <p><strong>💼 Puesto aplicado:</strong> ${candidato.puesto || "No especificado"
+    }</p>
         </div>
 
         <div style="margin-bottom: 25px;">
@@ -2783,8 +2753,8 @@ function mostrarResultadoComparativaManual(data, candidatoId) {
     score >= 80
       ? "Alta compatibilidad"
       : score >= 60
-      ? "Compatibilidad media"
-      : "Baja compatibilidad";
+        ? "Compatibilidad media"
+        : "Baja compatibilidad";
 
   const resultadoHTML = `
         <div class="candidate-analysis" style="border-left: 4px solid ${scoreColor};">
