@@ -484,7 +484,7 @@ $mysqli->close();
         }
 
         .btn-link {
-            background: #28a745;
+            background: #3ca6e5;
             color: white;
             border: none;
             border-radius: 20px;
@@ -544,7 +544,7 @@ $mysqli->close();
         }
 
         .categoria-badge {
-            background: #6f42c1;
+            background: #ffb703;
             color: white;
             padding: 4px 12px;
             border-radius: 15px;
@@ -553,7 +553,7 @@ $mysqli->close();
         }
 
         .ubicacion-badge {
-            background: #fd7e14;
+            background: #3498db;
             color: white;
             padding: 4px 12px;
             border-radius: 15px;
@@ -641,7 +641,7 @@ $mysqli->close();
         }
 
         .btn-compare-candidate {
-            background: #17a2b8 !important;
+            background: #3ca6e5 !important;
             color: white !important;
             border: none !important;
             border-radius: 25px !important;
@@ -941,7 +941,7 @@ $mysqli->close();
             left: 0;
             right: 0;
             bottom: 0;
-            border-radius: 50%;
+                    border-radius: 50%;
         }
 
         #chat-open-btn:hover {
@@ -956,7 +956,7 @@ $mysqli->close();
         #chat-open-btn img {
             /* width: 24px;*/
             width: 50px;
-            filter: brightness(0) invert(1);
+            /*filter: brightness(0) invert(1);}*/
             position: relative;
             z-index: 1;
             transition: transform 0.3s ease;
@@ -1232,11 +1232,11 @@ $mysqli->close();
             <div class="tabs-container">
                 <button class="tab-btn <?php echo $tab_activa == 'candidatos' ? 'active' : ''; ?>"
                     onclick="cambiarTab('candidatos')">
-                    👥 Candidatos
+                    Candidatos
                 </button>
                 <button class="tab-btn <?php echo $tab_activa == 'vacantes' ? 'active' : ''; ?>"
                     onclick="cambiarTab('vacantes')">
-                    📋 Vacantes
+                    Vacantes
                 </button>
             </div>
 
@@ -1302,7 +1302,7 @@ $mysqli->close();
                                         <td><?php echo htmlspecialchars($candidato['tel_candidate']); ?></td>
                                         <td>
                                             <?php if (!empty($candidato['CV_candidate'])): ?>
-                                                <a href="<?php echo htmlspecialchars($candidato['CV_candidate']); ?>" target="_blank" class="btn btn-sm btn-info">
+                                                <a href="<?php echo htmlspecialchars($candidato['CV_candidate']); ?>" target="_blank" class="btn btn-sm btn-info " style="background-color: #3ca6e5; color: white;">
                                                     📄 Ver CV
                                                 </a>
                                             <?php else: ?>
@@ -1390,7 +1390,7 @@ $mysqli->close();
             <div id="vacantes-content" class="tab-content <?php echo $tab_activa == 'vacantes' ? 'active' : ''; ?>">
                 <!-- Header de vacantes -->
                 <div class="page-header">
-                    <h2>📊 Vacantes Activas</h2>
+                    <h2>Vacantes Activas</h2>
                     <div class="stats-info">
                         <strong>Total: <?php echo $total_vacantes; ?> vacantes</strong> |
                         Página <?php echo $pagina_actual_vacantes; ?> de <?php echo $total_paginas_vacantes; ?>
@@ -1436,14 +1436,14 @@ $mysqli->close();
                                             <div class="actions-container">
                                                 <?php if (!empty($link) && $link != '#'): ?>
                                                     <a href="<?php echo htmlspecialchars($link); ?>" target="_blank" class="btn-link">
-                                                        🔗 Ver Vacante
+                                                        Ver Vacante
                                                     </a>
                                                 <?php endif; ?>
 
                                                 <!-- EL BOTÓN APUNTA A OTRA PÁGINA, NO A UNA PESTAÑA -->
                                                 <a href="detalle_candidatos_vacante.php?id_requisicion=<?php echo urlencode($idRequisicion); ?>&titulo=<?php echo urlencode($titulo); ?>&_preserve_chat=1"
                                                     class="btn btn-candidates">
-                                                    👥 Ver Candidatos
+                                                    Ver Candidatos
                                                 </a>
                                             </div>
                                         </td>
@@ -1537,7 +1537,7 @@ $mysqli->close();
                         <h5 style="color: #002B45; margin-bottom: 20px;">Selecciona una opción:</h5>
                         <button class="special-btn" onclick="seleccionarDescripcionManual()"
                             style="margin-bottom: 10px; background: #3ca6e5;">
-                            📝 Descripción Manual
+                             Descripción Manual
                         </button>
                         <!--<button class="special-btn" onclick="seleccionarDescripcionATS()"
                             style="margin-bottom: 10px; background: #28a745;">
@@ -1545,11 +1545,11 @@ $mysqli->close();
                         </button>-->
                         <button class="special-btn" onclick="procesarSAPSSFF()"
                             style="margin-bottom: 10px; background: #28a745;">
-                            📊 Procesar SAP SSFF
+                            Procesar SAP SSFF
                         </button>
                         <button class="special-btn" onclick="ocultarOpcionesMejora()"
                             style="background: #6c757d; color: white;">
-                            ↩️ Volver
+                            Volver
                         </button>
                     </div>
                 </div>
@@ -1915,7 +1915,7 @@ $mysqli->close();
     <script>
         // Sistema para limpiar chat al navegar a otras páginas
         (function() {
-            console.log('🔧 Configurando limpieza automática de chat...');
+            console.log('Configurando limpieza automática de chat...');
 
             // Función para obtener userId (igual que en analisisIA.js)
             function getUserId() {
@@ -1932,7 +1932,7 @@ $mysqli->close();
             // Función para limpiar el chat
             function limpiarChat() {
                 const chatKey = `ixah_chat_v3_${getUserId()}`;
-                console.log('🗑️ Limpiando chat con clave:', chatKey);
+                console.log('Limpiando chat con clave:', chatKey);
                 localStorage.removeItem(chatKey);
             }
 
@@ -1957,7 +1957,7 @@ $mysqli->close();
                         !href.includes('tab=') &&
                         !href.includes('_preserve_chat')) {
 
-                        console.log('📄 Navegando a otra página:', targetPage);
+                        console.log('Navegando a otra página:', targetPage);
                         limpiarChat();
                     }
                 }
@@ -1970,7 +1970,7 @@ $mysqli->close();
                 const navigation = performance ? performance.navigation : {};
 
                 if (navigation.type !== 1) { // 1 = TYPE_RELOAD
-                    console.log('🚪 Cerrando página - Limpiando chat');
+                    console.log('Cerrando página - Limpiando chat');
                     limpiarChat();
                 }
             });

@@ -638,7 +638,7 @@ if ($tab_activa == 'candidatos') {
         }
 
         .btn-link {
-            background: #28a745;
+            background: #002B45;
             color: white;
             border: none;
             border-radius: 20px;
@@ -709,8 +709,9 @@ if ($tab_activa == 'candidatos') {
             font-family: monospace;
         }
 
+    
         .categoria-badge {
-            background: #6f42c1;
+            background: #ffb703;
             color: white;
             padding: 4px 12px;
             border-radius: 15px;
@@ -719,7 +720,7 @@ if ($tab_activa == 'candidatos') {
         }
 
         .ubicacion-badge {
-            background: #fd7e14;
+            background: #3498db;
             color: white;
             padding: 4px 12px;
             border-radius: 15px;
@@ -1217,11 +1218,11 @@ if ($tab_activa == 'candidatos') {
         <div class="tabs-container">
             <button class="tab-btn <?php echo $tab_activa == 'vacantes' ? 'active' : ''; ?>"
                 onclick="cambiarTab('vacantes', 1)">
-                📋 Vacantes
+                Vacantes
             </button>
             <button class="tab-btn <?php echo $tab_activa == 'candidatos' ? 'active' : ''; ?>"
                 onclick="cambiarTab('candidatos', 1)">
-                👥 Candidatos
+                 Candidatos
             </button>
         </div>
 
@@ -1229,7 +1230,7 @@ if ($tab_activa == 'candidatos') {
         <?php if ($tab_activa == 'vacantes' && !empty($conteo_candidatos_por_vacante)): ?>
             <div class="resumen-candidatos">
                 <div class="resumen-title">
-                    📊 Resumen de Candidatos por Puesto
+                     Resumen de Candidatos por Puesto
                     <small style="font-size: 14px; font-weight: normal; color: #6c757d;">(Total: <?php echo array_sum($conteo_candidatos_por_vacante); ?> coincidencias)</small>
                 </div>
                 <div class="resumen-grid">
@@ -1277,7 +1278,7 @@ if ($tab_activa == 'candidatos') {
         <!-- Header de la página (depende de la pestaña) -->
         <div class="page-header">
             <?php if ($tab_activa == 'vacantes'): ?>
-                <h2>📊 Vacantes Activas</h2>
+                <h2>Vacantes Activas</h2>
                 <?php if (isset($error_csv)): ?>
                     <p class="mb-0" style="opacity: 0.8; font-size: 14px;">Error al cargar datos del CSV</p>
                 <?php else: ?>
@@ -1290,9 +1291,9 @@ if ($tab_activa == 'candidatos') {
             <?php else: ?>
                 <h2>
                     <?php if (!empty($titulo_vacante)): ?>
-                        👥 Candidatos para: <?php echo htmlspecialchars($titulo_vacante); ?>
+                         Candidatos para: <?php echo htmlspecialchars($titulo_vacante); ?>
                     <?php else: ?>
-                        👥 Todos los Candidatos
+                        Todos los Candidatos
                     <?php endif; ?>
                 </h2>
                 <?php if (!empty($titulo_vacante)): ?>
@@ -1379,12 +1380,12 @@ if ($tab_activa == 'candidatos') {
                                                 <?php if ($candidateCount > 0): ?>
                                                     <!-- Enlace a la pestaña de candidatos filtrados -->
                                                     <a href="?tab=candidatos&pagina=1&id_requisicion=<?php echo urlencode($idRequisicion); ?>&titulo=<?php echo urlencode($titulo); ?>" class="btn btn-candidates">
-                                                        👥 Ver Candidatos <span class="<?php echo $badgeClass; ?>"><?php echo $candidateCount; ?></span>
+                                                        Ver Candidatos <span class="<?php echo $badgeClass; ?>"><?php echo $candidateCount; ?></span>
                                                     </a>
                                                 <?php else: ?>
                                                     <!-- Si NO HAY candidatos, mostrar 0 pero SIN redirección -->
                                                     <span class="btn btn-candidates" style="opacity: 0.6; cursor: default;">
-                                                        👥 Ver Candidatos <span class="<?php echo $badgeClass; ?>">0</span>
+                                                        Ver Candidatos <span class="<?php echo $badgeClass; ?>">0</span>
                                                     </span>
                                                 <?php endif; ?>
                                             </div>
@@ -1734,7 +1735,7 @@ if ($tab_activa == 'candidatos') {
                     '<"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
                 buttons: [{
                     extend: 'excelHtml5',
-                    text: '📊 Exportar a Excel',
+                    text: 'Exportar a Excel',
                     className: 'btn btn-excel',
                     title: 'Vacantes_Activas_' + new Date().toISOString().slice(0, 10),
                     exportOptions: {
@@ -1763,7 +1764,7 @@ if ($tab_activa == 'candidatos') {
                     '<"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
                 buttons: [{
                     extend: 'excelHtml5',
-                    text: '📊 Exportar a Excel',
+                    text: 'Exportar a Excel',
                     className: 'btn btn-excel',
                     title: 'Candidatos_<?php echo $id_requisicion ? "Requisicion_" . $id_requisicion : "Todos"; ?>_' + new Date().toISOString().slice(0, 10)
                 }]

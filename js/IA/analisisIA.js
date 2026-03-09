@@ -1,6 +1,19 @@
 // js/IA/analisisIA.js
 
 const API_BASE = "http://localhost:8000/api";
+let opcionYaElegida = false;
+let flujoEnProceso = sessionStorage.getItem("flujoActivo") === "true";
+
+function activarFlujo() {
+  flujoEnProceso = true;
+  sessionStorage.setItem("flujoActivo", "true");
+}
+
+function desactivarFlujo() {
+  flujoEnProceso = false;
+  sessionStorage.removeItem("flujoActivo");
+}
+
 
 // Chat persistente
 
@@ -31,7 +44,7 @@ const getUserId = () => {
 const CHAT_STORAGE_KEY = `ixah_chat_v3_${getUserId()}`;
 
 // Sistema principal de chat persistente
-// Sistema principal de chat
+
 const ChatSystem = {
   messages: [],
   isInitialized: false,
@@ -39,8 +52,6 @@ const ChatSystem = {
   // Inicializar el sistema
   init() {
     if (this.isInitialized) return;
-
-    console.log("🚀 Inicializando ChatSystem (sessionStorage)...");
 
     // Cargar mensajes guardados
     this.load();
@@ -51,12 +62,10 @@ const ChatSystem = {
     // Renderizar mensajes
     this.render();
 
+    // NUEVO: detectar cuando se cierra el chat
+    this.configurarObserverCierre();
+
     this.isInitialized = true;
-    console.log(
-      "✅ ChatSystem inicializado con",
-      this.messages.length,
-      "mensajes"
-    );
   },
 
   // Cargar desde sessionStorage
@@ -66,16 +75,11 @@ const ChatSystem = {
       const saved = sessionStorage.getItem(CHAT_STORAGE_KEY);
       if (saved) {
         this.messages = JSON.parse(saved);
-        console.log(
-          "📥 Chat cargado desde sesión:",
-          this.messages.length,
-          "mensajes"
-        );
       } else {
         this.createInitialChat();
       }
     } catch (error) {
-      console.error("❌ Error cargando chat:", error);
+      console.error("Error cargando chat:", error);
       this.messages = [];
       this.createInitialChat();
     }
@@ -89,9 +93,9 @@ const ChatSystem = {
         texto: "¡Hola! Soy tu asistente de IA. ¿En qué puedo ayudarte hoy?",
         html: `¡Hola! Soy tu asistente de IA. ¿En qué puedo ayudarte hoy?
             <div class="special-buttons">
-                <button class="special-btn" onclick="activarComparacionCV()">🔍 Análisis de candidatos</button>
-                <button class="special-btn" onclick="mostrarOpcionesMejoraDescripcion()">✏️ Mejorar descripción de puesto</button>
-                <!--<button class="special-btn" onclick="procesarSAPSSFF()">📊 Descripción ATS</button>-->
+                <button class="special-btn" onclick=" activarComparacionCV();">🔍 Análisis de candidatos</button>
+                <button class="special-btn" onclick=" mostrarOpcionesMejoraDescripcion()">✏️ Mejorar descripción de puesto</button>
+                <!--<button class="special-btn" onclick="bloquearOtrosBotones(this); procesarSAPSSFF()">📊 Descripción ATS</button>-->
             </div>`,
         timestamp: new Date().toISOString(),
       },
@@ -108,7 +112,7 @@ const ChatSystem = {
       // ¡sessionStorage se limpia al cerrar pestaña!
       sessionStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify(this.messages));
     } catch (error) {
-      console.error("❌ Error guardando chat:", error);
+      console.error("Error guardando chat:", error);
     }
   },
 
@@ -124,11 +128,9 @@ const ChatSystem = {
     this.messages.push(newMessage);
     this.save();
     this.render();
-
-    console.log("💬 Mensaje agregado:", {
-      tipo,
-      texto: texto?.substring(0, 50),
-    });
+    setTimeout(() => {
+      bloquearBotonesAnteriores();
+    }, 50);
 
     return newMessage;
   },
@@ -176,6 +178,15 @@ const ChatSystem = {
         messageDiv.textContent = msg.texto || "";
       }
 
+
+      if (flujoEnProceso) {
+        const buttons = messageDiv.querySelectorAll("button");
+        buttons.forEach(btn => {
+          btn.disabled = true;
+          btn.style.opacity = "0.6";
+          btn.style.cursor = "not-allowed";
+        });
+      }
       chatBody.appendChild(messageDiv);
     });
 
@@ -188,6 +199,7 @@ const ChatSystem = {
 
     setTimeout(() => {
       chatBody.scrollTop = chatBody.scrollHeight;
+      bloquearBotonesAnteriores();
     }, 50);
   },
 
@@ -232,18 +244,57 @@ const ChatSystem = {
     this.render();
   },
 
-  // Debug
-  debug() {
-    console.log("🔍 ChatSystem Debug:");
-    console.log("- Clave:", CHAT_STORAGE_KEY);
-    console.log("- Mensajes:", this.messages.length);
-    console.log(
-      "- sessionStorage:",
-      sessionStorage.getItem(CHAT_STORAGE_KEY) ? "SÍ" : "NO"
-    );
-    return this.messages;
+  // AQUÍ VA
+  resetearChatCompleto() {
+
+    flujoEnProceso = false;
+    opcionYaElegida = false;
+    // Vaciar memoria
+    this.messages = [];
+
+    // Limpiar sessionStorage
+    sessionStorage.removeItem(CHAT_STORAGE_KEY);
+
+    const specialContainers = [
+      "opciones-mejora-container",
+      "manual-description-container",
+      "analysis-input-container",
+    ];
+
+    specialContainers.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.style.display = "none";
+      }
+    });
+
+    //Crear nuevamente el mensaje inicial
+    this.createInitialChat();
+
+    this.render();
+
   },
+
+  //  Y también esta
+  configurarObserverCierre() {
+    const chatPanel = document.getElementById("chat-panel");
+    if (!chatPanel) return;
+
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.attributeName === "class") {
+          if (chatPanel.classList.contains("hidden")) {
+            this.resetearChatCompleto();
+          }
+        }
+      });
+    });
+
+    observer.observe(chatPanel, { attributes: true });
+  },
+
 };
+
 
 // ============================================
 // SOBREESCRIBIR FUNCIONES EXISTENTES
@@ -271,12 +322,11 @@ window.addHTMLMessage = function (html, type = "bot-message") {
 
 // Inicializar cuando el DOM esté listo
 document.addEventListener("DOMContentLoaded", function () {
-  console.log("📄 DOM cargado, inicializando ChatSystem...");
   ChatSystem.init();
 
   // Depuración: ver estado cada 30 segundos
   setInterval(() => {
-    console.log("⏱️ Chat status:", ChatSystem.messages.length, "mensajes");
+
   }, 30000);
 });
 
@@ -285,7 +335,7 @@ window.debugChat = () => ChatSystem.debug();
 
 // Función para limpiar manualmente (para usar en los enlaces)
 window.limpiarChatYRedirigir = function (url) {
-  console.log("🧹 Limpiando chat y redirigiendo a:", url);
+  console.log("Limpiando chat y redirigiendo a:", url);
 
   // 1. Limpiar sessionStorage
   sessionStorage.removeItem(CHAT_STORAGE_KEY);
@@ -377,7 +427,7 @@ async function iniciarAnalisisYRecomendacion(candidato) {
   // Mostrar análisis básico
   const analysisHTML = `
         <div class="candidate-analysis">
-            <h5>Compatibiilidad de ${candidato.nombre_candidate} ${candidato.apellidop_candidate
+            <h5>Compatibilidad de ${candidato.nombre_candidate} ${candidato.apellidop_candidate
     }</h5>
             <div class="analysis-field">
                 <strong>📧 Email:</strong> ${candidato.correo_candidate}
@@ -550,6 +600,7 @@ function iniciarAnalisisCandidato(candidato) {
 
 // Función modificada para mostrar análisis de candidatos
 function mostrarAnalisisCandidato() {
+
   /*
   addMessage("Quiero analizar un candidato", "user-message");
   */
@@ -607,42 +658,57 @@ function mostrarResultadoIA(resultado) {
 
 // Función para mostrar confirmación de ayuda
 function mostrarConfirmacionAyuda() {
+  desactivarFlujo(); // importante
   const confirmacionHTML = `
-        <div class="chat-message bot-message">
-            <p>¿Puedo ayudarte con algo más?</p>
-            <div class="special-buttons" style="margin-top: 10px;">
-                <button class="special-btn" onclick="manejarConfirmacion(true)" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%);">
-                    Sí
-                </button>
-                <button class="special-btn" onclick="manejarConfirmacion(false)" style="background: linear-gradient(135deg, #dc3545 0%, #e83e8c 100%);">
-                    No
-                </button>
-            </div>
+        <p>¿Puedo ayudarte con algo más?</p>
+        <div class="special-buttons" style="margin-top: 10px;">
+            <button class="special-btn" onclick="manejarConfirmacion(true, this)" 
+                style="background-color: #3ca6e5; color:white; ">
+                Sí
+            </button>
+            <button class="special-btn" onclick="manejarConfirmacion(false, this)"  style="background-color: #ffb703; color:white; ">
+                No
+            </button>
         </div>
     `;
 
   addHTMLMessage(confirmacionHTML, "bot-message");
 }
 
-// Función para manejar la respuesta de confirmación
-function manejarConfirmacion(respuesta) {
+
+function manejarConfirmacion(respuesta, botonClickeado) {
+
+  // Bloquear solo el contenedor actual
+  const contenedor = botonClickeado.closest(".special-buttons");
+
+  if (contenedor) {
+    const botones = contenedor.querySelectorAll(".special-btn");
+
+    botones.forEach((btn) => {
+      btn.disabled = true;
+      btn.style.opacity = "0.5";
+      btn.style.pointerEvents = "none";
+      btn.style.cursor = "not-allowed";
+    });
+  }
+
   if (respuesta) {
-    // Si dice "Sí", mostrar las opciones principales
     addMessage("Sí", "user-message");
     mostrarOpcionesPrincipales();
   } else {
-    // Si dice "No", mostrar mensaje de espera
     addMessage("No", "user-message");
     mostrarMensajeEspera();
   }
 }
-
 // Función para mostrar las opciones principales - VERSIÓN CORREGIDA
 function mostrarOpcionesPrincipales() {
   // document.getElementById('manual-description-container').style.display = 'none';
-  document.getElementById("analysis-input-container").style.display = "none";
-  toggleSelectionButtons(false);
-  toggleImproveButtons(false);
+  const analysisContainer = document.getElementById("analysis-input-container");
+  if (analysisContainer) {
+    analysisContainer.style.display = "none";
+  }
+  //toggleSelectionButtons(false);
+  //toggleImproveButtons(false);
 
   // Ocultar también los contenedores del nuevo flujo
   if (document.getElementById("opciones-mejora-container")) {
@@ -676,20 +742,43 @@ function mostrarOpcionesPrincipales() {
     `;
 
   addHTMLMessage(opcionesHTML, "bot-message");
+  flujoEnProceso = false;
+  opcionYaElegida = false;
 }
 
 // JS DEMAS PARA mostrarOpcionesMejoraDescripcion
 
 // Función para mostrar las opciones de mejora de descripción
 function mostrarOpcionesMejoraDescripcion() {
-  // Ocultar otros contenedores
-  if (document.getElementById("analysis-input-container")) {
-    document.getElementById("analysis-input-container").style.display = "none";
+
+  if (flujoEnProceso) {
+    console.log("🚫 Flujo ya activo");
+    return;
   }
 
-  if (document.getElementById("manual-description-container")) {
-    document.getElementById("manual-description-container").style.display =
-      "none";
+  activarFlujo(); // 🔒 bloquear real
+
+  bloquearBotonesMensajeActual();
+
+
+  // Ocultar otros contenedores
+  //if (document.getElementById("analysis-input-container")) {
+  //document.getElementById("analysis-input-container").style.display = "none";
+  //}
+
+  //if (document.getElementById("manual-description-container")) {
+  //document.getElementById("manual-description-container").style.display =
+  //"none";
+  //}
+  // PROTEGIDO contra null
+  const analysisContainer = document.getElementById("analysis-input-container");
+  if (analysisContainer) {
+    analysisContainer.style.display = "none";
+  }
+
+  const manualContainer = document.getElementById("manual-description-container");
+  if (manualContainer) {
+    manualContainer.style.display = "none";
   }
 
   // Ocultar botones de selección en la tabla
@@ -715,7 +804,7 @@ function mostrarOpcionesMejoraDescripcion() {
                         📊 Descripción desde ATS
                     </button>-->
                     <button class="special-btn" onclick="procesarSAPSSFF()"
-                            style="background: #28a745;">
+                            style="background: #002B45;">
                         📊 Procesar SAP SSFF
                     </button>
                     <button class="special-btn" onclick="mostrarOpcionesPrincipales()" 
@@ -725,6 +814,10 @@ function mostrarOpcionesMejoraDescripcion() {
                 </div>
             </div>
         `;
+
+    flujoEnProceso = false;
+    opcionYaElegida = false;
+
 
     addHTMLMessage(opcionesHTML, "bot-message");
   }, 500);
@@ -781,13 +874,38 @@ function mostrarBotonesMejoraEnTabla() {
   }
 }
 
+function bloquearBotonesMensajeActual() {
+
+  // 🔒 Activar estado de flujo
+  flujoEnProceso = true;
+  sessionStorage.setItem("flujoActivo", "true");
+
+  const chatBody = document.getElementById("chat-body");
+  if (!chatBody) return;
+
+  // Buscar el último mensaje del bot
+  const mensajes = chatBody.querySelectorAll(".chat-message.bot-message");
+  if (mensajes.length === 0) return;
+
+  const ultimoMensaje = mensajes[mensajes.length - 1];
+
+  const botones = ultimoMensaje.querySelectorAll("button");
+
+  botones.forEach(btn => {
+    btn.disabled = true;
+    btn.style.opacity = "0.6";
+    btn.style.cursor = "not-allowed";
+    btn.style.pointerEvents = "none";
+  });
+}
+
 // Función para mostrar mensaje de espera
 function mostrarMensajeEspera() {
   const esperaHTML = `
         <div class="chat-message bot-message">
             <p>¡Claro! Estoy aquí pendiente por si necesitas algo.</p>
-            <div class="special-buttons" style="margin-top: 10px;">
-                <button class="special-btn" onclick="mostrarOpcionesPrincipales()" style="background: linear-gradient(135deg, #002B45 0%, #3ca6e5 100%);">
+            <div class="special-btn" style="margin-top: 10px;">
+                <button class="special-btn  btn-ayuda" onclick="mostrarOpcionesPrincipales()" style="background: linear-gradient(135deg, #002B45 0%, #3ca6e5 100%);">
                     Ahora sí, necesito ayuda
                 </button>
             </div>
@@ -795,6 +913,35 @@ function mostrarMensajeEspera() {
     `;
 
   addHTMLMessage(esperaHTML, "bot-message");
+}
+
+function bloquearBotonesAnteriores() {
+  const chatBody = document.getElementById("chat-body");
+  if (!chatBody) return;
+
+  const mensajes = chatBody.querySelectorAll(".chat-message");
+
+  mensajes.forEach((msg, index) => {
+
+    const esUltimo = index === mensajes.length - 1;
+
+    const botones = msg.querySelectorAll("button");
+
+    botones.forEach(btn => {
+
+      // NO bloquear el botón de "Ahora sí necesito ayuda"
+      if (btn.classList.contains("btn-ayuda")) {
+        return;
+      }
+
+      if (!esUltimo) {
+        btn.disabled = true;
+        btn.style.opacity = "0.5";
+        btn.style.pointerEvents = "none";
+        btn.style.cursor = "not-allowed";
+      }
+    });
+  });
 }
 
 // Función auxiliar para agregar mensajes HTML (si no está definida en el main)
@@ -854,7 +1001,6 @@ function seleccionarParaMejoraPuesto(id) {
 
 // FUNCIÓN ACTUALIZADA - Conectada a tu API real
 async function iniciarMejoraDescripcionPuesto(candidato) {
-  console.log("Candidato seleccionado para mejora de puesto:", candidato);
 
   // Mostrar información del puesto en el chat
   const mejoraHTML = `
@@ -1599,7 +1745,7 @@ function mostrarModalPuestos(puestos) {
         }
             </td>
             <td style="padding: 10px;">
-                <span class="badge badge-categoria" style="background: #17a2b8; color: white; padding: 4px 8px; border-radius: 4px;">
+                <span class="badge badge-categoria" style="background: #3ca6e5; color: white; padding: 4px 8px; border-radius: 4px;">
                     ${puesto.categoria}
                 </span>
             </td>
@@ -1608,7 +1754,7 @@ function mostrarModalPuestos(puestos) {
                 <button class="btn btn-success btn-sm" 
                         onclick="seleccionarPuestoDesdeModal('${puesto.reqId}')"
                         style="padding: 6px 12px; font-size: 12px; width: 100%;">
-                    Optimizar
+                  Optimizar
                 </button>
             </td>
         `;
@@ -2010,7 +2156,7 @@ async function mostrarModalPuestosParaComparacion(candidato) {
     const closeButton = document.createElement("button");
     closeButton.textContent = "×";
     closeButton.style.cssText = `
-            */background: #dc3545;/*
+            */background: #dc3545;*/
             color: black;
             border: none;
             border-radius: 50%;
@@ -2047,7 +2193,7 @@ async function mostrarModalPuestosParaComparacion(candidato) {
     // Input de búsqueda
     const searchInput = document.createElement("input");
     searchInput.type = "text";
-    searchInput.placeholder = "Buscar por ID o nombre del puesto...";
+    searchInput.placeholder = "🔍 Buscar por ID o nombre del puesto...";
     searchInput.style.cssText = `
             flex: 1;
             padding: 12px 15px;
@@ -2177,7 +2323,7 @@ async function mostrarModalPuestosParaComparacion(candidato) {
           }
                     </td>
                     <td style="padding: 10px;">
-                        <span class="badge badge-categoria" style="background: #17a2b8; color: white; padding: 4px 8px; border-radius: 4px;">
+                        <span class="badge badge-categoria" style="background: #3ca6e5; color: white; padding: 4px 8px; border-radius: 4px;">
                             ${puesto.categoria}
                         </span>
                     </td>
@@ -2513,12 +2659,22 @@ function compararOtroCV(candidatoId) {
 
 // Función para activar la comparación desde el chat
 function activarComparacionCV() {
+  if (flujoEnProceso) {
+    console.log("Flujo ya activo");
+    return;
+  }
+
+  activarFlujo();
+
+  bloquearBotonesMensajeActual();
+
+
   addMessage("Quiero ver la compatibildad del CV con un puesto SAP", "user-message");
 
   // Ocultar otros inputs
-  document.getElementById("analysis-input-container").style.display = "none";
-  document.getElementById("manual-description-container").style.display =
-    "none";
+  //document.getElementById("analysis-input-container").style.display = "none";
+  //document.getElementById("manual-description-container").style.display =
+  //"none";
   toggleSelectionButtons(false);
   toggleImproveButtons(false);
 
@@ -2604,7 +2760,7 @@ function mostrarComparativaManual(candidatoId) {
 
         <div style="display: flex; justify-content: space-between; align-items: center; gap: 15px;">
             <button onclick="cerrarComparativaManual()" class="btn btn-secondary" style="flex: 1;">
-                ← Cancelar
+                Cancelar
             </button>
             <button onclick="enviarComparativaManual(${candidatoId})" class="btn btn-primary" style="flex: 2; background: linear-gradient(135deg, #002B45 0%, #3ca6e5 100%); border: none;">
                 🔍 Comparar con IA
