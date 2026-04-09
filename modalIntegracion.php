@@ -33,7 +33,6 @@
         </form>
 
         <!-- 🔹 Formulario Integración SFTP -->
->>>>>>> JessicaMoralesAguilar
         <form id="formIntegracionSFTP">
           <div class="d-flex align-items-center mb-3">
             <input class="form-check-input small-checkbox me-2" type="checkbox" id="sftpCheckbox">

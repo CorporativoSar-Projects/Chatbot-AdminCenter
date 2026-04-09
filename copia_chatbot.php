@@ -1,6 +1,6 @@
 <?php
 include 'modelo/consultas_menu.php';
-
+include 'modelo/consumo_tokens.php';
 
 // Iniciar sesión SIEMPRE AL PRINCIPIO
 if (session_status() == PHP_SESSION_NONE) {
@@ -80,9 +80,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion_chat'])) {
 
         ChatMemoria::agregarMensaje($_SESSION['id_adm'], $tipo, $mensaje, $html);
 
+
+        // --- CONSUMIR TOKENS ---
+        // Ejemplo: obtener tokens del POST (o calculados según IA)
+        $tokens_input = intval($_POST['tokens_input'] ?? 0);
+        $tokens_output = intval($_POST['tokens_output'] ?? 0);
+
+        // Llamada a la función que actualiza la base de datos
+        $tokens_restantes = consumirTokens($_SESSION['id_emp'], $tokens_input, $tokens_output, $mysqli);
+
+
         // Devolver el historial completo actualizado
         $chatHistorial = ChatMemoria::obtenerChat($_SESSION['id_adm']);
-        echo json_encode(['success' => true, 'historial' => $chatHistorial]);
+        echo json_encode([
+            'success' => true,
+            'historial' => $chatHistorial,
+            'tokens_restantes' => $tokens_restantes
+        ]);
         exit;
     }
 
@@ -484,7 +498,7 @@ $mysqli->close();
         }
 
         .btn-link {
-            background: #3ca6e5;
+            background: #28a745;
             color: white;
             border: none;
             border-radius: 20px;
@@ -941,7 +955,7 @@ $mysqli->close();
             left: 0;
             right: 0;
             bottom: 0;
-                    border-radius: 50%;
+            border-radius: 50%;
         }
 
         #chat-open-btn:hover {
@@ -1174,56 +1188,7 @@ $mysqli->close();
     </div>
 
     <header>
-        <div class="user-dropdown">
-            <div class="cont-btn-user" id="close-btn-user">
-                <button class="btn-user" id="user-btn">
-                    <img src="img/user.png" width="30" alt="User Icon" />
-                </button>
-            </div>
-            <div class="dropdown-content" id="dropdown-content">
-                <div class="d-flex align-items-center px-3 user-info">
-                    <img src="img/user.png" width="40" alt="User Icon" />
-                    <div class="div-user">
-                        <strong><?php echo $_SESSION['nombre_adm'] . ' ' . $_SESSION['apellidop_adm']; ?></strong><br />
-                        <small><?php echo ($_SESSION['correo_adm']) ?></small>
-                    </div>
-                </div>
-                <div class="dropdown-links">
-                    <div class="user-info">
-                        <a href="#">Chatbot IXAH</a>
-                        <span>Versión 1.0.0</span>
-                    </div>
-                    <div class="user-info">
-                        <a href="javascript:void(0);" onclick="limpiarChatYRedirigir('menu.php')">Menu</a>
-                    </div>
-                    <!--
-                    <div class="user-info">
-                        <a href="javascript:void(0);" onclick="limpiarChatYRedirigir('vacantes_candidatos.php?tab=vacantes')">Vacantes y Candidatos</a>
-                    </div>-->
-                    <div class="user-info">
-                        <a href="javascript:void(0);" onclick="limpiarChatYRedirigir('panel_admin_ia.php')">Panel de Configuración</a>
-                    </div>
-                    <div class="user-info">
-                        <a href="javascript:void(0);" onclick="limpiarChatYRedirigir('tokens.php')">Tokens</a>
-                    </div>
-                    <div class="user-info">
-                        <a href="javascript:void(0);" onclick="limpiarChatYRedirigir('log_errores.php')">Errores de los ChatBots</a>
-                    </div>
-                    <div class="user-info">
-                        <a href="#">Desarrollado por Giintape Innovahue</a>
-                        <span>Ayuda</span>
-                    </div>
-
-                    <div class="user-info">
-                        <a href="#" id="sftpLink" data-toggle="modal" data-target="#sftpModal" style="text-decoration: none; color: inherit; display: block; margin-bottom: 10px;">
-                            Integración SFTP
-                        </a>
-                        <a href="https://billing.stripe.com/p/login/fZe3f33cggofeBy144" target="_blank">Actualizar Plan</a>
-                    </div>
-                    <a class="a1" href="cerrarSesion.php">Cerrar Sesión</a>
-                </div>
-            </div>
-        </div>
+        <?php include 'DatosMenu.php'; ?>
     </header>
 
     <div id="main-container">
@@ -1410,7 +1375,7 @@ $mysqli->close();
                             </tr>
                         </thead>
                         <tbody>
-                            
+
                             <?php if (!empty($vacantes_paginadas)): ?>
                                 <?php foreach ($vacantes_paginadas as $vacante):
                                     $idRequisicion = $vacante['reqId_ix'] ?? $vacante['ID de requisición de personal'] ?? '';
@@ -1449,7 +1414,7 @@ $mysqli->close();
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
-                        <?php else: ?>
+                            <?php else: ?>
                                 <tr>
                                     <td colspan="5" class="text-center py-4">
                                         <div class="text-muted">
@@ -1512,9 +1477,9 @@ $mysqli->close();
         <div id="chat-panel">
             <div id="chat-header">
                 <span>Asistente IA</span>
-                <button id="toggle-chat" class="chat-toggle-btn">
+                <!--<button id="toggle-chat" class="chat-toggle-btn">
                     <span class="toggle-text">Ocultar Chat</span>
-                </button>
+                </button>-->
             </div>
             <div id="chat-body">
                 <?php /* COMENTAR ESTO
@@ -1537,7 +1502,7 @@ $mysqli->close();
                         <h5 style="color: #002B45; margin-bottom: 20px;">Selecciona una opción:</h5>
                         <button class="special-btn" onclick="seleccionarDescripcionManual()"
                             style="margin-bottom: 10px; background: #3ca6e5;">
-                             Descripción Manual
+                            Descripción Manual
                         </button>
                         <!--<button class="special-btn" onclick="seleccionarDescripcionATS()"
                             style="margin-bottom: 10px; background: #28a745;">
@@ -1576,6 +1541,8 @@ $mysqli->close();
         </div>
     </div>
 
+       <!--Modal de integración -->
+    <?php require_once 'modalIntegracion.php'; ?>
     <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -1586,48 +1553,49 @@ $mysqli->close();
 
     <!-- Scripts de IA -->
     <script>
+        window.ID_EMP = "<?= $_SESSION['id_emp'] ?>";
         // Datos de candidatos desde PHP
         const candidatosData = <?php echo json_encode($candidatos); ?>;
         const vacantesData = <?php echo json_encode($vacantes); ?>;
 
         $(document).ready(function() {
             // Inicializar DataTable para CANDIDATOS
-             <?php if ($tab_activa === 'candidatos'): ?>
-            $('#tablaCandidatos').DataTable({
-                paging: false, // Deshabilitar paginación de DataTables porque usamos la nuestra
-                searching: true,
-                ordering: true,
-                order: [
-                    [0, 'desc']
-                ],
-                language: {
-                    "search": "Buscar:",
-                    "zeroRecords": "No se encontraron registros",
-                    "info": "Mostrando _START_ a _END_ de _TOTAL_ registros",
-                    "infoEmpty": "No hay registros disponibles",
-                    "infoFiltered": "(filtrado de _MAX_ registros totales)"
-                }
-            });
-              <?php endif; ?>
+            <?php if ($tab_activa === 'candidatos'): ?>
+                $('#tablaCandidatos').DataTable({
+                    paging: false, // Deshabilitar paginación de DataTables porque usamos la nuestra
+                    searching: true,
+                    ordering: true,
+                    order: [
+                        [0, 'desc']
+                    ],
+                    language: {
+                        "search": "Buscar:",
+                        "zeroRecords": "No se encontraron registros",
+                        "info": "Mostrando _START_ a _END_ de _TOTAL_ registros",
+                        "infoEmpty": "No hay registros disponibles",
+                        "infoFiltered": "(filtrado de _MAX_ registros totales)"
+                    }
+                });
+            <?php endif; ?>
 
             // Inicializar DataTable para VACANTES
-            
-             <?php if ($tab_activa === 'vacantes'): ?>
-            $('#tablaVacantes').DataTable({
-                paging: false, // Deshabilitar paginación de DataTables porque usamos la nuestra
-                searching: true,
-                ordering: true,
-                order: [
-                    [0, 'asc']
-                ],
-                language: {
-                    "search": "Buscar:",
-                    "zeroRecords": "No se encontraron registros",
-                    "info": "Mostrando _START_ a _END_ de _TOTAL_ registros",
-                    "infoEmpty": "No hay registros disponibles",
-                    "infoFiltered": "(filtrado de _MAX_ registros totales)"
-                }
-            });
+
+            <?php if ($tab_activa === 'vacantes'): ?>
+                $('#tablaVacantes').DataTable({
+                    paging: false, // Deshabilitar paginación de DataTables porque usamos la nuestra
+                    searching: true,
+                    ordering: true,
+                    order: [
+                        [0, 'asc']
+                    ],
+                    language: {
+                        "search": "Buscar:",
+                        "zeroRecords": "No se encontraron registros",
+                        "info": "Mostrando _START_ a _END_ de _TOTAL_ registros",
+                        "infoEmpty": "No hay registros disponibles",
+                        "infoFiltered": "(filtrado de _MAX_ registros totales)"
+                    }
+                });
             <?php endif; ?>
 
             // Funcionalidad del chat (se mantiene igual)
@@ -1903,6 +1871,26 @@ $mysqli->close();
         });*/
     </script>
     <script src="js/IA/analisisIA.js"></script>
+      <script src="js/formularioIntegracion.js"></script>
+     <script>
+        window.appData = {
+            nombrePlan: '<?php echo $planUsuario; ?>',
+            estadoSuscripcion: '<?php echo $estadoSuscripcion; ?>',
+            sftpActivo: <?php echo $sftpActivo; ?>,
+            sftpConfig: <?php
+                        echo json_encode([
+                            'tipo_integracion' => $sftpData['tipo_integracion'] ?? 'estandar',
+                            'activo' => isset($sftpData['activo']) ? (int)$sftpData['activo'] : 0,
+                            'servidor' => $sftpData['servidor'] ?? '',
+                            'puerto' => $sftpData['puerto'] ?? '22',
+                            'usuario' => $sftpData['usuario'] ?? '',
+                            'contrasena' => '',
+                            'rutaDestino' => $sftpData['rutaDestino'] ?? '',
+                            'url_estandar' =>  $sftpData['url_estandar'] ?? ''
+                        ]);
+                        ?>
+        };
+    </script>
     <!-- Pasar ID de usuario a JavaScript -->
     <script>
         window.userId = <?php echo json_encode($_SESSION['id_adm']); ?>;

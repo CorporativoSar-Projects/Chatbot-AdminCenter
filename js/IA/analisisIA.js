@@ -2,16 +2,36 @@
 
 const API_BASE = "http://localhost:8000/api";
 let opcionYaElegida = false;
-let flujoEnProceso = sessionStorage.getItem("flujoActivo") === "true";
+//let flujoEnProceso = sessionStorage.getItem("flujoActivo") === "true";
 
+const getContextKey = () => {
+  const vacanteId = window.vacanteId || document.body.dataset.vacanteId || "sin_vacante";
+  const candidatoId = window.candidatoId || document.body.dataset.candidatoId || "sin_candidato";
+
+  return `${vacanteId}_${candidatoId}`;
+};
+
+const FLUJO_KEY = `flujoActivo_${getContextKey()}`;
+
+let flujoEnProceso = localStorage.getItem(FLUJO_KEY) === "true";
+
+//function activarFlujo() {
+  //flujoEnProceso = true;
+  //sessionStorage.setItem("flujoActivo", "true");
+//}
+
+//function desactivarFlujo() {
+  //flujoEnProceso = false;
+  //sessionStorage.removeItem("flujoActivo");
+//}
 function activarFlujo() {
   flujoEnProceso = true;
-  sessionStorage.setItem("flujoActivo", "true");
+  localStorage.setItem(FLUJO_KEY, "true");
 }
 
 function desactivarFlujo() {
   flujoEnProceso = false;
-  sessionStorage.removeItem("flujoActivo");
+  localStorage.removeItem(FLUJO_KEY);
 }
 
 
@@ -72,7 +92,7 @@ const ChatSystem = {
   load() {
     try {
       // ¡sessionStorage se limpia al cerrar pestaña!
-      const saved = sessionStorage.getItem(CHAT_STORAGE_KEY);
+      const saved = localStorage.getItem(CHAT_STORAGE_KEY);
       if (saved) {
         this.messages = JSON.parse(saved);
       } else {
@@ -110,7 +130,7 @@ const ChatSystem = {
         this.messages = this.messages.slice(-100);
       }
       // ¡sessionStorage se limpia al cerrar pestaña!
-      sessionStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify(this.messages));
+      localStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify(this.messages));
     } catch (error) {
       console.error("Error guardando chat:", error);
     }
@@ -181,10 +201,20 @@ const ChatSystem = {
 
       if (flujoEnProceso) {
         const buttons = messageDiv.querySelectorAll("button");
+
         buttons.forEach(btn => {
-          btn.disabled = true;
-          btn.style.opacity = "0.6";
-          btn.style.cursor = "not-allowed";
+          // SOLO bloquear botones que no sean de copiar
+          if (!btn.classList.contains("copiar-btn")) {
+            if (flujoEnProceso) {
+              btn.disabled = true;
+              btn.style.opacity = "0.6";
+              btn.style.cursor = "not-allowed";
+            } else {
+              btn.disabled = false;
+              btn.style.opacity = "1";
+              btn.style.cursor = "pointer";
+            }
+          }
         });
       }
       chatBody.appendChild(messageDiv);
@@ -238,42 +268,36 @@ const ChatSystem = {
   // Limpiar chat manualmente
   clear() {
     // Limpiar sessionStorage
-    sessionStorage.removeItem(CHAT_STORAGE_KEY);
+    localStorage.removeItem(CHAT_STORAGE_KEY);
     this.messages = [this.messages[0]];
     this.save();
     this.render();
   },
 
-  // AQUÍ VA
-  resetearChatCompleto() {
+  
+ resetearChatCompleto() {
+  flujoEnProceso = false;
+  opcionYaElegida = false;
 
-    flujoEnProceso = false;
-    opcionYaElegida = false;
-    // Vaciar memoria
-    this.messages = [];
+  localStorage.removeItem(FLUJO_KEY);
+  localStorage.removeItem(CHAT_STORAGE_KEY);
 
-    // Limpiar sessionStorage
-    sessionStorage.removeItem(CHAT_STORAGE_KEY);
+  this.messages = [];
 
-    const specialContainers = [
-      "opciones-mejora-container",
-      "manual-description-container",
-      "analysis-input-container",
-    ];
+  const specialContainers = [
+    "opciones-mejora-container",
+    "manual-description-container",
+    "analysis-input-container",
+  ];
 
-    specialContainers.forEach((id) => {
-      const el = document.getElementById(id);
-      if (el) {
-        el.style.display = "none";
-      }
-    });
+  specialContainers.forEach((id) => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = "none";
+  });
 
-    //Crear nuevamente el mensaje inicial
-    this.createInitialChat();
-
-    this.render();
-
-  },
+  this.createInitialChat();
+  this.render();
+},
 
   //  Y también esta
   configurarObserverCierre() {
@@ -284,7 +308,7 @@ const ChatSystem = {
       mutations.forEach((mutation) => {
         if (mutation.attributeName === "class") {
           if (chatPanel.classList.contains("hidden")) {
-            this.resetearChatCompleto();
+             this.save();
           }
         }
       });
@@ -929,6 +953,10 @@ function bloquearBotonesAnteriores() {
 
     botones.forEach(btn => {
 
+       // NO bloquear botones de copiar
+      if (btn.classList.contains("copiar-btn")) {
+        return;
+      }
       // NO bloquear el botón de "Ahora sí necesito ayuda"
       if (btn.classList.contains("btn-ayuda")) {
         return;
@@ -1044,7 +1072,7 @@ async function iniciarMejoraDescripcionPuesto(candidato) {
       }
 
       // LLAMADA REAL A TU API DE DJANGO
-      const response = await fetch(`${API_BASE}/mejorar-descripcion/`, {
+      const response = await fetch(`${API_BASE}/mejorar-descripcion/?id_emp=${ID_EMP}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -1060,7 +1088,14 @@ async function iniciarMejoraDescripcionPuesto(candidato) {
       });
 
       if (!response.ok) {
-        throw new Error(`Error HTTP: ${response.status}`);
+        const errorData = await response.json();
+
+        // 🚨 AQUÍ lo manejas para TODOS los casos
+        if (manejarErrorTokens(errorData)) {
+          return;
+        }
+
+        throw new Error(errorData.error || `Error HTTP: ${response.status}`);
       }
 
       // Actualizar estado de carga
@@ -1112,8 +1147,8 @@ function mostrarDescripcionMejoradaReal(candidato, descripcionIA) {
             </div>
         </div>
         
-        <div class="special-buttons" style="margin-top: 15px;">
-            <button class="special-btn" onclick="copiarDescripcionIA('${descripcionIA
+        <div class="special-buttons copiar-btn" style="margin-top: 15px;">
+            <button class="special-btn copiar-btn" onclick="copiarDescripcionIA('${descripcionIA
       .replace(/'/g, "\\'")
       .replace(
         /\n/g,
@@ -1129,6 +1164,10 @@ function mostrarDescripcionMejoradaReal(candidato, descripcionIA) {
     `;
 
   addHTMLMessage(descripcionMejoradaHTML, "bot-message");
+
+  // 👇 CLAVE: volver a activar botones
+  toggleImproveButtons(true);
+
 
   // Mostrar confirmación después de la mejora
   setTimeout(() => {
@@ -1298,6 +1337,7 @@ function personalizarDescripcion(idCandidato) {
 }
 
 async function enviarDescripcionParaMejora() {
+
   const descripcion = document
     .getElementById("descripcion-puesto-input")
     .value.trim();
@@ -1311,81 +1351,67 @@ async function enviarDescripcionParaMejora() {
     return;
   }
 
-  // Mostrar indicador de typing inicial
-  const typingIndicator = mostrarTypingIndicator();
+  try {
 
-  setTimeout(async () => {
-    ocultarTypingIndicator();
-
-    // Mostrar mensaje de carga con animación
-    const loadingMessage = mostrarMensajeCarga(
-      "Enviando descripción a IA para mejorar..."
-    );
-
-    try {
-      // Actualizar estado de carga
-      if (loadingMessage) {
-        loadingMessage.querySelector(".loading-text").textContent =
-          "Analizando descripción actual y generando mejoras...";
-      }
-
-      const response = await fetch(`${API_BASE}/mejorar-descripcion/`, {
+    // 🚨 PRIMERO validar con backend
+    const response = await fetch(
+      `${API_BASE}/mejorar-descripcion/?id_emp=${ID_EMP}`,
+      {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           candidato: { nombre: "Manual Input", email: "", puesto: descripcion },
           puesto_actual: descripcion,
         }),
-      });
-
-      if (!response.ok) throw new Error(`Error HTTP: ${response.status}`);
-
-      // Actualizar estado de carga
-      if (loadingMessage) {
-        loadingMessage.querySelector(".loading-text").textContent =
-          "Procesando respuesta de IA y formateando resultados...";
       }
+    );
 
-      const data = await response.json();
+    // 🚨 manejo de errores (incluye tokens)
+    if (!response.ok) {
+      const errorData = await response.json();
 
-      if (data.error) throw new Error(data.error);
+      if (manejarErrorTokens(errorData)) return;
 
-      // Ocultar mensaje de carga
+      throw new Error(errorData.error || `Error HTTP: ${response.status}`);
+    }
+
+    // ✅ YA PASÓ → ahora sí UI
+    const data = await response.json();
+
+    const loadingMessage = mostrarMensajeCarga(
+      "Procesando respuesta de IA..."
+    );
+
+    setTimeout(() => {
+
       ocultarMensajeCarga();
 
-      // Mostrar resultado optimizado por IA
       addHTMLMessage(
         `
-          <div class="chat-message bot-message">
-            ✅ Descripción mejorada por IA:<br>
-            ${data.descripcion_mejorada.replace(/\n/g, "<br>")}
-          </div>
+        <div class="chat-message bot-message">
+          ✅ Descripción mejorada por IA:<br>
+          ${data.descripcion_mejorada.replace(/\n/g, "<br>")}
+        </div>
         `,
         "bot-message"
       );
 
-      setTimeout(() => {
-        mostrarConfirmacionAyuda();
-      }, 500);
-    } catch (error) {
-      console.error("Error al conectar con la API:", error);
+      mostrarConfirmacionAyuda();
 
-      // Ocultar mensaje de carga
-      ocultarMensajeCarga();
+    }, 500);
 
-      Swal.fire(
-        "⚠️",
-        "La IA no está disponible en este momento. Intenta más tarde.",
-        "error"
-      );
+  } catch (error) {
+    console.error("Error al conectar con la API:", error);
 
-      setTimeout(() => {
-        mostrarConfirmacionAyuda();
-      }, 500);
-    }
-  }, 1500); // Pequeña pausa para el efecto typing
+    Swal.fire(
+      "⚠️",
+      "La IA no está disponible en este momento. Intenta más tarde.",
+      "error"
+    );
+
+    mostrarConfirmacionAyuda();
+  }
 }
-
 // DETALLES DEL MENSAJE DE ADVERTENCIA SOLO AQUI
 // addMessage('⚠️ El servicio de IA no está disponible en este momento. Por favor intenta más tarde.', 'bot-message');
 /*
@@ -1403,7 +1429,7 @@ function mostrarInputManualDescripcion() {
   const html = `
             <p>✏️ Ingresa la descripción del puesto que deseas mejorar:</p>
             <textarea id="descripcion-puesto-input" class="analysis-input" rows="4" placeholder="Escribe aquí la descripción del puesto que deseas mejorar..."></textarea>
-            <button class="analysis-btn" onclick="enviarDescripcionParaMejora()">
+            <button class="analysis-btn" onclick="enviarDescripcionParaMejora()"  style="padding: 6px 12px; font-size: 12px; width: 100%; background: #ffb703;">
                 ✏️ Optimizar descripción con IA
             </button>
         
@@ -1753,7 +1779,7 @@ function mostrarModalPuestos(puestos) {
             <td style="padding: 10px;">
                 <button class="btn btn-success btn-sm" 
                         onclick="seleccionarPuestoDesdeModal('${puesto.reqId}')"
-                        style="padding: 6px 12px; font-size: 12px; width: 100%;">
+                        style="padding: 6px 12px; font-size: 12px; width: 100%; background: #ffb703;">
                   Optimizar
                 </button>
             </td>
@@ -1887,88 +1913,64 @@ function seleccionarPuestoDesdeModal(reqId) {
 
 // Función para mejorar un puesto SAP con IA
 async function iniciarMejoraPuestoSAP(puesto) {
-  // Mostrar información del puesto seleccionado
-  const infoPuestoHTML = `
-    <div class="candidate-analysis">
-      <h5>🚀 Mejorando Puesto SAP: ${puesto.titulo}</h5>
-      <div class="analysis-field">
-        <strong>📋 ID Requisición:</strong> ${puesto.reqId}
-      </div>
-      <div class="analysis-field">
-        <strong>🏷️ Categoría:</strong> ${puesto.categoria}
-      </div>
-      <div class="analysis-field">
-        <strong>📍 Ubicación:</strong> ${puesto.ubicacion}
-      </div>
-      <div class="analysis-field">
-        <strong>🔄 Proceso:</strong> Consultando con IA para optimizar descripción...
-      </div>
-    </div>
-  `;
 
-  addHTMLMessage(infoPuestoHTML, "bot-message");
+   // (opcional) loading DESPUÉS del OK
+    const loadingMessage = mostrarMensajeCarga("Procesando optimización...");
 
-  // Mostrar indicador de typing inicial
-  const typingIndicator = mostrarTypingIndicator();
-
-  setTimeout(async () => {
-    ocultarTypingIndicator();
-
-    // Mostrar mensaje de carga
-    const loadingMessage = mostrarMensajeCarga(
-      "Consultando con IA para optimizar descripción..."
+  try {
+    // 🚨 PRIMERO: llamar backend SIN mostrar nada
+    const response = await fetch(
+      `${API_BASE}/mejorar-puesto/${puesto.reqId}/?mejorar=1&id_emp=${ID_EMP}`
     );
 
-    try {
-      // Actualizar estado de carga
-      if (loadingMessage) {
-        loadingMessage.querySelector(".loading-text").textContent =
-          "Analizando descripción del puesto SAP...";
-      }
+    if (!response.ok) {
+      const errorData = await response.json();
 
-      // LLAMADA DIRECTA A TU ENDPOINT DE DJANGO
-      const response = await fetch(
-        `${API_BASE}/mejorar-puesto/${puesto.reqId}/?mejorar=1`
-      );
+      if (manejarErrorTokens(errorData)) return;
 
-      if (!response.ok) {
-        throw new Error(`Error HTTP: ${response.status}`);
-      }
-
-      // Actualizar estado de carga
-      if (loadingMessage) {
-        loadingMessage.querySelector(".loading-text").textContent =
-          "Procesando optimizaciones de IA...";
-      }
-
-      const data = await response.json();
-
-      if (data.error) {
-        throw new Error(data.error);
-      }
-
-      // Ocultar mensaje de carga
-      ocultarMensajeCarga();
-
-      // Mostrar resultados de tu función Python
-      mostrarResultadoMejoraPuesto(puesto, data);
-    } catch (error) {
-      console.error("Error mejorando puesto SAP:", error);
-
-      // Ocultar mensaje de carga
-      ocultarMensajeCarga();
-
-      addMessage(
-        "❌ Error al conectar con el servicio de IA. Intenta más tarde.",
-        "bot-message"
-      );
-
-      // Mostrar confirmación de ayuda
-      setTimeout(() => {
-        mostrarConfirmacionAyuda();
-      }, 1000);
+      throw new Error(errorData.error || `Error HTTP: ${response.status}`);
     }
-  }, 1500); // Pequeña pausa para el efecto typing
+
+    // YA PASÓ → ahora sí UI
+    const data = await response.json();
+
+    // Mostrar info del puesto
+    const infoPuestoHTML = `
+      <div class="candidate-analysis">
+        <h5>🚀 Mejorando Puesto SAP: ${puesto.titulo}</h5>
+        <div class="analysis-field">
+          <strong>📋 ID Requisición:</strong> ${puesto.reqId}
+        </div>
+        <div class="analysis-field">
+          <strong>🏷️ Categoría:</strong> ${puesto.categoria}
+        </div>
+        <div class="analysis-field">
+          <strong>📍 Ubicación:</strong> ${puesto.ubicacion}
+        </div>
+      </div>
+    `;
+
+    addHTMLMessage(infoPuestoHTML, "bot-message");
+
+
+    // Simular pequeño delay visual si quieres
+    setTimeout(() => {
+      ocultarMensajeCarga();
+      mostrarResultadoMejoraPuesto(puesto, data);
+    }, 500);
+
+  } catch (error) {
+    console.error("Error mejorando puesto SAP:", error);
+
+    addMessage(
+      "❌ Error al conectar con el servicio de IA. Intenta más tarde.",
+      "bot-message"
+    );
+
+    setTimeout(() => {
+      mostrarConfirmacionAyuda();
+    }, 1000);
+  }
 }
 
 // Función para mostrar los resultados de la mejora
@@ -2003,16 +2005,16 @@ function mostrarResultadoMejoraPuesto(puesto, resultado) {
         </div>
         
         <div class="special-buttons" style="margin-top: 15px;">
-            <button class="special-btn" onclick="copiarDescripcionPuesto('${(
+            <button class="special-btn copiar-btn" onclick="copiarDescripcionPuesto('${(
       resultado.descripcion_mejorada || ""
     )
       .replace(/'/g, "\\'")
       .replace(/\n/g, "\\n")}')" 
-                    style="background: linear-gradient(135deg, #17a2b8 0%, #20c997 100%);">
+                    style="background: #007bff;">
                 📋 Copiar Descripción Mejorada
             </button>
             <button class="special-btn" onclick="procesarOtroPuesto()" 
-                    style="background: linear-gradient(135deg, #6f42c1 0%, #e83e8c 100%);">
+                    style="background: #002B45;">
                 📊 Procesar Otro Puesto
             </button>
         </div>
@@ -2451,101 +2453,68 @@ async function mostrarModalPuestosParaComparacion(candidato) {
 
 // Función para iniciar la comparación CV vs SAP
 async function iniciarComparacionCV(candidatoId, reqId) {
-  // Cerrar el modal
+
   const modal = document.getElementById("comparacion-modal-overlay");
-  if (modal) {
-    document.body.removeChild(modal);
-  }
+  if (modal) document.body.removeChild(modal);
 
   const candidato = candidatosData.find((c) => c.id_candidate == candidatoId);
   const puesto = puestosData.find((p) => p.reqId === reqId);
 
   if (!candidato || !puesto) return;
 
-  // Mostrar mensaje en el chat
+  // 🔥 UI inicial
   addMessage(
     `Comparando CV de ${candidato.nombre_candidate} con puesto: ${puesto.titulo} (${reqId})`,
     "user-message"
   );
 
-  // Mostrar información de la comparación
-  const comparacionHTML = `
+  addHTMLMessage(`
     <div class="candidate-analysis">
       <h5>🔍 Comparando CV con Puesto SAP</h5>
-      <div class="analysis-field">
-        <strong>👤 Candidato:</strong> ${candidato.nombre_candidate} ${candidato.apellidop_candidate}
-      </div>
-      <div class="analysis-field">
-        <strong>💼 Puesto SAP:</strong> ${puesto.titulo} (${reqId})
-      </div>
-      <div class="analysis-field">
-        <strong>🔄 Proceso:</strong> Analizando compatibilidad con IA...
-      </div>
+      <div>⏳ Analizando compatibilidad con IA...</div>
     </div>
-  `;
+  `, "bot-message");
 
-  addHTMLMessage(comparacionHTML, "bot-message");
-
-  // Mostrar indicador de typing inicial
   const typingIndicator = mostrarTypingIndicator();
 
   setTimeout(async () => {
-    ocultarTypingIndicator();
 
-    // Mostrar mensaje de carga
-    const loadingMessage = mostrarMensajeCarga(
-      "Analizando compatibilidad con IA..."
-    );
+    ocultarTypingIndicator();
+    const loadingMessage = mostrarMensajeCarga("Analizando compatibilidad con IA...");
 
     try {
-      // Actualizar estado de carga
-      if (loadingMessage) {
-        loadingMessage.querySelector(".loading-text").textContent =
-          "Extrayendo información del CV y descripción del puesto...";
-      }
 
-      // Llamar a tu endpoint de comparación
+      // 🔥 SOLO UNA LLAMADA
       const response = await fetch(
-        `${API_BASE}/comparar/${candidatoId}/${reqId}/`
+        `${API_BASE}/comparar/${candidatoId}/${reqId}/?id_emp=${ID_EMP}`
       );
 
       if (!response.ok) {
-        throw new Error(`Error HTTP: ${response.status}`);
-      }
+        const errorData = await response.json();
 
-      // Actualizar estado de carga
-      if (loadingMessage) {
-        loadingMessage.querySelector(".loading-text").textContent =
-          "Calculando compatibilidad y generando recomendaciones...";
+        if (manejarErrorTokens(errorData)) return;
+
+        throw new Error(errorData.error || `Error HTTP: ${response.status}`);
       }
 
       const data = await response.json();
 
-      if (data.error) {
-        throw new Error(data.error);
-      }
-
-      // Ocultar mensaje de carga
       ocultarMensajeCarga();
 
-      // Mostrar resultados de la comparación
       mostrarResultadoComparacion(candidato, puesto, data);
+
     } catch (error) {
       console.error("Error en comparación CV:", error);
 
-      // Ocultar mensaje de carga
       ocultarMensajeCarga();
 
       addMessage(
-        "❌ Error al comparar el CV con el puesto SAP.",
+        "Error al comparar el CV con el puesto SAP.",
         "bot-message"
       );
-
-      setTimeout(() => {
-        mostrarConfirmacionAyuda();
-      }, 1000);
     }
-  }, 1500); // Pequeña pausa para el efecto typing
+
+  }, 1500);
 }
 
 // Función para mostrar resultados de la comparación
@@ -2627,8 +2596,8 @@ function mostrarResultadoComparacion(candidato, puesto, resultado) {
       : ""
     }
         </div>
-        
-        <div class="special-buttons" style="margin-top: 15px;">
+        <!--
+       <div class="special-buttons" style="margin-top: 15px;">
             <button class="special-btn" onclick="compararOtroCV(${candidato.id_candidate
     })" 
                     style="background: linear-gradient(135deg, #17a2b8 0%, #20c997 100%);">
@@ -2639,6 +2608,7 @@ function mostrarResultadoComparacion(candidato, puesto, resultado) {
                 🏠 Volver al Inicio
             </button>
         </div>
+        -->
     `;
 
   addHTMLMessage(resultadoHTML, "bot-message");
@@ -2845,7 +2815,7 @@ async function enviarComparativaManual(candidatoId) {
       }
 
       const response = await fetch(
-        `${API_BASE}/comparar_manual/${candidatoId}/`,
+        `${API_BASE}/comparar_manual/${candidatoId}/?id_emp=${ID_EMP}`,
         {
           method: "POST",
           headers: {
@@ -2858,7 +2828,14 @@ async function enviarComparativaManual(candidatoId) {
       );
 
       if (!response.ok) {
-        throw new Error(`Error HTTP: ${response.status}`);
+        const errorData = await response.json();
+
+        //
+        if (manejarErrorTokens(errorData)) {
+          return;
+        }
+
+        throw new Error(errorData.error || `Error HTTP: ${response.status}`);
       }
 
       // Actualizar estado de carga
@@ -3084,4 +3061,61 @@ function restaurarBoton(botonId) {
   // Limpiar datos
   delete boton.dataset.originalText;
   delete boton.dataset.originalDisabled;
+}
+
+function manejarErrorTokens(errorData) {
+
+  if (errorData.code === "TOKENS_AGOTADOS") {
+
+    Swal.fire({
+      icon: "warning",
+      title: "Límite de tokens alcanzado",
+      html: `
+        <p style="font-size: 16px;">
+          Has utilizado todos tus tokens disponibles este mes.
+        </p>
+        <p style="font-size: 14px; color: #888;">
+          Para continuar usando la IA, contacta al administrador o espera el siguiente periodo.
+        </p>
+      `,
+      confirmButtonText: "Entendido",
+      confirmButtonColor: "#007bff",
+      background: "#ffffff",
+      color: "#000000",
+      iconColor: "#ffcc00",
+    });
+
+    bloquearChat(); // 🔒 opcional pero recomendado
+
+    return true; // 🚨 importante
+  }
+
+  return false;
+}
+
+function bloquearChat() {
+  flujoEnProceso = true;
+  sessionStorage.setItem("flujoActivo", "true");
+
+  const chat = document.getElementById("chat-body");
+
+  if (!chat) return;
+
+  const elementos = chat.querySelectorAll("input, textarea, button");
+
+  elementos.forEach(el => {
+    el.disabled = true;
+    el.style.opacity = "0.6";
+    el.style.cursor = "not-allowed";
+  });
+
+  const input = document.getElementById("chat-input");
+  const boton = document.getElementById("send-btn");
+
+  if (input) {
+    input.disabled = true;
+    input.placeholder = "Sin tokens disponibles";
+  }
+
+  if (boton) boton.disabled = true;
 }

@@ -1,9 +1,13 @@
 <?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 // Validación del usuario
 include 'modelo/consultas_menu.php';
+include 'modelo/conexion_bd.php';
 
 // URL de la API Django que devuelve JSON
-$tokens_api_url = "http://localhost:8000/api/tokens/";
+$id_emp = $_SESSION['id_emp'];
+$tokens_api_url = "http://localhost:8000/api/tokens/?id_emp=" . $id_emp;
 
 // Obtener datos desde la API
 function obtenerDatosJSON($url)
@@ -15,10 +19,34 @@ function obtenerDatosJSON($url)
     return json_decode($json, true);
 }
 
+
 // $tokens = obtenerDatosJSON($tokens_api_url);
 $response = obtenerDatosJSON($tokens_api_url);
-$tokens = $response['data'] ?? [];
+// Usar directamente el array que devuelve la API
+$tokens = $response ?? [];
 
+
+
+// ===============================
+// OBTENER TOKENS DEL PLAN (MySQL)
+// ===============================
+$id_emp = $_SESSION['id_emp'] ?? null;
+$tokens_restantes = 0;
+
+if ($id_emp) {
+    $stmt = $conexion->prepare("
+        SELECT tokens_actuales 
+        FROM empresa 
+        WHERE id_emp = ?
+    ");
+    $stmt->bind_param("s", $id_emp);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $empresa = $result->fetch_assoc();
+    $stmt->close();
+
+    $tokens_restantes = $empresa['tokens_actuales'] ?? 0;
+}
 
 ?>
 
@@ -214,28 +242,22 @@ $tokens = $response['data'] ?? [];
                                 <tr>
                                     <td><?php echo htmlspecialchars($t['user'] ?? ''); ?></td>
 
-                                    <!-- Entrada / Restante Entrada -->
                                     <td>
-                                        <?php echo number_format($t['input_tokens'] ?? 0); ?>
-                                        /
+                                        <?php echo number_format($t['input_tokens'] ?? 0); ?> /
                                         <span class="<?php echo (($t['remaining_input'] ?? 0) > 0) ? 'badge-count' : 'badge-count-zero'; ?>">
                                             <?php echo number_format($t['remaining_input'] ?? 0); ?>
                                         </span>
                                     </td>
 
-                                    <!-- Salida / Restante Salida -->
                                     <td>
-                                        <?php echo number_format($t['output_tokens'] ?? 0); ?>
-                                        /
+                                        <?php echo number_format($t['output_tokens'] ?? 0); ?> /
                                         <span class="<?php echo (($t['remaining_output'] ?? 0) > 0) ? 'badge-count' : 'badge-count-zero'; ?>">
                                             <?php echo number_format($t['remaining_output'] ?? 0); ?>
                                         </span>
                                     </td>
 
-                                    <!-- Memoria / Restante Memoria -->
                                     <td>
-                                        <?php echo number_format($t['memory_tokens'] ?? 0); ?>
-                                        /
+                                        <?php echo number_format($t['memory_tokens'] ?? 0); ?> /
                                         <span class="<?php echo (($t['remaining_memory'] ?? 0) > 0) ? 'badge-count' : 'badge-count-zero'; ?>">
                                             <?php echo number_format($t['remaining_memory'] ?? 0); ?>
                                         </span>
@@ -244,12 +266,10 @@ $tokens = $response['data'] ?? [];
                             <?php endforeach; ?>
                         <?php else: ?>
                             <tr>
-                                <td colspan="4" class="text-center py-4">
-                                    <div class="text-muted">
-                                        <h5>No hay tokens disponibles</h5>
-                                        <p>Verifica que los datos JSON o CSV estén correctamente cargados.</p>
-                                    </div>
-                                </td>
+                                <td class="text-center py-4">No hay tokens disponibles</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
                             </tr>
                         <?php endif; ?>
                     </tbody>
@@ -274,6 +294,12 @@ $tokens = $response['data'] ?? [];
 
     <script>
         $(document).ready(function() {
+
+            // Evita inicializar DataTables dos veces
+            if ($.fn.DataTable.isDataTable('#tablaTokens')) {
+                $('#tablaTokens').DataTable().destroy();
+            }
+
             $('#tablaTokens').DataTable({
                 paging: true,
                 pageLength: 10,
@@ -284,9 +310,22 @@ $tokens = $response['data'] ?? [];
                     [0, 'asc']
                 ],
                 responsive: true,
+
+                language: {
+                    emptyTable: "No hay tokens disponibles",
+                    search: "Buscar usuario:",
+                    lengthMenu: "Mostrar _MENU_ registros",
+                    info: "Mostrando _START_ a _END_ de _TOTAL_ usuarios",
+                    paginate: {
+                        next: "Siguiente",
+                        previous: "Anterior"
+                    }
+                },
+
                 dom: '<"row"<"col-sm-12 col-md-6"B><"col-sm-12 col-md-6"f>>' +
                     '<"row"<"col-sm-12"tr>>' +
                     '<"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
+
                 buttons: [{
                     extend: 'excelHtml5',
                     text: '📊 Exportar a Excel',
@@ -294,6 +333,7 @@ $tokens = $response['data'] ?? [];
                     title: 'Consumo_Tokens_' + new Date().toISOString().slice(0, 10)
                 }]
             });
+
         });
     </script>
 </body>

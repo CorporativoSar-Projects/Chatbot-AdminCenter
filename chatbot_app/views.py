@@ -36,6 +36,8 @@ from django.http import JsonResponse
 from chatbot_app.models import Candidato, ComparacionCVPuesto
 from datetime import datetime
 
+
+
 # client = OpenAI()
 def get_openai_client():
     api_key = os.getenv("OPENAI_API_KEY")
@@ -157,55 +159,97 @@ def call_openai_with_context(user_message):
 
 
 # Decorador para requerir tokens
-def require_tokens(func):
+def require_tokens(view_func):
     def wrapper(request, *args, **kwargs):
-        token_record = get_or_create_token_record(request)
-        if not token_record.can_use_api():
+
+        id_emp = request.headers.get('X-EMP-ID') or request.GET.get('id_emp')
+
+        token_record = TokenUsage.objects.filter(id_emp=id_emp).first()
+
+        if not token_record:
+            return JsonResponse({'error': 'Empresa sin tokens'}, status=403)
+
+        # Reinicio mensual
+        token_record.can_use_api()
+
+        # BLOQUEO cuando ya no hay tokens
+        if token_record.is_blocked():
+
+            notify = False
+
+            # 🔔 Solo la primera vez
+            if not token_record.notified_limit:
+                notify = True
+                token_record.notified_limit = True
+                token_record.save(update_fields=['notified_limit'])
+
             return JsonResponse({
-                'error': 'Se alcanzó el límite mensual de tokens. Espera al siguiente ciclo.'
+                'error': 'Límite de tokens alcanzado',
+                'code': 'TOKENS_AGOTADOS',
+                'notify': notify
             }, status=403)
-        return func(request, token_record=token_record, *args, **kwargs)
+         # Pasar el objeto a la vista
+        kwargs['token_record'] = token_record
+
+        return view_func(request, *args, **kwargs)
 
     return wrapper
+    
 
 
 @csrf_exempt
 @require_tokens
-def send_message(request, token_record):
+def send_message(request, token_record=None):
     if request.method != 'POST':
         return JsonResponse({'error': 'Método no permitido'}, status=405)
 
     try:
         data = json.loads(request.body)
         user_message = data.get('user_message', '').strip()
+        id_emp = data.get('id_emp')
+
         if not user_message:
             return JsonResponse({'error': 'El mensaje está vacío'}, status=400)
 
-        # Llamada a OpenAI
-        '''
-        response = client.chat.completions.create(
-            model="gpt-5-nano",
-            messages=[{"role": "user", "content": user_message}]
+        if not id_emp:
+            return JsonResponse({'error': 'id_emp requerido'}, status=400)
+
+        # Obtener o crear registro de tokens
+        token_record, created = TokenUsage.objects.get_or_create(
+            id_emp=id_emp,
+            defaults={
+                'input_tokens': 0,
+                'output_tokens': 0,
+                'memory_tokens': 0
+            }
         )
-        '''
-        response = call_openai_with_context(user_message)
+
+        # BLOQUEAR SI YA NO TIENE TOKENS
+        if token_record.is_blocked():
+            return JsonResponse({
+                'error': 'Has alcanzado el límite de tokens de tu plan'
+            }, status=403)
+
+        # Obtener sesión
+        session = ChatSession.objects.filter(user=request.user).last()
+
+        # Llamada a OpenAI (con memoria)
+        response = call_openai_with_context(user_message, session)
 
         bot_response = response.choices[0].message.content
 
-        session = ChatSession.objects.filter(user=request.user).last()
-
+        # Guardar mensaje en historial
         ChatMessage.objects.create(
             session=session,
             user_message=user_message,
             bot_response=bot_response
         )
 
-        # Registrar tokens
-        usage = getattr(response, 'usage', None)
-        if usage:
-            token_record.input_tokens += getattr(usage, 'prompt_tokens', 0)
-            token_record.output_tokens += getattr(usage, 'completion_tokens', 0)
-            token_record.save()
+        # GUARDAR TOKENS (CENTRALIZADO)
+        error_response = guardar_tokens_empresa(id_emp, response)
+
+        if error_response:
+            return error_response
 
         return JsonResponse({
             'bot_response': bot_response,
@@ -219,7 +263,6 @@ def send_message(request, token_record):
     except Exception as e:
         traceback.print_exc()
         return JsonResponse({'error': str(e)}, status=500)
-
 
 @csrf_exempt
 def start_chat(request):
@@ -283,6 +326,14 @@ def send_message_ajax(request, session_id):
 @csrf_exempt
 @require_tokens
 def send_message_ajax(request, session_id, token_record):
+
+     # 🚨 BLOQUEO INMEDIATO (ANTES DE TODO)
+    if token_record.is_blocked():
+        return JsonResponse({
+            'error': 'Límite de tokens alcanzado',
+            'code': 'TOKENS_AGOTADOS'
+        }, status=403)
+    
     if request.method != "POST":
         return JsonResponse({'error': 'Método no permitido'}, status=405)
 
@@ -317,10 +368,26 @@ def send_message_ajax(request, session_id, token_record):
 
         # Registrar tokens
         usage = getattr(response, 'usage', None)
+    
+
+        input_tokens = 0
+        output_tokens = 0
+
         if usage:
-            token_record.input_tokens += getattr(usage, 'prompt_tokens', 0)
-            token_record.output_tokens += getattr(usage, 'completion_tokens', 0)
-            token_record.save()
+            input_tokens = getattr(usage, 'prompt_tokens', 0)
+            output_tokens = getattr(usage, 'completion_tokens', 0)
+
+        # Guardar SIEMPRE
+        token_record.input_tokens += input_tokens
+        token_record.output_tokens += output_tokens
+        token_record.save()
+
+        # 🚨 VALIDAR DESPUÉS DE SUMAR
+        if token_record.is_blocked():
+            return JsonResponse({
+                'error': 'Límite de tokens alcanzado',
+                'code': 'TOKENS_AGOTADOS'
+            }, status=403)
 
         return JsonResponse({
             'reply': bot_response,
@@ -423,7 +490,28 @@ def mejorar_descripcion_puesto(request, token_record):
             }
         )
 
+        # 👇 AQUÍ
+        print("====== PROMPT USADO ======")
+        print(prompt_usado)
+        print("====== FIN PROMPT ======")
+
         descripcion_mejorada = response.choices[0].message.content
+        
+         # GUARDAR TOKENS 
+        usage = getattr(response, 'usage', None)
+
+        if usage:
+            token_record.input_tokens += getattr(usage, 'prompt_tokens', 0)
+            token_record.output_tokens += getattr(usage, 'completion_tokens', 0)
+            token_record.save()
+
+            # VALIDAR DESPUÉS DE SUMAR
+            if token_record.is_blocked():
+                return JsonResponse({
+                    'error': 'Límite de tokens alcanzado',
+                    'code': 'TOKENS_AGOTADOS'
+                }, status=403)
+
 
         return JsonResponse({
             "descripcion_mejorada": descripcion_mejorada,
@@ -1066,8 +1154,19 @@ def cargar_puesto(req_id: str) -> str:
     return str(texto)
 
 
-def comparar_cv_con_puesto(candidato, req_id: str):
+def comparar_cv_con_puesto(candidato, req_id: str, id_emp: str):
+
+     # 🚨 BLOQUEO INMEDIATO
+    token_record = TokenUsage.objects.filter(id_emp=id_emp).first()
+
+    if token_record and token_record.is_blocked():
+        return JsonResponse({
+            'error': 'Límite de tokens alcanzado',
+            'code': 'TOKENS_AGOTADOS'
+        }, status=403)
+    
     client = get_openai_client()
+    
     # 1. Obtener URL del CV
     cv_url = candidato.CV_candidate
     if not cv_url:
@@ -1102,6 +1201,33 @@ Incluye JSON con:
         messages=[{"role": "user", "content": prompt}]
     )
 
+     #  TOKENS
+    '''usage = response.usage if hasattr(response, "usage") else None
+
+
+    input_tokens = 0
+    output_tokens = 0
+
+    if usage:
+        input_tokens = getattr(usage, 'prompt_tokens', 0)
+        output_tokens = getattr(usage, 'completion_tokens', 0)
+
+    # GUARDAR TOKENS POR EMPRESA
+    if id_emp:
+        token_record = TokenUsage.objects.filter(id_emp=id_emp).first()
+        print("ID_EMP:", id_emp)
+        print("TOKEN RECORD:", token_record)
+
+        if token_record:
+            token_record.input_tokens += input_tokens
+            token_record.output_tokens += output_tokens
+            token_record.save()
+
+    print("USAGE:", usage)'''
+    error_response = guardar_tokens_empresa(id_emp, response)
+    if error_response:
+        return error_response  # DETENER AQUÍ
+    
     resultado_texto = response.choices[0].message.content
 
     # Podríamos intentar extraer el número automáticamente, por ahora manual:
@@ -1156,7 +1282,13 @@ def comparar_candidato_view(request, candidato_id, req_id):
 
         # 4. Enviar a IA usando tu función REAL
         print("[LOG] Enviando a IA para comparación...")
-        resultado = comparar_cv_con_puesto(candidato, req_id)
+        id_emp = request.GET.get('id_emp') or request.POST.get('id_emp')
+        resultado = comparar_cv_con_puesto(candidato, req_id, id_emp)
+        # 🚨 SI ES ERROR → REGRESARLO DIRECTO
+        from django.http import JsonResponse
+
+        if isinstance(resultado, JsonResponse):
+            return resultado
         print("[LOG] Respuesta de la IA recibida:")
         print(resultado)
 
@@ -1185,7 +1317,7 @@ def comparar_candidato_view(request, candidato_id, req_id):
 # Mejorar puesto de archivo PUESTO.CSV
 
 
-def mejorar_puesto_y_guardar(req_id: str) -> str:
+def mejorar_puesto_y_guardar(req_id: str, id_emp: str) -> str:
     client = get_openai_client()
     import pandas as pd
     from django.utils import timezone
@@ -1193,6 +1325,16 @@ def mejorar_puesto_y_guardar(req_id: str) -> str:
 
     print("==== INICIO PROCESO ====")
     print(f"req_id recibido: {req_id}")
+
+
+    # 1. BLOQUEO INMEDIATO (ANTES DE TODO)
+    token_record = TokenUsage.objects.filter(id_emp=id_emp).first()
+
+    if token_record and token_record.is_blocked():
+        return JsonResponse({
+            'error': 'Límite de tokens alcanzado',
+            'code': 'TOKENS_AGOTADOS'
+        }, status=403)
 
     # Convertir a entero
     try:
@@ -1233,12 +1375,13 @@ def mejorar_puesto_y_guardar(req_id: str) -> str:
 
     # 2. Llamar a IA (prompt estricto)
     prompt = (
-        "Mejora profesionalmente la siguiente descripción, "
-        "SIN agregar funciones nuevas, "
-        "SIN explicaciones, "
-        "SIN saludos. "
-        "Devuelve solo el texto mejorado:\n\n"
-        f"{descripcion_original}"
+    "Actúa como un reclutador profesional senior. "
+    "Mejora la siguiente descripción de puesto elevando el nivel del lenguaje a un tono más profesional, claro y atractivo para candidatos. "
+    "Optimiza la redacción, elimina redundancias y evita repetir ideas. "
+    "Mantén el mismo contenido y significado, sin agregar funciones nuevas. "
+    "No incluyas explicaciones ni saludos. "
+    "Devuelve únicamente el texto final mejorado.\n\n"
+    f"{descripcion_original}"
     )
 
     print("Llamando a IA con prompt:")
@@ -1251,6 +1394,10 @@ def mejorar_puesto_y_guardar(req_id: str) -> str:
             {"role": "user", "content": prompt}
         ]
     )
+    error_response = guardar_tokens_empresa(id_emp, response)
+
+    if error_response:
+            return error_response
 
     descripcion_mejorada = response.choices[0].message.content
 
@@ -1283,11 +1430,16 @@ def mejorar_puesto_view(request, req_id):
     resultado = mejorar_descripcion_puesto_2(req_id, aplicar_mejora=aplicar)
     return JsonResponse(resultado, safe=False)
 '''
-
-
-def mejorar_puesto_view(request, req_id):
+@csrf_exempt
+@require_tokens
+def mejorar_puesto_view(request, req_id, token_record=None):
     try:
-        nueva_desc = mejorar_puesto_y_guardar(req_id)
+        id_emp = request.GET.get('id_emp')  # CLAVE
+
+        if not id_emp:
+            return JsonResponse({"error": "id_emp requerido"}, status=400)
+
+        nueva_desc = mejorar_puesto_y_guardar(req_id, id_emp)
         return JsonResponse({"descripcion_mejorada": nueva_desc})
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)
@@ -1296,7 +1448,7 @@ def mejorar_puesto_view(request, req_id):
 ##  COMPARAR CV CON DESCRIPCIÓN MANUAL
 
 
-def comparar_cv_con_texto_manual(candidato, texto_manual: str):
+def comparar_cv_con_texto_manual(candidato, texto_manual: str, id_emp:str):
     client = get_openai_client()
     """
     Compara el CV del candidato contra una descripción manual escrita en un textarea.
@@ -1334,6 +1486,7 @@ En formato JSON.
         model="gpt-4o-mini",
         messages=[{"role": "user", "content": prompt}]
     )
+    guardar_tokens_empresa(id_emp,response)
 
     resultado_texto = response.choices[0].message.content
 
@@ -1619,3 +1772,74 @@ def obtener_texto_cv(request, candidato_id):
         return JsonResponse({"error": str(e)}, status=500)
 
 
+def obtener_tokens(request):
+    id_emp = request.GET.get('id_emp')
+
+    token_record = TokenUsage.objects.filter(id_emp=id_emp).first()
+
+    if not token_record:
+        return JsonResponse([], safe=False)
+
+    return JsonResponse([{
+        'empresa': id_emp,
+        'input_tokens': token_record.input_tokens,
+        'output_tokens': token_record.output_tokens,
+        'memory_tokens': token_record.memory_tokens,
+        'remaining_input': token_record.remaining_input(),
+        'remaining_output': token_record.remaining_output(),
+        'remaining_memory': token_record.remaining_memory(),
+    }], safe=False)
+
+def crear_tokens_empresa(request):
+    id_emp = request.GET.get('id_emp')
+
+    if not id_emp:
+        return JsonResponse({'error': 'id_emp requerido'}, status=400)
+
+    token_record, created = TokenUsage.objects.get_or_create(
+        id_emp=id_emp,
+        defaults={
+            'input_tokens': 0,
+            'output_tokens': 0,
+            'memory_tokens': 0
+        }
+    )
+
+    return JsonResponse({
+        'status': 'ok',
+        'created': created
+    })
+
+def guardar_tokens_empresa(id_emp, response):
+    usage = response.usage if hasattr(response, "usage") else None
+
+    if not usage or not id_emp:
+        return
+
+    input_tokens = getattr(usage, 'prompt_tokens', 0)
+    output_tokens = getattr(usage, 'completion_tokens', 0)
+
+    token_record = TokenUsage.objects.filter(id_emp=id_emp).first()
+
+    if token_record:
+        token_record.input_tokens += input_tokens
+        token_record.output_tokens += output_tokens
+
+        # OPCIONAL (si ya activaste memoria)
+       # token_record.memory_tokens += input_tokens
+
+        token_record.save()
+        print("TOKENS ACTUALES:", token_record.input_tokens, token_record.output_tokens)
+
+
+        #  VALIDAR DESPUÉS DE SUMAR
+        if token_record.is_blocked():
+            print("🚨 BLOQUEANDO POR TOKENS") 
+            return JsonResponse({
+                'error': 'Límite de tokens alcanzado',
+                'code': 'TOKENS_AGOTADOS'
+            }, status=403)
+
+    print("TOKENS GUARDADOS:", input_tokens, output_tokens)
+
+    return None

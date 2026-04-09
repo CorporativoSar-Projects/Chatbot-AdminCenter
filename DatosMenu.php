@@ -24,22 +24,44 @@ include 'modelo/consultas_menu.php';
         <a href="#">Chatbot IXAH</a>
         <span>Versión 1.0.0</span>
       </div>
-      
-       <?php if ($puedeVerMenuAdmin): ?>
-            
-              <div class="user-info">
-                <a href="informacion_empresa.php">Información de la Empresa</a>
-              </div>
-            
-              <div class="user-info">
-                <a href="tokens.php">Tokens</a>
-              </div>
-            
-              <div class="user-info">
-                <a href="log_errores.php">Errores de los ChatBots</a>
-              </div>
-            
-            <?php endif; ?>
+
+      <?php if ($puedeVerMenuAdmin): ?>
+
+       <!-- <div class="user-info">
+          <a href="javascript:void(0);" onclick="limpiarChatYRedirigir('menu.php')">Menu</a>
+        </div>-->
+
+        <!--
+    <div class="user-info">
+        <a href="javascript:void(0);" onclick="limpiarChatYRedirigir('vacantes_candidatos.php?tab=vacantes')">
+            Vacantes y Candidatos
+        </a>
+    </div>
+    -->
+
+        <div class="user-info">
+          <a href="informacion_empresa.php">Información de la Empresa</a>
+        </div>
+
+        <div class="user-info">
+          <a href="javascript:void(0);" onclick="limpiarChatYRedirigir('panel_admin_ia.php')">
+            Panel de Configuración
+          </a>
+        </div>
+
+        <div class="user-info">
+          <a href="javascript:void(0);" onclick="limpiarChatYRedirigir('tokens.php')">
+            Tokens
+          </a>
+        </div>
+
+        <div class="user-info">
+          <a href="javascript:void(0);" onclick="limpiarChatYRedirigir('log_errores.php')">
+            Errores de los ChatBots
+          </a>
+        </div>
+
+      <?php endif; ?>
       <div class="user-info">
         <a href="#" style="text-decoration: none; color: inherit; display: block; margin-bottom: 10px;">Desarrollado por Giintape Innovahue</a>
         <a href="https://giintapeinnovahue.freshdesk.com/support/tickets/new" target="_blank">Soporte técnico</a>
