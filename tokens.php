@@ -233,7 +233,7 @@ if ($id_emp) {
                             <th>Usuario</th>
                             <th>Entrada / Restante</th>
                             <th>Salida / Restante</th>
-                            <th>Memoria / Restante</th>
+                           <!-- <th>Memoria / Restante</th>-->
                         </tr>
                     </thead>
                     <tbody>
@@ -256,12 +256,12 @@ if ($id_emp) {
                                         </span>
                                     </td>
 
-                                    <td>
+                                  <!--  <td>
                                         <?php echo number_format($t['memory_tokens'] ?? 0); ?> /
                                         <span class="<?php echo (($t['remaining_memory'] ?? 0) > 0) ? 'badge-count' : 'badge-count-zero'; ?>">
                                             <?php echo number_format($t['remaining_memory'] ?? 0); ?>
                                         </span>
-                                    </td>
+                                    </td>-->
                                 </tr>
                             <?php endforeach; ?>
                         <?php else: ?>

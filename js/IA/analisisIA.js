@@ -199,24 +199,39 @@ const ChatSystem = {
       }
 
 
-      if (flujoEnProceso) {
-        const buttons = messageDiv.querySelectorAll("button");
+     const buttons = messageDiv.querySelectorAll("button");
 
-        buttons.forEach(btn => {
-          // SOLO bloquear botones que no sean de copiar
-          if (!btn.classList.contains("copiar-btn")) {
-            if (flujoEnProceso) {
-              btn.disabled = true;
-              btn.style.opacity = "0.6";
-              btn.style.cursor = "not-allowed";
-            } else {
-              btn.disabled = false;
-              btn.style.opacity = "1";
-              btn.style.cursor = "pointer";
-            }
-          }
-        });
-      }
+buttons.forEach(btn => {
+
+  // BOTONES QUE SIEMPRE DEBEN FUNCIONAR
+  const botonesPermitidos = [
+    "copiar-btn",
+    "btn-compare-candidate"
+  ];
+
+  const permitido = botonesPermitidos.some(clase =>
+    btn.classList.contains(clase)
+  );
+
+  // Si está permitido no hacer nada
+  if (permitido) {
+    btn.disabled = false;
+    btn.style.opacity = "1";
+    btn.style.cursor = "pointer";
+    return;
+  }
+
+  // Bloquear solo si hay flujo activo
+  if (flujoEnProceso) {
+    btn.disabled = true;
+    btn.style.opacity = "0.6";
+    btn.style.cursor = "not-allowed";
+  } else {
+    btn.disabled = false;
+    btn.style.opacity = "1";
+    btn.style.cursor = "pointer";
+  }
+});
       chatBody.appendChild(messageDiv);
     });
 
@@ -381,7 +396,7 @@ window.limpiarChatYRedirigir = function (url) {
 function toggleComparisonButtons(show) {
   const buttons = document.querySelectorAll(".btn-compare-candidate");
   buttons.forEach((button) => {
-    button.style.display = show ? "block" : "none";
+    button.style.display = show ? "inline-block" : "none";
   });
 
   // Ocultar otros botones cuando se muestran los de comparación
@@ -390,6 +405,7 @@ function toggleComparisonButtons(show) {
     toggleImproveButtons(false);
   }
 }
+
 
 // LUEGO las otras funciones
 function toggleSelectionButtons(show) {
@@ -635,6 +651,7 @@ function mostrarAnalisisCandidato() {
 
   // Mostrar botones de selección en la tabla
   toggleSelectionButtons(true);
+  
 
   // Mensaje instructivo
   /*
@@ -929,7 +946,7 @@ function mostrarMensajeEspera() {
         <div class="chat-message bot-message">
             <p>¡Claro! Estoy aquí pendiente por si necesitas algo.</p>
             <div class="special-btn" style="margin-top: 10px;">
-                <button class="special-btn  btn-ayuda" onclick="mostrarOpcionesPrincipales()" style="background: linear-gradient(135deg, #002B45 0%, #3ca6e5 100%);">
+                <button class="special-btn  btn-ayuda" onclick="mostrarOpcionesPrincipales()">
                     Ahora sí, necesito ayuda
                 </button>
             </div>
@@ -1184,11 +1201,11 @@ function copiarDescripcionIA(descripcion) {
   navigator.clipboard
     .writeText(descripcionTexto)
     .then(() => {
-      addMessage("✅ Descripción copiada al portapapeles", "bot-message");
+      addMessage("Descripción copiada al portapapeles", "bot-message");
     })
     .catch((err) => {
       console.error("Error al copiar: ", err);
-      addMessage("❌ Error al copiar la descripción", "bot-message");
+      addMessage("Error al copiar la descripción", "bot-message");
     });
 }
 
@@ -1260,7 +1277,7 @@ function mostrarDescripcionMejorada(candidato) {
             </div>
             
             <div class="analysis-field">
-                <strong>✅ Requisitos Deseables:</strong>
+                <strong>Requisitos Deseables:</strong>
                 <ul style="margin: 5px 0; padding-left: 20px;">
                     <li>Experiencia comprobada en puesto similar</li>
                     <li>Habilidades de liderazgo y comunicación</li>
@@ -2074,7 +2091,7 @@ function compararCVConSAP(candidatoId) {
 
   // Mostrar mensaje en el chat
   addMessage(
-    `Quiero comparar el CV de ${candidato.nombre_candidate} ${candidato.apellidop_candidate} con un puesto SAP`,
+    `Quiero comparar el CV de ${candidato.nombre_candidate} ${candidato.apellidop_candidate} con un puesto ATS`,
     "user-message"
   );
 
@@ -2470,7 +2487,7 @@ async function iniciarComparacionCV(candidatoId, reqId) {
 
   addHTMLMessage(`
     <div class="candidate-analysis">
-      <h5>🔍 Comparando CV con Puesto SAP</h5>
+      <h5>🔍 Comparando CV con Puesto ATS</h5>
       <div>⏳ Analizando compatibilidad con IA...</div>
     </div>
   `, "bot-message");
@@ -2639,7 +2656,7 @@ function activarComparacionCV() {
   bloquearBotonesMensajeActual();
 
 
-  addMessage("Quiero ver la compatibildad del CV con un puesto SAP", "user-message");
+  addMessage("Quiero ver la compatibildad del CV con un puesto ATS", "user-message");
 
   // Ocultar otros inputs
   //document.getElementById("analysis-input-container").style.display = "none";
@@ -3119,3 +3136,21 @@ function bloquearChat() {
 
   if (boton) boton.disabled = true;
 }
+
+window.addEventListener("load", () => {
+
+    const urlParams = new URLSearchParams(window.location.search);
+
+    const tab = urlParams.get("tab");
+
+    if (tab === "candidatos") {
+
+        setTimeout(() => {
+
+            toggleComparisonButtons(true);
+
+        }, 300);
+
+    }
+
+});

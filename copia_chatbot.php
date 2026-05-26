@@ -258,18 +258,13 @@ function leerCSVDesdeURL($url)
     return $datos;
 }
 
+$errorVacantes = null;
+
 try {
     $vacantes = leerCSVDesdeURL($csv_vacantes_url);
 } catch (Exception $e) {
 
-    echo "<script>
-        Swal.fire({
-            icon: 'error',
-            title: 'Error al cargar vacantes',
-            text: '" . addslashes($e->getMessage()) . "',
-            confirmButtonColor: '#eca726'
-        });
-    </script>";
+    $errorVacantes = $e->getMessage();
 
     $vacantes = []; // evitar que el sistema se rompa
 }
@@ -323,7 +318,6 @@ $mysqli->close();
     <title>Candidatos - Admin</title>
     <link rel="shortcut icon" href="img/Logo_cabeza.svg" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
     <!-- DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap4.min.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.bootstrap4.min.css" />
@@ -1534,14 +1528,14 @@ $mysqli->close();
                     </button>
                 </div>
             </div>
-            <div id="chat-footer">
+            <!--  <div id="chat-footer">
                 <input type="text" id="chat-input" placeholder="Consulta sobre candidatos, vacantes...">
                 <button id="send-btn">Enviar</button>
-            </div>
+            </div>-->
         </div>
     </div>
 
-       <!--Modal de integración -->
+    <!--Modal de integración -->
     <?php require_once 'modalIntegracion.php'; ?>
     <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -1871,8 +1865,8 @@ $mysqli->close();
         });*/
     </script>
     <script src="js/IA/analisisIA.js"></script>
-      <script src="js/formularioIntegracion.js"></script>
-     <script>
+    <script src="js/formularioIntegracion.js"></script>
+    <script>
         window.appData = {
             nombrePlan: '<?php echo $planUsuario; ?>',
             estadoSuscripcion: '<?php echo $estadoSuscripcion; ?>',
@@ -1965,6 +1959,21 @@ $mysqli->close();
 
         })();
     </script>
+
+    <?php if ($errorVacantes): ?>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error al cargar vacantes',
+                    text: <?= json_encode($errorVacantes) ?>,
+                    confirmButtonColor: '#eca726'
+                });
+
+            });
+        </script>
+    <?php endif; ?>
 </body>
 
 </html>

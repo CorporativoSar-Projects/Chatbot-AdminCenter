@@ -18,8 +18,7 @@ include 'modelo/conexion_bd.php';
 $query = "
     SELECT 
         p.id_vacante,
-        p.id_vacante_csv,
-        p.link_vacante,
+               p.link_vacante,
         e.nombre_emp as empresa,
         COUNT(p.Candidato_id_candidate) as total_candidatos,
         MAX(p.fecha) as fecha_ultima_postulacion,

@@ -57,7 +57,7 @@ if ($resSftp->num_rows > 0) {
 
     $config['integracion_activa'] = (bool)$integ['activo'];
     $config['tipo_integracion'] = $integ['tipo_integracion'] ?? "estandar";
-    $config['url_estandar'] = $integ['url_estandar'] ?? null;  // ⚠ tu campo real es url_estandar
+    $config['url_estandar'] = $integ['url_estandar'] ?? null; 
 }
 
 
