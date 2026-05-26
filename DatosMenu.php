@@ -44,19 +44,19 @@ include 'modelo/consultas_menu.php';
         </div>
 
         <div class="user-info">
-          <a href="javascript:void(0);" onclick="limpiarChatYRedirigir('panel_admin_ia.php')">
+          <a href="panel_admin_ia.php">
             Panel de Configuración
           </a>
         </div>
 
         <div class="user-info">
-          <a href="javascript:void(0);" onclick="limpiarChatYRedirigir('tokens.php')">
+          <a href="tokens.php">
             Tokens
           </a>
         </div>
 
         <div class="user-info">
-          <a href="javascript:void(0);" onclick="limpiarChatYRedirigir('log_errores.php')">
+          <a href="log_errores.php">
             Errores de los ChatBots
           </a>
         </div>

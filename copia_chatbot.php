@@ -1888,9 +1888,6 @@ $mysqli->close();
     <!-- Pasar ID de usuario a JavaScript -->
     <script>
         window.userId = <?php echo json_encode($_SESSION['id_adm']); ?>;
-        console.log('window.userId:', window.userId);
-        console.log('getUserId():', getUserId());
-        console.log('CHAT_STORAGE_KEY:', CHAT_STORAGE_KEY);
     </script>
     <!-- ESTO VA AL FINAL, ANTES de </body> -->
 

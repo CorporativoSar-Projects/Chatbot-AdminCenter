@@ -1,4 +1,4 @@
-const urlConfig = `http://localhost/Chatbot-AdminCenter/modelo/getConfig.php`;
+const urlConfig = `http://localhost/Chatbot-AdminCenter-copia/modelo/getConfig.php`;
 // const urlConfig = `http://localhost/Chatbot-AdminCenter-JessicaMoralesAguilar/modelo/getConfig.php`;
 let windowConfig = {};
 let chatbotMinimizado = false;
@@ -167,6 +167,7 @@ function cargarCSV(url, columnaClave, esSeguimiento = false) {
     download: true,
     header: true,
     skipEmptyLines: true,
+    worker: true,
     complete: function (results) {
       // Guardar los datos por columna
       csvDataPorColumna[columnaClave] = results.data;
@@ -257,50 +258,57 @@ function mostrarSelect(columnaClave, mensajeUsuario, selectId, textoDefault) {
           }
         }
 
-        // Mostrar el link al final si existe
-        if (link) {
-          const tipoIntegracion = windowConfig.tipo_integracion || "estandar";
-          const integracionActiva = windowConfig.integracion_activa === true;
-          const baseUrl = windowConfig.url_estandar || "";
-          if (integracionActiva) {
+     // Mostrar el link al final si existe
+       const funcionamiento = windowConfig.funcionamiento || {};
+const tipoIntegracion = funcionamiento.tipoIntegracion || "estandar";
+const integracionActiva = funcionamiento.integracionActiva === true;
 
-            //  INTEGRACIÓN SFTP
-            if (tipoIntegracion === "sftp") {
+if (integracionActiva) {
 
-              mensaje += `
-              <button class="btn btn-primary"
-                  onclick="abrirModalPostulacion('${emp['reqId_ix']}', '${emp['title_ix']}')">
-                  Postúlate
-              </button>
-          `;
+    // ---------- SFTP ----------
+    if (tipoIntegracion === "sftp") {
+
+        mensaje += `
+        <button class="btn btn-primary"
+            onclick="abrirModalPostulacion('${emp['reqId_ix']}', '${emp['title_ix']}')">
+            Postúlate
+        </button>
+        `;
+
+    }
+
+    // ---------- ESTÁNDAR ----------
+    else if (tipoIntegracion === "estandar") {
+
+        const baseUrl = funcionamiento.urlSitioCarreras || "";
+        const reqId = emp["reqId_ix"] || "";
+
+        const urlFinal = `${baseUrl}${reqId}`;
+
+        mensaje += `
+        <p>
+            <a href="${urlFinal}" target="_blank"
+               class="btn btn-primary">
+               Postúlate
+            </a>
+        </p>
+        `;
+    }
+
+} else {
+
+    // integración desactivada
+    if (link) {
+        mensaje += `
+        <p>
+            <a href="${link}" target="_blank"
+               class="btn btn-primary">
+               Postúlate
+            </a>
+        </p>
+        `;
             }
-
-            // INTEGRACIÓN ESTÁNDAR (URL)
-            else if (tipoIntegracion === "estandar") {
-
-              const reqId = emp["reqId_ix"] || "";
-
-              // Si hay URL de carreras definida
-              const urlFinal = (baseUrl && reqId)
-                ? `${baseUrl}${reqId}`
-                : link;
-
-              mensaje += `
-              <p><a href="${urlFinal}" target="_blank">
-                  Postúlate
-              </a></p>
-          `;
-            }
-
-          } else {
-            // Sin integración activa → usa el link del CSV
-            mensaje += `
-          <p><a class="btn btn-primary" href="${link}" target="_blank">
-              Postúlate
-          </a></p>
-      `;
           }
-        }
         mensaje += "</div>";
         agregarMensajeChatbot(mensaje);
       });
@@ -422,7 +430,14 @@ function cerrar(){
 function manejarFlujoSeguimiento(userInput) {
   if (estadoConversacion !== "preguntaUsuario") return;
 
+    // Validar que el input sea un email
+  if (!validateEmail(userInput)) {
+    agregarMensajeChatbot("Por favor, ingresa un correo electrónico válido.");
+    return; // No continuar hasta que sea válido
+  }
+
   const columnaClave = window.temaSeguimiento.columna;
+
   const csvData = csvDataPorColumna[columnaClave] || [];
 
   const resultados = csvData.filter(item => {
@@ -432,16 +447,35 @@ function manejarFlujoSeguimiento(userInput) {
 
   if (resultados.length > 0) {
     agregarMensajeChatbot("Postulaciones encontradas:");
+
+    // Definir aquí las columnas que quieres mostrar
+    const columnasMostrar = {
+      candStatus_ix: "Estatus de postulación",
+      title_ix: "Vacante postulada",
+      name_ix: "Nombre",
+      lastName_ix: "Apellido",
+      email_ix: "Correo Electrónico"
+    };
+
     resultados.forEach(item => {
       let html = "<div class='resultado-csv'>";
-      Object.keys(item).forEach(col => {
-        if (col && !col.startsWith("_")) {
-          html += `<p><strong>${col}:</strong> ${item[col] || '-'}</p>`;
+
+      // Mostrar solo columnas
+      //Object.keys(item).forEach(col => {
+      //if (col && !col.startsWith("_")) { // Ignorar columnas automáticas de PapaParse
+      //html += `<p><strong>${col}:</strong> ${item[col] || '-'}</p>`;
+      //}
+      //});
+      // Mostrar solo las columnas que definiste arriba
+      Object.keys(columnasMostrar).forEach(col => {
+        if (item[col] !== undefined && item[col] !== "") {
+          html += `<p><strong>${columnasMostrar[col]}:</strong> ${item[col]}</p>`;
         }
       });
+
       html += "</div>";
       agregarMensajeChatbot(html);
-    });
+      });
   } else {
     agregarMensajeChatbot("No se encontraron coincidencias con tu información.");
   }
@@ -1109,26 +1143,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 document.addEventListener("DOMContentLoaded", () => {
-  const aiChat = document.getElementById("ai-chat-container");
   const userChat = document.getElementById("user-input-container");
 
-  // Al iniciar, solo la IA visible
-  aiChat.style.display = "flex";
   userChat.style.display = "none";
 });
 
 // --- Cuando se selecciona el tema de seguimiento ---
 function activarCajaSeguimiento() {
-  const aiChat = document.getElementById("ai-chat-container");
   const userChat = document.getElementById("user-input-container");
-  aiChat.style.display = "none";
   userChat.style.display = "flex";
 }
 
 // --- Cuando se vuelve al chat normal o se cierra ---
 function activarCajaIA() {
-  const aiChat = document.getElementById("ai-chat-container");
   const userChat = document.getElementById("user-input-container");
-  aiChat.style.display = "flex";
   userChat.style.display = "none";
 }

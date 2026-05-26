@@ -156,65 +156,7 @@ if ($id_emp) {
     </div>
 
     <header>
-        <div class="user-dropdown">
-            <div class="cont-btn-user" id="close-btn-user">
-                <button class="btn-user" id="user-btn">
-                    <img src="img/user.png" width="30" alt="User Icon" />
-                </button>
-            </div>
-            <!-- Menu lateral -->
-            <div class="dropdown-content" id="dropdown-content">
-                <div class="d-flex align-items-center px-3 user-info">
-                    <img src="img/user.png" width="40" alt="User Icon" />
-                    <div class="div-user">
-                        <strong><?php echo $_SESSION['nombre_adm'] . ' ' . $_SESSION['apellidop_adm']; ?></strong><br />
-                        <small><?php echo ($_SESSION['correo_adm']) ?></small>
-                    </div>
-                </div>
-                <div class="dropdown-links">
-                    <div class="user-info">
-                        <a href="#">Chatbot IXAH</a>
-                        <span>Versión 1.0.0</span>
-                    </div>
-                    <div class="user-info">
-                        <a href="menu.php">Menu</a>
-                    </div>
-                    <!--
-                    <div class="user-info">
-                        <a href="vacantes.php">Vacantes</a>
-                    </div>
-                    <div class="user-info">
-                        <a href="candidatos.php">Candidatos</a>
-                    </div>-->
-                    <!--
-                    <div class="user-info">
-                        <a href="vacantes_candidatos.php?tab=vacantes">Vacantes y Candidatos</a>
-                    </div>-->
-                    <div class="user-info">
-                        <a href="panel_admin_ia.php">Panel de Configuración</a>
-                    </div>
-                    <div class="user-info">
-                        <a href="tokens.php">Tokens</a>
-                    </div>
-                    <div class="user-info">
-                        <a href="log_errores.php">Errores de los ChatBots</a>
-                    </div>
-                    <div class="user-info">
-                        <a href="#">Desarrollado por Giintape Innovahue</a>
-                        <span>Ayuda</span>
-                    </div>
-                    <div class="user-info">
-                        <a href="#" id="sftpLink" data-toggle="modal" data-target="#sftpModal" style="text-decoration: none; color: inherit; display: block; margin-bottom: 10px;">
-                            Integración SFTP
-                        </a>
-
-                        <a href="https://billing.stripe.com/p/login/fZe3f33cggofeBy144" target="_blank">Actualizar Plan</a>
-
-                    </div>
-                    <a class="a1" href="cerrarSesion.php">Cerrar Sesión</a>
-                </div>
-            </div>
-        </div>
+        <?php include 'DatosMenu.php'; ?>
     </header>
 
     <main class="main-content">
@@ -233,7 +175,7 @@ if ($id_emp) {
                             <th>Usuario</th>
                             <th>Entrada / Restante</th>
                             <th>Salida / Restante</th>
-                           <!-- <th>Memoria / Restante</th>-->
+                            <!--<th>Memoria / Restante</th>-->
                         </tr>
                     </thead>
                     <tbody>
@@ -256,7 +198,7 @@ if ($id_emp) {
                                         </span>
                                     </td>
 
-                                  <!--  <td>
+                                   <!-- <td>
                                         <?php echo number_format($t['memory_tokens'] ?? 0); ?> /
                                         <span class="<?php echo (($t['remaining_memory'] ?? 0) > 0) ? 'badge-count' : 'badge-count-zero'; ?>">
                                             <?php echo number_format($t['remaining_memory'] ?? 0); ?>
@@ -278,6 +220,7 @@ if ($id_emp) {
         </div>
     </main>
 
+    <?php require_once 'modalIntegracion.php'; ?>
     <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -335,6 +278,26 @@ if ($id_emp) {
             });
 
         });
+    </script>
+    <script src="js/formularioIntegracion.js"></script>
+    <script>
+        window.appData = {
+            nombrePlan: '<?php echo $planUsuario; ?>',
+            estadoSuscripcion: '<?php echo $estadoSuscripcion; ?>',
+            sftpActivo: <?php echo $sftpActivo; ?>,
+            sftpConfig: <?php
+                        echo json_encode([
+                            'tipo_integracion' => $sftpData['tipo_integracion'] ?? 'estandar',
+                            'activo' => isset($sftpData['activo']) ? (int)$sftpData['activo'] : 0,
+                            'servidor' => $sftpData['servidor'] ?? '',
+                            'puerto' => $sftpData['puerto'] ?? '22',
+                            'usuario' => $sftpData['usuario'] ?? '',
+                            'contrasena' => '',
+                            'rutaDestino' => $sftpData['rutaDestino'] ?? '',
+                            'url_estandar' =>  $sftpData['url_estandar'] ?? ''
+                        ]);
+                        ?>
+        };
     </script>
 </body>
 
