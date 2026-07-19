@@ -17,6 +17,9 @@ include 'modelo/consultas_menu.php';
 
     <title>Finalizar</title>
     <link rel="shortcut icon" href="img/Logo_cabeza.svg" />
+    <!-- Tour Ixah plus-->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.css"/>
+<link rel="stylesheet" href="temp_tour_base/tour_ixah.css"/>
 </head>
 
 <body>
@@ -262,8 +265,11 @@ include 'modelo/consultas_menu.php';
             };
         </script>
         <script src="js/guardadoGeneral.js"></script>
-       
         <script src="js/urlFuncionamiento.js"></script>
+        <!-- Tour Ixah plus-->
+        <script src="https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.js.iife.js"></script>
+        <script src="temp_tour_base/tour_ixah.js"></script>
+        <?php include 'guiaFlotante.php'; ?>
 
 </body>
 

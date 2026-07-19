@@ -252,6 +252,9 @@ include 'modelo/consultas_menu.php';
       }
     }
   </style>
+<!-- TOUR IXAH PLUS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.css"/>
+<link rel="stylesheet" href="temp_tour_base/tour_ixah.css"/>
 </head>
 
 <body>
@@ -462,6 +465,17 @@ include 'modelo/consultas_menu.php';
   <script type="module" src="js/IA/panel-admin-ia.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Tour Ixah plus-->
+  <script>
+    window.appData = {
+      nombrePlan: '<?php echo $planUsuario; ?>',
+      estadoSuscripcion: '<?php echo $estadoSuscripcion; ?>'
+    };
+  </script>
+    <script src="https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.js.iife.js"></script>
+    <script src="temp_tour_base/tour_ixah.js"></script>
+    <?php include 'guiaFlotante.php'; ?>
 </body>
 
 </html>
