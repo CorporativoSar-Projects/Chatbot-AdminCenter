@@ -629,6 +629,9 @@ function obtenerEnlaceCV($candidato)
 
     /* Mantén el resto de los estilos igual */
   </style>
+<!-- TOUR IXAH PLUS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.css"/>
+<link rel="stylesheet" href="temp_tour_base/tour_ixah.css"/>
 </head>
 
 <body>
@@ -959,6 +962,13 @@ function obtenerEnlaceCV($candidato)
     });
   </script>
 
+<!-- TOUR IXAH PLUS -->
+<script>
+window.appData = { nombrePlan: '<?php echo $planUsuario; ?>', estadoSuscripcion: '<?php echo $estadoSuscripcion; ?>' };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.js.iife.js"></script>
+<script src="temp_tour_base/tour_ixah.js"></script>
+<?php include 'guiaFlotante.php'; ?>
 </body>
 
 </html>

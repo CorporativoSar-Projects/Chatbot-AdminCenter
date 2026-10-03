@@ -243,9 +243,8 @@ include 'modelo/consultas_menu.php';
     <script src="js/custom.js"></script>
     <script src="js/menuLateral.js" type="module"></script>
     <script src="js/guardar.js"></script>
-    <<<<<<< HEAD=======<script src="js/formularioIntegracion.js">
-        </script>
-        <script>
+   <script src="js/formularioIntegracion.js"></script>
+    <script>
             window.appData = {
                 nombrePlan: '<?php echo $planUsuario; ?>',
                 estadoSuscripcion: '<?php echo $estadoSuscripcion; ?>',
