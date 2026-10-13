@@ -402,6 +402,9 @@ if (empty($vacantes)) {
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="shortcut icon" href="img/Logo_cabeza.svg" />
 
+  <!-- TOUR IXAH PLUS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.css"/>
+  <link rel="stylesheet" href="temp_tour_base/tour_ixah.css"/>
   <!-- DataTables CSS -->
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap4.min.css" />
   <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.bootstrap4.min.css" />
@@ -842,7 +845,6 @@ if (empty($vacantes)) {
 
   <title>Vacantes - Admin</title>
 </head>
-
 <body>
 
   <!-- Logo y Navbar -->
@@ -1025,6 +1027,16 @@ if (empty($vacantes)) {
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
   <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
 
+  <!-- TOUR IXAH -->
+  <script>
+    window.appData = {
+      nombrePlan: '<?php echo $planUsuario; ?>',
+      estadoSuscripcion: '<?php echo $estadoSuscripcion; ?>'
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.js.iife.js"></script>
+  <script src="temp_tour_base/tour_ixah.js"></script>
+  <?php include 'guiaFlotante.php'; ?>
   <script>
     $(document).ready(function() {
       $('#tablaVacantes').DataTable({

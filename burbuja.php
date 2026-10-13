@@ -20,8 +20,11 @@ $id_chatbot = $_SESSION['id_chatbot'] ?? null;
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <title>Burbuja</title>
     <link rel="shortcut icon" href="img/Logo_cabeza.svg" />
+    <!-- Tour Ixah plus-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.css"/>
+    <link rel="stylesheet" href="temp_tour_base/tour_ixah.css"/>
 </head>
-
+ 
 <body>
 
     <div class="rectangulo-container">
@@ -185,6 +188,10 @@ $id_chatbot = $_SESSION['id_chatbot'] ?? null;
     </script>
     <script src="js/guardadoGeneral.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.js.iife.js"></script>
+    <script src="temp_tour_base/tour_ixah.js"></script>
+    <?php include 'guiaFlotante.php'; ?>
 
 </body>
 

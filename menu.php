@@ -17,6 +17,10 @@ include 'modelo/consultas_menu.php';
   <title>Home</title>
   <link rel="shortcut icon" href="img/Logo_cabeza.svg" />
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <!-- TOUR IXAH de driver.js -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.css"/>
+<link rel="stylesheet" href="temp_tour_base/tour_ixah.css"/>
 </head>
 
 <body>
@@ -162,6 +166,8 @@ include 'modelo/consultas_menu.php';
 
 
   <script>
+    //esta variable se usa en el archivo reactivar_plan.js para mostrar o no el modal de suscripción cancelada/pausada
+    //el tour lo lee automáticamente desde el archivo tour_ixah.js
     window.appData = {
         puedeVerIA: <?php echo $puedeVerIA; ?>,
       nombrePlan: '<?php echo $planUsuario; ?>',
@@ -185,6 +191,9 @@ include 'modelo/consultas_menu.php';
    <!--<script src="js/IA/chatbotIA_dinamico.js"></script>-->
   <script src="js/IA/chat-toggle.js"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.js.iife.js"></script>
+<script src="temp_tour_base/tour_ixah.js"></script>
+<?php include 'guiaFlotante.php'; ?>
 </body>
 
 </html>

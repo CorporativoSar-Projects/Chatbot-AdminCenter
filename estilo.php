@@ -38,8 +38,11 @@ if ($row['total'] >= 1 && isset($_GET['nuevo'])) {
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <title>Estilo</title>
     <link rel="shortcut icon" href="img/Logo_cabeza.svg"/>
+    <!-- TOUR Ixah plus-->
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.css"/>
+   <link rel="stylesheet" href="temp_tour_base/tour_ixah.css"/>
 </head>
-
+  
 <body>
 
     <div class="rectangulo-container">
@@ -256,6 +259,10 @@ if ($row['total'] >= 1 && isset($_GET['nuevo'])) {
     <script src="js/guardar.js"></script>
     <script src="js/menuLateral.js" type="module"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Tour Ixah plus-->
+    <script src="https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.js.iife.js"></script>
+    <script src="temp_tour_base/tour_ixah.js"></script>
+    <?php include 'guiaFlotante.php'; ?>
 
 </body>
 

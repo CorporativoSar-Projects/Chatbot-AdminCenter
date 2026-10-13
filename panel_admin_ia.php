@@ -252,10 +252,13 @@ include 'modelo/consultas_menu.php';
       }
     }
   </style>
+<!-- TOUR IXAH PLUS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.css"/>
+<link rel="stylesheet" href="temp_tour_base/tour_ixah.css"/>
 </head>
 
 <body>
-  <?php // header y menú tal como lo tienes actualmente 
+  <?php // header y menú 
   ?>
   <div class="rectangulo-container">
     <img
@@ -268,7 +271,7 @@ include 'modelo/consultas_menu.php';
   <header>
     <nav class="navbar">
       <ul class="filas">
-        <!-- Tu menú actual aquí -->
+
       </ul>
     </nav>
 
@@ -322,7 +325,7 @@ include 'modelo/consultas_menu.php';
 
   <main class="container mt-5 fade-in">
     <div class="row">
-      <!-- SIDEBAR (izquierda) -->
+
       <div class="col-md-3">
         <div class="sidebar-nav">
           <h5>IXAH - Panel IA</h5>
@@ -346,9 +349,8 @@ include 'modelo/consultas_menu.php';
         </div>
       </div>
 
-      <!-- CONTENIDO PRINCIPAL (derecha) -->
       <div class="col-md-9">
-        <!-- 1) Model Config -->
+
         <section id="model-config" class="panel-card">
           <h5 class="section-title">🤖 Configuración de Modelos</h5>
 
@@ -377,7 +379,7 @@ include 'modelo/consultas_menu.php';
           </div>
         </section>
 
-        <!-- 2) Prompts -->
+   
         <section id="prompts" class="panel-card">
           <h5 class="section-title">📝 Gestión de Prompts</h5>
 
@@ -426,7 +428,7 @@ include 'modelo/consultas_menu.php';
           </div>
         </section>
 
-        <!-- 3) Revisiones -->
+    
         <section id="revisiones" class="panel-card">
           <h5 class="section-title">🔍 Revisiones Generadas</h5>
           <div class="mb-3">
@@ -443,7 +445,7 @@ include 'modelo/consultas_menu.php';
           </div>
         </section>
 
-        <!-- 4) Tokens -->
+
         <section id="tokens" class="panel-card">
           <h5 class="section-title">⚡ Estado de Tokens</h5>
           <div id="tokensInfo" class="fade-in">
@@ -454,7 +456,7 @@ include 'modelo/consultas_menu.php';
           </div>
         </section>
 
-      </div> <!-- end col-md-9 -->
+      </div> 
     </div>
   </main>
 
@@ -462,6 +464,17 @@ include 'modelo/consultas_menu.php';
   <script type="module" src="js/IA/panel-admin-ia.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Tour Ixah plus-->
+  <script>
+    window.appData = {
+      nombrePlan: '<?php echo $planUsuario; ?>',
+      estadoSuscripcion: '<?php echo $estadoSuscripcion; ?>'
+    };
+  </script>
+    <script src="https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.js.iife.js"></script>
+    <script src="temp_tour_base/tour_ixah.js"></script>
+    <?php include 'guiaFlotante.php'; ?>
 </body>
 
 </html>
